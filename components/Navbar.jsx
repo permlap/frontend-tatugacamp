@@ -16,7 +16,7 @@ function Navbar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const scrollDirection = useScrollDirection();
-  console.log("Checking scrollDirection:", scrollDirection);
+
   //defining animaion for loading
   const defaultOptions = {
     loop: true,

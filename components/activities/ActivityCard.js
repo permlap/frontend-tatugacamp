@@ -13,7 +13,7 @@ function ActivityCard(props) {
     router.push("/" + props.id);
     setLoader(true);
   }
-  console.log("checking Index:", props.emojiIndex);
+
   return (
     <Link href={`activity/${props?.slug?.current}`}>
       <div
@@ -38,6 +38,7 @@ function ActivityCard(props) {
             layout="fill"
             className=" w-full h-full object-contain z-10 group-hover:scale-125  ease-in-out transition duration-300"
             placeholder="blur"
+            quality={40}
             blurDataURL="LURfXxtP.8RRtRoLofWq?^aMMxo|"
           />
         </div>

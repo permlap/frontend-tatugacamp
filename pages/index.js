@@ -12,9 +12,6 @@ import axios from "axios";
 import OtherPosts from "../components/activities/grammar/OtherPosts";
 
 export default function Home(props) {
-  const router = useRouter();
-
-  const [troggleAnimation, SettroggleAnimation] = useState("in");
   const [dataSearchOptios, setDataSearchOptions] = useState();
   const [DataDescriptionMeta, SetDataDescriptionMeta] = useState();
   const [current, setCurrent] = useState(0);
