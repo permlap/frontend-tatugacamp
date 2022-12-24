@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "@animxyz/core";
+@include xyz-all;
+@include xyz-core;
+@include xyz-utilities;
+
+* {
+  margin: 0px;
+}
+@font-face {
+  font-family: "MoreSugar";
+  font-display: swap;
+  src: url("/MoreSugar-Regular.otf");
+}
+@font-face {
+  font-display: swap;
+  font-family: "LessSugar";
+  src: url("/MoreSugar-Thin.otf");
+}
+
+.MoreSugar {
+  font-family: "MoreSugar";
+}
+.LessSugar {
+  font-family: "LessSugar";
+}
+
+.showdowTop {
+  filter: drop-shadow(0px -0.5px 10px #00000070);
+}
+.heroANimation {
+  --xyz-rotate-x: 90deg;
+  --xyz-rotate-z: -180deg;
+  --xyz-origin: -200%;
+  --xyz-stagger: 0.1s;
+  --xyz-duration: 0.75s;
+  --xyz-perspective: 100px;
+  --xyz-translate-z: 100px;
+  --xyz-translate-y: 10vh;
+}
+
+.englishLevel {
+  --xyz-translate-y: -350%;
+  --xyz-ease: cubic-bezier(0.5, -1.5, 0.5, 1.5);
+}
+
+.pictureZooom:hover {
+  transform: scale(1.5);
+}
+
+.pictureZooom2:hover {
+  transform: scale(1.2);
+}
+
+.addBulr {
+  filter: blur(2px);
+}
+
+.BlurHover:hover {
+  filter: blur(2px);
+}
+.Fixbboder {
+  border-width: 10px;
+  border-color: rgb(17, 24, 39);
+}
+.swiper-slide {
+  text-align: center;
+  width: max-content;
+  background: rgba(255, 255, 255, 0);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.underLineHover {
+  position: relative;
+}
+
+.underLineHover::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #edba02;
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.underLineHover:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
