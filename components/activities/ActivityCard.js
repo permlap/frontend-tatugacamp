@@ -8,11 +8,12 @@ import { urlFor } from "../../sanity";
 function ActivityCard(props) {
   const router = useRouter();
   const [loader, setLoader] = useState(false);
+  const emojis = ["😀", "😄", "🤣", "😍", "🤗", "😜", "😚", "💖", "👍"];
   function handleIdPush() {
     router.push("/" + props.id);
     setLoader(true);
   }
-
+  console.log("checking Index:", props.emojiIndex);
   return (
     <Link href={`activity/${props?.slug?.current}`}>
       <div
@@ -23,7 +24,7 @@ function ActivityCard(props) {
         transition hover:cursor-pointer overflow-hidden bg-white group  rounded-3xl  duration-300 ease-in-out relative "
       >
         <div
-          content-hover="Let's learn"
+          content-hover={`Let's learn ${emojis[props.emojiIndex]}`}
           className="w-full bg-[#EDBA02] h-3/4 md:h-52 relative 
         before:content-[attr(content-hover)] before:w-max before:h-max before:px-6 before:py-3 before:rounded-lg  before:backdrop-blur-sm before:bg-white/80 before:absolute before:z-20
         before:group-hover:opacity-100 before:opacity-0  before:text-[#EDBA02] before:text-center

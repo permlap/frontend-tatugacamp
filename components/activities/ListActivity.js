@@ -17,7 +17,8 @@ function ListActivity(props) {
     },
   };
 
-  const activityCards = props.activityPosts.map((card) => {
+  const activityCards = props.activityPosts.map((card, index) => {
+    const emojiIndex = Math.floor(Math.random() * index);
     return (
       <ul className="item-center list-none pl-0" key={card._id}>
         <li>
@@ -30,6 +31,7 @@ function ListActivity(props) {
               description={card.description}
               title={card.title}
               image={card.mainImage.asset._ref}
+              emojiIndex={emojiIndex}
             />
           </div>
         </li>

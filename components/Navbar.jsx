@@ -11,11 +11,12 @@ import Lottie from "react-lottie";
 import * as animationData from "../components/LoadingScreen.json";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import useScrollDirection from "../hooks/useScrollDirection";
 function Navbar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const scrollDirection = useScrollDirection();
+  console.log("Checking scrollDirection:", scrollDirection);
   //defining animaion for loading
   const defaultOptions = {
     loop: true,
@@ -25,31 +26,6 @@ function Navbar() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
-  //control navbar to display
-  const controlNavbar = () => {
-    if (typeof window !== "undefined") {
-      if (window.scrollY > 300) {
-        setShow(false);
-      } else {
-        // if scroll up show the navbar
-        setShow(true);
-      }
-
-      // remember current page location to use in the next move
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", controlNavbar);
-
-      // cleanup function
-      return () => {
-        window.removeEventListener("scroll", controlNavbar);
-      };
-    }
-  }, []);
 
   //check whether there is any loading from the borwser
   useEffect(() => {
@@ -70,7 +46,7 @@ function Navbar() {
   const onClick = () => {
     setTrigger((preTrigger) => !preTrigger);
   };
-  console.log(show);
+
   return (
     <nav className="w-full h-max fixed md:sticky top-0 z-50 font-Inter">
       <Script
@@ -165,9 +141,10 @@ function Navbar() {
       {/* Full screen */}
 
       <ul
-        className={`hidden md:flex sticky  list-none justify-end pl-0 content-center w-full drop-shadow-md h-max   bg-white gap-x-8  py-5 font-normal items-center text-black ${
-          show ? " ease-in opacity-100" : " transition duration-300 opacity-0 "
-        }`}
+        className={`hidden md:flex sticky list-none justify-end pl-0 content-center w-full drop-shadow-md h-max 
+          bg-white gap-x-8  py-5 font-normal items-center text-black transition-all duration-500 ${
+            scrollDirection === "up" ? "translate-y-0" : "-translate-y-28"
+          }`}
       >
         <li className="mr-auto">
           <Link href="/">
