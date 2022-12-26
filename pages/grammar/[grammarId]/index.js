@@ -2,23 +2,51 @@ import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useEffect } from "react";
-
 import { useInView } from "react-intersection-observer";
 import SideMenuBar from "../../../components/grammar/sideMenuBar";
-import { sanityClient } from "../../../sanity";
-
+import { sanityClient, urlFor } from "../../../sanity";
+import { PortableText } from "@portabletext/react";
+import { useNextSanityImage } from "next-sanity-image";
 function Index({ randomImage, grammarData }) {
   const { ref, inView } = useInView({
     /* Optional options */
     threshold: 0,
   });
 
+  const myPortableTextComponents = {
+    types: {
+      image: ({ value }) => {
+        return <SanityImage {...value} />;
+      },
+    },
+
+    marks: {
+      link: ({ children, value }) => {
+        const rel = !value.href.startsWith("/")
+          ? "noreferrer noopener"
+          : undefined;
+        return (
+          <a href={value.href} rel={rel}>
+            {children}
+          </a>
+        );
+      },
+    },
+  };
+
+  const SanityImage = ({ asset }) => {
+    return (
+      <div className="relative w-96 h-96">
+        <Image src={urlFor(asset).url()} layout="fill" className="" />
+      </div>
+    );
+  };
   return (
     <div>
       <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start ">
         <SideMenuBar />
 
-        <li className="w-full h-[60rem] ">
+        <li className="w-full h-max ">
           <header>
             <div
               style={{
@@ -40,6 +68,14 @@ function Index({ randomImage, grammarData }) {
               </ul>
             </div>
           </header>
+          <main className="w-full h-max font-Inter">
+            <div>
+              <PortableText
+                value={grammarData.body}
+                components={myPortableTextComponents}
+              />
+            </div>
+          </main>
         </li>
       </ul>
     </div>

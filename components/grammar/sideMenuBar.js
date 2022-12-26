@@ -9,7 +9,7 @@ function SideMenuBar() {
   const router = useRouter();
   const handleClick = (index, slug) => {
     setIsClick(index);
-    console.log(slug);
+
     router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
   return (

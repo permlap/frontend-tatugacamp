@@ -561,7 +561,7 @@
   "resolved" "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz"
   "version" "1.1.4"
 
-"@sanity/client@^3.3.3", "@sanity/client@^3.4.1":
+"@sanity/client@^3.0.0", "@sanity/client@^3.3.3", "@sanity/client@^3.4.1":
   "integrity" "sha512-WSvnroCHqboUeyY0nl71vDPKmfurXI0mtqdNDb5u8MW00CAHRyCt1+Sgy39D/g+6R35FYniV31vTSTo3ofim0A=="
   "resolved" "https://registry.npmjs.org/@sanity/client/-/client-3.4.1.tgz"
   "version" "3.4.1"
@@ -600,7 +600,7 @@
     "split2" "^4.1.0"
     "throttle-debounce" "^5.0.0"
 
-"@sanity/image-url@^1.0.1":
+"@sanity/image-url@^1.0.0", "@sanity/image-url@^1.0.1":
   "integrity" "sha512-AdKQ3zMk7WdoNwoJPrAvQhW+kUtBldBX0nHtnGy+rwmgsCQ0rAXasrgH43Fhmsp/yB6piiq+F2d5qEuBFsdQVg=="
   "resolved" "https://registry.npmjs.org/@sanity/image-url/-/image-url-1.0.1.tgz"
   "version" "1.0.1"
@@ -2437,6 +2437,13 @@
   "resolved" "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   "version" "1.4.0"
 
+"next-sanity-image@^5.0.0":
+  "integrity" "sha512-mVnybxCEcy3l4mi/Ob+0RhPw6W1b9RcCNfx4PyUCP67+R/Cs75o0x6UEZ2Xk7Vxg9Ms4YAaEXO7GJ5mF5zL0rQ=="
+  "resolved" "https://registry.npmjs.org/next-sanity-image/-/next-sanity-image-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "@sanity/image-url" "^1.0.0"
+
 "next-sanity@^1.0.1":
   "integrity" "sha512-qi750l6SwXYgJ+qnoQ8fX4whkUi8UuAAo3L689RKL00FZQ6V25hLk5P1ilYJ+D4gG2c4rKPVATiOl9qGvEPI3w=="
   "resolved" "https://registry.npmjs.org/next-sanity/-/next-sanity-1.0.1.tgz"
@@ -2453,7 +2460,7 @@
   dependencies:
     "jsonp" "^0.2.1"
 
-"next@^12 || ^13", "next@12.2.1":
+"next@^11.0.0 || ^12.0.0 || ^13.0.0", "next@^12 || ^13", "next@12.2.1":
   "integrity" "sha512-090KB5CZRlLG/GWxb8tA1ZFwqL8OfpUtH4mXA7POuisa6NL5ihiAZhfk5nRBdPHvkXuSt0n7zQaVym6SrT3Wiw=="
   "resolved" "https://registry.npmjs.org/next/-/next-12.2.1.tgz"
   "version" "12.2.1"
