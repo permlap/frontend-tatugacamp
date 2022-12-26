@@ -10,6 +10,7 @@ import { sanityClient, urlFor } from "../sanity";
 import { useQuery } from "react-query";
 import axios from "axios";
 import OtherPosts from "../components/activities/grammar/OtherPosts";
+import Navbar from "../components/Navbar";
 
 export default function Home(props) {
   const [dataSearchOptios, setDataSearchOptions] = useState();
@@ -72,6 +73,7 @@ export default function Home(props) {
 
   return (
     <div>
+      <Navbar />
       <Head>
         <title>TaTuga camp</title>
         <link

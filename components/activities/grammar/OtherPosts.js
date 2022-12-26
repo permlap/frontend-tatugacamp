@@ -12,7 +12,7 @@ function OtherPosts(props) {
               likes={card?.likes}
               description={card.description}
               title={card.title}
-              image={card.mainImage.asset._ref}
+              image={card?.mainImage?.asset._ref}
             />
           </div>
         </li>

@@ -4,12 +4,12 @@ import Navbar from "../components/Navbar";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Script from "next/script";
+
 const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
   return (
     <StyledEngineProvider injectFirst>
       <QueryClientProvider client={queryClient}>
-        <Navbar />
         <div id="fb-root"></div>
         <div id="fb-customer-chat" className="fb-customerchat"></div>
         <Script id="facebook" strategy="lazyOnload">
