@@ -14,12 +14,12 @@ function SideMenuBar() {
   const handleClickMain = (index, slug) => {
     setIsClickMain((prev) => (prev = index));
     setIsClickList(0);
-    // router.push(`/grammar/${slug}`, undefined, { scroll: false });
+    router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
   const handleClickList = (index, slug) => {
     setIsClickList((prev) => (prev = index));
 
-    // router.push(`/grammar/${slug}`, undefined, { scroll: false });
+    router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
   return (
     <div className="md:w-max md:h-screen bg-white drop-shadow-md rounded-r-2xl sticky top-0 ">
