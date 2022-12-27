@@ -4,37 +4,49 @@ import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { BsFacebook } from "react-icons/bs";
 import { menuGrammar } from "../data/menuGrammar";
 import { useRouter } from "next/router";
+import Link from "next/link";
 function SideMenuBar() {
-  const [isClick, setIsClick] = useState(0);
+  const [isClickMain, setIsClickMain] = useState(0);
+  const [isClickList, setIsClickList] = useState(0);
   const router = useRouter();
-  const handleClick = (index, slug) => {
-    setIsClick(index);
+  console.log("Main index:", isClickMain);
+  console.log("List index:", isClickList);
+  const handleClickMain = (index, slug) => {
+    setIsClickMain((prev) => (prev = index));
+    setIsClickList(0);
+    // router.push(`/grammar/${slug}`, undefined, { scroll: false });
+  };
+  const handleClickList = (index, slug) => {
+    setIsClickList((prev) => (prev = index));
 
-    router.push(`/grammar/${slug}`, undefined, { scroll: false });
+    // router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
   return (
     <div className="md:w-max md:h-screen bg-white drop-shadow-md rounded-r-2xl sticky top-0 ">
       <ul className="pl-4 list-none font-sans">
         <li>
-          <ul
-            className="list-none pl-3 flex justify-start gap-x-4 items-center relative top-4 
-           px-9 py-3 w-max h-max bg-white rounded-3xl hover:bg-orange-300 group mr-5"
-          >
-            <li className="relative w-14 h-14 rounded-full overflow-hidden ">
-              <Image
-                src="/TaTuga camp.png"
-                priority
-                className="w-full h-full object-contain"
-                layout="fill"
-              />
-            </li>
-            <li
-              className="MoreSugar text-xl text-[#2C7CD1] group-hover:text-white 
-            after:content-['BETA'] after:font-Inter after:text-xs after:text-slate-700 after:bg-slate-300 after:rounded-md after:p-1 after:ml-3"
+          <Link href="/">
+            <ul
+              role="button"
+              className="list-none pl-3 flex justify-start gap-x-4 items-center relative top-4 
+           px-9 py-3 w-max h-max bg-white rounded-3xl hover:bg-orange-300 group mr-5 cursor-pointer"
             >
-              TaTuga camp
-            </li>
-          </ul>
+              <li className="relative w-14 h-14 rounded-full overflow-hidden ">
+                <Image
+                  src="/TaTuga camp.png"
+                  priority
+                  className="w-full h-full object-contain"
+                  layout="fill"
+                />
+              </li>
+              <li
+                className="MoreSugar text-xl text-[#2C7CD1] group-hover:text-white 
+            after:content-['BETA'] after:font-Inter after:text-xs after:text-slate-700 after:bg-slate-300 after:rounded-md after:p-1 after:ml-3"
+              >
+                TaTuga camp
+              </li>
+            </ul>
+          </Link>
         </li>
 
         <li className="mt-10 overflow-auto h-96 scrollbar">
@@ -43,13 +55,19 @@ function SideMenuBar() {
               return (
                 <li className="w-full h-full" key={index}>
                   <button
-                    onClick={() => handleClick(index, menu.slug)}
+                    onClick={() => handleClickMain(index, menu.slug)}
                     className="border-0 cursor-pointer text-center flex w-full justify-between items-center bg-white hover:bg-blue-200 rounded-md  font-Inter text-base font-semibold p-1 px-3"
                   >
-                    <p className="first-letter:uppercase">{menu.title}</p>
+                    <p
+                      className={`first-letter:uppercase ${
+                        index === isClickMain && "text-red-700 font-bold"
+                      }`}
+                    >
+                      {menu.title}
+                    </p>
                     {menu.lists && (
                       <div>
-                        {index === isClick ? (
+                        {index === isClickMain ? (
                           <FiChevronDown size="1.5rem" />
                         ) : (
                           <FiChevronRight size="1.5rem" />
@@ -57,18 +75,25 @@ function SideMenuBar() {
                       </div>
                     )}
                   </button>
-                  {index === isClick && (
+                  {index === isClickMain && (
                     <ul className="list-none  grid ">
                       {menu?.lists?.map((list, index) => {
                         return (
                           <li key={index}>
                             <button
-                              onClick={() => handleClick(index, list.slug)}
+                              onClick={() => handleClickList(index, list.slug)}
                               className="font-Inter text-base border-0 bg-transparent
                            hover:font-semibold text-gray-500 hover:text-gray-900
                            text-left"
                             >
-                              <p>{list.list}</p>
+                              <p
+                                className={`${
+                                  index === isClickList &&
+                                  "text-blue-600 font-bold"
+                                }`}
+                              >
+                                {list.list}
+                              </p>
                             </button>
                           </li>
                         );

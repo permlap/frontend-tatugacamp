@@ -3,7 +3,8 @@ export const menuGrammar = [
     title: "Basic Grammar",
     slug: "basic-grammar",
     lists: [
-      { list: "verb to be", slug: "basic-grammar/verb-to-be" },
+      { list: "basic-grammar", slug: "basic-grammar" },
+      { list: "verb to be", slug: "verb-to-be" },
       { list: "model verbs" },
     ],
   },
@@ -11,6 +12,7 @@ export const menuGrammar = [
     title: "Simple tense",
     slug: "simple-tense",
     lists: [
+      { list: "simple tense", slug: "simple-tense" },
       { list: "present simple tense" },
       { list: "past simple tense" },
       { list: "future simple tense" },

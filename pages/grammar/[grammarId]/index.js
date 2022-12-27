@@ -15,10 +15,14 @@ function Index({ grammarData, getAuther }) {
   });
   const { width, height } = useWindowSize();
   const [showConfetti, setShowConfetti] = useState(false);
+  const [date, setDate] = useState("loading...");
 
   const handleConfetti = () => {
     setShowConfetti((show) => !show);
   };
+  useEffect(() => {
+    setDate(grammarData._createdAt);
+  }, []);
 
   //for styleing text from protable
   const myPortableTextComponents = {
@@ -137,9 +141,7 @@ function Index({ grammarData, getAuther }) {
                     </li>
                     <li className="text-sm">
                       <span>Published at </span>
-                      <span>
-                        {new Date(grammarData._createdAt).toLocaleString()}
-                      </span>
+                      <span>{new Date(date).toLocaleString() || null}</span>
                     </li>
                   </ul>
                 </li>
