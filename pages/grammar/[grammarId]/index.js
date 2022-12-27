@@ -6,7 +6,7 @@ import { useInView } from "react-intersection-observer";
 import SideMenuBar from "../../../components/grammar/sideMenuBar";
 import { sanityClient, urlFor } from "../../../sanity";
 import { PortableText } from "@portabletext/react";
-import { useNextSanityImage } from "next-sanity-image";
+
 function Index({ randomImage, grammarData }) {
   const { ref, inView } = useInView({
     /* Optional options */
@@ -19,7 +19,29 @@ function Index({ randomImage, grammarData }) {
         return <SanityImage {...value} />;
       },
     },
+    listItem: {
+      // Ex. 1: customizing common list types
+      bullet: ({ children }) => <li className="list-disc pl-2">{children}</li>,
 
+      // Ex. 2: rendering custom list items
+      checkmarks: ({ children }) => <li>✅ {children}</li>,
+    },
+    block: {
+      // Ex. 1: customizing common block types
+      h1: ({ children, markDefs }) => (
+        <h1 className="text-4xl py-5" style={markDefs}>
+          {children}
+        </h1>
+      ),
+      blockquote: ({ children }) => (
+        <blockquote className="border-l-purple-500">{children}</blockquote>
+      ),
+
+      // Ex. 2: rendering custom styles
+      customHeading: ({ children }) => (
+        <h2 className="text-lg text-primary text-purple-700">{children}</h2>
+      ),
+    },
     marks: {
       link: ({ children, value }) => {
         const rel = !value.href.startsWith("/")
@@ -68,8 +90,8 @@ function Index({ randomImage, grammarData }) {
               </ul>
             </div>
           </header>
-          <main className="w-full h-max font-Inter">
-            <div>
+          <main className="w-full bg-yellow-100 flex items-center justify-center mt-5">
+            <div className="w-2/4 bg-slate-300 h-max font-Inter ">
               <PortableText
                 value={grammarData.body}
                 components={myPortableTextComponents}
