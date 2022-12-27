@@ -37,7 +37,7 @@ function SideMenuBar() {
           </ul>
         </li>
 
-        <li className="mt-10 overflow-auto h-96">
+        <li className="mt-10 overflow-auto h-96 scrollbar">
           <ul className="grid gap-y-3 list-none">
             {menuGrammar.map((menu, index) => {
               return (
@@ -63,6 +63,7 @@ function SideMenuBar() {
                         return (
                           <li key={index}>
                             <button
+                              onClick={() => handleClick(index, list.slug)}
                               className="font-Inter text-base border-0 bg-transparent
                            hover:font-semibold text-gray-500 hover:text-gray-900
                            text-left"

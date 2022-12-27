@@ -52,6 +52,18 @@ export default {
               },
             ],
           },
+          {
+            title: "Definition",
+            name: "definition",
+            type: "object",
+            fields: [
+              {
+                title: "Definition",
+                name: "href",
+                type: "string",
+              },
+            ],
+          },
         ],
       },
     },

@@ -6,7 +6,7 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import Head from "next/head";
-import Layout from "../../components/grammar/Layout";
+import Layout from "../../components/layout";
 
 function Index(props) {
   const { height, width } = useWindowDimensions();
