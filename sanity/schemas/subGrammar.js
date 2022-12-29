@@ -1,6 +1,6 @@
 export default {
-  name: "post",
-  title: "Post",
+  name: "subGrammar",
+  title: "Sub grammar",
   type: "document",
   fields: [
     {
@@ -18,38 +18,6 @@ export default {
       title: "Long Description",
       type: "string",
     },
-    {
-      name: "price",
-      title: "Price",
-      type: "number",
-    },
-
-    {
-      name: "likes",
-      title: "Likes",
-      type: "number",
-    },
-    {
-      name: "time",
-      title: "Time",
-      type: "string",
-    },
-    {
-      name: "people",
-      title: "People",
-      type: "string",
-    },
-    {
-      name: "material",
-      title: "Material",
-      type: "string",
-    },
-    {
-      name: "age",
-      title: "Age",
-      type: "string",
-    },
-
     {
       name: "slug",
       title: "Slug",
@@ -74,13 +42,6 @@ export default {
       },
     },
     {
-      name: "categories",
-      title: "Categories",
-      type: "array",
-      of: [{ type: "reference", to: { type: "category" } }],
-    },
-
-    {
       name: "publishedAt",
       title: "Published at",
       type: "datetime",
@@ -91,9 +52,6 @@ export default {
       type: "blockContent",
     },
   ],
-  initialValue: {
-    likes: 1,
-  },
 
   preview: {
     select: {

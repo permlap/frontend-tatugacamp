@@ -50,7 +50,7 @@ function Index(props) {
 
   return (
     <Layout>
-      <div className="w-full h-screen md:h-max  bg-[url('/blob2.svg')] bg-no-repeat bg-cover pt-11">
+      <div className="w-full  md:h-max  bg-[url('/blob2.svg')] bg-no-repeat bg-cover pt-11">
         <Head>
           <meta
             property="og:image"
@@ -88,7 +88,7 @@ function Index(props) {
         <header>
           <ul className="list-none flex flex-col  lg:mt-2  md:flex-row justify-center items-center w-full h-full bg-transparent mt-0 md:mt-34 pl-0">
             <ul xyz="fade up back-1 " className="pl-0 list-none">
-              <li className="bg-transparent w-[20rem] h-[20rem] md:w-96 md:h-96 lg:w-[48.313rem] lg:h-[22.875rem] relative square xyz-in">
+              <li className="bg-transparent w-[20rem] h-[20rem] md:w-60 md:h-60 lg:w-96 lg:h-96  relative square xyz-in">
                 <Image
                   src={urlFor(props.data[0].mainImage.asset._ref).url()}
                   layout="fill"
@@ -178,51 +178,15 @@ function Index(props) {
           </ul>
         </header>
         <main className="w-full h-max flex mt-5 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
-          {props.data[0].price && (
-            <div className="w-max  h-full bg-transparent relative mt-[1rem] md:mt-2 font-Kanit text-center font-semibold mb-2 rounded-xl px-14 py-2">
-              <ul className="pl-0 list-none">
-                <li className="w-[15rem] h-[4rem] hover:cursor-pointer hover:rounded-sm transition-all bg-[#EDBA02] flex justify-center items-center rounded-2xl text-white">
-                  <a
-                    href="https://web.facebook.com/TaTugaCamp/posts/pfbid02DYHKGDw71vR9h2D2St7vnuNemfPndpEALufDbRBz9bkkjByPL72UEQ6oV7GGTARml"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="no-underline text-white w-full h-max"
-                  >
-                    <div>
-                      <span className="flex justify-center items-center">
-                        <Image
-                          src="/arrayAround/Brave.png"
-                          alt="buy product at facebook tatuga camp"
-                          width={125}
-                          height={90}
-                          priority
-                        />
-                        <span className="text-xl">ซื้อเลย!</span>
-                      </span>
-
-                      {/* <div>
-                      <span className="text-sm">
-                        ที่ facebok: TaTuga camp กดเลย
-                      </span>
-                    </div> */}
-                    </div>
-                  </a>
-                </li>
-
-                <li className="text-white">
-                  <span>ราคาเพียง</span>
-                  <span className="text-2xl"> {props.data[0].price}.-</span>
-                </li>
-              </ul>
-            </div>
-          )}
-
           <MainContent
             picture={props.data[0].mainImage.asset._ref}
             body={props?.data[0]?.body}
           />
         </main>
       </div>
+      <footer>
+        <FooterActivities />
+      </footer>
     </Layout>
   );
 }
@@ -245,21 +209,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const cardActivityId = await context.params.cardActivityId;
-  const query = `*[slug.current == "${cardActivityId}"]{
-    title,
-    _id,
-    LongDescription,
-    mainImage,
-    categories[0] ->,
-    body,
-    slug,
-    likes,
-    age,
-    time,
-    material,
-    people,
-    price
-  }`;
+  const query = `*[slug.current == "${cardActivityId}"]`;
 
   const RawDataActivity = await sanityClient.fetch(query);
   const likes = RawDataActivity[0].likes;

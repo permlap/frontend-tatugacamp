@@ -19,11 +19,6 @@ export default {
       type: "string",
     },
     {
-      name: "likes",
-      title: "Likes",
-      type: "number",
-    },
-    {
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -53,6 +48,12 @@ export default {
       of: [{ type: "reference", to: { type: "category" } }],
     },
     {
+      name: "subGrammar",
+      title: "Sub grammar",
+      type: "array",
+      of: [{ type: "reference", to: { type: "grammar" } }],
+    },
+    {
       name: "publishedAt",
       title: "Published at",
       type: "datetime",
@@ -64,9 +65,6 @@ export default {
       type: "blockContent",
     },
   ],
-  initialValue: {
-    likes: 1,
-  },
 
   preview: {
     select: {

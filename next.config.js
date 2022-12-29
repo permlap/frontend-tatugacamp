@@ -10,6 +10,7 @@ const nextConfig = {
       "cdn.sanity.io",
       "rickandmortyapi.com",
       "images.unsplash.com",
+      "n14jpqkv.api.sanity.io"
     ],
   },
 };

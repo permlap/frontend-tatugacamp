@@ -8,6 +8,7 @@ import { sanityClient, urlFor } from "../../../sanity";
 import { PortableText } from "@portabletext/react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import { HiMenu } from "react-icons/hi";
 function Index({ grammarData, getAuther }) {
   const { ref, inView } = useInView({
     /* Optional options */
@@ -16,7 +17,13 @@ function Index({ grammarData, getAuther }) {
   const { width, height } = useWindowSize();
   const [showConfetti, setShowConfetti] = useState(false);
   const [date, setDate] = useState("loading...");
+  const [showMenuBar, setShowMenuBar] = useState(false);
+  //trigger menubar
+  const handleTriggerMenuBar = () => {
+    setShowMenuBar((prev) => !prev);
+  };
 
+  // display confetti
   const handleConfetti = () => {
     setShowConfetti((show) => !show);
   };
@@ -33,14 +40,19 @@ function Index({ grammarData, getAuther }) {
     },
     listItem: {
       // Ex. 1: customizing common list types
-      bullet: ({ children }) => <li className="list-disc pl-2">{children}</li>,
+      bullet: ({ children }) => (
+        <li className="list-disc pl-2 text-base">{children}</li>
+      ),
 
       // Ex. 2: rendering custom list items
       checkmarks: ({ children }) => <li>✅ {children}</li>,
     },
     block: {
       // Ex. 1: customizing common block types
-      h1: ({ children }) => <h1 className={`text-4xl py-5`}>{children}</h1>,
+      h1: ({ children }) => (
+        <h1 className={`text-base md:text-4xl py-5`}>{children}</h1>
+      ),
+      normal: ({ children }) => <span className="text-base">{children}</span>,
 
       blockquote: ({ children }) => (
         <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
@@ -58,9 +70,9 @@ function Index({ grammarData, getAuther }) {
         return (
           <span
             definition={`ความหมาย : ${value.href}`}
-            className="after:content-[attr(definition)]  after:w-max after:h-max after:p-3 after:drop-shadow-lg  after:bg-[#EDBA02] 
+            className="after:content-[attr(definition)] md:after:w-max after:w-28  after:h-max after:p-3 after:drop-shadow-lg  after:bg-[#EDBA02] 
             after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
-            after:top-5  relative after:-left-5 after:absolute hover:after:flex after:hidden cursor-pointer"
+            after:top-[100%]  relative after:left-[0%] after:absolute hover:after:flex  after:hidden cursor-pointer w-full"
           >
             📚{children}
           </span>
@@ -98,11 +110,27 @@ function Index({ grammarData, getAuther }) {
   };
   return (
     <div>
-      <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start ">
-        <SideMenuBar />
+      {/* mobile poit of view */}
+      <div className="w-full  md:hidden fixed h-max bg-white z-20 drop-shadow-md flex items-center justify-between py-2">
+        <button
+          onClick={handleTriggerMenuBar}
+          className=" ml-2 text-slate-900 mt-2 bg-transparent border-0"
+        >
+          <HiMenu size={40} />
+        </button>
+        <div className="relative w-10 h-10 rounded-md overflow-hidden drop-shadow-md mr-5 ">
+          <Image
+            src="/TaTuga camp.png"
+            layout="fill"
+            className="object-contain"
+          />
+        </div>
+      </div>
+      <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start">
+        <SideMenuBar trigger={showMenuBar} />
         {showConfetti && <Confetti width={width} height={height} />}
         <li className="w-full h-max ">
-          <header>
+          <header className="mt-12 md:mt-0">
             <div className="w-full  spectrum-background">
               <ul
                 className={`list-none pl-0 flex flex-col justify-center gap-y-6 items-center font-Inter h-40`}
@@ -150,7 +178,7 @@ function Index({ grammarData, getAuther }) {
             </div>
           </header>
           <main className="w-full bg-white flex items-center justify-center mt-5">
-            <div className="md:w-5/6 lg:w-2/4 bg-white h-max pb-20 font-Inter ">
+            <div className="md:w-5/6 lg:w-2/4 bg-white h-max pb-20 font-Inter text-base p-6 ">
               <PortableText
                 value={grammarData.body}
                 components={myPortableTextComponents}

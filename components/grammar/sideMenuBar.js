@@ -4,25 +4,34 @@ import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { BsFacebook } from "react-icons/bs";
 import { menuGrammar } from "../data/menuGrammar";
 import { useRouter } from "next/router";
+
 import Link from "next/link";
-function SideMenuBar() {
+function SideMenuBar({ trigger }) {
   const [isClickMain, setIsClickMain] = useState(0);
   const [isClickList, setIsClickList] = useState(0);
   const router = useRouter();
-  console.log("Main index:", isClickMain);
-  console.log("List index:", isClickList);
+
+  //handle click from main list
   const handleClickMain = (index, slug) => {
     setIsClickMain((prev) => (prev = index));
     setIsClickList(0);
     router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
+
+  //handle click from childern list
   const handleClickList = (index, slug) => {
     setIsClickList((prev) => (prev = index));
 
     router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
   return (
-    <div className="md:w-max md:h-screen bg-white drop-shadow-md rounded-r-2xl sticky top-0 ">
+    <div
+      className={`md:w-max md:h-screen bg-white drop-shadow-md rounded-r-2xl 
+      md:sticky top-0 fixed z-10 w-screen h-screen mt-16 md:mt-0  md:block  ${
+        trigger ? "block" : "hidden"
+      }`}
+    >
+      {/* desktop point of view */}
       <ul className="pl-4 list-none font-sans">
         <li>
           <Link href="/">

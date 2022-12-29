@@ -5,7 +5,7 @@ export const menuGrammar = [
     lists: [
       { list: "basic-grammar", slug: "basic-grammar" },
       { list: "verb to be", slug: "verb-to-be" },
-      { list: "model verbs" },
+      { list: "modal verbs" },
     ],
   },
   {

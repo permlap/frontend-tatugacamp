@@ -5,6 +5,7 @@ import author from "./author";
 import HeroImages from "./HeroImages";
 import aboutCard from "./aboutCard";
 import grammar from "./grammar";
+import subGrammar from "./subGrammar";
 export const schemaTypes = [
   post,
   author,
@@ -13,4 +14,5 @@ export const schemaTypes = [
   aboutCard,
   grammar,
   blockContent,
+  subGrammar,
 ];

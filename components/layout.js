@@ -9,7 +9,6 @@ function Layout({ children }) {
       <main>
         <section>{children}</section>
       </main>
-      <FooterActivities />
     </>
   );
 }
