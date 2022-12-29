@@ -9,6 +9,7 @@ import { PortableText } from "@portabletext/react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { HiMenu } from "react-icons/hi";
+import Layout from "../../../components/grammar/layout";
 function Index({ grammarData, getAuther }) {
   const { ref, inView } = useInView({
     /* Optional options */
@@ -19,14 +20,19 @@ function Index({ grammarData, getAuther }) {
   const [date, setDate] = useState("loading...");
   const [showMenuBar, setShowMenuBar] = useState(false);
   //trigger menubar
-  const handleTriggerMenuBar = () => {
-    setShowMenuBar((prev) => !prev);
+  //show menu bar
+  const triggerMenu = (event, isShow) => {
+    console.log(event.target);
+    setShowMenuBar((prev) => prev === isShow);
   };
 
   // display confetti
   const handleConfetti = () => {
     setShowConfetti((show) => !show);
   };
+
+  // handle error Unhandled Runtime Error
+  // Error: Text content does not match server-rendered HTML.
   useEffect(() => {
     setDate(grammarData._createdAt);
   }, []);
@@ -110,83 +116,69 @@ function Index({ grammarData, getAuther }) {
   };
   return (
     <div>
-      {/* mobile poit of view */}
-      <div className="w-full  md:hidden fixed h-max bg-white z-20 drop-shadow-md flex items-center justify-between py-2">
-        <button
-          onClick={handleTriggerMenuBar}
-          className=" ml-2 text-slate-900 mt-2 bg-transparent border-0"
-        >
-          <HiMenu size={40} />
-        </button>
-        <div className="relative w-10 h-10 rounded-md overflow-hidden drop-shadow-md mr-5 ">
-          <Image
-            src="/TaTuga camp.png"
-            layout="fill"
-            className="object-contain"
-          />
-        </div>
-      </div>
-      <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start">
-        <SideMenuBar trigger={showMenuBar} />
-        {showConfetti && <Confetti width={width} height={height} />}
-        <li className="w-full h-max ">
-          <header className="mt-12 md:mt-0">
-            <div className="w-full  spectrum-background">
-              <ul
-                className={`list-none pl-0 flex flex-col justify-center gap-y-6 items-center font-Inter h-40`}
-              >
-                <li className="font-bold text-3xl">{grammarData.title}</li>
-                <li className="">
-                  <button
-                    onClick={handleConfetti}
-                    emoji1="😃"
-                    emoji2="🥴"
-                    className={`border-0 after:content-[attr(emoji2)] active:after:content-[attr(emoji2)] ]  font-Inter font-semibold rounded-md text-base cursor-pointer bg-[#EDBA02] text-white px-2 py-1 hover:bg-[#2C7CD1] active:ring-2 active:ring-white`}
-                  >
-                    Let's start learning!
-                  </button>
-                </li>
-              </ul>
-            </div>
+      <Layout triggerMenu={triggerMenu}>
+        <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start">
+          <SideMenuBar trigger={showMenuBar} />
+          {showConfetti && <Confetti width={width} height={height} />}
+          <li className="w-full h-max ">
+            <header className=" md:mt-0">
+              <div className="w-full pt-10  spectrum-background">
+                <ul
+                  className={`list-none pl-0 flex flex-col justify-center gap-y-6 items-center font-Inter h-40`}
+                >
+                  <li className="font-bold text-3xl">{grammarData.title}</li>
+                  <li className="">
+                    <button
+                      onClick={handleConfetti}
+                      emoji1="😃"
+                      emoji2="🥴"
+                      className={`border-0 after:content-[attr(emoji2)] active:after:content-[attr(emoji2)] ]  font-Inter font-semibold rounded-md text-base cursor-pointer bg-[#EDBA02] text-white px-2 py-1 hover:bg-[#2C7CD1] active:ring-2 active:ring-white`}
+                    >
+                      Let's start learning!
+                    </button>
+                  </li>
+                </ul>
+              </div>
 
-            {/* Auther info */}
-            <div className="w-full h-max mt-9 font-Inter">
-              <ul className="list-none md:pl-10 lg:pl-40 flex justify-start items-center gap-x-6">
-                <li className="h-16 w-16 text-center bg-white drop-shadow-lg rounded-full relative overflow-hidden">
-                  <Image
-                    src={urlFor(getAuther.image.asset._ref).url()}
-                    layout="fill"
-                    className="object-cover "
-                  />
-                </li>
-                <li>
-                  <ul className="list-none pl-0">
-                    <li>
-                      <span className="font-medium">post by </span>
-                      <span className="font-lightS uppercase">
-                        {getAuther.name}
-                      </span>
-                    </li>
-                    <li className="text-sm">
-                      <span>Published at </span>
-                      <span>{new Date(date).toLocaleString() || null}</span>
-                    </li>
-                  </ul>
-                </li>
-                <li></li>
-              </ul>
-            </div>
-          </header>
-          <main className="w-full bg-white flex items-center justify-center mt-5">
-            <div className="md:w-5/6 lg:w-2/4 bg-white h-max pb-20 font-Inter text-base p-6 ">
-              <PortableText
-                value={grammarData.body}
-                components={myPortableTextComponents}
-              />
-            </div>
-          </main>
-        </li>
-      </ul>
+              {/* Auther info */}
+              <div className="w-full h-max mt-9 font-Inter">
+                <ul className="list-none md:pl-10 lg:pl-40 flex justify-start items-center gap-x-6">
+                  <li className="h-16 w-16 text-center bg-white drop-shadow-lg rounded-full relative overflow-hidden">
+                    <Image
+                      src={urlFor(getAuther.image.asset._ref).url()}
+                      layout="fill"
+                      className="object-cover "
+                    />
+                  </li>
+                  <li>
+                    <ul className="list-none pl-0">
+                      <li>
+                        <span className="font-medium">post by </span>
+                        <span className="font-lightS uppercase">
+                          {getAuther.name}
+                        </span>
+                      </li>
+                      <li className="text-sm">
+                        <span>Published at </span>
+                        <span>{new Date(date).toLocaleString() || null}</span>
+                      </li>
+                    </ul>
+                  </li>
+                  <li></li>
+                </ul>
+              </div>
+            </header>
+            <main className="w-full bg-white flex items-center justify-center mt-5">
+              <div className="md:w-5/6 lg:w-2/4 bg-white h-max pb-20 font-Inter text-base p-6 ">
+                <PortableText
+                  value={grammarData.body}
+                  components={myPortableTextComponents}
+                />
+              </div>
+            </main>
+          </li>
+        </ul>
+      </Layout>
     </div>
   );
 }

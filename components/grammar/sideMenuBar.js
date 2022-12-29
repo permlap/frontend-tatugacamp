@@ -24,10 +24,11 @@ function SideMenuBar({ trigger }) {
 
     router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
+  console.log("side bar", trigger);
   return (
     <div
-      className={`md:w-max md:h-screen bg-white drop-shadow-md rounded-r-2xl 
-      md:sticky top-0 fixed z-10 w-screen h-screen mt-16 md:mt-0  md:block  ${
+      className={`md:w-max md:h-screen bg-white drop-shadow-md rounded-none md:rounded-r-2xl 
+      md:sticky top-0 fixed z-10 w-screen h-screen mt-0 md:mt-0  md:block  ${
         trigger ? "block" : "hidden"
       }`}
     >
@@ -37,7 +38,7 @@ function SideMenuBar({ trigger }) {
           <Link href="/">
             <ul
               role="button"
-              className="list-none pl-3 flex justify-start gap-x-4 items-center relative top-4 
+              className="list-none pl-3  justify-start gap-x-4 items-center relative top-4 hidden md:flex
            px-9 py-3 w-max h-max bg-white rounded-3xl hover:bg-orange-300 group mr-5 cursor-pointer"
             >
               <li className="relative w-14 h-14 rounded-full overflow-hidden ">
@@ -58,7 +59,7 @@ function SideMenuBar({ trigger }) {
           </Link>
         </li>
 
-        <li className="mt-10 overflow-auto h-96 scrollbar">
+        <li className="mt-20 md:mt-10 overflow-auto h-96 scrollbar">
           <ul className="grid gap-y-3 list-none">
             {menuGrammar.map((menu, index) => {
               return (
