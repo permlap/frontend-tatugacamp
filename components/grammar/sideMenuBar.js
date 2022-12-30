@@ -6,7 +6,7 @@ import { menuGrammar } from "../data/menuGrammar";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
-function SideMenuBar({ trigger }) {
+function SideMenuBar({ trigger, handleCloseMenu }) {
   const [isClickMain, setIsClickMain] = useState(0);
   const [isClickList, setIsClickList] = useState(0);
   const router = useRouter();
@@ -24,7 +24,7 @@ function SideMenuBar({ trigger }) {
 
     router.push(`/grammar/${slug}`, undefined, { scroll: false });
   };
-  console.log("side bar", trigger);
+
   return (
     <div
       className={`md:w-max md:h-screen bg-white drop-shadow-md rounded-none md:rounded-r-2xl 
@@ -65,7 +65,9 @@ function SideMenuBar({ trigger }) {
               return (
                 <li className="w-full h-full" key={index}>
                   <button
-                    onClick={() => handleClickMain(index, menu.slug)}
+                    onClick={() => {
+                      handleClickMain(index, menu.slug);
+                    }}
                     className="border-0 cursor-pointer text-center flex w-full justify-between items-center bg-white hover:bg-blue-200 rounded-md  font-Inter text-base font-semibold p-1 px-3"
                   >
                     <p
@@ -91,7 +93,10 @@ function SideMenuBar({ trigger }) {
                         return (
                           <li key={index}>
                             <button
-                              onClick={() => handleClickList(index, list.slug)}
+                              onClick={() => {
+                                handleClickList(index, list.slug);
+                                handleCloseMenu(false);
+                              }}
                               className="font-Inter text-base border-0 bg-transparent
                            hover:font-semibold text-gray-500 hover:text-gray-900
                            text-left"

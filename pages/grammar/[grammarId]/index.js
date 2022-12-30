@@ -10,6 +10,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { HiMenu } from "react-icons/hi";
 import Layout from "../../../components/grammar/layout";
+import { ClearSharp } from "@mui/icons-material";
 function Index({ grammarData, getAuther }) {
   const { ref, inView } = useInView({
     /* Optional options */
@@ -22,8 +23,12 @@ function Index({ grammarData, getAuther }) {
   //trigger menubar
   //show menu bar
   const triggerMenu = (event, isShow) => {
-    console.log(event.target);
     setShowMenuBar((prev) => prev === isShow);
+  };
+
+  //handle close meubar when is cliked
+  const handleCloseMenu = (close) => {
+    setShowMenuBar((prev) => prev === close);
   };
 
   // display confetti
@@ -52,6 +57,8 @@ function Index({ grammarData, getAuther }) {
 
       // Ex. 2: rendering custom list items
       checkmarks: ({ children }) => <li>✅ {children}</li>,
+
+      number: ({ children }) => <span>{children}</span>,
     },
     block: {
       // Ex. 1: customizing common block types
@@ -118,7 +125,10 @@ function Index({ grammarData, getAuther }) {
     <div>
       <Layout triggerMenu={triggerMenu}>
         <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start">
-          <SideMenuBar trigger={showMenuBar} />
+          <SideMenuBar
+            trigger={showMenuBar}
+            handleCloseMenu={handleCloseMenu}
+          />
           {showConfetti && <Confetti width={width} height={height} />}
           <li className="w-full h-max ">
             <header className=" md:mt-0">
