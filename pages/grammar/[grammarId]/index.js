@@ -5,12 +5,14 @@ import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import SideMenuBar from "../../../components/grammar/sideMenuBar";
 import { sanityClient, urlFor } from "../../../sanity";
-import { PortableText } from "@portabletext/react";
+import { PortableText, toPlainText } from "@portabletext/react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { HiMenu } from "react-icons/hi";
 import Layout from "../../../components/grammar/layout";
 import { ClearSharp } from "@mui/icons-material";
+import { myPortableTextComponents } from "../../../components/data/portableContent";
+
 function Index({ grammarData, getAuther }) {
   const { ref, inView } = useInView({
     /* Optional options */
@@ -42,87 +44,14 @@ function Index({ grammarData, getAuther }) {
     setDate(grammarData._createdAt);
   }, []);
 
-  //for styleing text from protable
-  const myPortableTextComponents = {
-    types: {
-      image: ({ value }) => {
-        return <SanityImage {...value} />;
-      },
-    },
-    listItem: {
-      // Ex. 1: customizing common list types
-      bullet: ({ children }) => (
-        <li className="list-disc pl-2 text-base">{children}</li>
-      ),
-
-      // Ex. 2: rendering custom list items
-      checkmarks: ({ children }) => <li>✅ {children}</li>,
-
-      number: ({ children }) => <span>{children}</span>,
-    },
-    block: {
-      // Ex. 1: customizing common block types
-      h1: ({ children }) => (
-        <h1 className={`text-base md:text-4xl py-5`}>{children}</h1>
-      ),
-      normal: ({ children }) => <span className="text-base">{children}</span>,
-
-      blockquote: ({ children }) => (
-        <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
-          {children}
-        </blockquote>
-      ),
-
-      // Ex. 2: rendering custom styles
-      customHeading: ({ children }) => (
-        <h2 className="text-lg text-primary text-purple-700">{children}</h2>
-      ),
-    },
-    marks: {
-      definition: ({ children, value }) => {
-        return (
-          <span
-            definition={`ความหมาย : ${value.href}`}
-            className="after:content-[attr(definition)] md:after:w-max after:w-28  after:h-max after:p-3 after:drop-shadow-lg  after:bg-[#EDBA02] 
-            after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
-            after:top-[100%]  relative after:left-[0%] after:absolute hover:after:flex  after:hidden cursor-pointer w-full"
-          >
-            📚{children}
-          </span>
-        );
-      },
-      em: ({ children }) => (
-        <em className="text-gray-600 font-light">{children}</em>
-      ),
-      color: ({ children, value }) => (
-        <span style={{ color: value.hex }}>{children}</span>
-      ),
-      link: ({ children, value }) => {
-        const rel = !value.href.startsWith("/")
-          ? "noreferrer noopener"
-          : undefined;
-        return (
-          <a href={value.href} className={`text-${value.hex}`} rel={rel}>
-            {children}
-          </a>
-        );
-      },
-    },
-  };
-
-  const SanityImage = ({ asset }) => {
-    return (
-      <div className="relative my-5  h-96 bg-transparent">
-        <Image
-          src={urlFor(asset).url()}
-          layout="fill"
-          className="object-contain"
-        />
-      </div>
-    );
-  };
   return (
     <div>
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta name="description" content={toPlainText(grammarData.body)} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{grammarData.title}</title>
+      </Head>
       <Layout triggerMenu={triggerMenu}>
         <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start">
           <SideMenuBar
@@ -157,7 +86,7 @@ function Index({ grammarData, getAuther }) {
                     <Image
                       src={urlFor(getAuther.image.asset._ref).url()}
                       layout="fill"
-                      className="object-cover "
+                      className="object-cover"
                     />
                   </li>
                   <li>
@@ -218,6 +147,10 @@ export const getStaticProps = async (context) => {
   const getAuther = await sanityClient.fetch(queryAuther);
 
   return {
-    props: { grammarData, getAuther: getAuther[0] },
+    props: {
+      grammarData,
+      getAuther: getAuther[0],
+    },
+    revalidate: 10,
   };
 };
