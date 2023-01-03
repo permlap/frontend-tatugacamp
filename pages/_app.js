@@ -9,11 +9,10 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
   return (
     <StyledEngineProvider injectFirst>
-      <QueryClientProvider client={queryClient}>
-        <div id="fb-root"></div>
-        <div id="fb-customer-chat" className="fb-customerchat"></div>
-        <Script id="facebook" strategy="lazyOnload">
-          {`
+      <div id="fb-root"></div>
+      <div id="fb-customer-chat" className="fb-customerchat"></div>
+      <Script id="facebook" strategy="lazyOnload">
+        {`
       var chatbox = document.getElementById('fb-customer-chat');
       chatbox.setAttribute("page_id", "107002408742438");
       chatbox.setAttribute("attribution", "biz_inbox");
@@ -33,8 +32,8 @@ function MyApp({ Component, pageProps }) {
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
   `}
-        </Script>
-
+      </Script>
+      <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
 
         <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
