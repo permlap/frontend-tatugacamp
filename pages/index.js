@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import OtherPosts from "../components/activities/grammar/OtherPosts";
 import Navbar from "../components/Navbar";
+import Facebook from "../components/facebook";
 
 export default function Home(props) {
   const [dataSearchOptios, setDataSearchOptions] = useState();
@@ -70,6 +71,7 @@ export default function Home(props) {
 
   return (
     <div>
+      <Facebook />
       <Navbar />
       <Head>
         <title>TaTuga camp</title>
