@@ -5,6 +5,7 @@ import Script from "next/script";
 import React, { useState } from "react";
 import SideMenuBar from "./sideMenuBar";
 import Listmenu from "../svg/Listmenu";
+import Navbar from "../Navbar";
 function Layout({ children, triggerMenu }) {
   const [isShow, setIsShow] = useState(false);
 
@@ -18,6 +19,7 @@ function Layout({ children, triggerMenu }) {
         noModule
         src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
       ></Script>
+
       <main>
         {/* Phone point of view */}
         <ul className="md:hidden fixed  flex w-screen h-20 z-50  text-white bg-transparent justify-between list-none pl-0  content-center items-center">

@@ -12,6 +12,7 @@ import * as animationData from "../components/LoadingScreen.json";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useScrollDirection from "../hooks/useScrollDirection";
+import SideMenuBar from "./grammar/sideMenuBar";
 function Navbar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -96,10 +97,10 @@ function Navbar() {
       </ul>
 
       <div
-        className={` bg-[#EDBA02] absolute  w-full h-screen pt-36 z-10 top-0 duration-200 transition  ${
+        className={` bg-[#EDBA02] absolute md:hidden  w-full h-screen pt-36 z-10 top-0 duration-200 transition-all  ${
           trigger
-            ? `translate-y-0 opacity-100`
-            : ` -translate-y-full opacity-50`
+            ? `translate-y-0 opacity-100 visible`
+            : ` -translate-y-full opacity-50 invisible`
         } `}
       >
         <ul className="list-none font-medium flex justify-center items-center flex-col gap-y-5 pl-0">
@@ -119,20 +120,12 @@ function Navbar() {
               About us
             </li>
           </Link>
-          <Link href="/shop">
+          <Link href="/grammar/simple-tense">
             <li
               onClick={onClick}
               className="w-max bg-white rounded-md py-4 px-10 active:bg-[#2C7CD1] active:text-white"
             >
-              Shop
-            </li>
-          </Link>
-          <Link href="English-camp">
-            <li
-              onClick={onClick}
-              className="w-max bg-white rounded-md py-4 px-10 active:bg-[#2C7CD1] active:text-white"
-            >
-              English camp
+              Grammar
             </li>
           </Link>
         </ul>
@@ -161,19 +154,13 @@ function Navbar() {
           </Link>
         </li>
         <li>
-          <Link href="/shop">
+          <Link href="/grammar/simple-tense">
             <button className=" focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]">
-              <span>Shop</span>
+              <span>Grammar</span>
             </button>
           </Link>
         </li>
-        <li>
-          <Link href="/English-camp">
-            <button className="mr-10  focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]">
-              <span>English camp</span>
-            </button>
-          </Link>
-        </li>
+        <li></li>
       </ul>
       {loading && (
         <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">

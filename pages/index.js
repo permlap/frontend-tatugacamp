@@ -20,10 +20,7 @@ export default function Home(props) {
   const [postsData, setPostsData] = useState(props.data);
 
   const activeMenu = useRef(0);
-  const Menus = [
-    { name: "กิจกรรมต่างๆ", icon: "home-outline", dis: "translate-x-0" },
-    { name: "โครต Grammar", icon: "person-outline", dis: "translate-x-16" },
-  ];
+  const Menus = [{ name: "กิจกรรมต่างๆ" }];
 
   // fetch data to next list
   const { isLoading, isFetching, error, refetch } = useQuery({

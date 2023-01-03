@@ -4,7 +4,7 @@ import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { BsFacebook } from "react-icons/bs";
 import { menuGrammar } from "../data/menuGrammar";
 import { useRouter } from "next/router";
-
+import { AiFillHome } from "react-icons/ai";
 import Link from "next/link";
 function SideMenuBar({ trigger, handleCloseMenu }) {
   const [isClickMain, setIsClickMain] = useState(0);
@@ -61,6 +61,21 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
 
         <li className="mt-20 md:mt-10 overflow-auto h-96 scrollbar">
           <ul className="grid gap-y-3 list-none">
+            <li className="w-full h-full">
+              <button
+                onClick={() => router.push(`/`)}
+                className="border-0 cursor-pointer text-center flex w-full justify-start gap-x-3 items-center
+               bg-white hover:bg-blue-200 rounded-md 
+                font-Inter text-base font-semibold p-1 px-3"
+              >
+                <AiFillHome size={25} />
+                <p
+                  className={`first-letter:uppercase active:text-red-700  font-bold`}
+                >
+                  Homepage
+                </p>
+              </button>
+            </li>
             {menuGrammar.map((menu, index) => {
               return (
                 <li className="w-full h-full" key={index}>
