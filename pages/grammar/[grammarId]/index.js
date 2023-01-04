@@ -87,6 +87,7 @@ function Index({ grammarData, getAuther }) {
                       src={urlFor(getAuther.image.asset._ref).url()}
                       layout="fill"
                       className="object-cover"
+                      quality={60}
                       alt={`Image of ${getAuther.name} `}
                     />
                   </li>
@@ -142,17 +143,17 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const slug = await context.params.grammarId;
   const query = `*[slug.current  == "${slug}"]`;
-  console.time();
+
   const grammarDataRaw = await sanityClient.fetch(query);
 
   const queryAuther = `*[_id   == "${grammarDataRaw[0].author._ref}"]`;
   const getAuther = await sanityClient.fetch(queryAuther);
-  console.timeEnd();
+
   return {
     props: {
       grammarData: grammarDataRaw[0],
       getAuther: getAuther[0],
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
