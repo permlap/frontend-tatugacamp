@@ -126,21 +126,21 @@ function Index({ grammarData, getAuther }) {
 
 export default Index;
 
-export const getStaticPaths = async () => {
-  const query = `*[_type  == "grammar"]{
-    slug,
-  }`;
-  const allID = await sanityClient.fetch(query);
-  const paths = allID.map((list) => ({
-    params: { grammarId: list.slug.current.toString() },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-};
+// export const getStaticPaths = async () => {
+//   const query = `*[_type  == "grammar"]{
+//     slug,
+//   }`;
+//   const allID = await sanityClient.fetch(query);
+//   const paths = allID.map((list) => ({
+//     params: { grammarId: list.slug.current.toString() },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const slug = await context.params.grammarId;
   const query = `*[slug.current  == "${slug}"]`;
 
@@ -154,6 +154,5 @@ export const getStaticProps = async (context) => {
       grammarData: grammarDataRaw[0],
       getAuther: getAuther[0],
     },
-    revalidate: 1,
   };
 };
