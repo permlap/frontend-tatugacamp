@@ -3,28 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import React, { useState } from "react";
-import SideMenuBar from "./sideMenuBar";
 import Listmenu from "../svg/Listmenu";
-import Navbar from "../Navbar";
+
+import Logo from "../svg/Logo";
 function Layout({ children, triggerMenu }) {
   const [isShow, setIsShow] = useState(false);
 
   return (
     <>
-      <Script
-        type="module"
-        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-      ></Script>
-      <Script
-        noModule
-        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-      ></Script>
-
       <main>
         {/* Phone point of view */}
-        <ul className="md:hidden fixed  flex w-screen h-20 z-50  text-white bg-transparent justify-between list-none pl-0  content-center items-center">
+
+        <ul className="md:hidden fixed flex w-screen h-20 z-50  text-white bg-transparent justify-between list-none pl-0  content-center items-center">
           <Button
-            onClick={(event) => triggerMenu(event, isShow)}
+            onClick={triggerMenu}
             className="w-[50px] h-[50px] rounded-full"
           >
             <li className="w-[50px] h-[50px] bg-[#EDBA02] active:bg-[#2C7CD1] flex items-center justify-center rounded-full text-white">
