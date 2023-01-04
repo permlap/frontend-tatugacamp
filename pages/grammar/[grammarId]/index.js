@@ -125,32 +125,34 @@ function Index({ grammarData, getAuther }) {
 
 export default Index;
 
-// export const getStaticPaths = async () => {
-//   const query = `*[_type  == "grammar"]{
-//     slug,
-//   }`;
-//   const allID = await sanityClient.fetch(query);
-//   const paths = allID.map((list) => ({
-//     params: { grammarId: list.slug.current.toString() },
-//   }));
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
+export const getStaticPaths = async () => {
+  const query = `*[_type  == "grammar"]{
+    slug,
+  }`;
+  const allID = await sanityClient.fetch(query);
+  const paths = allID.map((list) => ({
+    params: { grammarId: list.slug.current.toString() },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
-export const getServerSideProps = async (context) => {
+export const getStaticProps = async (context) => {
   const slug = await context.params.grammarId;
   const query = `*[slug.current  == "${slug}"]`;
+  console.time();
   const grammarDataRaw = await sanityClient.fetch(query);
 
   const queryAuther = `*[_id   == "${grammarDataRaw[0].author._ref}"]`;
   const getAuther = await sanityClient.fetch(queryAuther);
-
+  console.timeEnd();
   return {
     props: {
       grammarData: grammarDataRaw[0],
       getAuther: getAuther[0],
     },
+    revalidate: 10,
   };
 };
