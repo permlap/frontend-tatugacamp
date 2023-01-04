@@ -87,8 +87,8 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
                     className="border-0 cursor-pointer text-center flex w-full justify-between items-center bg-white hover:bg-blue-200 rounded-md  font-Inter text-base font-semibold p-1 px-3"
                   >
                     <p
-                      className={`first-letter:uppercase ${
-                        index === isClickMain && "text-red-700 font-bold"
+                      className={`first-letter:uppercase text-black ${
+                        index === isClickMain && "text-red-700 font-bold "
                       }`}
                     >
                       {menu.title}
@@ -118,7 +118,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
                            text-left"
                             >
                               <p
-                                className={`${
+                                className={`text-black ${
                                   index === isClickList &&
                                   "text-blue-600 font-bold"
                                 }`}
