@@ -47,6 +47,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
                   priority
                   className="w-full h-full object-contain"
                   layout="fill"
+                  alt="TaTuga camp logo"
                 />
               </li>
               <li

@@ -193,21 +193,21 @@ function Index(props) {
 
 export default Index;
 
-export const getStaticPaths = async () => {
-  const quary = `*[_type == "post"]{
-    _id,
-    slug
-  }`;
-  const post = await sanityClient.fetch(quary);
+// export const getStaticPaths = async () => {
+//   const quary = `*[_type == "post"]{
+//     _id,
+//     slug
+//   }`;
+//   const post = await sanityClient.fetch(quary);
 
-  const paths = post.map((post) => ({
-    params: { cardActivityId: post.slug.current.toString() },
-  }));
+//   const paths = post.map((post) => ({
+//     params: { cardActivityId: post.slug.current.toString() },
+//   }));
 
-  return { paths, fallback: false };
-};
+//   return { paths, fallback: false };
+// };
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const cardActivityId = await context.params.cardActivityId;
   const query = `*[slug.current == "${cardActivityId}"]`;
 
@@ -219,6 +219,5 @@ export const getStaticProps = async (context) => {
       data: RawDataActivity,
       likes: likes || 0,
     },
-    revalidate: 1,
   };
 };

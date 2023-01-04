@@ -42,7 +42,7 @@ function Index({ grammarData, getAuther }) {
   // Error: Text content does not match server-rendered HTML.
   useEffect(() => {
     setDate(grammarData._createdAt);
-  }, []);
+  }, [grammarData._createdAt]);
 
   return (
     <div>
@@ -87,6 +87,7 @@ function Index({ grammarData, getAuther }) {
                       src={urlFor(getAuther.image.asset._ref).url()}
                       layout="fill"
                       className="object-cover"
+                      alt={`Image of ${getAuther.name} `}
                     />
                   </li>
                   <li>
@@ -124,22 +125,23 @@ function Index({ grammarData, getAuther }) {
 
 export default Index;
 
-export const getStaticPaths = async () => {
-  const query = `*[_type  == "grammar"]{
-    slug,
-  }`;
-  const allID = await sanityClient.fetch(query);
-  const paths = allID.map((list) => ({
-    params: { grammarId: list.slug.current.toString() },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-};
+// export const getStaticPaths = async () => {
+//   const query = `*[_type  == "grammar"]{
+//     slug,
+//   }`;
+//   const allID = await sanityClient.fetch(query);
+//   const paths = allID.map((list) => ({
+//     params: { grammarId: list.slug.current.toString() },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const slug = await context.params.grammarId;
+
   const query = `*[slug.current  == "${slug}"]`;
   const grammarDataRaw = await sanityClient.fetch(query);
   const grammarData = grammarDataRaw[0];
@@ -151,6 +153,5 @@ export const getStaticProps = async (context) => {
       grammarData,
       getAuther: getAuther[0],
     },
-    revalidate: 10,
   };
 };

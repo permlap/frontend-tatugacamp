@@ -1,4 +1,4 @@
-export default async (req, res) => {
+export default async function handleThumbNail(req, res) {
   const postSlug = req.query.post;
   const post = searchPostBySlug(postSlug);
 
@@ -7,4 +7,4 @@ export default async (req, res) => {
     "Content-Type": "image/png",
     "Content-Length": Buffer.byteLength(screenShotBuffer),
   });
-};
+}

@@ -23,7 +23,7 @@ const grammarQuery = `*[_type == "grammar"]{
 }
 }`;
 
-export default async function (req, res) {
+export default async function handlePosts(req, res) {
   if (req.method !== "POST") {
     res.status(405).send({ message: "Only POST requests allowed" });
     return;

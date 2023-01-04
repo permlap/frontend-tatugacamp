@@ -52,7 +52,7 @@ export default function Home(props) {
       setCurrent(current === length - 1 ? 0 : current + 1);
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [current]);
+  }, [length, props.mainImages, current]);
 
   // set image silder to the next one
   const nextSlide = () => {

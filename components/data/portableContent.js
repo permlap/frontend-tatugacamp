@@ -73,15 +73,33 @@ export const myPortableTextComponents = {
     },
   },
 };
+function isImage(url) {
+  return /\.(|png|)$/.test(url);
+}
 
 const SanityImage = ({ asset }) => {
+  if (isImage(urlFor(asset).url()) === false) {
+  }
+
+  const randomNumber = Math.floor(Math.random() * 4) + 1;
   return (
-    <div className="relative my-5  h-96 bg-transparent">
-      <Image
-        src={urlFor(asset).url()}
-        layout="fill"
-        className="object-contain"
-      />
+    <div className="w-full h-ful bg-transparent flex items-center justify-center">
+      <div
+        style={{
+          backgroundImage: isImage(urlFor(asset).url())
+            ? `url(/BgBlob${randomNumber.toString()}.svg)`
+            : "none",
+        }}
+        className={`lg:w-96 lg:h-96 h-56 w-56  bg-cover bg-no-repeat relative `}
+      >
+        <Image
+          src={urlFor(asset).url()}
+          layout="fill"
+          className="object-contain"
+          blurDataURL="LURfXxtP.8RRtRoLofWq?^aMMxo|"
+          alt="some images about TaTuga camp teaching you English grammar"
+        />
+      </div>
     </div>
   );
 };

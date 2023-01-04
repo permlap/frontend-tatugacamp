@@ -121,6 +121,7 @@ function Index(props) {
                           src={urlFor(card.mainImage.asset._ref).url()}
                           layout="fill"
                           className="object-cover "
+                          alt="TaTuga camp image"
                         />
                       </div>
                       <div className="flex flex-col items-center justify-start mt-5 md:gap-y-2 lg:gap-y-7 w-full h-[11rem] drop-shadow-lg text-center font-Kanit">
@@ -165,6 +166,7 @@ function Index(props) {
                 src={urlFor(props.data[2].mainImage.asset._ref).url()}
                 layout="fill"
                 className="object-cover "
+                alt="TaTuga camp image"
               />
             </li>
           </ul>
