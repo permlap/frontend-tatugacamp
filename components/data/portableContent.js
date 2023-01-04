@@ -73,14 +73,13 @@ export const myPortableTextComponents = {
     },
   },
 };
+
+// check whether url of image is png or not. If not return false
 function isImage(url) {
   return /\.(|png|)$/.test(url);
 }
 
 const SanityImage = ({ asset }) => {
-  if (isImage(urlFor(asset).url()) === false) {
-  }
-
   const randomNumber = Math.floor(Math.random() * 4) + 1;
   return (
     <div className="w-full h-ful bg-transparent flex items-center justify-center">

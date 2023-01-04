@@ -141,16 +141,15 @@ export default Index;
 
 export const getServerSideProps = async (context) => {
   const slug = await context.params.grammarId;
-
   const query = `*[slug.current  == "${slug}"]`;
   const grammarDataRaw = await sanityClient.fetch(query);
-  const grammarData = grammarDataRaw[0];
-  const queryAuther = `*[_id   == "${grammarData.author._ref}"]`;
+
+  const queryAuther = `*[_id   == "${grammarDataRaw[0].author._ref}"]`;
   const getAuther = await sanityClient.fetch(queryAuther);
 
   return {
     props: {
-      grammarData,
+      grammarData: grammarDataRaw[0],
       getAuther: getAuther[0],
     },
   };
