@@ -17,9 +17,14 @@ import { currentBrowser } from "./utils/platforms";
 function Navbar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [brower, setBrower] = useState();
   const scrollDirection = useScrollDirection();
-  const brower = currentBrowser(window);
-  console.log(brower);
+  const isBrowser = () => typeof window !== "undefined";
+  isBrowser();
+  useEffect(() => {
+    setBrower(currentBrowser(window));
+  }, []);
+
   //defining animaion for loading
   const defaultOptions = {
     loop: true,
