@@ -68,10 +68,7 @@ function Navbar() {
         </Button>
         <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center gap-x-2 text-[20px] ">
           <div>
-            <a
-              className="no-underline text-white"
-              href="intent://facebook.com/TaTugaCamp/#Intent;package=com.facebook.katana;end"
-            >
+            <a className="no-underline text-white" href="fb://page/TaTugaCamp">
               <ion-icon name="logo-facebook"></ion-icon>
             </a>
           </div>
