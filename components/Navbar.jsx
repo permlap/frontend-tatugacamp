@@ -70,18 +70,19 @@ function Navbar() {
           <div>
             <a
               className="no-underline text-white"
-              target="_blank"
-              href="https://www.facebook.com/TaTugaCamp"
-              rel="noopener noreferrer"
+              href="fb://profile/107002408742438"
             >
               <ion-icon name="logo-facebook"></ion-icon>
             </a>
           </div>
+
           <div>
-            <ion-icon name="logo-youtube"></ion-icon>
-          </div>
-          <div>
-            <ion-icon name="logo-instagram"></ion-icon>
+            <a
+              className="no-underline text-white"
+              href="http://instagram.com/_u/tatugacamp/"
+            >
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
           </div>
           <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
             <Link href="/">
