@@ -68,10 +68,7 @@ function Navbar() {
         </Button>
         <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center gap-x-2 text-[20px] ">
           <div>
-            <a
-              className="no-underline text-white"
-              href="fb://profile/107002408742438"
-            >
+            <a className="no-underline text-white" href="fb://107002408742438">
               <ion-icon name="logo-facebook"></ion-icon>
             </a>
           </div>
