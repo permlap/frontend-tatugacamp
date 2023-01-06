@@ -63,19 +63,20 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
         <li className="mt-20 md:mt-10 overflow-auto h-96 scrollbar">
           <ul className="grid gap-y-3 list-none">
             <li className="w-full h-full">
-              <button
-                onClick={() => router.push(`/`)}
-                className="border-0 cursor-pointer text-center flex w-full justify-start gap-x-3 items-center
+              <Link href="/">
+                <button
+                  className="border-0 cursor-pointer text-center flex w-full justify-start gap-x-3 items-center
                bg-white hover:bg-blue-200 rounded-md 
                 font-Inter text-base font-semibold p-1 px-3"
-              >
-                <AiFillHome size={25} />
-                <p
-                  className={`first-letter:uppercase active:text-red-700  font-bold`}
                 >
-                  Homepage
-                </p>
-              </button>
+                  <AiFillHome size={25} />
+                  <p
+                    className={`first-letter:uppercase active:text-red-700  font-bold`}
+                  >
+                    Homepage
+                  </p>
+                </button>
+              </Link>
             </li>
             {menuGrammar.map((menu, index) => {
               return (
