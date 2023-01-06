@@ -60,6 +60,12 @@ export default {
       },
     },
     {
+      name: "game",
+      title: "game",
+      type: "string",
+    },
+
+    {
       name: "author",
       title: "Author",
       type: "reference",

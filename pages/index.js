@@ -217,6 +217,7 @@ export const getServerSideProps = async (ctx) => {
     likes,
     author ->{
     name,
+    
   }
   }`;
   const quaryImages = `*[_type == "heroImages"]`;

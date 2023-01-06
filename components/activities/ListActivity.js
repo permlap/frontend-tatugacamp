@@ -18,7 +18,6 @@ function ListActivity(props) {
   };
 
   const activityCards = props?.activityPosts?.map((card, index) => {
-    const emojiIndex = Math.floor(Math.random() * index);
     return (
       <ul className="item-center list-none pl-0" key={card._id}>
         <li>
@@ -31,7 +30,6 @@ function ListActivity(props) {
               description={card.description}
               title={card.title}
               image={card.mainImage.asset._ref}
-              emojiIndex={emojiIndex}
             />
           </div>
         </li>
@@ -42,7 +40,6 @@ function ListActivity(props) {
   return (
     <div className="z-10 pt-5 relative">
       <div className="flex gap-10 items-center justify-center flex-wrap text-center bg-transparent border-0">
-        {/* <div className="grid auto-cols-max items-center ml-0 justify-items-center md:grid-cols-3 lg:grid-cols-5"> */}
         {activityCards}
       </div>
     </div>

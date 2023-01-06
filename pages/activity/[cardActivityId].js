@@ -8,6 +8,7 @@ import MainContent from "../../components/activity/MainContent";
 import { FacebookShareButton, TwitterShareButton } from "next-share";
 import FooterActivities from "../../components/footer/FooterActivities";
 import Layout from "../../components/layout";
+import Link from "next/link";
 
 function Index(props) {
   const [likes, setLikes] = useState(props.likes);
@@ -176,6 +177,18 @@ function Index(props) {
               </ul>
             </li>
           </ul>
+          {props.data[0].game && (
+            <div className="w-full flex items-center justify-center mt-3">
+              <Link href={props.data[0].game}>
+                <div
+                  className="w-max h-max p-3 bg-[#EDBA02] font-Kanit font-semibold text-white rounded-md ring-2 ring-white
+                 hover:scale-110 active:scale-110 transition duration-200 cursor-pointer "
+                >
+                  กดเพื่อเล่น 🎮
+                </div>
+              </Link>
+            </div>
+          )}
         </header>
         <main className="w-full h-max flex mt-5 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
           <MainContent

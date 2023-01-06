@@ -10,9 +10,6 @@ import Confetti from "react-confetti";
 import Layout from "../../../components/grammar/layout";
 import { myPortableTextComponents } from "../../../components/data/portableContent";
 import Script from "next/script";
-import { Button } from "@mui/material";
-import Listmenu from "../../../components/svg/Listmenu";
-import Link from "next/link";
 
 function Index({ grammarData, getAuther }) {
   const { ref, inView } = useInView({
