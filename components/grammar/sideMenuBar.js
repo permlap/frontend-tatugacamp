@@ -15,14 +15,14 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
   const handleClickMain = (index, slug) => {
     setIsClickMain((prev) => (prev = index));
     setIsClickList(0);
-    router.push(`/grammar/${slug}`, undefined, { scroll: false });
+    router.push(`/grammar/${slug}`, undefined);
   };
 
   //handle click from childern list
   const handleClickList = (index, slug) => {
     setIsClickList((prev) => (prev = index));
 
-    router.push(`/grammar/${slug}`, undefined, { scroll: false });
+    router.push(`/grammar/${slug}`, undefined);
   };
 
   return (

@@ -17,7 +17,7 @@ function ListActivity(props) {
     },
   };
 
-  const activityCards = props.activityPosts.map((card, index) => {
+  const activityCards = props?.activityPosts?.map((card, index) => {
     const emojiIndex = Math.floor(Math.random() * index);
     return (
       <ul className="item-center list-none pl-0" key={card._id}>

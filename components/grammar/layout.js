@@ -1,11 +1,9 @@
 import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import React, { useState } from "react";
 import Listmenu from "../svg/Listmenu";
 
-import Logo from "../svg/Logo";
 function Layout({ children, triggerMenu }) {
   const [isShow, setIsShow] = useState(false);
 

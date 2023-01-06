@@ -9,7 +9,6 @@ import Script from "next/script";
 import { sanityClient, urlFor } from "../sanity";
 import { useQuery } from "react-query";
 import axios from "axios";
-import OtherPosts from "../components/activities/grammar/OtherPosts";
 import Navbar from "../components/Navbar";
 import Facebook from "../components/facebook";
 
@@ -194,20 +193,11 @@ export default function Home(props) {
           })}
         </ul>
 
-        {activeMenu.current === 0 ? (
-          <ListActivity
-            activityPosts={postsData}
-            dataSearchOptios={dataSearchOptios}
-            likes={props.likes}
-          />
-        ) : (
-          <OtherPosts
-            activityPosts={postsData}
-            dataSearchOptios={dataSearchOptios}
-            likes={props.likes}
-          />
-        )}
-        {error && console.log(error)}
+        <ListActivity
+          activityPosts={postsData}
+          dataSearchOptios={dataSearchOptios}
+          likes={props.likes}
+        />
       </main>
 
       <footer>

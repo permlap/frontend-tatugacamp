@@ -61,44 +61,7 @@ function Index({ grammarData, getAuther }) {
         noModule
         src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
       ></Script>
-      {/* <ul className="md:hidden fixed  flex w-screen h-20 z-50  text-white bg-transparent justify-between list-none pl-0  content-center items-center">
-        <Button
-          onClick={triggerMenu}
-          className="w-[50px] h-[50px] rounded-full"
-        >
-          <li className="w-[50px] h-[50px] bg-[#EDBA02] active:bg-[#2C7CD1] flex items-center justify-center rounded-full text-white">
-            <Listmenu />
-          </li>
-        </Button>
-        <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center gap-x-2 text-[20px] ">
-          <div>
-            <a
-              className="no-underline text-white"
-              target="_blank"
-              href="https://www.facebook.com/TaTugaCamp"
-              rel="noopener noreferrer"
-            >
-              <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-          </div>
-          <div>
-            <ion-icon name="logo-youtube"></ion-icon>
-          </div>
-          <div>
-            <ion-icon name="logo-instagram"></ion-icon>
-          </div>
-          <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
-            <Link href="/">
-              <Image
-                src="/TaTuga camp.png"
-                width={35}
-                height={35}
-                alt="TaTuga camp logo"
-              />
-            </Link>
-          </div>
-        </li>
-      </ul> */}
+
       <Layout triggerMenu={triggerMenu} />
 
       <ul className="w-full h-max list-none pl-0 flex gap-x-0 items-start">
@@ -198,6 +161,6 @@ export const getStaticProps = async (context) => {
       grammarData: grammarDataRaw[0],
       getAuther: getAuther[0],
     },
-    revalidate: 1,
+    revalidate: 10,
   };
 };
