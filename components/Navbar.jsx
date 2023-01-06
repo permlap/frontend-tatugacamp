@@ -13,11 +13,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useScrollDirection from "../hooks/useScrollDirection";
 import SideMenuBar from "./grammar/sideMenuBar";
+import { currentBrowser } from "./utils/platforms";
 function Navbar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const scrollDirection = useScrollDirection();
-
+  const brower = currentBrowser(window);
+  console.log(brower);
   //defining animaion for loading
   const defaultOptions = {
     loop: true,
@@ -70,7 +72,11 @@ function Navbar() {
           <div>
             <a
               className="no-underline text-white"
-              href="fb://page/107002408742438"
+              href={`${
+                brower === "Safari"
+                  ? "fb://page/?id=107002408742438"
+                  : "fb://page/107002408742438"
+              }`}
             >
               <ion-icon name="logo-facebook"></ion-icon>
             </a>
