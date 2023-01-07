@@ -25,9 +25,9 @@ function Index() {
   );
 
   const handleSkip = () => {
-    setNextCard((current) =>
-      current === length - 1 ? random[0] : random[current + 1]
-    );
+    setNextCard((current) => {
+      return current === length - 1 ? 0 : current + 1;
+    });
   };
 
   //show confirmation
@@ -55,9 +55,7 @@ function Index() {
   // handle yes confirm
   const YesConfirm = () => {
     setConfirm(true);
-    setNextCard((current) =>
-      current === length - 1 ? random[0] : random[current + 1]
-    );
+    setNextCard((current) => (current === length - 1 ? 0 : current + 1));
     setShowConfirm(false);
     setScores((current) => (current === length - 1 ? "win" : current + 1));
   };
