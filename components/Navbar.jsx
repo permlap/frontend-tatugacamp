@@ -7,12 +7,11 @@ import Script from "next/script";
 import TaTugaLogo from "../public/TaTuga camp.png";
 import Image from "next/image";
 import { useState } from "react";
-import Lottie from "react-lottie";
 import * as animationData from "../components/LoadingScreen.json";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useScrollDirection from "../hooks/useScrollDirection";
-import SideMenuBar from "./grammar/sideMenuBar";
+import Lottie from "lottie-react";
 import { currentBrowser } from "./utils/platforms";
 function Navbar() {
   const [loading, setLoading] = useState(false);
@@ -24,16 +23,6 @@ function Navbar() {
   useEffect(() => {
     setBrower(currentBrowser(window));
   }, []);
-
-  //defining animaion for loading
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   //check whether there is any loading from the borwser
   useEffect(() => {
@@ -173,7 +162,12 @@ function Navbar() {
       </ul>
       {loading && (
         <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">
-          <Lottie options={defaultOptions} height={200} width={200} />
+          <Lottie
+            animationData={animationData}
+            height={200}
+            loop={true}
+            width={200}
+          />
         </div>
       )}
     </nav>

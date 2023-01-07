@@ -1,6 +1,6 @@
 import axios from "axios";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import FooterActivities from "../../../components/footer/FooterActivities";
 import Layout from "../../../components/layout";
@@ -10,7 +10,8 @@ import { useWindowSize } from "react-use";
 function Index() {
   const [taboo, setTaboo] = useState(null);
   const [nextCard, setNextCard] = useState(0);
-  const length = taboo?.length;
+  const [random, setRandom] = useState();
+  const length = taboo?.length || 0;
   const [confirm, setConfirm] = useState(false);
   const [scores, setScores] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -24,7 +25,9 @@ function Index() {
   );
 
   const handleSkip = () => {
-    setNextCard((current) => (current === length - 1 ? 0 : current + 1));
+    setNextCard((current) =>
+      current === length - 1 ? random[0] : random[current + 1]
+    );
   };
 
   //show confirmation
@@ -36,10 +39,25 @@ function Index() {
     }
   };
 
+  function GenerateRandom(length) {
+    const nums = new Set();
+    while (nums.size !== length) {
+      nums.add(Math.floor(Math.random() * length));
+    }
+
+    return [...nums];
+  }
+
+  useEffect(() => {
+    setRandom(GenerateRandom(length));
+  }, [length]);
+
   // handle yes confirm
   const YesConfirm = () => {
     setConfirm(true);
-    setNextCard((current) => (current === length - 1 ? 0 : current + 1));
+    setNextCard((current) =>
+      current === length - 1 ? random[0] : random[current + 1]
+    );
     setShowConfirm(false);
     setScores((current) => (current === length - 1 ? "win" : current + 1));
   };
@@ -120,7 +138,7 @@ function Index() {
                 <button
                   emoji1="😨"
                   emoji2="😢"
-                  className="w-full after:content-[attr(emoji1)] after:ml-2 py-2 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black hover:text-white text-center font-sans border-0 flex h-max items-center justify-center  bg-gray-300 rounded-md font-semibold cursor-pointer hover:bg-black "
+                  className="w-full h-10 after:content-[attr(emoji1)] after:ml-2 py-2 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-gray-300 rounded-md font-semibold cursor-pointer hover:bg-black "
                   onClick={handleSkip}
                 >
                   ข้าม
@@ -128,7 +146,7 @@ function Index() {
                 <button
                   emoji1="😎"
                   emoji2="👉"
-                  className="w-full after:content-[attr(emoji1)] text-white after:ml-2 py-2 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black hover:text-white text-center font-sans border-0 flex h-max items-center justify-center  bg-red-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
+                  className="w-full after:content-[attr(emoji1)] text-white after:ml-2 py-2 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-red-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
                   onClick={NextTaboo}
                 >
                   {scores === "win" ? "Start again" : "Move on"}
