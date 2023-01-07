@@ -1,9 +1,9 @@
 import { StyledEngineProvider } from "@mui/material";
-import "../styles/globals.css";
-import Navbar from "../components/Navbar";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Script from "next/script";
+
+import "../styles/globals.css";
+import "../styles/taboo.css";
 
 const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {

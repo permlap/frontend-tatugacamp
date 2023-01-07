@@ -4,18 +4,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import FooterActivities from "../../../components/footer/FooterActivities";
 import Layout from "../../../components/layout";
-import { urlFor } from "../../../sanity";
+import { sanityClient, urlFor } from "../../../sanity";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
+import Head from "next/head";
+
 function Index() {
   const [taboo, setTaboo] = useState(null);
-  const [nextCard, setNextCard] = useState(0);
   const [random, setRandom] = useState();
   const length = taboo?.length || 0;
+  const [nextCard, setNextCard] = useState(() => {
+    return Math.floor(Math.random() * 29);
+  });
+  const [indexRandom, setIndexRandom] = useState(0);
   const [confirm, setConfirm] = useState(false);
   const [scores, setScores] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
   const { width, height } = useWindowSize();
+
   //fectching taboo data
   const { isLoading, isFetching, error } = useQuery(["taboo"], () =>
     axios("/api/taboo").then((res) => {
@@ -24,10 +30,22 @@ function Index() {
     })
   );
 
+  // handle skip
   const handleSkip = () => {
-    setNextCard((current) => {
-      return current === length - 1 ? 0 : current + 1;
-    });
+    //check if index of random is less than the length
+    if (indexRandom < length - 1) {
+      // set index of random to increase 1 each click
+      setIndexRandom((prev) => prev + 1);
+      setNextCard((current) => {
+        return (current = random[indexRandom]);
+      });
+    } else if (indexRandom >= length - 1) {
+      console.log("loop finish");
+      setIndexRandom(0);
+      setNextCard((current) => {
+        return (current = random[indexRandom]);
+      });
+    }
   };
 
   //show confirmation
@@ -39,6 +57,7 @@ function Index() {
     }
   };
 
+  //generate uniqe array of random number
   function GenerateRandom(length) {
     const nums = new Set();
     while (nums.size !== length) {
@@ -48,6 +67,7 @@ function Index() {
     return [...nums];
   }
 
+  //call set random to generate unqie random number
   useEffect(() => {
     setRandom(GenerateRandom(length));
   }, [length]);
@@ -55,8 +75,21 @@ function Index() {
   // handle yes confirm
   const YesConfirm = () => {
     setConfirm(true);
-    setNextCard((current) => (current === length - 1 ? 0 : current + 1));
+    if (indexRandom < length - 1) {
+      setIndexRandom((prev) => prev + 1);
+      setNextCard((current) => {
+        return (current = random[indexRandom]);
+      });
+    } else if (indexRandom >= length - 1) {
+      console.log("loop finish");
+      setIndexRandom(0);
+      setNextCard((current) => {
+        return (current = random[indexRandom]);
+      });
+    }
     setShowConfirm(false);
+
+    // set score
     setScores((current) => (current === length - 1 ? "win" : current + 1));
   };
 
@@ -68,20 +101,32 @@ function Index() {
 
   return (
     <>
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta
+          name="description"
+          content="oneline taboo game for students who wants to play them online เกมส์ทาบู ทายคำศัพท์ จาก TaTuga camp"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Taboo game</title>
+      </Head>
       <Layout>
         <div className="font-sans pt-10 bg-slate-100 h-screen">
           {scores === "win" && <Confetti width={width} height={height} />}
-          <header className="w-full h-max flex justify-center flex-col items-center pt-10">
+          <header className="w-full h-max  flex justify-center flex-col items-center pt-10">
             {isLoading ? (
               <h1>กำลังโหลด...</h1>
             ) : (
-              <h1 className="MoreSugar md:text-3xl text-[#2C7CD1]">Taboo</h1>
+              <h1 className="MoreSugar md:text-3xl text-3xl text-[#2C7CD1]">
+                Taboo
+              </h1>
             )}
+            {error && <h1>มีข้อผิดพลาดเกิดขึ้น</h1>}
           </header>
-          <main className=" flex  h-max items-center justify-center relative  ">
+          <main className="flex  h-max pt-3 items-center justify-center relative    ">
             <ul
               className="list-none p-10 w-3/5 h-max flex flex-col items-center justify-center
-             bg-white drop-shadow-lg rounded-md mt-10 md:w-96 md:flex lg:w-96 relative "
+             bg-white drop-shadow-lg rounded-md  md:w-96 md:flex lg:w-96 relative "
             >
               <div className="absolute z-20 flex flex-col items-center justify-center gap-y-1 -top-5 right-0">
                 <div className="flex flex-col justify-center items-center w-8 md:w-10 bg-slate-700 px-2 py-1 rounded-lg text-white font-medium">
@@ -121,7 +166,7 @@ function Index() {
                       taboo?.[nextCard]?.mainImage?.asset?._ref
                     ).url()}
                     layout="fill"
-                    className="object-contain"
+                    className="object-cover"
                     priority
                     quality={15}
                     alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
@@ -136,11 +181,16 @@ function Index() {
                 <button
                   emoji1="😨"
                   emoji2="😢"
-                  className="w-full h-10 after:content-[attr(emoji1)] after:ml-2 py-2 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-gray-300 rounded-md font-semibold cursor-pointer hover:bg-black "
+                  className={`w-full ${
+                    scores === "win" && "hidden"
+                  } h-10 after:content-[attr(emoji1)] after:ml-2 py-2 after:hover:content-[attr(emoji2)] 
+                    active:ring-4 active:ring-black hover:text-white text-center font-sans border-0 flex 
+                    items-center justify-center  bg-gray-300 rounded-md font-semibold cursor-pointer hover:bg-black`}
                   onClick={handleSkip}
                 >
                   ข้าม
                 </button>
+
                 <button
                   emoji1="😎"
                   emoji2="👉"
@@ -161,3 +211,16 @@ function Index() {
 }
 
 export default Index;
+
+export const getServerSideProps = async (context) => {
+  const query = `*[slug.current == "taboo"]{
+    mainImage
+  }`;
+  const mainImage = await sanityClient.fetch(query);
+
+  return {
+    props: {
+      mainImage: mainImage[0],
+    },
+  };
+};
