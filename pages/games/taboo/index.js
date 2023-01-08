@@ -40,7 +40,6 @@ function Index() {
         return (current = random[indexRandom]);
       });
     } else if (indexRandom >= length - 1) {
-      console.log("loop finish");
       setIndexRandom(0);
       setNextCard((current) => {
         return (current = random[indexRandom]);
@@ -159,18 +158,26 @@ function Index() {
               <li className="text-2xl font-bold mb-3 md:w-96 text-center">
                 {taboo?.[nextCard].vocabulary}
               </li>
-              <li className="relative w-32 h-28 rounded-lg overflow-hidden bg-white drop-shadow-lg md:w-40 md:h-40 lg:w-56 lg:h-56">
-                {taboo && (
+              <li className="relative w-32 h-28 flex justify-center items-center rounded-lg overflow-hidden bg-white drop-shadow-lg md:w-40 md:h-40 lg:w-56 lg:h-56">
+                {taboo ? (
                   <Image
                     src={urlFor(
                       taboo?.[nextCard]?.mainImage?.asset?._ref
                     ).url()}
                     layout="fill"
                     className="object-cover"
-                    priority
                     quality={15}
                     alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
+                    placeholder="blur"
+                    blurDataURL="/TaTuga camp.png"
                   />
+                ) : (
+                  <div>loadiing</div>
+                )}
+                {taboo && (
+                  <div className=" text-center font-Kanit text-base font-semibold">
+                    กำลังโหลด 😴
+                  </div>
                 )}
               </li>
 
