@@ -168,7 +168,7 @@ function Index() {
                 {taboo?.[nextCard].vocabulary}
               </li>
               <li className="relative w-32 h-28 flex justify-center items-center rounded-lg overflow-hidden bg-white drop-shadow-lg md:w-40 md:h-40 lg:w-56 lg:h-56">
-                {taboo ? (
+                {taboo && (
                   <Image
                     src={urlFor(
                       taboo?.[nextCard]?.mainImage?.asset?._ref
@@ -180,14 +180,9 @@ function Index() {
                     onLoad={handleImageLoading}
                     onLoadingComplete={handleImageLoad}
                   />
-                ) : (
-                  <div className=" text-center font-Kanit text-base font-semibold">
-                    กำลังโหลด 😴
-                  </div>
                 )}
                 {loading && (
-                  <div className="h-11 text-center flex flex-col w-11 items-center mb-5 font-Kanit text-sm font-semibold">
-                    <Lottie animationData={animationData} loop={true} />
+                  <div className="font-Kanit text-sm font-semibold">
                     <span className="w-max">กำลังโหลด 😴</span>
                   </div>
                 )}
