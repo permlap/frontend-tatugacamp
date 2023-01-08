@@ -8,8 +8,7 @@ import { sanityClient, urlFor } from "../../../sanity";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import Head from "next/head";
-import * as animationData from "../../../components/LoadingScreen.json";
-import Lottie from "lottie-react";
+
 function Index() {
   const [taboo, setTaboo] = useState(null);
   const [random, setRandom] = useState();

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import { urlFor } from "../../sanity";
 
 export const myPortableTextComponents = {
@@ -81,6 +82,14 @@ function isImage(url) {
 
 const SanityImage = ({ asset }) => {
   const randomNumber = Math.floor(Math.random() * 4) + 1;
+  const [loading, setLoading] = useState(false);
+  function onLoad() {
+    setLoading((prev) => (prev = true));
+  }
+  function onLoadingComplete() {
+    setLoading((prev) => (prev = false));
+  }
+
   return (
     <div className="w-full h-ful bg-transparent flex items-center justify-center">
       <div
@@ -95,9 +104,18 @@ const SanityImage = ({ asset }) => {
           src={urlFor(asset).url()}
           layout="fill"
           className="object-contain"
-          blurDataURL="LURfXxtP.8RRtRoLofWq?^aMMxo|"
+          placeholder="blur"
+          blurDataURL="/TaTuga camp.png"
           alt="some images about TaTuga camp teaching you English grammar"
+          onLoad={onLoad}
+          onLoadingComplete={onLoadingComplete}
         />
+
+        {loading && (
+          <div className="absolute text-center top-[50%] bg-white w-full  text-base">
+            Loading.. 😵
+          </div>
+        )}
       </div>
     </div>
   );

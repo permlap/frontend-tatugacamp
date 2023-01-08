@@ -11,7 +11,7 @@ import Layout from "../../components/layout";
 function Index(props) {
   const { height, width } = useWindowDimensions();
   const [checked, setChecked] = useState(1);
-  const ref = useRef(null);
+  const ref = useRef();
   const secRef = useRef(null);
 
   const handleScroll = () => {

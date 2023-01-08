@@ -94,7 +94,7 @@ function Index(props) {
                   src={urlFor(props.data[0].mainImage.asset._ref).url()}
                   layout="fill"
                   alt={props.data[0].title}
-                  className=" object-contain"
+                  className="object-contain"
                   priority
                 />
               </li>
