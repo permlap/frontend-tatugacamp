@@ -8,7 +8,8 @@ import { sanityClient, urlFor } from "../../../sanity";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import Head from "next/head";
-
+import * as animationData from "../../../components/LoadingScreen.json";
+import Lottie from "lottie-react";
 function Index() {
   const [taboo, setTaboo] = useState(null);
   const [random, setRandom] = useState();
@@ -21,6 +22,7 @@ function Index() {
   const [scores, setScores] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
   const { width, height } = useWindowSize();
+  const [loading, setLoading] = useState(false);
 
   //fectching taboo data
   const { isLoading, isFetching, error } = useQuery(["taboo"], () =>
@@ -30,6 +32,13 @@ function Index() {
     })
   );
 
+  function handleImageLoading(e) {
+    setLoading((prev) => (prev = true));
+  }
+
+  function handleImageLoad() {
+    setLoading((prev) => (prev = false));
+  }
   // handle skip
   const handleSkip = () => {
     //check if index of random is less than the length
@@ -168,15 +177,18 @@ function Index() {
                     className="object-cover"
                     quality={15}
                     alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
-                    placeholder="blur"
-                    blurDataURL="/TaTuga camp.png"
+                    onLoad={handleImageLoading}
+                    onLoadingComplete={handleImageLoad}
                   />
                 ) : (
-                  <div>loadiing</div>
-                )}
-                {taboo && (
                   <div className=" text-center font-Kanit text-base font-semibold">
                     กำลังโหลด 😴
+                  </div>
+                )}
+                {loading && (
+                  <div className="h-11 text-center flex flex-col w-11 items-center mb-5 font-Kanit text-sm font-semibold">
+                    <Lottie animationData={animationData} loop={true} />
+                    <span className="w-max">กำลังโหลด 😴</span>
                   </div>
                 )}
               </li>
