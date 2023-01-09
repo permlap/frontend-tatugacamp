@@ -77,7 +77,7 @@ function Index() {
   //call set random to generate unqie random number
   useEffect(() => {
     setRandom(GenerateRandom(length));
-  }, [length]);
+  }, [length, scores === "win"]);
 
   // handle yes confirm
   const YesConfirm = () => {
@@ -97,7 +97,7 @@ function Index() {
     setShowConfirm(false);
 
     // set score
-    setScores((current) => (current === length - 1 ? "win" : current + 1));
+    setScores((current) => (current === length ? "win" : current + 1));
   };
 
   // handle no confirm
@@ -163,11 +163,17 @@ function Index() {
                 </div>
               )}
 
-              <li className="text-2xl font-bold mb-3 md:w-96 text-center">
-                {taboo?.[nextCard].vocabulary}
-              </li>
+              {scores === "win" ? (
+                <li className="text-2xl font-bold mb-3 md:w-96 text-center">
+                  🏆 You are the winner! 🏆
+                </li>
+              ) : (
+                <li className="text-2xl font-bold mb-3 md:w-96 text-center">
+                  {taboo?.[nextCard].vocabulary}
+                </li>
+              )}
               <li className="relative w-32 h-28 flex justify-center items-center rounded-lg overflow-hidden bg-white drop-shadow-lg md:w-40 md:h-40 lg:w-56 lg:h-56">
-                {taboo && (
+                {taboo && scores !== "win" && (
                   <Image
                     src={urlFor(
                       taboo?.[nextCard]?.mainImage?.asset?._ref
@@ -180,16 +186,31 @@ function Index() {
                     onLoadingComplete={handleImageLoad}
                   />
                 )}
+                {scores === "win" && (
+                  <Image
+                    src="/Taboo/you-win-sign-pop-art-style_175838-498.webp"
+                    layout="fill"
+                    className="object-cover"
+                    quality={15}
+                    alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
+                  />
+                )}
+
                 {loading && (
                   <div className="font-Kanit text-sm font-semibold">
                     <span className="w-max">กำลังโหลด 😴</span>
                   </div>
                 )}
               </li>
-
-              <li className="mt-5">{taboo?.[nextCard].firstTaboo}</li>
-              <li>{taboo?.[nextCard].secondTaboo}</li>
-              <li>{taboo?.[nextCard].thirdTaboo}</li>
+              {scores === "win" ? (
+                <div></div>
+              ) : (
+                <div className="text-center">
+                  <li className="mt-5">{taboo?.[nextCard].firstTaboo}</li>
+                  <li>{taboo?.[nextCard].secondTaboo}</li>
+                  <li>{taboo?.[nextCard].thirdTaboo}</li>
+                </div>
+              )}
               <li className="mt-5 w-full flex gap-x-5">
                 <button
                   emoji1="😨"
