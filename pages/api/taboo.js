@@ -1,6 +1,13 @@
 import axios from "axios";
 import { sanityClient } from "../../sanity";
-const query = `*[_type  == "taboo"]`;
+const query = `*[_type  == "taboo"]{
+  firstTaboo,
+  secondTaboo,
+  thirdTaboo,
+  vocabulary,
+  mainImage
+
+}`;
 
 export default async function GetTaboo(req, res) {
   if (req.method === "GET") {

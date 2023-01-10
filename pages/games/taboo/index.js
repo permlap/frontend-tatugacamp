@@ -11,7 +11,7 @@ import Head from "next/head";
 import { Co2Sharp } from "@mui/icons-material";
 
 function Index() {
-  const [taboo, setTaboo] = useState(null);
+  const [taboo, setTaboo] = useState();
   const [random, setRandom] = useState();
   const length = taboo?.length || 0;
   const [nextCard, setNextCard] = useState(() => {
@@ -78,8 +78,14 @@ function Index() {
   //call set random to generate unqie random number
   useEffect(() => {
     setRandom(GenerateRandom(length));
-    console.log("useEffect Runs!");
-  }, [length, scores === "win"]);
+  }, [length]);
+
+  useEffect(() => {
+    if (scores === "win") {
+      setRandom(GenerateRandom(length));
+      console.log("useEffect Runs!");
+    }
+  }, [scores, length]);
 
   // handle yes confirm
   const YesConfirm = () => {
@@ -247,16 +253,3 @@ function Index() {
 }
 
 export default Index;
-
-export const getServerSideProps = async (context) => {
-  const query = `*[slug.current == "taboo"]{
-    mainImage
-  }`;
-  const mainImage = await sanityClient.fetch(query);
-
-  return {
-    props: {
-      mainImage: mainImage[0],
-    },
-  };
-};
