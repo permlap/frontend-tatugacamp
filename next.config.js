@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  plugins: [require("tailwindcss"), require("autoprefixer")],
   reactStrictMode: true,
   swcMinify: true,
   images: {
@@ -10,7 +9,8 @@ const nextConfig = {
       "cdn.sanity.io",
       "rickandmortyapi.com",
       "images.unsplash.com",
-      "n14jpqkv.api.sanity.io"
+      "n14jpqkv.api.sanity.io",
+      "lh3.googleusercontent.com",
     ],
   },
 };

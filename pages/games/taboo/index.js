@@ -8,6 +8,7 @@ import { sanityClient, urlFor } from "../../../sanity";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import Head from "next/head";
+import { Co2Sharp } from "@mui/icons-material";
 
 function Index() {
   const [taboo, setTaboo] = useState(null);
@@ -77,6 +78,7 @@ function Index() {
   //call set random to generate unqie random number
   useEffect(() => {
     setRandom(GenerateRandom(length));
+    console.log("useEffect Runs!");
   }, [length, scores === "win"]);
 
   // handle yes confirm

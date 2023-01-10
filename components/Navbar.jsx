@@ -12,7 +12,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useScrollDirection from "../hooks/useScrollDirection";
 import Lottie from "lottie-react";
-import { currentBrowser } from "./utils/platforms";
+import { currentBrowser } from "../utils/platforms";
+import { IoMdLogIn } from "react-icons/io";
+import AuthButton from "./auth/button";
+
 function Navbar() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -105,6 +108,9 @@ function Navbar() {
         } `}
       >
         <ul className="list-none font-medium flex justify-center items-center flex-col gap-y-5 pl-0">
+          <li>
+            <AuthButton />
+          </li>
           <Link href="/">
             <li
               onClick={onClick}
@@ -144,6 +150,7 @@ function Navbar() {
             </Button>
           </Link>
         </li>
+
         <li className="">
           <Link href="/about-us">
             <button className="focus:outline-none text-base font-Inter font-normal  border-0 w-max h-auto bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]">
@@ -158,7 +165,9 @@ function Navbar() {
             </button>
           </Link>
         </li>
-        <li></li>
+        <li className="mr-5">
+          <AuthButton />
+        </li>
       </ul>
       {loading && (
         <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">
