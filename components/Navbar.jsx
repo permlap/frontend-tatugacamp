@@ -4,7 +4,7 @@ import Logo from "./svg/Logo";
 import { Button } from "@mui/material";
 import Listmenu from "./svg/Listmenu";
 import Script from "next/script";
-import TaTugaLogo from "../public/TaTuga camp.png";
+import TaTugaLogo from "../public/logo/TaTuga camp.png";
 import Image from "next/image";
 import { useState } from "react";
 import * as animationData from "../components/LoadingScreen.json";

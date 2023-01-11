@@ -10,7 +10,7 @@ class MyDocument extends Document {
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/TaTuga camp.png"
+            href="/logo/tatuga.png"
           />
           <link
             rel="preconnect"
