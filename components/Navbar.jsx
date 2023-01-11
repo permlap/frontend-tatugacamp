@@ -129,7 +129,7 @@ function Navbar() {
           </Link>
           <Link href="/grammar/basic-grammar">
             <li className="w-max bg-white rounded-md py-4 px-10 active:bg-[#2C7CD1] active:text-white">
-              Grammar นะจ๊พ
+              Grammar
             </li>
           </Link>
         </ul>

@@ -85,12 +85,13 @@ function Index({ grammarData, getAuther }) {
         return (
           <span
             definition={`ความหมาย : ${value.href}`}
-            className="after:content-[attr(definition)] md:after:w-max   after:h-max after:p-2 after:drop-shadow-lg  after:bg-[#100f0b] 
+            className="after:content-[attr(definition)] md:after:w-max   after:h-max after:p-2 after:drop-shadow-lg  after:bg-blue-800
               after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
-              after:top-[100%]  relative after:left-[0%] after:static after:w-full 
+              after:top-[100%]  relative after:left-[0%] after:static after:w-full underline underline-offset-4 decoration-2
+        
               md:after:absolute hover:after:flex active:after:flex  after:hidden cursor-pointer w-full"
           >
-            📚{children}
+            {children}
           </span>
         );
       },
@@ -181,7 +182,9 @@ function Index({ grammarData, getAuther }) {
               <ul
                 className={`list-none pl-0 flex flex-col justify-center gap-y-6 items-center font-Inter h-40`}
               >
-                <li className="font-bold text-3xl">{grammarData.title}</li>
+                <li className="font-bold text-3xl text-center flex justify-center items-center after:content-['BETA'] after:font-Inter after:text-xs after:text-slate-700 after:bg-slate-300 after:rounded-md after:p-1 after:ml-3">
+                  {grammarData.title}
+                </li>
                 <li className="">
                   <button
                     onClick={handleConfetti}

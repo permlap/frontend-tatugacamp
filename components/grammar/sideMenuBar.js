@@ -27,7 +27,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
 
   return (
     <div
-      className={`md:w-max md:h-screen bg-white drop-shadow-md rounded-none md:rounded-r-2xl 
+      className={`md:w-max md:pl-5 md:h-screen bg-white drop-shadow-md rounded-none md:rounded-r-2xl 
       md:sticky top-0 fixed z-10 w-screen h-screen mt-0 md:mt-0  md:block  ${
         trigger ? "block" : "hidden"
       }`}
@@ -38,7 +38,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
           <Link href="/">
             <ul
               role="button"
-              className="list-none pl-3  justify-start gap-x-4 items-center relative top-4 hidden md:flex
+              className="list-none   justify-start gap-x-4 items-center relative top-4 hidden md:flex
            px-9 py-3 w-max h-max bg-white rounded-3xl hover:bg-orange-300 group mr-5 cursor-pointer"
             >
               <li className="relative w-14 h-14 rounded-full overflow-hidden ">
@@ -50,10 +50,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
                   alt="TaTuga camp logo"
                 />
               </li>
-              <li
-                className="MoreSugar text-xl text-[#2C7CD1] group-hover:text-white 
-            after:content-['BETA'] after:font-Inter after:text-xs after:text-slate-700 after:bg-slate-300 after:rounded-md after:p-1 after:ml-3"
-              >
+              <li className="MoreSugar text-xl text-[#2C7CD1] group-hover:text-white">
                 TaTuga camp
               </li>
             </ul>
@@ -88,7 +85,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
                     className="border-0 cursor-pointer text-center flex w-full justify-between items-center bg-white hover:bg-blue-200 rounded-md  font-Inter text-base font-semibold p-1 px-3"
                   >
                     <p
-                      className={`first-letter:uppercase text-black ${
+                      className={`first-letter:uppercase text-left text-black ${
                         index === isClickMain && "text-red-700 font-bold "
                       }`}
                     >
@@ -135,11 +132,11 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
                 </li>
               );
             })}
-            <li className="relative">
+            <li className="relative text-black">
               <button
                 className="mt-5 border-0 text-center flex w-full gap-x-3 items-center bg-white  
               font-Inter text-base font-semibold p-1 px-3
-              before:content-[''] before:w-full before:h-[0.5px] before:top-3 before:right-0  before:bg-gray-400 before:absolute "
+              before:content-[''] before:w-full before:h-[0.5px] before:top-3 before:right-0 text-black  before:bg-gray-400 before:absolute "
               >
                 <p>Community</p>
                 <BsFacebook color="blue" size="1.5rem" />
@@ -148,7 +145,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
             <li>
               <button
                 className=" border-0 text-center flex w-full justify-between items-center bg-white  
-              font-Inter text-base font-semibold p-1 px-3"
+              font-Inter text-base font-semibold p-1 px-3 text-black "
               >
                 <p>Feedback</p>
               </button>
