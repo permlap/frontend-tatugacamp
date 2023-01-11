@@ -43,7 +43,7 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
             >
               <li className="relative w-14 h-14 rounded-full overflow-hidden ">
                 <Image
-                  src="/TaTuga camp.png"
+                  src="/logo/TaTuga camp.png"
                   priority
                   className="w-full h-full object-contain"
                   layout="fill"
