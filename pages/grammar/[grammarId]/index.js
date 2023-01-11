@@ -83,15 +83,17 @@ function Index({ grammarData, getAuther }) {
     marks: {
       definition: ({ children, value }) => {
         return (
-          <span
-            definition={`ความหมาย : ${value.href}`}
-            className="after:content-[attr(definition)] md:after:w-max   after:h-max after:p-2 after:drop-shadow-lg  after:bg-blue-800
-              after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
-              after:top-[100%]  relative after:left-[0%] after:static after:w-full underline underline-offset-4 decoration-2
-        
-              md:after:absolute hover:after:flex active:after:flex  after:hidden cursor-pointer w-full"
-          >
-            {children}
+          <span className="group w-full relative cursor-pointer">
+            <span className="w-max underline  underline-offset-4 ">
+              {children}
+            </span>
+            <div
+              className=" group-hover:block group-active:block  w-full hidden bg-[#EDBA02] rounded-md text-left pl-2 
+            font-Kanit font-light md:absolute md:w-max md:right-[0%] md:left-0 "
+            >
+              <span className="w-max mr-1 font-normal">ความหมาย:</span>
+              <span>{value.href}</span>
+            </div>
           </span>
         );
       },
