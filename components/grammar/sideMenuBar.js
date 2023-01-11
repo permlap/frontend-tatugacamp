@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { FiChevronRight, FiChevronDown } from "react-icons/fi";
 import { BsFacebook } from "react-icons/bs";
-import { menuGrammar } from "../data/menuGrammar";
+import { menuGrammar } from "../../data/menuGrammar";
 import { useRouter } from "next/router";
 import { AiFillHome } from "react-icons/ai";
 import Link from "next/link";

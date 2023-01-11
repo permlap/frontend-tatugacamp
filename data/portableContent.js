@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import { urlFor } from "../../sanity";
+import { urlFor } from "../sanity";
 
 export const myPortableTextComponents = {
   types: {
@@ -30,7 +30,7 @@ export const myPortableTextComponents = {
     h3: ({ children }) => (
       <h3 className={`text-lg md:text-xl py-3`}>{children}</h3>
     ),
-    normal: ({ children }) => <span className="text-base">{children}</span>,
+    normal: ({ children }) => <span className="text-base ">{children}</span>,
 
     blockquote: ({ children }) => (
       <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
@@ -45,16 +45,7 @@ export const myPortableTextComponents = {
   },
   marks: {
     definition: ({ children, value }) => {
-      return (
-        <span
-          definition={`ความหมาย : ${value.href}`}
-          className="after:content-[attr(definition)] md:after:w-max after:w-28  after:h-max after:p-3 after:drop-shadow-lg  after:bg-[#EDBA02] 
-            after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
-            after:top-[100%]  relative after:left-[0%] after:absolute hover:after:flex  after:hidden cursor-pointer w-full"
-        >
-          📚{children}
-        </span>
-      );
+      return <Definition children={children} value={value} />;
     },
     em: ({ children }) => (
       <em className="text-gray-600 font-light">{children}</em>
@@ -78,6 +69,19 @@ export const myPortableTextComponents = {
 // check whether url of image is png or not. If not return false
 function isImage(url) {
   return /\.(|png|)$/.test(url);
+}
+
+function Definition({ value, children }) {
+  return (
+    <span
+      definition={`ความหมาย : ${value.href}`}
+      className="after:content-[attr(definition)] md:after:w-max after:w-28  after:h-max after:p-3 after:drop-shadow-lg  after:bg-[#EDBA02] 
+            after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
+            after:top-[100%]  relative after:left-[0%] after:absolute hover:after:flex  after:hidden cursor-pointer w-full"
+    >
+      📚{children}
+    </span>
+  );
 }
 
 const SanityImage = ({ asset }) => {
@@ -110,12 +114,6 @@ const SanityImage = ({ asset }) => {
           onLoad={onLoad}
           onLoadingComplete={onLoadingComplete}
         />
-
-        {loading && (
-          <div className="absolute text-center top-[50%] bg-white w-full  text-base">
-            Loading.. 😵
-          </div>
-        )}
       </div>
     </div>
   );

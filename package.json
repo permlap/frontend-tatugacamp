@@ -12,6 +12,7 @@
     "@animxyz/core": "^0.6.6",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@headlessui/react": "^1.7.7",
     "@lottiefiles/lottie-player": "^1.5.7",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",

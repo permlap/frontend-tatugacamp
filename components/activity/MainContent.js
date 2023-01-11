@@ -1,6 +1,6 @@
 import React from "react";
 import { PortableText } from "@portabletext/react";
-import { myPortableTextComponents } from "../data/portableContent";
+import { myPortableTextComponents } from "../../data/portableContent";
 function MainContent({ body }) {
   return (
     <div className="w-full h-full bg-[#2C7CD1] md:bg-transparent flex justify-center ">

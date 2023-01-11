@@ -11,7 +11,9 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Facebook from "../components/facebook";
+import AuthButton from "../components/auth/button";
 
+/** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Home(props) {
   const [dataSearchOptios, setDataSearchOptions] = useState();
   const [DataDescriptionMeta, SetDataDescriptionMeta] = useState();
