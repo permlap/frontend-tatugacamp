@@ -23,7 +23,7 @@ function Footer(props) {
             width={300}
             height={300}
             alt="logo tatuga camp"
-            src="/TaTuga camp.png"
+            src="/logo/TaTuga camp.png"
             priority
           />
         </div>

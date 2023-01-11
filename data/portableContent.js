@@ -109,7 +109,7 @@ const SanityImage = ({ asset }) => {
           layout="fill"
           className="object-contain"
           placeholder="blur"
-          blurDataURL="/TaTuga camp.png"
+          blurDataURL="/logo/TaTuga camp.png"
           alt="some images about TaTuga camp teaching you English grammar"
           onLoad={onLoad}
           onLoadingComplete={onLoadingComplete}
