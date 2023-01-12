@@ -8,15 +8,6 @@ function ListActivity(props) {
     setLoader(true);
   }
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   const activityCards = props?.activityPosts?.map((card, index) => {
     return (
       <ul className="item-center list-none pl-0" key={card._id}>

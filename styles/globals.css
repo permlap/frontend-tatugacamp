@@ -6,6 +6,10 @@
 @include xyz-core;
 @include xyz-utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0px;
   /* box-sizing: border-box;

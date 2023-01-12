@@ -1,6 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import FooterActivities from "../../components/footer/FooterActivities";
+import React, { useEffect, useState } from "react";
 import { sanityClient, urlFor } from "../../sanity";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,15 +10,6 @@ import Layout from "../../components/layout";
 function Index(props) {
   const { height, width } = useWindowDimensions();
   const [checked, setChecked] = useState(1);
-  const ref = useRef();
-  const secRef = useRef(null);
-
-  const handleScroll = () => {
-    ref?.current.scrollIntoView({ behavior: "smooth" });
-  };
-  const secHandleScroll = () => {
-    secRef?.current.scrollIntoView({ behavior: "smooth" });
-  };
 
   useEffect(() => {
     if (width < 767) {
@@ -90,18 +80,19 @@ function Index(props) {
                     </li>
                   </ul>
                 </li>
-                <li ref={secRef} className="flex gap-x-4 mt-5">
-                  <button
-                    onClick={handleScroll}
-                    className="w-max h-max bg-[#97CC04] active:bg-red-400 focus:border-white border-1 border-transparent text-lg font-light font-Kanit py-2 ease-out px-9 text-white hover:scale-110 rounded-md transition duration-200  "
-                  >
-                    จุดเริ่มต้น
+                <li className="flex gap-x-4 mt-5">
+                  <button className="w-max h-max bg-[#97CC04] active:bg-red-400 focus:border-white border-1 border-transparent text-lg font-light font-Kanit py-2 ease-out px-9 text-white hover:scale-110 rounded-md transition duration-200  ">
+                    <a className="no-underline text-white" href="#จุดเริ่มต้น">
+                      จุดเริ่มต้น
+                    </a>
                   </button>
-                  <button
-                    onClick={secHandleScroll}
-                    className="w-max h-max bg-transparent border-1 border-white text-lg font-light font-Kanit py-2 px-9  ease-out  outline-0 text-white hover:scale-110 rounded-md transition duration-200  "
-                  >
-                    สิ่งที่มุ่งหวัง
+                  <button className="w-max h-max bg-transparent border-1 border-white text-lg font-light font-Kanit py-2 px-9  ease-out  outline-0 text-white hover:scale-110 rounded-md transition duration-200  ">
+                    <a
+                      className="no-underline text-white"
+                      href="#สิ่งที่มุ่งหวัง"
+                    >
+                      สิ่งที่มุ่งหวัง
+                    </a>
                   </button>
                 </li>
               </ul>
@@ -110,7 +101,10 @@ function Index(props) {
         </header>
 
         <main>
-          <ul className="list-none pl-0 w-full h-max gap-x-7 top-[45rem]   bg-transparent flex justify-center items-center absolute md:top-[40rem] lg:top-[40rem] ">
+          <ul
+            id="สิ่งที่มุ่งหวัง"
+            className="list-none pl-0 w-full h-max gap-x-7 top-[45rem]   bg-transparent flex justify-center items-center absolute md:top-[40rem] lg:top-[40rem] "
+          >
             <Swiper spaceBetween={0} slidesPerView={checked}>
               {props.cards?.map((card) => {
                 return (
@@ -136,10 +130,7 @@ function Index(props) {
               })}
             </Swiper>
           </ul>
-          <ul
-            ref={ref}
-            className="pl-0 list-none flex gap-x-11 gap-y-6 md:flex-row flex-col w-full h-max justify-center items-center font-Kanit mb-40"
-          >
+          <ul className="pl-0 list-none flex gap-x-11 gap-y-6 md:flex-row flex-col w-full h-max justify-center items-center font-Kanit mb-40">
             <li className="lg:w-[30rem] md:w-96 text-center md:text-left">
               <div className="flex justify-center">
                 <div className="text-[2.5rem]  md:text-[3rem] h-max w-max rotate-45 text-[#2C7CD1] mr-4  md:mr-3">
@@ -147,7 +138,7 @@ function Index(props) {
                 </div>
                 <h1 className="text-black ">จุดเริ่มต้น</h1>
               </div>
-              <span className="text-justify">
+              <span id="จุดเริ่มต้น" className="text-justify">
                 พวกเราคือกลุ่มคนเล็ก ๆ ที่มีใจรักในการพัฒนาผู้เรียน
                 โดยใช้กิจกรรมที่สนุก มีความหลากหลาย ไม่เน้นวิชาการ
                 จากจุดเริ่มต้นแรกที่ได้นำความรู้และความสนุกไปแจกจ่ายแก่ผู้เรียนตามชนบท

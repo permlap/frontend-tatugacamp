@@ -247,7 +247,6 @@ function Index() {
           <footer></footer>
         </div>
       </Layout>
-      <FooterActivities />
     </>
   );
 }

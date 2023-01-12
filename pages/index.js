@@ -12,6 +12,8 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import Facebook from "../components/facebook";
 import AuthButton from "../components/auth/button";
+import SearchAutoComplete from "../components/search/searchAutoComplete";
+import Loading from "../components/loading/loading";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Home(props) {
@@ -22,7 +24,7 @@ export default function Home(props) {
   const [postsData, setPostsData] = useState(props.data);
 
   const activeMenu = useRef(0);
-  const Menus = [{ name: "กิจกรรมต่างๆ" }];
+  const Menus = [{ name: "ล้างการค้นหา" }];
 
   // fetch data to next list
   const { isLoading, isFetching, error, refetch } = useQuery({
@@ -70,8 +72,14 @@ export default function Home(props) {
     SetDataDescriptionMeta(data);
   };
 
+  //attrach data from search for activities
+  const handleSelectedActivity = async (data) => {
+    const arrayData = [data];
+    setPostsData(arrayData);
+  };
+
   return (
-    <div>
+    <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-cover">
       <Facebook />
       <Navbar />
       <Head>
@@ -173,11 +181,18 @@ export default function Home(props) {
         </div>
       </header>
 
-      <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-cover ">
+      <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-no-repeat bg-cover ">
         <div className="w-max h-max font-Kanit  z-30 font-medium text-[1.5rem] md:text-[1.7rem]  px-5 py-3 text-white rounded-xl bg-[#2C7CD1]">
           <span>แหล่งรวบรวมความรู้</span>
         </div>
-        <ul className="list-none pl-0 w-full  h-24 flex justify-center items-center  gap-x-12 font-Kanit font-light text-lg">
+
+        <ul className="list-none pl-0 w-full  h-24 flex mt-10 flex-col-reverse  md:flex-row items-center justify-center md:items-end  md:gap-x-12 font-Kanit font-light text-lg">
+          <li className="z-30   ">
+            <SearchAutoComplete
+              activityPosts={postsData}
+              handleSelectedActivity={handleSelectedActivity}
+            />
+          </li>
           {Menus.map((list, index) => {
             return (
               <li
@@ -194,12 +209,19 @@ export default function Home(props) {
             );
           })}
         </ul>
+        <div></div>
 
-        <ListActivity
-          activityPosts={postsData}
-          dataSearchOptios={dataSearchOptios}
-          likes={props.likes}
-        />
+        {isFetching ? (
+          <div className="mt-10">
+            <Loading />
+          </div>
+        ) : (
+          <ListActivity
+            activityPosts={postsData}
+            dataSearchOptios={dataSearchOptios}
+            likes={props.likes}
+          />
+        )}
       </main>
 
       <footer>
