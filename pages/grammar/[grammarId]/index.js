@@ -88,7 +88,7 @@ function Index({ grammarData, getAuther }) {
               {children}
             </span>
             <div
-              className=" group-hover:block group-active:block  w-full hidden bg-[#EDBA02] rounded-md text-left pl-2 
+              className=" group-hover:block z-20 group-active:block  w-full hidden bg-[#EDBA02] rounded-md text-left pl-2 
             font-Kanit font-light md:absolute md:w-max md:right-[0%] md:left-0 "
             >
               <span className="w-max mr-1 font-normal">ความหมาย:</span>
