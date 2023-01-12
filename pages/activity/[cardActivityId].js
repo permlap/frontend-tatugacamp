@@ -95,7 +95,8 @@ function Index(props) {
                   layout="fill"
                   alt={props.data[0].title}
                   className="object-contain"
-                  priority
+                  placeholder="blur"
+                  blurDataURL="/logo/TaTuga camp.png"
                 />
               </li>
             </ul>
