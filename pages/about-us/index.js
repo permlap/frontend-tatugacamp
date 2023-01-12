@@ -23,7 +23,7 @@ function Index(props) {
 
   return (
     <Layout>
-      <div>
+      <div className="">
         <Head>
           <meta
             property="og:image"
@@ -100,7 +100,7 @@ function Index(props) {
           </ul>
         </header>
 
-        <main>
+        <main className="">
           <ul
             id="สิ่งที่มุ่งหวัง"
             className="list-none pl-0 w-full h-max gap-x-7 top-[45rem]   bg-transparent flex justify-center items-center absolute md:top-[40rem] lg:top-[40rem] "

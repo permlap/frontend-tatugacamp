@@ -6,10 +6,6 @@
 @include xyz-core;
 @include xyz-utilities;
 
-html {
-  scroll-behavior: smooth;
-}
-
 * {
   margin: 0px;
   /* box-sizing: border-box;
@@ -137,4 +133,8 @@ html {
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
   background: #c0a0b9;
+}
+.scroll-smooth {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }

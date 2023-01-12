@@ -35,7 +35,7 @@ function SearchAutoComplete({ activityPosts, handleSelectedActivity }) {
             as="input"
             placeholder="ค้นหาได้เลย.."
             type="text"
-            className="w-72  h-10 placeholder:pl-5 pl-5 border-none ring-2 font-sans group rounded-lg focus:ring-0 ring-[#EDBA02] bg-white  "
+            className="w-72  h-10 placeholder:pl-5 pl-5 border-none ring-2 appearance-none font-sans group rounded-lg focus:ring-0 ring-[#EDBA02] bg-yellow-100  "
             displayValue={(activity) => activity.title}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -82,9 +82,10 @@ function SearchAutoComplete({ activityPosts, handleSelectedActivity }) {
                           </span>
                         )}
                         <span
-                          className={`block truncate font-sans  pl-2     ${
-                            selected && "font-semibold"
-                          } ${active ? "font-bold " : "text-black"}`}
+                          className={`block truncate font-sans   pl-2     ${
+                            selected && "font-semibold text-black"
+                          } 
+                            ${active ? "font-bold " : "text-black"}`}
                         >
                           {activity.title}
                         </span>
