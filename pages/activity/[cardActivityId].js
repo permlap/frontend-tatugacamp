@@ -50,7 +50,6 @@ function Index(props) {
     setLikes(data.likes);
   };
 
-  console.log(props.data[0]);
   return (
     <Layout>
       <div className="w-full md:h-full  bg-[url('/blob2.svg')] md:bg-[url('/blob3.svg')] bg-[#2C7CD1] bg-no-repeat bg-cover pt-11">

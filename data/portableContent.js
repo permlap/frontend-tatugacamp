@@ -30,7 +30,7 @@ export const myPortableTextComponents = {
     h3: ({ children }) => (
       <h3 className={`text-lg md:text-xl py-3`}>{children}</h3>
     ),
-    normal: ({ children }) => <span className="text-base ">{children}</span>,
+    normal: ({ children }) => <div className="text-base ">{children}</div>,
 
     blockquote: ({ children }) => (
       <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
@@ -45,7 +45,20 @@ export const myPortableTextComponents = {
   },
   marks: {
     definition: ({ children, value }) => {
-      return <Definition children={children} value={value} />;
+      return (
+        <span className="group w-full relative cursor-pointer">
+          <span className="w-max underline  underline-offset-4 ">
+            {children}
+          </span>
+          <div
+            className="group-hover:block z-20 group-active:block w-2/4  hidden bg-[#EDBA02] rounded-md text-left px-5
+          font-Kanit font-light md:absolute md:w-80  md:right-[0%] md:left-0 "
+          >
+            <span className="w-max mr-1 font-normal">ความหมาย:</span>
+            <span>{value.href}</span>
+          </div>
+        </span>
+      );
     },
     em: ({ children }) => (
       <em className="text-gray-600 font-light">{children}</em>
@@ -58,7 +71,12 @@ export const myPortableTextComponents = {
         ? "noreferrer noopener"
         : undefined;
       return (
-        <a href={value.href} className={`text-${value.hex}`} rel={rel}>
+        <a
+          href={value.href}
+          className={`text-${value.hex}`}
+          rel={rel}
+          target="_blank"
+        >
           {children}
         </a>
       );
@@ -69,19 +87,6 @@ export const myPortableTextComponents = {
 // check whether url of image is png or not. If not return false
 function isImage(url) {
   return /\.(|png|)$/.test(url);
-}
-
-function Definition({ value, children }) {
-  return (
-    <span
-      definition={`ความหมาย : ${value.href}`}
-      className="after:content-[attr(definition)] md:after:w-max after:w-28  after:h-max after:p-3 after:drop-shadow-lg  after:bg-[#EDBA02] 
-            after:font-Kanit after:font-normal after:text-base after:text-white after:rounded-lg
-            after:top-[100%]  relative after:left-[0%] after:absolute hover:after:flex  after:hidden cursor-pointer w-full"
-    >
-      📚{children}
-    </span>
-  );
 }
 
 const SanityImage = ({ asset }) => {

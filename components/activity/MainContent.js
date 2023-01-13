@@ -14,8 +14,8 @@ function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
           <li>
             <ul className=" pl-0 lg:mt-0 ">
               {/* main content body */}
-              <li className=" text-[#EDBA02] font-bold  font-Kanit text-[1.5rem] md:text-[2rem] flex flex-col justify-center items-center">
-                <span className="underLineHover">วิธีการเล่น</span>
+              <li className=" text-[#EDBA02] font-bold  font-Kanit text-[1.5rem] md:text-[1.5rem] flex flex-col justify-center items-center">
+                <span className="underLineHover">รายละเอียดกิจกรรม</span>
               </li>
               <li className=" pl-0 w-full flex flex-col items-center font-Kanit text-lg justify-center">
                 <Example body={Newbody} />
