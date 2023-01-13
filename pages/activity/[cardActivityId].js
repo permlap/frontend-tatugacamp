@@ -10,6 +10,7 @@ import FooterActivities from "../../components/footer/FooterActivities";
 import Layout from "../../components/layout";
 import Link from "next/link";
 
+/** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 function Index(props) {
   const [likes, setLikes] = useState(props.likes);
   const [likesHasbeenClicked, setLikeHasBeenClicked] = useState(false);
@@ -170,7 +171,7 @@ function Index(props) {
                     </button>
                   )}
                 </li>
-                <li className="sm:text-white text-white  text-sm w-3/4 bg-[#2C7CD1] sm:bg-transparent font-Kanit rounded-3xl font-normal ">
+                <li className="sm:text-white text-white md:text-black   text-sm w-3/4 bg-[#2C7CD1] sm:bg-transparent font-Kanit rounded-3xl font-normal ">
                   {props.data[0]?.LongDescription}
                 </li>
                 <li>

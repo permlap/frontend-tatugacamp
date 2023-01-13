@@ -8,15 +8,14 @@ function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
 
   return (
     <div className="w-full h-full bg-[#2C7CD1] md:bg-transparent flex justify-center ">
-      <div className="w-[90%] lg:w-2/4 lg:p-11 h-full pb-5  bg-white   rounded-xl drop-shadow-lg ">
+      <div className="w-[90%] lg:w-2/4 lg:p-11 h-full pb-20 lg:pb-36 border-2 md:border-solid   bg-white   rounded-xl drop-shadow-lg ">
         <ul className="list-none pl-0 flex flex-col justify-center items-center">
           <li className="mt-5"></li>
           <li>
             <ul className=" pl-0 lg:mt-0 ">
               {/* main content body */}
-              <li className=" text-[#EDBA02] font-bold font-Kanit text-[1.5rem] md:text-[2rem] flex flex-col justify-center items-center">
-                <span>วิธีการเล่น</span>
-                <div className="w-max  h-2 bg-[#EDBA02] px-11 md:px-14 rounded-lg"></div>
+              <li className=" text-[#EDBA02] font-bold  font-Kanit text-[1.5rem] md:text-[2rem] flex flex-col justify-center items-center">
+                <span className="underLineHover">วิธีการเล่น</span>
               </li>
               <li className=" pl-0 w-full flex flex-col items-center font-Kanit text-lg justify-center">
                 <Example body={Newbody} />

@@ -27,10 +27,10 @@ function FooterActivities() {
             priority
           />
         </div>
-        <ul className="list-none text-center w-full pl-0 justify-center pt-16">
+        <ul className="list-none text-center w-full pl-0 justify-center mt-5 md:mt-16">
           <li>
             <div className="w-full flex justify-center">
-              <div className="md:w-3/4 lg:w-2/4 w-3/4 py-4 md:py-10 h-max ">
+              <div className="md:w-3/4 lg:w-2/4 w-3/4 mb-5  h-max ">
                 <span className="md:text-md lg:text-base font-Inter font-thin md:font-normal ">
                   {dataFooter}
                 </span>

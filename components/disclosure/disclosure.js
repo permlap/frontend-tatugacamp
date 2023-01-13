@@ -4,7 +4,6 @@ import { BsCheckLg, BsCaretDownFill } from "react-icons/bs";
 import { myPortableTextComponents } from "../../data/portableContent";
 
 export default function Example({ body }) {
-  console.log(body);
   return (
     <div className="w-full  pt-5">
       <div className="mx-auto w-full max-w-md rounded-2xl flex justify-center items-center flex-col gap-y-5">
