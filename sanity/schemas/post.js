@@ -92,8 +92,23 @@ export default {
       type: "datetime",
     },
     {
+      name: "Instructions",
+      title: "Instructions",
+      type: "blockContent",
+    },
+    {
+      name: "ReflectionTipsStrategies",
+      title: "Reflection-Tips & Strategies",
+      type: "blockContent",
+    },
+    {
+      name: "materialDetail",
+      title: "material's detail",
+      type: "blockContent",
+    },
+    {
       name: "body",
-      title: "Body",
+      title: "body",
       type: "blockContent",
     },
   ],
