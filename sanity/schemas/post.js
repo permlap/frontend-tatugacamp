@@ -92,7 +92,7 @@ export default {
       type: "datetime",
     },
     {
-      name: "Instructions",
+      name: "body",
       title: "Instructions",
       type: "blockContent",
     },
@@ -104,11 +104,6 @@ export default {
     {
       name: "materialDetail",
       title: "material's detail",
-      type: "blockContent",
-    },
-    {
-      name: "body",
-      title: "body",
       type: "blockContent",
     },
   ],

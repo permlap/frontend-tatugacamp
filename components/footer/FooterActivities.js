@@ -16,22 +16,22 @@ function FooterActivities() {
   };
   return (
     <div>
-      <div className="w-full h-full md:py-5 mt-0 justify-center flex flex-col md:flex-row pt-8 md:pt-2   text-center text-white items-center bg-[#2C7CD1]   ">
+      <div className="w-full h-full  md:py-5 pt-5 justify-center flex flex-col md:flex-row  md:pt-2   text-center text-white items-center bg-[#2C7CD1] md:bg-transparent  ">
         <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem]  md:h-max rounded-full overflow-hidden bg-white">
           <Image
             className="object-center rounded-full"
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             alt="logo tatuga camp"
             src="/logo/TaTuga camp.png"
             priority
           />
         </div>
-        <ul className="list-none text-center w-full pl-0 justify-center">
+        <ul className="list-none text-center w-full pl-0 justify-center pt-16">
           <li>
             <div className="w-full flex justify-center">
-              <div className="w-3/4 py-4 md:py-10 h-max ">
-                <span className="md:text-md lg:text-2xl font-Inter font-thin ">
+              <div className="md:w-3/4 lg:w-2/4 w-3/4 py-4 md:py-10 h-max ">
+                <span className="md:text-md lg:text-base font-Inter font-thin md:font-normal ">
                   {dataFooter}
                 </span>
               </div>

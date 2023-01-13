@@ -49,9 +49,10 @@ function Index(props) {
     setLikes(data.likes);
   };
 
+  console.log(props.data[0]);
   return (
     <Layout>
-      <div className="w-full  md:h-max  bg-[url('/blob2.svg')] bg-no-repeat bg-cover pt-11">
+      <div className="w-full md:h-full  bg-[url('/blob2.svg')] md:bg-[url('/blob3.svg')] bg-[#2C7CD1] bg-no-repeat bg-cover pt-11">
         <Head>
           <meta
             property="og:image"
@@ -169,7 +170,7 @@ function Index(props) {
                     </button>
                   )}
                 </li>
-                <li className="sm:text-black text-white  text-sm w-3/4 bg-[#2C7CD1] sm:bg-transparent font-Kanit rounded-3xl font-normal ">
+                <li className="sm:text-white text-white  text-sm w-3/4 bg-[#2C7CD1] sm:bg-transparent font-Kanit rounded-3xl font-normal ">
                   {props.data[0]?.LongDescription}
                 </li>
                 <li>
@@ -195,12 +196,14 @@ function Index(props) {
           <MainContent
             picture={props.data[0].mainImage.asset._ref}
             body={props?.data[0]?.body}
+            reflectionTipsStrategies={props?.data[0]?.ReflectionTipsStrategies}
+            materialDetail={props?.data[0]?.materialDetail}
           />
         </main>
+        <footer>
+          <FooterActivities />
+        </footer>
       </div>
-      <footer>
-        <FooterActivities />
-      </footer>
     </Layout>
   );
 }

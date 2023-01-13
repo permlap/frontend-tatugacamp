@@ -102,7 +102,7 @@ const SanityImage = ({ asset }) => {
             ? `url(/BgBlob${randomNumber.toString()}.svg)`
             : "none",
         }}
-        className={`lg:w-96 lg:h-96 h-56 w-56  bg-cover bg-no-repeat relative `}
+        className={`lg:w-40 lg:h-40 h-56 w-56  bg-cover bg-no-repeat relative `}
       >
         <Image
           src={urlFor(asset).url()}
