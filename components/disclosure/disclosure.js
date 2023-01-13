@@ -16,7 +16,7 @@ export default function Example({ body }) {
               px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 
               focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 >
-                  <span>วิธีการเล่นกิจกรรม</span>
+                  <span>วิธีการเล่นกิจกรรม 😲</span>
                   <BsCaretDownFill
                     className={`${
                       open ? "rotate-180 transform" : ""
@@ -52,7 +52,7 @@ export default function Example({ body }) {
               px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 
               focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 >
-                  <span>รายละเอียดอุปกรณ์</span>
+                  <span>รายละเอียดอุปกรณ์ 🧰</span>
                   <BsCaretDownFill
                     className={`${
                       open ? "rotate-180 transform" : ""
@@ -88,7 +88,7 @@ export default function Example({ body }) {
               px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 
               focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 >
-                  <span>เทคนิคและรายละเอียดเพิ่มเติม</span>
+                  <span>เทคนิคและรายละเอียดเพิ่มเติม 🗯️</span>
                   <BsCaretDownFill
                     className={`${
                       open ? "rotate-180 transform" : ""
