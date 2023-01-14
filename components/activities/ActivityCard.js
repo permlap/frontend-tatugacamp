@@ -6,6 +6,7 @@ import Link from "next/link";
 import { urlFor } from "../../sanity";
 
 function ActivityCard(props) {
+  const [slug, setSlug] = useState(props?.slug?.current || null);
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   const emojis = ["😀", "😄", "🤣", "😍", "🤗", "😜", "😚", "💖", "👍"];
@@ -13,9 +14,11 @@ function ActivityCard(props) {
     router.push("/" + props.id);
     setLoader(true);
   }
+
+  console.log(slug);
   const emojiIndex = Math.floor(Math.random() * 9);
   return (
-    <Link href={`activity/${props?.slug?.current}`}>
+    <Link href={`activity/${slug}`}>
       <div
         onClick={props.handleCardActivity}
         key={props.id}

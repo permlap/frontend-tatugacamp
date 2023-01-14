@@ -22,18 +22,17 @@ export default function Home(props) {
   const [current, setCurrent] = useState(0);
   const length = props.mainImages.length;
   const [postsData, setPostsData] = useState(props.data);
-
-  const activeMenu = useRef(0);
+  console.log(postsData);
+  const [activeMenu, setActiveMenu] = useState(0);
   const Menus = [{ name: "ล้างการค้นหา" }];
 
   // fetch data to next list
-  const { isLoading, isFetching, error, refetch } = useQuery({
+  const { isLoading, isFetching, error, refetch, data } = useQuery({
     queryKey: ["posts"],
     queryFn: () =>
       axios.post("/api/handle-posts", { index: activeMenu }).then((res) => {
-        const result = res;
-        setPostsData(result.data.posts);
-        return result;
+        setPostsData(res.data.posts);
+        return res.data.posts;
       }),
 
     refetchOnWindowFocus: false,
@@ -42,7 +41,8 @@ export default function Home(props) {
 
   // telling react-query to fetch data
   const handleFectchMenu = async (index) => {
-    activeMenu.current = index;
+    console.log("index", index);
+    setActiveMenu(index);
     refetch();
   };
 
@@ -198,7 +198,7 @@ export default function Home(props) {
                 onClick={() => handleFectchMenu(index)}
                 key={index}
                 className={` ${
-                  activeMenu.current === index
+                  activeMenu === index
                     ? "border-[#EDBA02] text-[#EDBA02] font-semibold"
                     : "border-transparent"
                 } underLineHover cursor-pointer `}

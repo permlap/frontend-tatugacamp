@@ -3,6 +3,7 @@ import { sanityClient } from "../../sanity";
 const activitiesQuery = `*[_type == "post"]{
   _id,
   title,
+  slug,
  mainImage,
   description,
   likes,
@@ -28,7 +29,7 @@ export default async function handlePosts(req, res) {
     res.status(405).send({ message: "Only POST requests allowed" });
     return;
   }
-  const index = req.body.index.current;
+  const index = req.body.index;
   let posts;
   if (index === 0) {
     posts = await sanityClient.fetch(activitiesQuery);
