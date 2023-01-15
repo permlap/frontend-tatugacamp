@@ -22,7 +22,7 @@ export default function Home(props) {
   const [current, setCurrent] = useState(0);
   const length = props.mainImages.length;
   const [postsData, setPostsData] = useState(props.data);
-  console.log(postsData);
+
   const [activeMenu, setActiveMenu] = useState(0);
   const Menus = [{ name: "ล้างการค้นหา" }];
 
@@ -41,7 +41,6 @@ export default function Home(props) {
 
   // telling react-query to fetch data
   const handleFectchMenu = async (index) => {
-    console.log("index", index);
     setActiveMenu(index);
     refetch();
   };

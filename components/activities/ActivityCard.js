@@ -15,7 +15,6 @@ function ActivityCard(props) {
     setLoader(true);
   }
 
-  console.log(slug);
   const emojiIndex = Math.floor(Math.random() * 9);
   return (
     <Link href={`activity/${slug}`}>
