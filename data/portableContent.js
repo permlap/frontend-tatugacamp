@@ -33,7 +33,7 @@ export const myPortableTextComponents = {
     normal: ({ children }) => <div className="text-base ">{children}</div>,
 
     blockquote: ({ children }) => (
-      <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
+      <blockquote className="border-l-purple-500 border-l-2 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
         {children}
       </blockquote>
     ),
@@ -47,7 +47,7 @@ export const myPortableTextComponents = {
     definition: ({ children, value }) => {
       return (
         <span className="group w-full relative cursor-pointer">
-          <span className="w-max underline  underline-offset-4 ">
+          <span className="w-max underline decoration-dotted font-semibold text-[#EDBA02] underline-offset-2 ">
             {children}
           </span>
           <div

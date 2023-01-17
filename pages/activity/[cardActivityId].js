@@ -56,7 +56,10 @@ function Index(props) {
         <Head>
           <meta property="og:url" content={currentURL} />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content={props.data[0].title} />
+          <meta
+            property="og:title"
+            content={`${props.data[0].title} ${props.data[0].description}`}
+          />
           <meta
             property="og:description"
             content={props.data[0].LongDescription}
