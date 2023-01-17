@@ -54,6 +54,13 @@ function Index(props) {
     <Layout>
       <div className="w-full md:h-full  bg-[url('/blob2.svg')] md:bg-[url('/blob3.svg')] bg-[#2C7CD1] bg-no-repeat bg-cover pt-11">
         <Head>
+          <meta property="og:url" content={currentURL} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={props.data[0].title} />
+          <meta
+            property="og:description"
+            content={props.data[0].LongDescription}
+          />
           <meta
             property="og:image"
             content={urlFor(props.data[0].mainImage.asset._ref).url()}
@@ -66,6 +73,7 @@ function Index(props) {
             name="twitter:image:src"
             content={urlFor(props.data[0].mainImage.asset._ref).url()}
           />
+
           <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
           <meta name="google" content="notranslate" key="notranslate" />
           <meta name="description" content={props?.data[0]?.LongDescription} />
