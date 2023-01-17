@@ -58,7 +58,7 @@ function Index(props) {
           <meta property="og:type" content="website" />
           <meta
             property="og:title"
-            content={`${props.data[0].title} ${props.data[0].description}`}
+            content={`${props.data[0].title} - ${props.data[0].description}`}
           />
           <meta
             property="og:description"
@@ -88,7 +88,9 @@ function Index(props) {
             name="viewport"
             content="initial-scale=1.0, width=device-width"
           />
-          <title>{props.data[0].title}</title>
+          <title>
+            {props.data[0].title} - {props.data[0].description}
+          </title>
         </Head>
         <Script
           type="module"
