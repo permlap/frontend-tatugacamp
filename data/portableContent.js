@@ -28,7 +28,10 @@ export const myPortableTextComponents = {
       <h2 className={`text-lg md:text-2xl py-3`}>{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className={`text-lg md:text-xl py-3`}>{children}</h3>
+      <>
+        <h3 className={`text-lg md:text-xl py-3`}>{children}</h3>
+        <br />
+      </>
     ),
     normal: ({ children }) => <div className="text-base ">{children}</div>,
 

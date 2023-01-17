@@ -27,13 +27,13 @@ function SideMenuBar({ trigger, handleCloseMenu }) {
 
   return (
     <div
-      className={`md:w-max md:pl-5 md:h-screen bg-white drop-shadow-md rounded-none md:rounded-r-2xl 
-      md:sticky top-0 fixed z-10 w-screen h-screen mt-0 md:mt-0  md:block  ${
+      className={`md:w-max lg:pl-5 md:h-screen bg-white drop-shadow-md rounded-none md:rounded-r-2xl 
+      md:sticky top-0 fixed z-10 w-screen h-screen mt-0 md:mt-0   md:block  ${
         trigger ? "block" : "hidden"
       }`}
     >
       {/* desktop point of view */}
-      <ul className="pl-4 list-none font-sans">
+      <ul className="pl-4 list-none font-sans ">
         <li>
           <Link href="/">
             <ul

@@ -22,6 +22,7 @@ module.exports = {
         Kanit: ["Kanit", "sans-serif"],
       },
       boxShadow: {
+        insetShadow: "inset  0px -12px 10px 0px rgba(0, 0, 0, 0.3)",
         myShadow1: "4.1px -5px 0 0 rgb(17,24,39)",
         myShadow2: "-4.1px -5px 0 0 rgb(17,24,39)",
         boxShadow1: "4px 3px 0 0 #ffffff",

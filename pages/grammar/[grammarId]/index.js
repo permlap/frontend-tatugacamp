@@ -48,7 +48,7 @@ function Index({ grammarData, getAuther }) {
     listItem: {
       // Ex. 1: customizing common list types
       bullet: ({ children }) => (
-        <li className="list-disc pl-2 text-base">{children}</li>
+        <li className="list-disc pl-2 text-base lg:text-lg">{children}</li>
       ),
 
       // Ex. 2: rendering custom list items
@@ -67,10 +67,15 @@ function Index({ grammarData, getAuther }) {
       h3: ({ children }) => (
         <h3 className={`text-lg md:text-xl py-3`}>{children}</h3>
       ),
-      normal: ({ children }) => <span className="text-base ">{children}</span>,
+      normal: ({ children }) => (
+        <>
+          <span className={`text-base lg:text-lg `}>{children}</span>
+          <br />
+        </>
+      ),
 
       blockquote: ({ children }) => (
-        <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold">
+        <blockquote className="border-l-purple-500 border-l-8 border-solid border-r-0 border-y-0 my-5 pl-5 font-semibold text-base lg:text-lg">
           {children}
         </blockquote>
       ),
@@ -84,11 +89,14 @@ function Index({ grammarData, getAuther }) {
       definition: ({ children, value }) => {
         return (
           <span className="group w-full relative cursor-pointer">
-            <span className="w-max underline  underline-offset-4 ">
+            <span
+              className="w-max underline text-[#EDBA02] font-semibold decoration-dotted  underline-offset-4
+            text-base lg:text-lg "
+            >
               {children}
             </span>
             <div
-              className=" group-hover:block z-20 group-active:block  w-full hidden bg-[#EDBA02] rounded-md text-left pl-2 
+              className=" group-hover:block z-20 group-active:block md:px-3  w-full hidden bg-[#EDBA02] rounded-md text-left pl-2 
             font-Kanit font-light md:absolute md:w-max md:right-[0%] md:left-0 "
             >
               <span className="w-max mr-1 font-normal">ความหมาย:</span>
@@ -98,7 +106,9 @@ function Index({ grammarData, getAuther }) {
         );
       },
       em: ({ children }) => (
-        <em className="text-gray-600 font-light">{children}</em>
+        <em className="text-gray-600 font-light text-base lg:text-lg">
+          {children}
+        </em>
       ),
       color: ({ children, value }) => (
         <span style={{ color: value.hex }}>{children}</span>
@@ -108,7 +118,11 @@ function Index({ grammarData, getAuther }) {
           ? "noreferrer noopener"
           : undefined;
         return (
-          <a href={value.href} className={`text-${value.hex}`} rel={rel}>
+          <a
+            href={value.href}
+            className={`text-${value.hex} text-base lg:text-lg`}
+            rel={rel}
+          >
             {children}
           </a>
         );
@@ -132,14 +146,14 @@ function Index({ grammarData, getAuther }) {
     }
 
     return (
-      <div className="w-full h-ful bg-transparent flex items-center justify-center">
+      <div className=" bg-transparent flex items-center justify-center">
         <div
           style={{
             backgroundImage: isImage(urlFor(asset).url())
               ? `url(/BgBlob${randomNumber.toString()}.svg)`
               : "none",
           }}
-          className={`lg:w-96 lg:h-96 h-56 w-56  bg-cover bg-no-repeat relative `}
+          className={`w-full h-80  bg-cover bg-no-repeat relative `}
         >
           <Image
             src={urlFor(asset).url()}
@@ -231,12 +245,12 @@ function Index({ grammarData, getAuther }) {
             </div>
           </header>
           <main className="w-full bg-white flex items-center justify-center mt-5">
-            <div className="md:w-5/6 lg:w-2/4 bg-white h-max pb-20 font-Inter text-base p-6 ">
+            <article className="md:w-5/6 lg:w-2/4 bg-white font-Kanit h-max pb-20  text-base p-6 ">
               <PortableText
                 value={grammarData.body}
                 components={myPortableTextComponents}
               />
-            </div>
+            </article>
           </main>
         </li>
       </ul>
