@@ -132,8 +132,8 @@ export default function DisclosureComponent({ body }) {
             {({ open }) => (
               <>
                 <Disclosure.Button
-                  className="border-0 flex w-full md:w-96 justify-between rounded-lg bg-purple-100 
-              px-4 py-2 text-left text-sm lg:text-lg font-medium text-purple-900 hover:bg-purple-200 
+                  className="border-0 flex w-64 md:w-96 justify-between rounded-lg bg-purple-100 
+              px-4 py-2 text-left text-sm lg:text-base font-medium text-purple-900 hover:bg-purple-200 
               focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 >
                   <span>วิธีการเล่นกิจกรรม 😲</span>
@@ -168,7 +168,7 @@ export default function DisclosureComponent({ body }) {
             {({ open }) => (
               <>
                 <Disclosure.Button
-                  className="border-0 flex w-full md:w-96  justify-between rounded-lg bg-purple-100 
+                  className="border-0 flex w-64 md:w-96  justify-between rounded-lg bg-purple-100 
               px-4 py-2 text-left text-sm lg:text-base  font-medium text-purple-900 hover:bg-purple-200 
               focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 >
@@ -204,7 +204,7 @@ export default function DisclosureComponent({ body }) {
             {({ open }) => (
               <>
                 <Disclosure.Button
-                  className="border-0 flex w-full md:w-96 justify-between rounded-lg bg-purple-100 
+                  className="border-0 flex w-64 md:w-96 justify-between rounded-lg bg-purple-100 
               px-4 py-2 text-left text-sm lg:text-base  font-medium text-purple-900 hover:bg-purple-200 
               focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
                 >

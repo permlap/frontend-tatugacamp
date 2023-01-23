@@ -17,7 +17,7 @@ function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
               <li className=" text-[#EDBA02] font-bold  font-Kanit text-[1.5rem] md:text-[1.5rem] flex flex-col justify-center items-center">
                 <span className="underLineHover">รายละเอียดกิจกรรม</span>
               </li>
-              <li className=" pl-0 w-max flex flex-col items-center font-Kanit text-lg justify-center">
+              <li className=" pl-0 w-full  flex flex-col items-center font-Kanit text-lg justify-center">
                 <DisclosureComponent body={Newbody} />
               </li>
             </ul>
