@@ -41,7 +41,7 @@ function Layout({ children, triggerMenu }) {
             <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
               <Link href="/">
                 <Image
-                  src="/TaTuga camp.png"
+                  src="/logo/TaTuga camp.png"
                   width={35}
                   height={35}
                   alt="TaTuga camp logo"

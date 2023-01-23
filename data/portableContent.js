@@ -101,7 +101,7 @@ const SanityImage = ({ asset }) => {
   function onLoadingComplete() {
     setLoading((prev) => (prev = false));
   }
-
+  console.log(asset);
   return (
     <div className="w-full h-ful bg-transparent flex items-center justify-center">
       <div

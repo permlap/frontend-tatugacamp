@@ -9,7 +9,6 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import Layout from "../../../components/grammar/layout";
 import Script from "next/script";
-
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 function Index({ grammarData, getAuther }) {
   const { width, height } = useWindowSize();
@@ -42,6 +41,7 @@ function Index({ grammarData, getAuther }) {
   const myPortableTextComponents = {
     types: {
       image: ({ value }) => {
+        console.log(value);
         return <SanityImage {...value} />;
       },
     },

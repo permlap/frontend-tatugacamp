@@ -2,7 +2,7 @@ import React from "react";
 import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../data/portableContent";
 import { Disclosure } from "@headlessui/react";
-import Example from "../disclosure/disclosure";
+import DisclosureComponent from "./disclosure/disclosure";
 function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
   const Newbody = { body, reflectionTipsStrategies, materialDetail };
 
@@ -12,19 +12,13 @@ function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
         <ul className="list-none pl-0 flex flex-col justify-center items-center">
           <li className="mt-5"></li>
           <li>
-            <ul className=" pl-0 lg:mt-0 ">
+            <ul className=" pl-0 lg:mt-0  ">
               {/* main content body */}
               <li className=" text-[#EDBA02] font-bold  font-Kanit text-[1.5rem] md:text-[1.5rem] flex flex-col justify-center items-center">
                 <span className="underLineHover">รายละเอียดกิจกรรม</span>
               </li>
-              <li className=" pl-0 w-full flex flex-col items-center font-Kanit text-lg justify-center">
-                <Example body={Newbody} />
-                {/* <span className="mt-10 w-auto md:w-96 lg:w-full mx-5 md:mx-0 flex justify-center  flex-col">
-                  <PortableText
-                    value={body}
-                    components={myPortableTextComponents}
-                  />
-                </span> */}
+              <li className=" pl-0 w-max flex flex-col items-center font-Kanit text-lg justify-center">
+                <DisclosureComponent body={Newbody} />
               </li>
             </ul>
           </li>
