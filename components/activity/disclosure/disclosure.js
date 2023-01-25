@@ -102,7 +102,7 @@ export default function DisclosureComponent({ body }) {
     const randomNumber = Math.floor(Math.random() * 4) + 1;
 
     return (
-      <div className="w-full h-ful bg-transparent flex items-center justify-center">
+      <div className="w-full h-full flex items-center justify-center">
         <div
           style={{
             backgroundImage: isImage(urlFor(asset).url())
@@ -125,8 +125,8 @@ export default function DisclosureComponent({ body }) {
   };
 
   return (
-    <div className="w-full  pt-5">
-      <div className="mx-auto w-full max-w-md rounded-2xl flex justify-center items-center flex-col gap-y-5">
+    <div className="w-full   pt-5">
+      <div className="mx-auto w-full max-w-md lg:max-w-2xl rounded-2xl flex justify-center items-center flex-col gap-y-5">
         {body.body && (
           <Disclosure>
             {({ open }) => (

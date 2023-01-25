@@ -249,6 +249,6 @@ export const getStaticProps = async (context) => {
       data: RawDataActivity,
       likes: likes || 0,
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
