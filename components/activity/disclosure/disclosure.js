@@ -109,7 +109,7 @@ export default function DisclosureComponent({ body }) {
               ? `url(/BgBlob${randomNumber.toString()}.svg)`
               : "none",
           }}
-          className={`lg:w-40 lg:h-40 h-56 w-56  bg-cover bg-no-repeat relative `}
+          className={` lg:w-96 md:w-40 lg:h-96 md:h-40 h-56 w-56  bg-cover bg-no-repeat relative `}
         >
           <Image
             src={urlFor(asset).url()}
@@ -126,7 +126,7 @@ export default function DisclosureComponent({ body }) {
 
   return (
     <div className="w-full   pt-5">
-      <div className="mx-auto w-full max-w-md lg:max-w-2xl rounded-2xl flex justify-center items-center flex-col gap-y-5">
+      <div className="mx-auto w-full max-w-md md:max-w-xl lg:max-w-2xl rounded-2xl flex justify-center items-center flex-col gap-y-5">
         {body.body && (
           <Disclosure>
             {({ open }) => (
