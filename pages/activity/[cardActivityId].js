@@ -210,15 +210,15 @@ function Index(props) {
           )}
 
           {props.data[0].price && (
-            <div className="w-full flex items-center justify-center">
+            <div className="w-full flex items-center py-3  md:py-1 justify-center">
               <a
                 href={props.data[0].payoutLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-underline"
+                className="no-underline "
               >
                 <IconButton
-                  color="primary"
+                  className="text-[#2C7CD1] md:text-[#2C7CD1] bg-white rounded-lg p-3"
                   size="small"
                   aria-label="add to shopping cart"
                 >
@@ -231,7 +231,7 @@ function Index(props) {
             </div>
           )}
         </header>
-        <main className="w-full h-max flex mt-5 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
+        <main className="w-full h-max flex mt-2 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
           <MainContent
             picture={props.data[0].mainImage.asset._ref}
             body={props?.data[0]?.body}
