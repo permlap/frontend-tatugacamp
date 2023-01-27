@@ -3,7 +3,12 @@ import { PortableText } from "@portabletext/react";
 import { BsCaretDownFill } from "react-icons/bs";
 import { urlFor } from "../../../sanity";
 import Image from "next/image";
-export default function DisclosureComponent({ body }) {
+import ReactPlayer from "react-player";
+import { useEffect, useState } from "react";
+import Loading from "../../loading/loading";
+
+export default function DisclosureComponent({ body, video }) {
+  const [loading, setLoading] = useState(true);
   const myPortableTextComponents = {
     types: {
       image: ({ value }) => {
@@ -124,6 +129,10 @@ export default function DisclosureComponent({ body }) {
     );
   };
 
+  function handleVideoReady() {
+    setLoading(false);
+  }
+
   return (
     <div className="w-full   pt-5">
       <div className="mx-auto w-full max-w-md md:max-w-xl lg:max-w-2xl rounded-2xl flex justify-center items-center flex-col gap-y-5">
@@ -156,6 +165,58 @@ export default function DisclosureComponent({ body }) {
                       value={body?.body}
                       components={myPortableTextComponents}
                     />
+                  </Disclosure.Panel>
+                </Transition>
+              </>
+            )}
+          </Disclosure>
+        )}
+
+        {video && (
+          <Disclosure>
+            {({ open }) => (
+              <>
+                <Disclosure.Button
+                  onClick={() =>
+                    setTimeout(() => {
+                      setLoading(true);
+                    }, 200)
+                  }
+                  className="border-0 flex w-64 md:w-96 justify-between rounded-lg bg-purple-100 
+              px-4 py-2 text-left text-sm lg:text-base font-medium text-purple-900 hover:bg-purple-200 
+              focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+                >
+                  <span>วีดีโอ 📹</span>
+                  <BsCaretDownFill
+                    className={`${
+                      open ? "rotate-180 transform" : ""
+                    } h-5 w-5 text-purple-500`}
+                  />
+                </Disclosure.Button>
+                <Transition
+                  enter="transition duration-100 ease-out"
+                  enterFrom="transform scale-95 opacity-0"
+                  enterTo="transform scale-100 opacity-100"
+                  leave="transition duration-75 ease-out"
+                  leaveFrom="transform scale-100 opacity-100"
+                  leaveTo="transform scale-95 opacity-0"
+                >
+                  <Disclosure.Panel className="px-4 pt-4 relative pb-2 flex items-center justify-center ">
+                    {loading && (
+                      <div className="absolute flex items-center justify-center">
+                        <Loading />
+                        <span>กำลังโหลด</span>
+                      </div>
+                    )}
+                    <div className=" lg:w-[35rem] lg:h-[24rem] w-80 h-40">
+                      <ReactPlayer
+                        onReady={handleVideoReady}
+                        controls
+                        width="100%"
+                        height="100%"
+                        url={video}
+                      />
+                    </div>
                   </Disclosure.Panel>
                 </Transition>
               </>

@@ -209,6 +209,7 @@ function Index(props) {
           <MainContent
             picture={props.data[0].mainImage.asset._ref}
             body={props?.data[0]?.body}
+            video={props?.data[0]?.video}
             reflectionTipsStrategies={props?.data[0]?.ReflectionTipsStrategies}
             materialDetail={props?.data[0]?.materialDetail}
           />

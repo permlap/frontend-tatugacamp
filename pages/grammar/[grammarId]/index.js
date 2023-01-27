@@ -41,7 +41,6 @@ function Index({ grammarData, getAuther }) {
   const myPortableTextComponents = {
     types: {
       image: ({ value }) => {
-        console.log(value);
         return <SanityImage {...value} />;
       },
     },

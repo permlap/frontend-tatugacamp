@@ -3,7 +3,12 @@ import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../data/portableContent";
 import { Disclosure } from "@headlessui/react";
 import DisclosureComponent from "./disclosure/disclosure";
-function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
+function MainContent({
+  body,
+  reflectionTipsStrategies,
+  materialDetail,
+  video,
+}) {
   const Newbody = { body, reflectionTipsStrategies, materialDetail };
 
   return (
@@ -18,7 +23,7 @@ function MainContent({ body, reflectionTipsStrategies, materialDetail }) {
                 <span className="underLineHover">รายละเอียดกิจกรรม</span>
               </li>
               <li className=" pl-0 w-full  flex flex-col items-center font-Kanit text-lg justify-center">
-                <DisclosureComponent body={Newbody} />
+                <DisclosureComponent body={Newbody} video={video} />
               </li>
             </ul>
           </li>

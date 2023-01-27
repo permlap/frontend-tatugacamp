@@ -64,7 +64,11 @@ export default {
       title: "game",
       type: "string",
     },
-
+    {
+      name: "video",
+      title: "video",
+      type: "url",
+    },
     {
       name: "author",
       title: "Author",
