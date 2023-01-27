@@ -9,6 +9,8 @@ import { FacebookShareButton, TwitterShareButton } from "next-share";
 import FooterActivities from "../../components/footer/FooterActivities";
 import Layout from "../../components/layout";
 import Link from "next/link";
+import IconButton from "@mui/material/IconButton";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 function Index(props) {
@@ -192,6 +194,8 @@ function Index(props) {
               </ul>
             </li>
           </ul>
+
+          {/* button for playing game online  */}
           {props.data[0].game && (
             <div className="w-full flex items-center justify-center mt-3">
               <Link href={props.data[0].game}>
@@ -199,9 +203,31 @@ function Index(props) {
                   className="w-max h-max p-3 bg-[#EDBA02] font-Kanit font-semibold text-white rounded-md ring-2 ring-white
                  hover:scale-110 active:scale-110 transition duration-200 cursor-pointer "
                 >
-                  กดเพื่อเล่น 🎮
+                  <span>กดเพื่อเล่น 🎮</span>
                 </div>
               </Link>
+            </div>
+          )}
+
+          {props.data[0].price && (
+            <div className="w-full flex items-center justify-center">
+              <a
+                href={props.data[0].payoutLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline"
+              >
+                <IconButton
+                  color="primary"
+                  size="small"
+                  aria-label="add to shopping cart"
+                >
+                  <AddShoppingCartIcon />
+                  <span className="font-Kanit">
+                    สั่งซื้อสินค้า {props.data[0].price}.- บาท
+                  </span>
+                </IconButton>
+              </a>
             </div>
           )}
         </header>

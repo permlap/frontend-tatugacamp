@@ -236,6 +236,7 @@ export const getServerSideProps = async (ctx) => {
     title,
    mainImage,
     description,
+    price,
     likes,
     author ->{
     name,

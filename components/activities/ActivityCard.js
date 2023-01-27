@@ -4,6 +4,7 @@ import Image from "next/image";
 import Heart from "../svg/Heart";
 import Link from "next/link";
 import { urlFor } from "../../sanity";
+import AddShoppingCart from "@mui/icons-material/AddShoppingCart";
 
 function ActivityCard(props) {
   const [slug, setSlug] = useState(props?.slug?.current || null);
@@ -52,6 +53,7 @@ function ActivityCard(props) {
             <span>{props.description}</span>
           </div>
           <div className="w-full font-black font-Inter text-md md:text-xl gap-x-2 md:gap-x-4 mt-2 text-[#F55E00] flex justify-center items-center ">
+            {props.price && <AddShoppingCart />}
             <Heart />
             <div>{`${props.likes ? props.likes : 0}`}</div>
           </div>

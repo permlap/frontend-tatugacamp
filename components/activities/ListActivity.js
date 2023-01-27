@@ -14,6 +14,7 @@ function ListActivity(props) {
         <li>
           <div>
             <ActivityCard
+              price={card.price}
               handleCardActivity={handleCardActivity}
               id={card._id}
               slug={card.slug}

@@ -23,7 +23,11 @@ export default {
       title: "Price",
       type: "number",
     },
-
+    {
+      name: "payoutLink",
+      title: "payoutLink",
+      type: "url",
+    },
     {
       name: "likes",
       title: "Likes",

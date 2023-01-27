@@ -39,6 +39,7 @@
     "react-use": "^17.4.0",
     "sharp": "^0.31.2",
     "sitemap": "^7.1.1",
+    "stripe": "^11.8.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.6.2",
     "swiper": "^8.4.4"
