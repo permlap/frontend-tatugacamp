@@ -4,7 +4,7 @@ import { BsCaretDownFill } from "react-icons/bs";
 import { urlFor } from "../../../sanity";
 import Image from "next/image";
 import ReactPlayer from "react-player";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "../../loading/loading";
 
 export default function DisclosureComponent({ body, video }) {

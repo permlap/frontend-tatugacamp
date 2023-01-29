@@ -11,6 +11,7 @@ import Layout from "../../components/layout";
 import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ReactPlayer from "react-player";
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 function Index(props) {
@@ -224,7 +225,9 @@ function Index(props) {
                 >
                   <AddShoppingCartIcon />
                   <span className="font-Kanit">
-                    สั่งซื้อสินค้า {props.data[0].price}.- บาท
+                    <span>สั่งซื้อสินค้า</span>
+                    {props.data[0].price}
+                    <span>.- บาท</span>
                   </span>
                 </IconButton>
               </a>

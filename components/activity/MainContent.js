@@ -3,6 +3,7 @@ import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../data/portableContent";
 import { Disclosure } from "@headlessui/react";
 import DisclosureComponent from "./disclosure/disclosure";
+import ReactPlayer from "react-player";
 function MainContent({
   body,
   reflectionTipsStrategies,
