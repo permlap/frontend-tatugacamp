@@ -12,13 +12,22 @@ import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ReactPlayer from "react-player";
-
+import Loading from "../../components/loading/loading";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 function Index(props) {
   const [likes, setLikes] = useState(props.likes);
   const [likesHasbeenClicked, setLikeHasBeenClicked] = useState(false);
   const [mouseHover, setMouseHover] = useState(() => false);
   const [currentURL, setCurrentURL] = useState();
+  const [loading, setLoading] = useState(true);
+  const [domLoaded, setDomLoaded] = useState(false);
+
+  // render the component only after the DOM is loaded.
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
 
   // set current url to pass into social media link share
   useEffect(() => {
@@ -52,6 +61,11 @@ function Index(props) {
     const data = await res.json();
     setLikes(data.likes);
   };
+
+  //set loading video when it is not ready
+  function handleVideoReady() {
+    setLoading(false);
+  }
 
   return (
     <Layout>
@@ -234,11 +248,40 @@ function Index(props) {
             </div>
           )}
         </header>
-        <main className="w-full h-max flex mt-2 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
+        <main className="w-full h-max flex mt-5 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
+          {props?.data[0]?.video && (
+            <div className="w-full flex relative items-center justify-center mb-5">
+              {loading && (
+                <div className="absolute flex justify-center items-center flex-col">
+                  <div className="md:w-[35rem] md:h-[20rem] w-72 h-40">
+                    <Skeleton
+                      variant="rectangular"
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
+                  <div className="font-Kanit lg:text-lg text-base">
+                    📹กำลำโหลด..
+                  </div>
+                </div>
+              )}
+              {domLoaded && (
+                <div className=" md:w-[35rem] md:h-[20rem] w-72 h-40 rounded-md overflow-hidden ">
+                  <ReactPlayer
+                    onReady={handleVideoReady}
+                    playsinline
+                    controls
+                    width="100%"
+                    height="100%"
+                    url={props?.data[0]?.video}
+                  />
+                </div>
+              )}
+            </div>
+          )}
           <MainContent
             picture={props.data[0].mainImage.asset._ref}
             body={props?.data[0]?.body}
-            video={props?.data[0]?.video}
             reflectionTipsStrategies={props?.data[0]?.ReflectionTipsStrategies}
             materialDetail={props?.data[0]?.materialDetail}
           />
