@@ -12,8 +12,6 @@ import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ReactPlayer from "react-player";
-import Loading from "../../components/loading/loading";
-import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 function Index(props) {
@@ -23,7 +21,7 @@ function Index(props) {
   const [currentURL, setCurrentURL] = useState();
   const [loading, setLoading] = useState(true);
   const [domLoaded, setDomLoaded] = useState(false);
-
+  const title = `${props.data[0].title} - ${props.data[0].description}`;
   // render the component only after the DOM is loaded.
   useEffect(() => {
     setDomLoaded(true);
@@ -105,9 +103,7 @@ function Index(props) {
             name="viewport"
             content="initial-scale=1.0, width=device-width"
           />
-          <title>
-            {props.data[0].title} - {props.data[0].description}
-          </title>
+          <title>{title}</title>
         </Head>
         <Script
           type="module"

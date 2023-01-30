@@ -2,20 +2,22 @@ import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import FooterActivities from "../../../components/footer/FooterActivities";
 import Layout from "../../../components/layout";
-import { sanityClient, urlFor } from "../../../sanity";
+import { urlFor } from "../../../sanity";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import Head from "next/head";
-import { Co2Sharp } from "@mui/icons-material";
-
+import { Skeleton } from "@mui/material";
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
+import { FcLock, FcUnlock } from "react-icons/fc";
 function Index() {
+  const { data: session, status } = useSession();
   const [taboo, setTaboo] = useState();
   const [random, setRandom] = useState();
   const length = taboo?.length || 0;
   const [nextCard, setNextCard] = useState(() => {
-    return Math.floor(Math.random() * 29);
+    return Math.floor(Math.random() * 1);
   });
   const [indexRandom, setIndexRandom] = useState(0);
   const [confirm, setConfirm] = useState(false);
@@ -23,14 +25,50 @@ function Index() {
   const [showConfirm, setShowConfirm] = useState(false);
   const { width, height } = useWindowSize();
   const [loading, setLoading] = useState(false);
-
+  const tabooCategory = useRef("animal");
+  const [loginFirst, setLoginFirst] = useState(false);
   //fectching taboo data
-  const { isLoading, isFetching, error } = useQuery(["taboo"], () =>
-    axios("/api/taboo").then((res) => {
-      setTaboo(res.data);
-      return res;
-    })
+  const { isLoading, isFetching, error, refetch, data } = useQuery(
+    ["taboo"],
+    () =>
+      axios
+        .get("/api/taboo", {
+          params: {
+            category: tabooCategory.current,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setTaboo(res.data);
+          return res;
+        })
   );
+
+  //set new category to taboo api
+  function handleTabooCatergory(category) {
+    if (category === "country") {
+      if (status === "authenticated") {
+        tabooCategory.current = category;
+        setNextCard(0);
+        setScores(0);
+        setIndexRandom(0);
+        refetch();
+      } else if (status === "unauthenticated") {
+        setLoginFirst((prev) => (prev = !prev));
+        Swal.fire({
+          icon: "error",
+          title: "อุ๊บ...",
+          text: "กรุณาเข้าสู่ระบบด้วย ก่อนเข้าใช้งาน..อีดอก🙄",
+        });
+      }
+    } else {
+      tabooCategory.current = category;
+      setNextCard(0);
+      setScores(0);
+      setIndexRandom(0);
+      refetch();
+    }
+  }
 
   function handleImageLoading(e) {
     setLoading((prev) => (prev = true));
@@ -39,6 +77,7 @@ function Index() {
   function handleImageLoad() {
     setLoading((prev) => (prev = false));
   }
+
   // handle skip
   const handleSkip = () => {
     //check if index of random is less than the length
@@ -129,11 +168,12 @@ function Index() {
         <div className="font-sans pt-10 bg-slate-100 h-screen">
           {scores === "win" && <Confetti width={width} height={height} />}
           <header className="w-full h-max  flex justify-center flex-col items-center pt-10">
-            {isLoading ? (
+            {isLoading || isFetching ? (
               <h1>กำลังโหลด...</h1>
             ) : (
               <h1 className="MoreSugar md:text-3xl text-3xl text-[#2C7CD1]">
-                Taboo
+                <span>Taboo</span>
+                <span> - {taboo?.[0]?.category?.title}</span>
               </h1>
             )}
             {error && <h1>มีข้อผิดพลาดเกิดขึ้น</h1>}
@@ -176,47 +216,79 @@ function Index() {
                   🏆 You are the winner! 🏆
                 </li>
               ) : (
-                <li className="text-2xl font-bold mb-3 md:w-96 text-center">
-                  {taboo?.[nextCard].vocabulary}
+                <li className="text-2xl font-bold mb-3 md:w-96 text-center w-full flex items-center justify-center ">
+                  {!isFetching ? (
+                    taboo?.[nextCard]?.vocabulary
+                  ) : (
+                    <Skeleton width={120} />
+                  )}
                 </li>
               )}
-              <li className="relative w-32 h-28 flex justify-center items-center rounded-lg overflow-hidden bg-white drop-shadow-lg md:w-40 md:h-40 lg:w-56 lg:h-56">
-                {taboo && scores !== "win" && (
-                  <Image
-                    src={urlFor(
-                      taboo?.[nextCard]?.mainImage?.asset?._ref
-                    ).url()}
-                    layout="fill"
-                    className="object-cover"
-                    quality={15}
-                    alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
-                    onLoad={handleImageLoading}
-                    onLoadingComplete={handleImageLoad}
-                  />
-                )}
-                {scores === "win" && (
-                  <Image
-                    src="/Taboo/you-win-sign-pop-art-style_175838-498.webp"
-                    layout="fill"
-                    className="object-cover"
-                    quality={15}
-                    alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
-                  />
-                )}
+              {isFetching ? (
+                <div className="w-32 h-28 md:w-40 md:h-40 lg:w-56 lg:h-56 ">
+                  <Skeleton variant="rectangular" width="100%" height="100%" />
+                </div>
+              ) : (
+                <li className="relative w-32 h-28 flex justify-center  items-center rounded-lg overflow-hidden bg-white drop-shadow-lg md:w-40 md:h-40 lg:w-56 lg:h-56">
+                  {taboo && scores !== "win" && (
+                    <Image
+                      src={urlFor(
+                        taboo?.[nextCard]?.mainImage?.asset?._ref
+                      ).url()}
+                      layout="fill"
+                      className="object-cover"
+                      quality={15}
+                      alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
+                      onLoad={handleImageLoading}
+                      onLoadingComplete={handleImageLoad}
+                    />
+                  )}
+                  {scores === "win" && (
+                    <Image
+                      src="/Taboo/you-win-sign-pop-art-style_175838-498.webp"
+                      layout="fill"
+                      className="object-cover"
+                      quality={15}
+                      alt={`taboo of ${taboo?.[nextCard]?.vocabulary}`}
+                    />
+                  )}
 
-                {loading && (
-                  <div className="font-Kanit text-sm font-semibold">
-                    <span className="w-max">กำลังโหลด 😴</span>
-                  </div>
-                )}
-              </li>
+                  {loading && (
+                    <div className="w-32 h-28 md:w-40 md:h-40 lg:w-56 lg:h-56 ">
+                      <Skeleton
+                        variant="rectangular"
+                        width="100%"
+                        height="100%"
+                      />
+                    </div>
+                  )}
+                </li>
+              )}
               {scores === "win" ? (
                 <div></div>
               ) : (
-                <div className="text-center">
-                  <li className="mt-5">{taboo?.[nextCard].firstTaboo}</li>
-                  <li>{taboo?.[nextCard].secondTaboo}</li>
-                  <li>{taboo?.[nextCard].thirdTaboo}</li>
+                <div className="text-center flex items-center justify-center flex-col">
+                  <li className="mt-5">
+                    {!isFetching ? (
+                      taboo?.[nextCard].firstTaboo
+                    ) : (
+                      <Skeleton width={100} />
+                    )}
+                  </li>
+                  <li>
+                    {!isFetching ? (
+                      taboo?.[nextCard].secondTaboo
+                    ) : (
+                      <Skeleton width={80} />
+                    )}
+                  </li>
+                  <li>
+                    {!isFetching ? (
+                      taboo?.[nextCard].thirdTaboo
+                    ) : (
+                      <Skeleton width={130} />
+                    )}
+                  </li>
                 </div>
               )}
               <li className="mt-5 w-full flex gap-x-5">
@@ -244,7 +316,44 @@ function Index() {
               </li>
             </ul>
           </main>
-          <footer></footer>
+          <footer>
+            <div className="w-full flex items-center justify-center  pt-5">
+              <ul className="w-max relative p-5 flex items-center justify-center gap-3 list-none ">
+                <li>
+                  <button
+                    className="w-full text-white py-2 px-3 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black
+                     hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
+                    onClick={() => handleTabooCatergory("animal")}
+                  >
+                    หมวดสัตว์
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="w-full text-white py-2 px-3 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black
+                     hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
+                    onClick={() => handleTabooCatergory("job")}
+                  >
+                    หมวดอาชีพ
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="w-full relative text-white py-2 px-3 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black
+                     hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
+                    onClick={() => handleTabooCatergory("country")}
+                  >
+                    {status === "unauthenticated" && loginFirst === true
+                      ? "กรุณา login"
+                      : "หมวดประเทศ"}
+                    <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
+                      {status === "authenticated" ? <FcUnlock /> : <FcLock />}
+                    </div>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </footer>
         </div>
       </Layout>
     </>

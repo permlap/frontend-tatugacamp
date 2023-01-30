@@ -3,9 +3,7 @@ import { PortableText } from "@portabletext/react";
 import { BsCaretDownFill } from "react-icons/bs";
 import { urlFor } from "../../../sanity";
 import Image from "next/image";
-import ReactPlayer from "react-player";
 import { useState } from "react";
-import Loading from "../../loading/loading";
 
 export default function DisclosureComponent({ body, video }) {
   const [loading, setLoading] = useState(true);

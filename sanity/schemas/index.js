@@ -5,8 +5,8 @@ import author from "./author";
 import HeroImages from "./HeroImages";
 import aboutCard from "./aboutCard";
 import grammar from "./grammar";
-import subGrammar from "./subGrammar";
 import taboo from "./taboo";
+import categoryTaboo from "./categoryTaboo";
 export const schemaTypes = [
   post,
   author,
@@ -15,6 +15,6 @@ export const schemaTypes = [
   aboutCard,
   grammar,
   blockContent,
-  subGrammar,
   taboo,
+  categoryTaboo,
 ];

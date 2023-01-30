@@ -31,5 +31,11 @@ export default {
       title: "third Taboo",
       type: "string",
     },
+    {
+      name: "category",
+      title: "category",
+      type: "reference",
+      to: { type: "categoryTaboo" },
+    },
   ],
 };

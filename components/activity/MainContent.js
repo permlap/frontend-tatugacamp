@@ -1,6 +1,5 @@
 import React from "react";
 import DisclosureComponent from "./disclosure/disclosure";
-import ReactPlayer from "react-player";
 function MainContent({
   body,
   reflectionTipsStrategies,
