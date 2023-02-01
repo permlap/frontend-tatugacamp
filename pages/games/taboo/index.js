@@ -17,7 +17,7 @@ function Index() {
   const [random, setRandom] = useState();
   const length = taboo?.length || 0;
   const [nextCard, setNextCard] = useState(() => {
-    return Math.floor(Math.random() * 1);
+    return Math.floor(Math.random() * 15);
   });
   const [indexRandom, setIndexRandom] = useState(0);
   const [confirm, setConfirm] = useState(false);
@@ -38,7 +38,6 @@ function Index() {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setTaboo(res.data);
           return res;
         })
@@ -46,12 +45,16 @@ function Index() {
 
   //set new category to taboo api
   function handleTabooCatergory(category) {
-    if (category === "country") {
+    if (category === "country" || category === "sport") {
       if (status === "authenticated") {
         tabooCategory.current = category;
-        setNextCard(0);
+        setNextCard((prev) => {
+          prev = Math.floor(Math.random() * 15);
+          return prev;
+        });
         setScores(0);
         setIndexRandom(0);
+        setRandom(GenerateRandom(length));
         refetch();
       } else if (status === "unauthenticated") {
         setLoginFirst((prev) => (prev = !prev));
@@ -63,9 +66,13 @@ function Index() {
       }
     } else {
       tabooCategory.current = category;
-      setNextCard(0);
+      setNextCard((prev) => {
+        prev = Math.floor(Math.random() * 15);
+        return prev;
+      });
       setScores(0);
       setIndexRandom(0);
+      setRandom(GenerateRandom(length));
       refetch();
     }
   }
@@ -318,7 +325,7 @@ function Index() {
           </main>
           <footer>
             <div className="w-full flex items-center justify-center  pt-5">
-              <ul className="w-max relative p-5 flex items-center justify-center gap-3 list-none ">
+              <ul className="w-max relative p-5 flex items-center justify-center gap-3 list-none flex-wrap ">
                 <li>
                   <button
                     className="w-full text-white py-2 px-3 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black
@@ -346,6 +353,20 @@ function Index() {
                     {status === "unauthenticated" && loginFirst === true
                       ? "กรุณา login"
                       : "หมวดประเทศ"}
+                    <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
+                      {status === "authenticated" ? <FcUnlock /> : <FcLock />}
+                    </div>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="w-full relative text-white py-2 px-3 after:hover:content-[attr(emoji2)] active:ring-4 active:ring-black
+                     hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
+                    onClick={() => handleTabooCatergory("sport")}
+                  >
+                    {status === "unauthenticated" && loginFirst === true
+                      ? "กรุณา login"
+                      : "หมวดกีฬา"}
                     <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
                       {status === "authenticated" ? <FcUnlock /> : <FcLock />}
                     </div>
