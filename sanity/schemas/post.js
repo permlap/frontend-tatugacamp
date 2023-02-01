@@ -7,16 +7,22 @@ export default {
       name: "title",
       title: "Title",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
     {
       name: "description",
       title: "Description",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
     {
       name: "LongDescription",
       title: "Long Description",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
     {
       name: "price",
@@ -37,21 +43,29 @@ export default {
       name: "time",
       title: "Time",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
     {
       name: "people",
       title: "People",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
     {
       name: "material",
       title: "Material",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
     {
       name: "age",
       title: "Age",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).warning("must fill the data"),
     },
 
     {

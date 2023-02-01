@@ -15,21 +15,29 @@ export default {
       name: "vocabulary",
       title: "vocabulary",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).max(80).warning("must fill the data"),
     },
     {
       name: "firstTaboo",
       title: "first Taboo",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).max(80).warning("must fill the data"),
     },
     {
       name: "secondTaboo",
       title: "second Taboo",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).max(80).warning("must fill the data"),
     },
     {
       name: "thirdTaboo",
       title: "third Taboo",
       type: "string",
+      validation: (Rule) =>
+        Rule.required().min(1).max(80).warning("must fill the data"),
     },
     {
       name: "category",
