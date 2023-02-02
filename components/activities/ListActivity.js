@@ -19,6 +19,8 @@ function ListActivity(props) {
               id={card._id}
               slug={card.slug}
               likes={card?.likes}
+              video={card?.video}
+              game={card?.game}
               description={card.description}
               title={card.title}
               image={card.mainImage.asset._ref}

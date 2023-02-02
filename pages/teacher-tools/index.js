@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import {
   BsFullscreen,
@@ -77,6 +78,26 @@ const Timer = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Timer🕛 - เครื่องจับเวลา</title>
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/TaTuga camp.png"
+        />
+        <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
+        <meta name="google" content="notranslate" key="notranslate" />
+        <meta
+          name="description"
+          content="เครื่องจับเวลาสนุกๆ ดีไซน์ทันสมัยที่ TaTuga camp"
+        />
+        <meta
+          name="keywords"
+          content="TaTuga camp, tatugacamp, tatuga camp, English, English camp, camp for learning English, card game, activities in classroom, กิจกรรมค่ายภาษาอังกฤษ, การ์ดเกมเพื่อการเรียนรู้, การ์ดเกม"
+        />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <FullScreen handle={handle}>
         <div className="relative">
           <div className="absolute right-8 top-5">

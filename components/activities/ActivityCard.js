@@ -5,6 +5,8 @@ import Heart from "../svg/Heart";
 import Link from "next/link";
 import { urlFor } from "../../sanity";
 import AddShoppingCart from "@mui/icons-material/AddShoppingCart";
+import { BsCameraVideoFill } from "react-icons/bs";
+import { FaGamepad } from "react-icons/fa";
 
 function ActivityCard(props) {
   const [slug, setSlug] = useState(props?.slug?.current || null);
@@ -23,7 +25,7 @@ function ActivityCard(props) {
         onClick={props.handleCardActivity}
         key={props.id}
         className=" w-[14.188rem] h-[18.16rem] flex flex-col justify-center items-center
-        md:w-[20.563rem] lg:w-[22.563rem] md:h-max shadow-md pb-0 lg:pb-3
+        md:w-[20.563rem] lg:w-[22.563rem] md:h-max shadow-md pb-3 lg:pb-3
         transition hover:cursor-pointer overflow-hidden bg-white group  rounded-3xl  duration-300 ease-in-out relative "
       >
         <div
@@ -54,6 +56,8 @@ function ActivityCard(props) {
           </div>
           <div className="w-full font-black font-Inter text-md md:text-xl gap-x-2 md:gap-x-4 mt-2 text-[#F55E00] flex justify-center items-center ">
             {props.price && <AddShoppingCart />}
+            {props.video && <BsCameraVideoFill />}
+            {props.game && <FaGamepad />}
             <Heart />
             <div>{`${props.likes ? props.likes : 0}`}</div>
           </div>

@@ -241,12 +241,11 @@ export const getServerSideProps = async (ctx) => {
     title,
    mainImage,
     description,
+    video,
+    game,
     price,
     likes,
-    author ->{
-    name,
-    
-  }
+  
   }`;
   const quaryImages = `*[_type == "heroImages"]`;
   const post = await sanityClient.fetch(quary);

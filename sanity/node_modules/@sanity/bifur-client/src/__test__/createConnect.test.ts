@@ -1,6 +1,6 @@
 import {createConnect, WebSocket, WebSocketError} from '../createConnect'
 import {catchError, take, takeUntil, tap, toArray} from 'rxjs/operators'
-import {of, timer} from 'rxjs'
+import {lastValueFrom, of, timer} from 'rxjs'
 
 const createMockWS = (): WebSocket => ({
   onclose: null,
@@ -20,14 +20,14 @@ describe('createConnect', () => {
       mockWs.onopen!({})
     }, 100)
 
-    await conn$
-      .pipe(
+    await lastValueFrom(
+      conn$.pipe(
         tap(ws => {
           expect(ws).toBe(mockWs)
         }),
         take(1),
-      )
-      .toPromise()
+      ),
+    )
   })
 
   it('closes the connection gracefully upon unsubscribe', async () => {
@@ -43,15 +43,18 @@ describe('createConnect', () => {
           resolve({code, reason})),
     )
 
+    const defaultValue = {}
+
     const [closeEvent, connection] = await Promise.all([
       closed,
-      conn$.pipe(takeUntil(timer(100))).toPromise(),
+      lastValueFrom(conn$.pipe(takeUntil(timer(100))), {defaultValue}),
     ])
 
     expect(closeEvent.code).toBe(1000)
 
-    // we expect undefined here since onopen didn't happen before close
-    expect(connection).toBeUndefined()
+    // we expect defaultValue from the observable since onopen didn't happen
+    // before close so the connection should never emit any value
+    expect(connection).toBe(defaultValue)
   })
 
   it('throws a connection error if the connection emits an error', async () => {
@@ -64,12 +67,12 @@ describe('createConnect', () => {
       mockWs.onerror!({})
     }, 10)
 
-    const res = await conn$
-      .pipe(
+    const res = await lastValueFrom(
+      conn$.pipe(
         catchError((err: WebSocketError) => of(err)),
         toArray(),
-      )
-      .toPromise()
+      ),
+    )
 
     expect(res.length).toBe(1)
     expect(res[0]).toBeInstanceOf(Error)
@@ -90,12 +93,12 @@ describe('createConnect', () => {
       } as CloseEvent)
     }, 10)
 
-    const res = await conn$
-      .pipe(
+    const res = await lastValueFrom(
+      conn$.pipe(
         catchError((err: WebSocketError) => of(err)),
         toArray(),
-      )
-      .toPromise()
+      ),
+    )
 
     expect(res.length).toBe(1)
     expect(res[0]).toBeInstanceOf(Error)

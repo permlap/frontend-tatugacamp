@@ -28,7 +28,7 @@ export function fromUrl(url: string, options: Options = {}): BifurClient {
       timeout
         ? timeoutFirstWith(
             timeout,
-            throwError(
+            throwError(() =>
               new Error(
                 `Timeout after ${timeout} while establishing WebSockets connection`,
               ),
