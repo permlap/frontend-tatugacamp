@@ -142,9 +142,10 @@ const Timer = () => {
             </div>
           </div>
           <div className="w-full bg-transparent flex justify-center items-center gap-x-8 absolute bottom-10 right-0 left-0 text-center mr-auto ml-auto">
-            {timeChoices.map((time) => {
+            {timeChoices.map((time, index) => {
               return (
                 <button
+                  key={index}
                   className="border-0 ring-2 hover:scale-125 transition duration-200 ease-out text-white ring-white font-Inter font-extrabold bg-transparent rounded-md p-2 cursor-pointer"
                   onClick={() => {
                     setCounter(time.miliseconds);
@@ -153,8 +154,7 @@ const Timer = () => {
                 >
                   {time.minutes && (
                     <span>
-                      {" "}
-                      {time.minutes} {time.minutes > 1 ? "minutes" : "minute"}{" "}
+                      {time.minutes} {time.minutes > 1 ? "minutes" : "minute"}
                     </span>
                   )}
                   {time.seconds && <span> {time.seconds} seconds</span>}
