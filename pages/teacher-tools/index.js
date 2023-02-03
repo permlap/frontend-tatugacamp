@@ -13,6 +13,8 @@ import Layout from "../../components/layout";
 const Timer = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [minutesInput, setMinutesInput] = useState(0);
+  const [secondInput, setSecondInput] = useState(0);
   const [audio, setAudio] = useState(null);
   const [start, setStart] = useState(false);
   const [counter, setCounter] = useState("wait");
@@ -26,19 +28,12 @@ const Timer = () => {
       seconds: 30,
       miliseconds: 30000,
     },
-    {
-      seconds: 45,
-      miliseconds: 45000,
-    },
+
     {
       minutes: 1,
       miliseconds: 60000,
     },
-    {
-      minutes: 1,
-      seconds: 30,
-      miliseconds: 90000,
-    },
+
     {
       minutes: 2,
       miliseconds: 120000,
@@ -75,6 +70,30 @@ const Timer = () => {
       return () => clearInterval(timer);
     }
   }, [counter, start]);
+
+  console.log(
+    "second's type is",
+    typeof secondInput,
+    "and value is ",
+    secondInput
+  );
+  console.log(
+    "minute's type is",
+    typeof minutesInput,
+    "and value is ",
+    minutesInput
+  );
+  //handle sumit put time
+  function handleSumit(event) {
+    event.preventDefault();
+    setCounter((prev) => {
+      const milisecond = secondInput * 1000;
+      const miliminute = minutesInput * 60000;
+      return (prev = milisecond + miliminute);
+    });
+    setStart(true);
+  }
+  console.log(counter);
 
   return (
     <Layout>
@@ -130,7 +149,7 @@ const Timer = () => {
               seconds < 4 && counter !== "wait" && minutes === 0
                 ? `bg-red-700`
                 : " bg-blue-400"
-            } flex  items-center justify-center font-Inter text-[19rem] font-bold text-white`}
+            } flex  items-center justify-center font-Inter text-[20rem] font-bold text-white`}
           >
             <div className="flex flex-col justify-center items-center">
               <div className="flex  gap-x-5">
@@ -150,38 +169,97 @@ const Timer = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className="w-max p-0 flex items-center justify-center bg-transparent rounded-full text-white m-0  border-0 cursor-pointer"
-                onClick={() => setStart((prev) => (prev = !prev))}
-              >
-                {start === true ? (
-                  <BsStopCircle size={30} />
-                ) : (
-                  <BsPlayCircle size={30} />
-                )}
-              </button>
             </div>
           </div>
-          <div className="w-full bg-transparent flex justify-center items-center gap-x-8 absolute bottom-10 right-0 left-0 text-center mr-auto ml-auto">
-            {timeChoices.map((time, index) => {
-              return (
-                <button
-                  key={index}
-                  className="border-0 ring-2 hover:scale-125 transition duration-200 ease-out text-white ring-white font-Inter font-extrabold bg-transparent rounded-md p-2 cursor-pointer"
-                  onClick={() => {
-                    setCounter(time.miliseconds);
-                    setStart(true);
-                  }}
-                >
-                  {time.minutes && (
-                    <span>
-                      {time.minutes} {time.minutes > 1 ? "minutes" : "minute"}
-                    </span>
-                  )}
-                  {time.seconds && <span> {time.seconds} seconds</span>}
-                </button>
-              );
-            })}
+          <div className="w-full bg-transparent flex flex-col gap-y-7 justify-center items-center gap-x-8 absolute bottom-10 right-0 left-0 text-center mr-auto ml-auto">
+            <button
+              className="w-max p-0 bg flex items-center justify-center bg-transparent rounded-full
+                 text-white m-0  border-0 cursor-pointer"
+              onClick={() => setStart((prev) => (prev = !prev))}
+            >
+              {start === true ? (
+                <BsStopCircle size={30} />
+              ) : (
+                <BsPlayCircle size={30} />
+              )}
+            </button>
+            <div className="text-base font-Kanit text-white">
+              <form className="flex gap-x-5 " onSubmit={handleSumit}>
+                <label>
+                  <span className="mr-2">minute :</span>
+                  <input
+                    className="bg-white  appearance-none border-2 border-gray-200 rounded-md w-20 py-2 px-4
+                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
+                       text-base font-Kanit font-medium"
+                    id="inline-full-name"
+                    placeholder="minute"
+                    type="number"
+                    name="minute"
+                    value={minutesInput}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      if (e.target.value > 0 && e.target.value < 60) {
+                        const typeNumber = parseFloat(e.target.value);
+                        setMinutesInput(typeNumber);
+                      } else {
+                        setMinutesInput(0);
+                      }
+                    }}
+                  />
+                </label>
+                <label>
+                  <span className="mr-2">second :</span>
+                  <input
+                    className="bg-white appearance-none border-2 border-gray-200 rounded-md w-20 py-2 px-4
+                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
+                       text-base font-Kanit font-medium"
+                    id="inline-full-name"
+                    type="number"
+                    name="second"
+                    value={secondInput}
+                    placeholder="second"
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      if (e.target.value > 0 && e.target.value < 60) {
+                        const typeNumber = parseFloat(e.target.value);
+                        setSecondInput(typeNumber);
+                      } else {
+                        setSecondInput(0);
+                      }
+                    }}
+                  />
+                </label>
+                <input
+                  className="bg-white  border-none hover:ring-4 ring-black border-gray-200 rounded-md w-20 
+                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
+                       hover:bg-red-900 hover:text-white
+                       text-base font-Kanit font-medium cursor-pointer"
+                  type="submit"
+                  value="Submit"
+                />
+              </form>
+            </div>
+            <div className="flex gap-x-5">
+              {timeChoices.map((time, index) => {
+                return (
+                  <button
+                    key={index}
+                    className="border-0 ring-2 hover:scale-125 transition duration-200 ease-out text-white ring-white font-Inter font-extrabold bg-transparent rounded-md p-2 cursor-pointer"
+                    onClick={() => {
+                      setCounter(time.miliseconds);
+                      setStart(true);
+                    }}
+                  >
+                    {time.minutes && (
+                      <span>
+                        {time.minutes} {time.minutes > 1 ? "minutes" : "minute"}
+                      </span>
+                    )}
+                    {time.seconds && <span> {time.seconds} seconds</span>}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </FullScreen>
