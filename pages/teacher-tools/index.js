@@ -7,10 +7,13 @@ import {
   BsStopCircle,
   BsPlayCircle,
 } from "react-icons/bs";
+import { VscDebugRestart } from "react-icons/vsc";
 import sound from "../../public/sound/ringing.mp3";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Layout from "../../components/layout";
 const Timer = () => {
+  const [initalTime, setInitalTime] = useState(0);
+  console.log("inital time", initalTime);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [minutesInput, setMinutesInput] = useState(0);
@@ -52,6 +55,7 @@ const Timer = () => {
     //if time is up play sound
     if (counter === 0) {
       audio.play();
+      setStart(false);
     }
   };
 
@@ -71,18 +75,6 @@ const Timer = () => {
     }
   }, [counter, start]);
 
-  console.log(
-    "second's type is",
-    typeof secondInput,
-    "and value is ",
-    secondInput
-  );
-  console.log(
-    "minute's type is",
-    typeof minutesInput,
-    "and value is ",
-    minutesInput
-  );
   //handle sumit put time
   function handleSumit(event) {
     event.preventDefault();
@@ -91,9 +83,13 @@ const Timer = () => {
       const miliminute = minutesInput * 60000;
       return (prev = milisecond + miliminute);
     });
+    setInitalTime((prev) => {
+      const milisecond = secondInput * 1000;
+      const miliminute = minutesInput * 60000;
+      return (prev = milisecond + miliminute);
+    });
     setStart(true);
   }
-  console.log(counter);
 
   return (
     <Layout>
@@ -117,8 +113,9 @@ const Timer = () => {
         />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <FullScreen handle={handle}>
-        <div className="relative">
+
+      <div className="relative">
+        <FullScreen handle={handle}>
           <div className="absolute right-8 top-5">
             {!handle.active && (
               <button
@@ -171,98 +168,121 @@ const Timer = () => {
               </div>
             </div>
           </div>
-          <div className="w-full bg-transparent flex flex-col gap-y-7 justify-center items-center gap-x-8 absolute bottom-10 right-0 left-0 text-center mr-auto ml-auto">
-            <button
-              className="w-max p-0 bg flex items-center justify-center bg-transparent rounded-full
+
+          <div className="w-full bg-transparent flex flex-col gap-y-7 justify-center items-center gap-x-8 absolute bottom-40 right-0 left-0 text-center mr-auto ml-auto">
+            <div className="flex justify-center items-center gap-x-5">
+              <button
+                className="w-max p-0 bg flex items-center justify-center bg-transparent rounded-full
                  text-white m-0  border-0 cursor-pointer"
-              onClick={() => setStart((prev) => (prev = !prev))}
-            >
-              {start === true ? (
-                <BsStopCircle size={30} />
-              ) : (
-                <BsPlayCircle size={30} />
-              )}
-            </button>
-            <div className="text-base font-Kanit text-white">
-              <form className="flex gap-x-5 " onSubmit={handleSumit}>
-                <label>
-                  <span className="mr-2">minute :</span>
-                  <input
-                    className="bg-white  appearance-none border-2 border-gray-200 rounded-md w-20 py-2 px-4
-                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
-                       text-base font-Kanit font-medium"
-                    id="inline-full-name"
-                    placeholder="minute"
-                    type="number"
-                    name="minute"
-                    value={minutesInput}
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      if (e.target.value > 0 && e.target.value < 60) {
-                        const typeNumber = parseFloat(e.target.value);
-                        setMinutesInput(typeNumber);
-                      } else {
-                        setMinutesInput(0);
-                      }
-                    }}
-                  />
-                </label>
-                <label>
-                  <span className="mr-2">second :</span>
-                  <input
-                    className="bg-white appearance-none border-2 border-gray-200 rounded-md w-20 py-2 px-4
-                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
-                       text-base font-Kanit font-medium"
-                    id="inline-full-name"
-                    type="number"
-                    name="second"
-                    value={secondInput}
-                    placeholder="second"
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      if (e.target.value > 0 && e.target.value < 60) {
-                        const typeNumber = parseFloat(e.target.value);
-                        setSecondInput(typeNumber);
-                      } else {
-                        setSecondInput(0);
-                      }
-                    }}
-                  />
-                </label>
+                onClick={() => {
+                  setStart((prev) => (prev = !prev));
+                }}
+              >
+                {counter > -1000 ? (
+                  <div>
+                    {start === true ? (
+                      <BsStopCircle size={30} />
+                    ) : (
+                      <BsPlayCircle size={30} />
+                    )}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </button>
+              <button
+                className="w-max p-0 bg flex items-center justify-center bg-transparent rounded-full
+                 text-white m-0  border-0 cursor-pointer"
+                onClick={() => {
+                  setStart(true);
+                  setCounter((prev) => (prev = initalTime));
+                }}
+              >
+                <VscDebugRestart size={30} />
+              </button>
+            </div>
+          </div>
+        </FullScreen>
+
+        <div className="w-full bg-transparent flex flex-col gap-y-7 justify-center items-center gap-x-8 absolute bottom-10 right-0 left-0 text-center mr-auto ml-auto">
+          <div className="text-base font-Kanit text-white">
+            <form className="flex gap-x-5 " onSubmit={handleSumit}>
+              <label>
+                <span className="mr-2">minute :</span>
                 <input
-                  className="bg-white  border-none hover:ring-4 ring-black border-gray-200 rounded-md w-20 
+                  className="bg-white  appearance-none border-2 border-gray-200 rounded-md w-20 py-2 px-4
+                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
+                       text-base font-Kanit font-medium"
+                  id="inline-full-name"
+                  placeholder="minute"
+                  type="number"
+                  name="minute"
+                  value={minutesInput}
+                  onChange={(e) => {
+                    if (e.target.value > 0 && e.target.value < 60) {
+                      const typeNumber = parseFloat(e.target.value);
+                      setMinutesInput(typeNumber);
+                    } else {
+                      setMinutesInput(0);
+                    }
+                  }}
+                />
+              </label>
+              <label>
+                <span className="mr-2">second :</span>
+                <input
+                  className="bg-white appearance-none border-2 border-gray-200 rounded-md w-20 py-2 px-4
+                       text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
+                       text-base font-Kanit font-medium"
+                  id="inline-full-name"
+                  type="number"
+                  name="second"
+                  value={secondInput}
+                  placeholder="second"
+                  onChange={(e) => {
+                    if (e.target.value > 0 && e.target.value < 60) {
+                      const typeNumber = parseFloat(e.target.value);
+                      setSecondInput(typeNumber);
+                    } else {
+                      setSecondInput(0);
+                    }
+                  }}
+                />
+              </label>
+              <input
+                className="bg-white  border-none hover:ring-4 ring-black border-gray-200 rounded-md w-20 
                        text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500
                        hover:bg-red-900 hover:text-white
                        text-base font-Kanit font-medium cursor-pointer"
-                  type="submit"
-                  value="Submit"
-                />
-              </form>
-            </div>
-            <div className="flex gap-x-5">
-              {timeChoices.map((time, index) => {
-                return (
-                  <button
-                    key={index}
-                    className="border-0 ring-2 hover:scale-125 transition duration-200 ease-out text-white ring-white font-Inter font-extrabold bg-transparent rounded-md p-2 cursor-pointer"
-                    onClick={() => {
-                      setCounter(time.miliseconds);
-                      setStart(true);
-                    }}
-                  >
-                    {time.minutes && (
-                      <span>
-                        {time.minutes} {time.minutes > 1 ? "minutes" : "minute"}
-                      </span>
-                    )}
-                    {time.seconds && <span> {time.seconds} seconds</span>}
-                  </button>
-                );
-              })}
-            </div>
+                type="submit"
+                value="Submit"
+              />
+            </form>
+          </div>
+          <div className="flex gap-x-5">
+            {timeChoices.map((time, index) => {
+              return (
+                <button
+                  key={index}
+                  className="border-0 ring-2 hover:scale-125 transition duration-200 ease-out text-white ring-white font-Inter font-extrabold bg-transparent rounded-md p-2 cursor-pointer"
+                  onClick={() => {
+                    setCounter(time.miliseconds);
+                    setStart(true);
+                    setInitalTime(time.miliseconds);
+                  }}
+                >
+                  {time.minutes && (
+                    <span>
+                      {time.minutes} {time.minutes > 1 ? "minutes" : "minute"}
+                    </span>
+                  )}
+                  {time.seconds && <span> {time.seconds} seconds</span>}
+                </button>
+              );
+            })}
           </div>
         </div>
-      </FullScreen>
+      </div>
     </Layout>
   );
 };
