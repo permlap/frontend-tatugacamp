@@ -110,11 +110,6 @@ function Navbar() {
                 About us
               </li>
             </Link>
-            <Link href="/grammar/basic-grammar">
-              <li className="w-max bg-white rounded-md py-4 px-10 active:bg-[#2C7CD1] active:text-white">
-                Grammar
-              </li>
-            </Link>
           </ul>
         </div>
 
@@ -152,17 +147,7 @@ function Navbar() {
               </button>
             </Link>
           </li>
-          <li>
-            <Link href="/grammar/basic-grammar">
-              <button
-                className="focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto
-             bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out 
-             cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]"
-              >
-                <span>Grammar</span>
-              </button>
-            </Link>
-          </li>
+
           <li className="mr-5">
             <AuthButton />
           </li>

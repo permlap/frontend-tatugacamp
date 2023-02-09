@@ -46,7 +46,7 @@ function Index() {
   //set new category to taboo api
   function handleTabooCatergory(category) {
     if (category === "country" || category === "sport") {
-      if (status === "authenticated") {
+      if (status === "authenticated" || status === "unauthenticated") {
         tabooCategory.current = category;
         setNextCard((prev) => {
           prev = Math.floor(Math.random() * 15);
@@ -350,11 +350,9 @@ function Index() {
                      hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
                     onClick={() => handleTabooCatergory("country")}
                   >
-                    {status === "unauthenticated" && loginFirst === true
-                      ? "กรุณา login"
-                      : "หมวดประเทศ"}
+                    <span>หมวดประเทศ</span>
                     <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
-                      {status === "authenticated" ? <FcUnlock /> : <FcLock />}
+                      <FcUnlock />
                     </div>
                   </button>
                 </li>
@@ -364,11 +362,9 @@ function Index() {
                      hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
                     onClick={() => handleTabooCatergory("sport")}
                   >
-                    {status === "unauthenticated" && loginFirst === true
-                      ? "กรุณา login"
-                      : "หมวดกีฬา"}
+                    <span>หมวดกีฬา</span>
                     <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
-                      {status === "authenticated" ? <FcUnlock /> : <FcLock />}
+                      <FcUnlock />
                     </div>
                   </button>
                 </li>
