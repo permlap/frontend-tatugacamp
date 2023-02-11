@@ -265,6 +265,7 @@ function Index(props) {
                 <div className=" md:w-[35rem] md:h-[20rem] w-72 h-40 rounded-md overflow-hidden ">
                   <ReactPlayer
                     onReady={handleVideoReady}
+                    loop={true}
                     playsinline
                     controls
                     width="100%"
