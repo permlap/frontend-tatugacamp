@@ -5,7 +5,6 @@ import { sanityClient } from "../../sanity";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 function Index({ data }) {
-  console.log(data);
   const [hasWindow, setHasWindow] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -22,7 +21,6 @@ export const getServerSideProps = async (ctx) => {
     slug
   }`;
   const data = await sanityClient.fetch(query);
-  console.log(data);
   return {
     props: {
       data,

@@ -30,10 +30,8 @@ function getBrowser(window) {
     currentBrowser = "Safari";
   } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
     currentBrowser = "Opera";
-  } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
-    currentBrowser = "YaBrowser";
   } else {
-    console.log("Others");
+    currentBrowser = "scoial media browser";
   }
 
   return currentBrowser;

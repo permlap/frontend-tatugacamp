@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
+    "start": "next start -p 8080",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@headlessui/react": "^1.7.7",
+    "@hookform/resolvers": "^2.9.11",
     "@lottiefiles/lottie-player": "^1.5.7",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
@@ -43,7 +44,8 @@
     "stripe": "^11.8.0",
     "sweetalert2": "^11.6.2",
     "swiper": "^8.4.4",
-    "use-sound": "^4.0.1"
+    "use-sound": "^4.0.1",
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

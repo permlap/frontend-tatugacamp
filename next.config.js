@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  env: {
+    Server_Url: process.env.Server_Url,
+  },
   webpack(config, options) {
     const { isServer } = options;
     config.module.rules.push({

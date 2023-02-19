@@ -18,6 +18,7 @@ import Layout from "../components/layout";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Home(props) {
+  const router = useRouter();
   const [dataSearchOptios, setDataSearchOptions] = useState();
   const [DataDescriptionMeta, SetDataDescriptionMeta] = useState();
   const [current, setCurrent] = useState(0);
