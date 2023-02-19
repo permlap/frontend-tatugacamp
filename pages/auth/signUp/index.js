@@ -135,13 +135,13 @@ function Index() {
 
   //handle login from thrid party google auth
   const GetAccesTokenGoogle = async () => {
-    router.push("http://localhost:3000/auth/google/redirect", undefined, {
+    router.push(`${process.env.Server_Url}/auth/google/redirect`, undefined, {
       shallow: true,
     });
   };
 
   const GetAccesTokenFacebook = async () => {
-    router.push("http://localhost:3000/auth/facebook/redirect", undefined, {
+    router.push(`${process.env.Server_Url}/auth/facebook/redirect`, undefined, {
       shallow: true,
     });
   };
