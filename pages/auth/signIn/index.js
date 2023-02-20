@@ -9,14 +9,15 @@ import { BsFacebook } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { currentBrowser } from "../../../utils/platforms";
+import { getSocialmediaBrowse } from "../../../utils/platforms";
+
 function Index() {
   const [brower, setBrower] = useState();
   const router = useRouter();
 
   //check broser to prevent login google from social media brwoser
   useEffect(() => {
-    setBrower(currentBrowser(window));
+    setBrower(getSocialmediaBrowse(window));
   }, []);
   //handle login locally
   const handleSubmit = async (e) => {

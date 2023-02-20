@@ -18,6 +18,28 @@ function getOperatingSystem(window) {
 
 function getBrowser(window) {
   let currentBrowser = "Not known";
+
+  if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
+    currentBrowser = "Google Chrome";
+  } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
+    currentBrowser = "Mozilla Firefox";
+  } else if (window.navigator.userAgent.indexOf("MSIE") !== -1) {
+    currentBrowser = "Internet Exployer";
+  } else if (window.navigator.userAgent.indexOf("Edge") !== -1) {
+    currentBrowser = "Edge";
+  } else if (window.navigator.userAgent.indexOf("Safari") !== -1) {
+    currentBrowser = "Safari";
+  } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
+    currentBrowser = "Opera";
+  } else {
+    currentBrowser = "scoial media browser";
+  }
+
+  return currentBrowser;
+}
+
+function checkSocialmediaBrowser(window) {
+  let currentBrowser = "Not know";
   if (
     window.navigator.userAgent.indexOf("facebook") > -1 ||
     window.navigator.userAgent.indexOf("instagram") > -1 ||
@@ -25,23 +47,8 @@ function getBrowser(window) {
   ) {
     currentBrowser = "scoial media browser";
   } else {
-    if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
-      currentBrowser = "Google Chrome";
-    } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
-      currentBrowser = "Mozilla Firefox";
-    } else if (window.navigator.userAgent.indexOf("MSIE") !== -1) {
-      currentBrowser = "Internet Exployer";
-    } else if (window.navigator.userAgent.indexOf("Edge") !== -1) {
-      currentBrowser = "Edge";
-    } else if (window.navigator.userAgent.indexOf("Safari") !== -1) {
-      currentBrowser = "Safari";
-    } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
-      currentBrowser = "Opera";
-    } else {
-      currentBrowser = "scoial media browser";
-    }
+    currentBrowser = "browser";
   }
-
   return currentBrowser;
 }
 
@@ -50,4 +57,8 @@ export const OS = (window) => {
 };
 export const currentBrowser = (window) => {
   return getBrowser(window);
+};
+
+export const getSocialmediaBrowse = (window) => {
+  return checkSocialmediaBrowser(window);
 };
