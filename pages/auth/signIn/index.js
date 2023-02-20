@@ -155,7 +155,7 @@ function Index() {
                active:border-solid  focus:border-2 
               focus:border-solid"
             >
-              Login
+              Login {brower}
             </button>
           </form>
           <div className="w-80">
