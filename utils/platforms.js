@@ -18,20 +18,28 @@ function getOperatingSystem(window) {
 
 function getBrowser(window) {
   let currentBrowser = "Not known";
-  if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
-    currentBrowser = "Google Chrome";
-  } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
-    currentBrowser = "Mozilla Firefox";
-  } else if (window.navigator.userAgent.indexOf("MSIE") !== -1) {
-    currentBrowser = "Internet Exployer";
-  } else if (window.navigator.userAgent.indexOf("Edge") !== -1) {
-    currentBrowser = "Edge";
-  } else if (window.navigator.userAgent.indexOf("Safari") !== -1) {
-    currentBrowser = "Safari";
-  } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
-    currentBrowser = "Opera";
-  } else {
+  if (
+    window.navigator.userAgent.indexOf("facebook") > -1 ||
+    window.navigator.userAgent.indexOf("instagram") > -1 ||
+    window.navigator.userAgent.indexOf("twitter") > -1
+  ) {
     currentBrowser = "scoial media browser";
+  } else {
+    if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
+      currentBrowser = "Google Chrome";
+    } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
+      currentBrowser = "Mozilla Firefox";
+    } else if (window.navigator.userAgent.indexOf("MSIE") !== -1) {
+      currentBrowser = "Internet Exployer";
+    } else if (window.navigator.userAgent.indexOf("Edge") !== -1) {
+      currentBrowser = "Edge";
+    } else if (window.navigator.userAgent.indexOf("Safari") !== -1) {
+      currentBrowser = "Safari";
+    } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
+      currentBrowser = "Opera";
+    } else {
+      currentBrowser = "scoial media browser";
+    }
   }
 
   return currentBrowser;
