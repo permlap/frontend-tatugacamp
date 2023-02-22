@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { currentBrowser } from "../../../utils/platforms";
 import Loading from "../../../components/loading/loading";
+import Head from "next/head";
 
 function Index() {
   const [brower, setBrower] = useState();
@@ -160,6 +161,16 @@ function Index() {
 
   return (
     <Layout>
+      <Head>
+        <meta charset="UTF-8" />
+        <meta
+          name="description"
+          content="Login tatuga camp - เข้าสู่ระบบเว็บ tatuga camp"
+        />
+        <meta name="keywords" content="login, เข้าวสู่ระบบ" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ลงทะเบียน - sign up </title>
+      </Head>
       <div
         className="font-sans h-screen w-full bg-[url('/background-Auth.svg')] bg-no-repeat bg-cover
      flex flex-col justify-center items-center"
@@ -200,7 +211,7 @@ function Index() {
                 onBlur={validateInput}
               />
               {error.email && (
-                <span className=" absolute -right-10 text-xs top-1 text-red-400 font-light">
+                <span className=" absolute right-0 text-xs top-1 text-red-400 font-light">
                   {error.email}
                 </span>
               )}
@@ -211,13 +222,13 @@ function Index() {
                 <FaUserCircle />
               </div>
             </div>
-            <div className="grid grid-flow-col  justify-center items-center gap-x-5 w-full ">
+            <div className="grid grid-flow-col  justify-center items-center gap-x-2 w-full ">
               <div className="flex flex-col relative">
                 <label className="font-sans font-normal">first name</label>
                 <input
                   required
-                  className="w-full h-7 rounded-md border-none bg-[#FFC800] 
-                placeholder:italic placeholder:font-light pl-3"
+                  className="w-32 h-7 rounded-md border-none bg-[#FFC800] 
+                placeholder:italic placeholder:font-light pl-4 "
                   type="text"
                   name="firstName"
                   placeholder="type your first"
@@ -226,18 +237,18 @@ function Index() {
                   onBlur={validateInput}
                 />
                 {error.firstName && (
-                  <span className=" absolute -right-2 top-1 text-red-400 font-light text-xs ">
+                  <span className=" absolute right-0 top-1 text-red-400 font-light text-xs ">
                     {error.firstName}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-col relative">
+              <div className="grid flex-col relative">
                 <label className="font-sans font-normal">last name</label>
                 <input
                   required
-                  className="w-full h-7 rounded-md border-none bg-[#FFC800] 
-                placeholder:italic placeholder:font-light pl-3"
+                  className=" h-7 w-32 rounded-md border-none bg-[#FFC800] 
+                placeholder:italic placeholder:font-light pl-4 "
                   type="text"
                   name="lastName"
                   placeholder="type your last name"
@@ -246,7 +257,7 @@ function Index() {
                   onBlur={validateInput}
                 />
                 {error.lastName && (
-                  <span className=" absolute -right-2 top-1 text-red-400 font-light text-xs">
+                  <span className=" absolute right-0 top-1 text-red-400 font-light text-xs">
                     {error.lastName}
                   </span>
                 )}
@@ -267,7 +278,7 @@ function Index() {
                 onBlur={validateInput}
               />
               {error.password && (
-                <span className="absolute -right-10 text-xs top-1 text-red-400 font-light">
+                <span className="absolute right-0 text-xs top-1 text-red-400 font-light">
                   {error.password}
                 </span>
               )}
@@ -292,7 +303,7 @@ function Index() {
                 onBlur={validateInput}
               />
               {error.confirmPassword && (
-                <span className="absolute -right-10  text-xs top-1 text-red-400 font-light">
+                <span className="absolute right-0  text-xs top-1 text-red-400 font-light">
                   {error.confirmPassword}
                 </span>
               )}
@@ -303,7 +314,7 @@ function Index() {
                 <HiLockClosed />
               </div>
             </div>
-            <div className="w-full text-right mt-1">
+            <div className="w-full text-right my-3">
               <Link href="/auth/signIn">
                 <span
                   className="cursor-pointer text-sm  font-Kanit font-medium text-blue-700 

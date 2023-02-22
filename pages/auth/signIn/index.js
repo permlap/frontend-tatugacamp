@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { currentBrowser } from "../../../utils/platforms";
 import Loading from "../../../components/loading/loading";
+import Head from "next/head";
 
 function Index() {
   const [brower, setBrower] = useState();
@@ -87,6 +88,16 @@ function Index() {
 
   return (
     <Layout>
+      <Head>
+        <meta charset="UTF-8" />
+        <meta
+          name="description"
+          content="Login tatuga camp - เข้าสู่ระบบเว็บ tatuga camp"
+        />
+        <meta name="keywords" content="login, เข้าวสู่ระบบ, sign in" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>เข้าสู่ระบบ - sign in </title>
+      </Head>
       <div
         className="font-sans h-screen w-full bg-[url('/background-Auth.svg')] bg-no-repeat bg-cover
      flex flex-col justify-center items-center"
@@ -146,7 +157,7 @@ function Index() {
                 <HiLockClosed />
               </div>
             </div>
-            <div className="w-full text-right mt-1">
+            <div className="w-full text-right my-3">
               <Link href="/auth/signUp">
                 <span
                   className="cursor-pointer text-sm  font-Kanit font-medium text-blue-700
