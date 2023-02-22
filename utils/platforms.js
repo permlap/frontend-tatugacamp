@@ -19,11 +19,7 @@ function getOperatingSystem(window) {
 function getBrowser(window) {
   let currentBrowser = "Not known";
   console.log(window.navigator.userAgent);
-  if (
-    window.navigator.userAgent.indexOf("Chrome") !== -1 &&
-    window.navigator.userAgent.indexOf("Instagram") === -1 &&
-    window.navigator.userAgent.indexOf("FB") === -1
-  ) {
+  if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
     currentBrowser = "Google Chrome";
   } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
     currentBrowser = "Mozilla Firefox";
