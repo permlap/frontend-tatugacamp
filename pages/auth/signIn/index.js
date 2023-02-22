@@ -9,13 +9,16 @@ import { BsFacebook } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { currentBrowser } from "../../../utils/platforms";
 
 function Index() {
   const [brower, setBrower] = useState();
   const router = useRouter();
 
   //check broser to prevent login google from social media brwoser
-
+  useEffect(() => {
+    setBrower(currentBrowser(window));
+  }, []);
   //handle login locally
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -153,23 +156,40 @@ function Index() {
                active:border-solid  focus:border-2 
               focus:border-solid"
             >
-              Login {brower}
+              Login
             </button>
           </form>
           <div className="w-80">
-            <a
-              onClick={GetAccesTokenGoogle}
-              className="w-full  h-9 mt-2 rounded-full bg-white text-black font-sans font-bold
+            {brower !== "scoial media browser" ? (
+              <a
+                onClick={GetAccesTokenGoogle}
+                className="w-full  h-9 mt-2 rounded-full bg-white text-black font-sans font-bold
               text-md cursor-pointer border-2 border-solid hover:scale-110 transition duration-200  ease-in-out
                 active:border-2 active:text-black active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid flex items-center justify-center gap-x-2"
-            >
-              <div className="flex items-center justify-center text-2xl">
-                <FcGoogle />
-              </div>
-              <span>continue with Google</span>
-            </a>
+              >
+                <div className="flex items-center justify-center text-2xl">
+                  <FcGoogle />
+                </div>
+                <span>continue with Google</span>
+              </a>
+            ) : (
+              <a
+                className="w-full  h-9 mt-2 rounded-full bg-gray-200 text-black font-sans font-bold
+            text-md cursor-pointer border-2 border-solid hover:scale-110 transition duration-200  ease-in-out
+              active:border-2 active:text-black active:border-gray-300
+             active:border-solid  focus:border-2 
+            focus:border-solid flex items-center justify-center gap-x-2"
+              >
+                <div className="flex items-center justify-center text-2xl">
+                  <FcGoogle />
+                </div>
+                <span className="font-Kanit font-normal text-center text-sm text-black">
+                  โปรดเปิดเบราว์เซอร์เพื่อ login ด้วย google
+                </span>
+              </a>
+            )}
 
             <button
               onClick={GetAccesTokenFacebook}
@@ -185,6 +205,7 @@ function Index() {
               <span>continue with Facebook</span>
             </button>
           </div>
+          <div>{brower}</div>
         </div>
       </div>
     </Layout>

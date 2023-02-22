@@ -18,7 +18,7 @@ function getOperatingSystem(window) {
 
 function getBrowser(window) {
   let currentBrowser = "Not known";
-
+  console.log(window.navigator.userAgent);
   if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
     currentBrowser = "Google Chrome";
   } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
@@ -35,21 +35,7 @@ function getBrowser(window) {
     currentBrowser = "scoial media browser";
   }
 
-  return currentBrowser;
-}
-
-function checkSocialmediaBrowser(window) {
-  let currentBrowser = "Not know";
-  if (
-    window.navigator.userAgent.indexOf("facebook") > -1 ||
-    window.navigator.userAgent.indexOf("instagram") > -1 ||
-    window.navigator.userAgent.indexOf("twitter") > -1
-  ) {
-    currentBrowser = "scoial media browser";
-  } else {
-    currentBrowser = "browser";
-  }
-  return currentBrowser;
+  return window.navigator.userAgent;
 }
 
 export const OS = (window) => {
@@ -57,8 +43,4 @@ export const OS = (window) => {
 };
 export const currentBrowser = (window) => {
   return getBrowser(window);
-};
-
-export const getSocialmediaBrowse = (window) => {
-  return checkSocialmediaBrowser(window);
 };
