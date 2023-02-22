@@ -205,6 +205,7 @@ function Index() {
               <span>continue with Facebook</span>
             </button>
           </div>
+          <div>{brower}</div>
         </div>
       </div>
     </Layout>
