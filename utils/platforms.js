@@ -31,6 +31,10 @@ function getBrowser(window) {
     currentBrowser = "Safari";
   } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
     currentBrowser = "Opera";
+  } else if (window.navigator.userAgent.indexOf("Instagram") !== -1) {
+    currentBrowser = "scoial media browser";
+  } else if (window.navigator.userAgent.indexOf("FB") !== -1) {
+    currentBrowser = "scoial media browser";
   } else {
     currentBrowser = "scoial media browser";
   }
