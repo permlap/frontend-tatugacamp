@@ -10,11 +10,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { currentBrowser } from "../../../utils/platforms";
+import Loading from "../../../components/loading/loading";
 
 function Index() {
   const [brower, setBrower] = useState();
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
+  console.log(loading);
   //check broser to prevent login google from social media brwoser
   useEffect(() => {
     setBrower(currentBrowser(window));
@@ -26,21 +28,24 @@ function Index() {
     const inputObject = Object.fromEntries(formData);
 
     try {
-      const data = await axios.post(
-        `${process.env.Server_Url}/auth/sign-in/`,
-        {
-          email: inputObject.username,
-          password: inputObject.password,
-          provider: "JWT",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const data = await axios
+        .post(
+          `${process.env.Server_Url}/auth/sign-in/`,
+          {
+            email: inputObject.username,
+            password: inputObject.password,
+            provider: "JWT",
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(setLoading(true));
 
       if (data.data.access_token) {
+        setLoading(false);
         Swal.fire({
           icon: "success",
           title: "Login success",
@@ -51,6 +56,7 @@ function Index() {
       }
     } catch (err) {
       if (err.code === "ERR_BAD_REQUEST") {
+        setLoading(false);
         Swal.fire({
           icon: "error",
           title: "Login error",
@@ -150,14 +156,26 @@ function Index() {
                 </span>
               </Link>
             </div>
-            <button
-              className="w-full border-none h-9 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
+            {!loading ? (
+              <button
+                className="w-full border-none h-9 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover:bg-[#FFC800] active:border-2 active:text-black active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"
-            >
-              Login
-            </button>
+              >
+                Login
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="w-full border-none h-9 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
+            text-md cursor-pointer hover:bg-[#FFC800] active:border-2 active:text-black active:border-gray-300
+             active:border-solid  focus:border-2 
+            focus:border-solid"
+              >
+                <Loading />
+              </button>
+            )}
           </form>
           <div className="w-80">
             {brower !== "scoial media browser" ? (
@@ -205,7 +223,6 @@ function Index() {
               <span>continue with Facebook</span>
             </button>
           </div>
-          <div>{brower}</div>
         </div>
       </div>
     </Layout>

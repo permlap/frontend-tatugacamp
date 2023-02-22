@@ -19,6 +19,7 @@ function getOperatingSystem(window) {
 function getBrowser(window) {
   let currentBrowser = "Not known";
   console.log(window.navigator.userAgent);
+
   if (window.navigator.userAgent.indexOf("Instagram") !== -1) {
     currentBrowser = "scoial media browser";
   } else if (window.navigator.userAgent.indexOf("FB") !== -1) {

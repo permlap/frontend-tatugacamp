@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../../../components/layout";
 import Hands from "../../../components/svg/Hands";
@@ -9,9 +9,16 @@ import { BsFacebook } from "react-icons/bs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { currentBrowser } from "../../../utils/platforms";
+import Loading from "../../../components/loading/loading";
 
 function Index() {
+  const [brower, setBrower] = useState();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setBrower(currentBrowser(window));
+  }, []);
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -51,13 +58,13 @@ function Index() {
 
         case "firstName":
           if (!value) {
-            stateObj[name] = "First name required";
+            stateObj[name] = "required";
           }
           break;
 
         case "lastName":
           if (!value) {
-            stateObj[name] = "Last name required";
+            stateObj[name] = "required";
           }
           break;
 
@@ -95,22 +102,25 @@ function Index() {
     const inputObject = Object.fromEntries(formData);
 
     try {
-      const data = await axios.post(
-        `${process.env.Server_Url}/auth/sign-up/`,
-        {
-          email: inputObject.email,
-          password: inputObject.password,
-          firstName: inputObject.firstName,
-          lastName: inputObject.lastName,
-          provider: "JWT",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const data = await axios
+        .post(
+          `${process.env.Server_Url}/auth/sign-up/`,
+          {
+            email: inputObject.email,
+            password: inputObject.password,
+            firstName: inputObject.firstName,
+            lastName: inputObject.lastName,
+            provider: "JWT",
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(setLoading(true));
       if (data.data.access_token) {
+        setLoading(false);
         Swal.fire({
           icon: "success",
           title: "Login success",
@@ -122,12 +132,14 @@ function Index() {
       console.log(data);
     } catch (err) {
       if (err.code === "ERR_BAD_REQUEST") {
+        setLoading(false);
         Swal.fire({
           icon: "error",
           title: "Login error",
           text: err.response.data.message,
         });
       } else {
+        setLoading(false);
         console.log(err);
       }
     }
@@ -188,7 +200,7 @@ function Index() {
                 onBlur={validateInput}
               />
               {error.email && (
-                <span className=" absolute -right-10 text-red-400 font-light">
+                <span className=" absolute -right-10 text-xs top-1 text-red-400 font-light">
                   {error.email}
                 </span>
               )}
@@ -255,7 +267,7 @@ function Index() {
                 onBlur={validateInput}
               />
               {error.password && (
-                <span className="absolute -right-10 text-red-400 font-light">
+                <span className="absolute -right-10 text-xs top-1 text-red-400 font-light">
                   {error.password}
                 </span>
               )}
@@ -280,7 +292,7 @@ function Index() {
                 onBlur={validateInput}
               />
               {error.confirmPassword && (
-                <span className="absolute -right-10 text-sm text-red-400 font-light">
+                <span className="absolute -right-10  text-xs top-1 text-red-400 font-light">
                   {error.confirmPassword}
                 </span>
               )}
@@ -308,7 +320,7 @@ function Index() {
                active:border-solid  focus:border-2 
               focus:border-solid"
               >
-                ลงทะเบียน
+                {loading === true ? <Loading /> : <span>ลงทะเบียน</span>}
               </button>
             ) : (
               <div
@@ -321,19 +333,36 @@ function Index() {
             )}
           </form>
           <div className="w-80">
-            <a
-              onClick={GetAccesTokenGoogle}
-              className="w-full  h-9 mt-2 rounded-full bg-white text-black font-sans font-bold
+            {brower !== "scoial media browser" ? (
+              <a
+                onClick={GetAccesTokenGoogle}
+                className="w-full  h-9 mt-2 rounded-full bg-white text-black font-sans font-bold
               text-md cursor-pointer border-2 border-solid hover:scale-110 transition duration-200  ease-in-out
                 active:border-2 active:text-black active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid flex items-center justify-center gap-x-2"
-            >
-              <div className="flex items-center justify-center text-2xl">
-                <FcGoogle />
-              </div>
-              <span>continue with Google</span>
-            </a>
+              >
+                <div className="flex items-center justify-center text-2xl">
+                  <FcGoogle />
+                </div>
+                <span>continue with Google</span>
+              </a>
+            ) : (
+              <a
+                className="w-full  h-9 mt-2 rounded-full bg-gray-200 text-black font-sans font-bold
+            text-md cursor-pointer border-2 border-solid hover:scale-110 transition duration-200  ease-in-out
+              active:border-2 active:text-black active:border-gray-300
+             active:border-solid  focus:border-2 
+            focus:border-solid flex items-center justify-center gap-x-2"
+              >
+                <div className="flex items-center justify-center text-2xl">
+                  <FcGoogle />
+                </div>
+                <span className="font-Kanit font-normal text-center text-sm text-black">
+                  โปรดเปิดเบราว์เซอร์เพื่อ login ด้วย google
+                </span>
+              </a>
+            )}
 
             <button
               onClick={GetAccesTokenFacebook}
