@@ -36,6 +36,7 @@ const nextConfig = {
       "images.unsplash.com",
       "n14jpqkv.api.sanity.io",
       "lh3.googleusercontent.com",
+      "storage.googleapis.com",
     ],
   },
 };

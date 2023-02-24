@@ -2,7 +2,11 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { BsCheckLg, BsCaretDownFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
-function SearchAutoComplete({ activityPosts, handleSelectedActivity }) {
+function SearchAutoComplete({
+  activityPosts,
+  handleSelectedActivity,
+  searchFor,
+}) {
   const [activites, setActivities] = useState(activityPosts);
   const [firstRender, setFirstRender] = useState(true);
   const [selected, setSelected] = useState(activites[0]);
@@ -34,7 +38,7 @@ function SearchAutoComplete({ activityPosts, handleSelectedActivity }) {
       <Combobox value={selected} onChange={setSelected}>
         <Combobox.Label>
           <span className="text-sm">
-            ค้าหากิจกรรม <CiSearch size={20} />
+            {searchFor} <CiSearch size={20} />
           </span>
         </Combobox.Label>
         <div className="relative mt-1">

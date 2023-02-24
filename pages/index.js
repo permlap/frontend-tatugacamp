@@ -192,6 +192,7 @@ export default function Home(props) {
           <ul className="list-none pl-0 w-full  h-24 flex mt-10 flex-col-reverse  md:flex-row items-center justify-center md:items-end  md:gap-x-12 font-Kanit font-light text-lg">
             <li className="z-30   ">
               <SearchAutoComplete
+                searchFor={"ค้นหากิจกรรม"}
                 activityPosts={postsData}
                 handleSelectedActivity={handleSelectedActivity}
               />
