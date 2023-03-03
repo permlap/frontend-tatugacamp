@@ -33,6 +33,7 @@ function SearchAutoComplete({
     } else null;
     setFirstRender(false);
   }, [selected.title]);
+
   return (
     <div className="w-full">
       <Combobox value={selected} onChange={setSelected}>

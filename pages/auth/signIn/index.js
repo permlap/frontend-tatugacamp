@@ -17,7 +17,7 @@ function Index() {
   const [brower, setBrower] = useState();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  console.log(loading);
+
   //check broser to prevent login google from social media brwoser
   useEffect(() => {
     setBrower(currentBrowser(window));

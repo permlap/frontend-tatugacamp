@@ -40,7 +40,7 @@ function AuthButton() {
     return <Loading />;
   }
 
-  if (!data) {
+  if (!data || data === "Unauthorized") {
     return (
       <div>
         <button
