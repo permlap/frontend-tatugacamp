@@ -1,44 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import {
-  FiHome,
-  FiGrid,
-  FiSettings,
-  FiHelpCircle,
-  FiChevronsLeft,
-} from "react-icons/fi";
-import { GrScorecard } from "react-icons/gr";
-function SidebarClassroom({ user }) {
-  const [isClick, setIsClick] = useState(0);
-  const sideMenus = [
-    {
-      title: "ห้องเรียน",
-      icon: <FiHome />,
-      url: "#",
-    },
-    {
-      title: "เครื่องมือ",
-      icon: <FiGrid />,
-      url: "#",
-    },
-    {
-      title: "ตั้งค่า",
-      icon: <FiSettings />,
-      url: "#",
-    },
-    {
-      title: "กลับสู่หน้าหลัก",
-      icon: <FiChevronsLeft />,
-      url: "/",
-    },
-  ];
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+
+function SidebarClassroom({ user, sideMenus, triggersidebar }) {
+  const router = useRouter();
+  const pathname = router.pathname; // e.g. "/classroom/setting"
+
+  const lastRoute = pathname.split("/").pop(); // "setting"
+  const [isClick, setIsClick] = useState();
+
+  useEffect(() => {
+    if (lastRoute === "setting") {
+      setIsClick(1);
+    } else if (lastRoute === "classroom") {
+      setIsClick(0);
+    }
+  }, []);
 
   return (
-    <div className="bg-white w-80 h-full rounded-tr-md rounded-br-md fixed ">
-      <ul className="list-none pl-0">
+    <div
+      className={`bg-white w-[280px] h-screen rounded-tr-md block opacity-100    transition duration-300  rounded-br-md sticky font-Kanit top-0 left-0 
+      ${triggersidebar === false && "-translate-x-60 hidden opacity-0  "}`}
+    >
+      <ul className="list-none pl-0 flex justify-center items-center flex-col">
         <li className="mt-12">
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center ">
             <div
               className="w-20 h-20 bg-blue-500 rounded-full relative flex justify-center items-center overflow-hidden 
       "
@@ -47,7 +34,7 @@ function SidebarClassroom({ user }) {
                 <Image
                   src={user?.data?.data?.picture}
                   layout="fill"
-                  className="object-contain"
+                  className="object-cover"
                   alt={`profile of ${user?.data?.data?.firstName}`}
                 />
               ) : (

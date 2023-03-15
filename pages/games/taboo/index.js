@@ -27,6 +27,10 @@ function Index() {
   const [loading, setLoading] = useState(false);
   const tabooCategory = useRef("animal");
   const [loginFirst, setLoginFirst] = useState(false);
+
+  console.log("indexRandom", indexRandom);
+  console.log("nextCard", nextCard);
+  console.log("random", random);
   //fectching taboo data
   const { isLoading, isFetching, error, refetch, data } = useQuery(
     ["taboo"],
@@ -86,7 +90,7 @@ function Index() {
   }
 
   // handle skip
-  const handleSkip = () => {
+  const handleSkip = async () => {
     //check if index of random is less than the length
     if (indexRandom < length - 1) {
       // set index of random to increase 1 each click
@@ -95,6 +99,7 @@ function Index() {
         return (current = random[indexRandom]);
       });
     } else if (indexRandom >= length - 1) {
+      setRandom(GenerateRandom(length));
       setIndexRandom(0);
       setNextCard((current) => {
         return (current = random[indexRandom]);
@@ -113,6 +118,7 @@ function Index() {
 
   //generate uniqe array of random number
   function GenerateRandom(length) {
+    console.log("gererate!! random");
     const nums = new Set();
     while (nums.size !== length) {
       nums.add(Math.floor(Math.random() * length));
@@ -142,6 +148,7 @@ function Index() {
         return (current = random[indexRandom]);
       });
     } else if (indexRandom >= length - 1) {
+      setRandom(GenerateRandom(length));
       console.log("loop finish");
       setIndexRandom(0);
       setNextCard((current) => {

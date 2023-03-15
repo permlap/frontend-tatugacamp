@@ -80,7 +80,7 @@ export default function Home(props) {
   };
 
   return (
-    <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-cover">
+    <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-cover ">
       <Facebook />
       <Layout>
         <Head>
