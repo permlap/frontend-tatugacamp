@@ -27,8 +27,9 @@ function SidebarClassroom({ user, sideMenus, triggersidebar }) {
         <li className="mt-12">
           <div className="flex flex-col items-center justify-center ">
             <div
-              className="w-20 h-20 bg-blue-500 rounded-full relative flex justify-center items-center overflow-hidden 
-      "
+              className={`w-20 h-20 ${
+                user?.data?.data?.picture ? "bg-transparent" : "bg-blue-500"
+              } rounded-full relative flex justify-center items-center overflow-hidden `}
             >
               {user?.data?.data?.picture ? (
                 <Image

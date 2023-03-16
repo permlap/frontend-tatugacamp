@@ -69,8 +69,11 @@ function Setting() {
     try {
       e.preventDefault();
       if (!file) {
-        console.error("No file selected");
-        return;
+        return Swal.fire(
+          "No file chosen❗",
+          "please select one image to be your avatar",
+          "error"
+        );
       }
       const formData = new FormData();
       formData.append("file", file);
@@ -131,42 +134,49 @@ function Setting() {
     <div className="flex font-sans  ">
       <Layout sideMenus={sideMenus} user={user} trigger={chooseMessage} />
       <div
-        className={`w-full h-screen mt-10 pl-20 flex flex-col ${
-          !triggersidebar ? "items-start" : "items-center"
+        className={`w-full h-screen mt-10  flex flex-col ${
+          !triggersidebar ? "items-center" : "items-center"
         } bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
-        <div>
-          <span className="text-4xl font-medium text-gray-800">
-            Account setting
-          </span>
-          <div className="flex gap-5 mt-5">
-            {user?.data?.data?.picture && (
-              <div className="relative w-40 h-40 rounded-md overflow-hidden flex justify-center items-center">
-                {loading ? (
-                  <Loading />
-                ) : (
-                  <Image
-                    src={user.data.data.picture}
-                    layout="fill"
-                    className="object-cover"
-                  />
-                )}
-              </div>
-            )}
+        <div className="w-max h-max bg-white p-10 rounded-xl border-2 border-solid">
+          <div>
+            <span className="text-4xl font-medium text-gray-800">
+              Account setting
+            </span>
+            <div className="flex gap-5 mt-5">
+              {user?.data?.data?.picture ? (
+                <div className="relative w-40 h-40 rounded-md overflow-hidden flex justify-center items-center">
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <Image
+                      src={user.data.data.picture}
+                      layout="fill"
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+              ) : (
+                <div className="relative w-40 h-40 bg-blue-500  rounded-md overflow-hidden flex justify-center items-center">
+                  <span className="text-8xl font-Kanit font-semibold text-white">
+                    {user?.data?.data?.firstName.charAt(0)}
+                  </span>
+                </div>
+              )}
 
-            <div className="flex flex-col gap-y-5">
-              <span className="text-xl">Change your profile here</span>
+              <div className="flex flex-col gap-y-5">
+                <span className="text-xl">Change your profile here</span>
 
-              <form
-                onSubmit={handleSubmit}
-                className="flex w-max  flex-col gap-2 justify-start items-start "
-              >
-                <label>
-                  <input
-                    aria-label="upload profile picture"
-                    onChange={handleFileInputChange}
-                    type="file"
-                    class="text-sm text-grey-500
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex w-max  flex-col gap-2 justify-start items-start "
+                >
+                  <label>
+                    <input
+                      aria-label="upload profile picture"
+                      onChange={handleFileInputChange}
+                      type="file"
+                      class="text-sm text-grey-500
             file:mr-5 file:w-28 file:py-2
             file:rounded-full file:border-0
             file:text-sm file:font-medium
@@ -174,102 +184,112 @@ function Setting() {
             hover:file:cursor-pointer hover:file:bg-amber-50
             hover:file:text-amber-700
           "
-                  />
-                </label>
-                <button
-                  className=" w-28  h-max px-6 py-2 text-sm rounded-full border-none  bg-[#2C7CD1] text-white font-sans font-bold
+                    />
+                  </label>
+                  <button
+                    className=" w-28  h-max px-6 py-2 text-sm rounded-full border-none  bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 focus:border-solid hover:scale-110 transition duration-200
                hover:bg-red-700"
+                  >
+                    upload
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <form onSubmit={handleSubmitData} className=" mt-10 max-w-3xl  ">
+            <div className="grid grid-cols-2 gap-5">
+              <div>
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-first-name"
                 >
-                  upload
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-        <form onSubmit={handleSubmitData} className=" mt-10 max-w-3xl  ">
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-first-name"
-              >
-                First Name
-              </label>
-              <input
-                value={userData.firstName}
-                onChange={handleChange}
-                name="firstName"
-                className="appearance-none block w-80 bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="grid-first-name"
-                type="text"
-                placeholder="Update your first name here"
-              />
-            </div>
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
-              >
-                Last Name
-              </label>
-              <input
-                value={userData.lastName}
-                onChange={handleChange}
-                name="lastName"
-                className="appearance-none block w-80 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-last-name"
-                type="text"
-                placeholder="update your last name here"
-              />
-            </div>
+                  First Name
+                </label>
+                <input
+                  value={userData.firstName}
+                  onChange={handleChange}
+                  name="firstName"
+                  className="appearance-none block w-80 bg-[#EDBA02]
+                 text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-whit  border-none
+                  border-red-500 rounded py-3 px-4 mb-3 leading-tight 
+                 focus:outline-none e"
+                  id="grid-first-name"
+                  type="text"
+                  placeholder="Update your first name here"
+                />
+              </div>
+              <div>
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
+                >
+                  Last Name
+                </label>
+                <input
+                  value={userData.lastName}
+                  onChange={handleChange}
+                  name="lastName"
+                  className="appearance-none block w-80
+                bg-[#EDBA02] text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-whit  border-none
+                 rounded py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                  id="grid-last-name"
+                  type="text"
+                  placeholder="update your last name here"
+                />
+              </div>
 
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
-              >
-                Phone number
-              </label>
-              <input
-                value={userData.phone}
-                onChange={handleChange}
-                name="phone"
-                className="appearance-none block w-80 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-last-name"
-                type="text"
-                placeholder="update your phone number here"
-              />
-            </div>
-            <div>
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
-              >
-                School
-              </label>
-              <input
-                value={userData.school}
-                onChange={handleChange}
-                name="school"
-                className="appearance-none block w-80 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-last-name"
-                type="text"
-                placeholder="update your school name here"
-              />
-            </div>
-            <button
-              aria-label="update user button"
-              className=" w-28  h-max px-6 py-2 text-sm rounded-xl border-none  bg-[#2C7CD1] text-white font-sans font-bold
+              <div>
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
+                >
+                  Phone number
+                </label>
+                <input
+                  value={userData.phone}
+                  onChange={handleChange}
+                  name="phone"
+                  className="appearance-none block w-80
+                bg-[#EDBA02] text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-red-500 placeholder:font-normal border-none
+                 rounded py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                  id="grid-last-name"
+                  type="text"
+                  placeholder="update your phone number here"
+                />
+              </div>
+              <div>
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
+                >
+                  School
+                </label>
+                <input
+                  value={userData.school}
+                  onChange={handleChange}
+                  name="school"
+                  className="appearance-none block w-80 
+                bg-[#EDBA02] text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-red-500 placeholder:font-normal border-none
+                rounded py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
+                  id="grid-last-name"
+                  type="text"
+                  placeholder="update your school name here"
+                />
+              </div>
+              <button
+                aria-label="update user button"
+                className=" w-28  h-max px-6 py-2 text-sm rounded-xl border-none  bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 focus:border-solid hover:scale-110 transition duration-200
                hover:bg-red-700"
-            >
-              update
-            </button>
-          </div>
-        </form>
+              >
+                update
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

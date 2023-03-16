@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FcCheckmark, FcCancel } from "react-icons/fc";
 import CreateClass from "../../components/form/createClass";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import { useMutation, useQuery } from "react-query";
 import {
   DeleteClassroom,
@@ -38,6 +38,7 @@ function Index() {
   const user = useQuery(["user"], () => GetUser());
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
+    classrooms.refetch();
   });
 
   useEffect(() => {
@@ -116,23 +117,26 @@ function Index() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>TaTuga class</title>
       </Head>
-      <div className="flex  w-full bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover  ">
+      <div
+        className={`flex  w-full bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
+          classroomState?.[0] ? "h-full" : "h-screen"
+        } `}
+      >
         <Layout user={user} sideMenus={sideMenus} />
+
         <div
-          className={`flex justify-center  ${
-            classroomState?.[0] ? "md:items-start" : "md:items-center"
-          }  lg:items-cente bg-transparent w-full`}
+          className={`flex justify-center items-center  lg:items-cente bg-transparent w-full h-full`}
         >
           <div className="xl:w-full  h-max m-5  flex flex-col  justify-center items-center pb-14">
-            <header className="mt-5 bg-white rounded-lg drop-shadow-md p-5 md:px-10 xl:px-20 ">
-              <div className=" w-full flex items-center justify-center  relative  bg-transparent">
+            <header className="mt-5 bg-white rounded-lg  p-5 md:px-10 xl:px-20 w-max border-2 border-solid ">
+              <div className=" w-full flex items-center justify-center    bg-transparent">
                 <div className="xl:w-[40rem] md:w-96 text-center ">
                   <span className="xl:text-7xl md:text-2xl font-Kanit tracking-wider leading-snug">
                     สร้างห้องเรียนของคุณได้ที่นี้ 👨‍🏫
                   </span>
                 </div>
               </div>
-              <div className="">
+              <div>
                 <Popover className="relative">
                   {({ open }) => (
                     <>
@@ -216,14 +220,6 @@ function Index() {
                           </div>
                         )}
                       </dev>
-                      {/* <div className="w-full bg-gray-400 h-[1.5px] absolute top-16"></div> */}
-                      {/* <div className="w-14 h-14 relative rounded-full overflow-hidden ml-5 mt-10">
-                        <Image
-                          src="https://storage.googleapis.com/tatugacamp.com/UserId%3A63f84bd31ecabb5499898f1c-UUID%3A35e8fd8d-d6c7-414f-84d2-e8b15e77d96c-DATE%3A1677217747662-121461397_1776318822509483_5475911820922048867_n.jpg"
-                          layout="fill"
-                          className="object-contain"
-                        />
-                      </div> */}
                     </div>
                     <div className="flex flex-col mt-4 md:mt-2 lg:mt-5 ml-5 ">
                       <span className="text-lg text-gray-600 font-light">

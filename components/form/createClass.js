@@ -18,7 +18,10 @@ function CreateClass({ close, refetch }) {
 
   return (
     <div>
-      <div className="flex w-max h-max font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-20 fixed  top-0 right-0 left-0 bottom-0 m-auto">
+      <div
+        className="flex w-max h-max font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-20 
+        top-0 right-0 left-0 bottom-0 m-auto fixed"
+      >
         <form
           className=" w-80 flex flex-col justify-center items-center "
           onSubmit={handleSubmit}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
+import { FiChevronsLeft, FiChevronsRight, FiSidebar } from "react-icons/fi";
 
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
@@ -16,11 +16,11 @@ function Layout({ children, user, sideMenus, trigger }) {
           }}
           aria-label="Show sidebar"
           role="button"
-          className="text-4xl mt-5 ml-5 fixed z-30 w-10 h-10 bg-[#FFC800] 
-        flex justify-center items-center rounded-full text-white drop-shadow cursor-pointer
-        hover:scale-105 transition duration-100 ease-in-out active:bg-[#2C7CD1]"
+          className="text-2xl mt-5 ml-5 fixed z-20 w-10 h-10 
+        flex justify-center items-center  text-black drop-shadow cursor-pointer
+        hover:scale-125 transition duration-100 ease-in-out"
         >
-          {triggersidebar ? <FiChevronsLeft /> : <FiChevronsRight />}
+          <FiSidebar />
         </div>
         <SidebarClassroom
           sideMenus={sideMenus}

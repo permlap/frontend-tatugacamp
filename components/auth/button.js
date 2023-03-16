@@ -26,6 +26,7 @@ function AuthButton() {
       setAccess_token((prev) => (prev = localStorage.getItem("access_token")));
       setHasToken(true);
     }
+    refetch();
   }, [router.query?.access_token]);
 
   const { isLoading, isError, data, error, isFetching, refetch } = useQuery(
@@ -112,29 +113,30 @@ function AuthButton() {
               <ul
                 role="button"
                 className="list-none flex flex-col gap-y-4 bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
-        md:right-10 md:top-26 w-max cursor-pointer"
+        md:right-10 md:top-26 w-24 cursor-pointer"
               >
-                <div className="arrow-left md:arrow-top absolute -left-3 top-auto bottom-auto"></div>
-                <li
-                  onClick={signOut}
-                  className="flex justify-center items-center text-base font-light gap-x-2"
-                >
-                  <span>Logout</span>
-                  <span className="text-center flex items-center justify-center">
-                    <BiLogOutCircle />
-                  </span>
-                </li>
                 <li
                   onClick={() =>
                     router.push({
                       pathname: "/classroom/setting",
                     })
                   }
-                  className="flex justify-center items-center text-base font-light gap-x-2"
+                  className="flex justify-center items-center text-base font-light 
+                  gap-x-2 hover:font-bold "
                 >
                   <span>Account</span>
                   <span className="text-center flex items-center justify-center">
                     <BiUser />
+                  </span>
+                </li>
+                <div className="arrow-left md:arrow-top absolute -left-3 top-auto bottom-auto"></div>
+                <li
+                  onClick={signOut}
+                  className="flex justify-center items-center text-base font-light gap-x-2 hover:font-bold"
+                >
+                  <span>Logout</span>
+                  <span className="text-center flex items-center justify-center">
+                    <BiLogOutCircle />
                   </span>
                 </li>
               </ul>
