@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
-import { BiLogOutCircle } from "react-icons/bi";
+import { BiLogOutCircle, BiUser, BiWrench } from "react-icons/bi";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
@@ -87,7 +87,7 @@ function AuthButton() {
             alt={data.data.firstName}
             width={35}
             height={35}
-            className="rounded-full"
+            className="rounded-full object-cover"
           />
         ) : (
           <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
@@ -111,15 +111,30 @@ function AuthButton() {
             {({ active }) => (
               <ul
                 role="button"
-                onClick={signOut}
-                className="list-none bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
+                className="list-none flex flex-col gap-y-4 bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
         md:right-10 md:top-26 w-max cursor-pointer"
               >
                 <div className="arrow-left md:arrow-top absolute -left-3 top-auto bottom-auto"></div>
-                <li className="flex justify-center items-center text-base font-light gap-x-2">
+                <li
+                  onClick={signOut}
+                  className="flex justify-center items-center text-base font-light gap-x-2"
+                >
                   <span>Logout</span>
                   <span className="text-center flex items-center justify-center">
                     <BiLogOutCircle />
+                  </span>
+                </li>
+                <li
+                  onClick={() =>
+                    router.push({
+                      pathname: "/classroom/setting",
+                    })
+                  }
+                  className="flex justify-center items-center text-base font-light gap-x-2"
+                >
+                  <span>Account</span>
+                  <span className="text-center flex items-center justify-center">
+                    <BiUser />
                   </span>
                 </li>
               </ul>

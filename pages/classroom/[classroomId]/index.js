@@ -18,17 +18,33 @@ import { Popover, Transition } from "@headlessui/react";
 import Layout from "../../../layouts/classroomLayout";
 function Index() {
   const router = useRouter();
+
   const user = useQuery(["user"], () => GetUser());
-  const classroom = useQuery(["classroom"], () =>
-    GetOneClassroom({ params: router.query.classroomId })
+  const classroom = useQuery(
+    ["classroom"],
+    () => GetOneClassroom({ params: router.query.classroomId }),
+
+    { enabled: false }
   );
-  console.log(classroom?.data?.response?.data.statusCode === 401);
+  console.log(router.query.classroomId);
+  console.log(classroom);
   const classroomCode =
     classroom.data?.data?.classroomCode.slice(0, 3) +
     "-" +
     classroom.data?.data?.classroomCode.slice(3);
+
   useEffect(() => {
     if (user.data === "Unauthorized") {
+      router.push("/auth/signIn");
+    }
+    if (router.isReady) {
+      console.log("router is ready", router.isReady);
+      classroom.refetch();
+    }
+  }, [router.isReady]);
+
+  useEffect(() => {
+    if (classroom?.data?.response?.data.statusCode === 401) {
       router.push("/auth/signIn");
     }
   }, []);
@@ -60,6 +76,9 @@ function Index() {
       url: `/classroom`,
     },
   ];
+  if (!router.isReady) {
+    return <FullScreenLoading />;
+  }
   if (classroom?.data?.response?.data.statusCode === 400) {
     return (
       <div className="flex w-full h-screen justify-center items-center font-sans">
@@ -67,15 +86,7 @@ function Index() {
       </div>
     );
   }
-  useEffect(() => {
-    if (classroom?.data?.response?.data.statusCode === 401) {
-      router.push("/auth/signIn");
-    }
-  }, []);
 
-  if (classroom.isLoading) {
-    return <FullScreenLoading />;
-  }
   return (
     <>
       <Head>

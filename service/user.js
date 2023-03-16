@@ -21,3 +21,29 @@ export async function UploadProfilePicture(formData) {
     throw new Error(error);
   }
 }
+
+export async function UpdateUserData(updateddata) {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    console.log(updateddata);
+    const updateData = await axios.put(
+      `${process.env.Server_Url}/users/update-user`,
+      {
+        firstName: updateddata.firstName,
+        lastName: updateddata.lastName,
+        school: updateddata.school,
+        phone: updateddata.phone,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + access_token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return updateData;
+  } catch (err) {
+    throw new Error(err);
+  }
+}

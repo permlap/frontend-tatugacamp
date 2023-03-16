@@ -43,7 +43,7 @@ function Index() {
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
     setAccess_token(access_token);
-    if (user.data === "Unauthorized" || !user.data) {
+    if (user.data === "Unauthorized") {
       router.push("/auth/signIn");
     }
   }, []);

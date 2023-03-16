@@ -3,13 +3,17 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
-function Layout({ children, user, sideMenus }) {
+function Layout({ children, user, sideMenus, trigger }) {
   const [triggersidebar, setTriggerSidebar] = useState(true);
+
   return (
     <>
       <main>
         <div
-          onClick={() => setTriggerSidebar((prev) => !prev)}
+          onClick={() => {
+            setTriggerSidebar((prev) => !prev);
+            trigger && trigger((prev) => (prev = triggersidebar));
+          }}
           aria-label="Show sidebar"
           role="button"
           className="text-4xl mt-5 ml-5 fixed z-30 w-10 h-10 bg-[#FFC800] 

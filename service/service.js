@@ -82,7 +82,7 @@ export async function GetAllClassrooms() {
 
 export async function GetOneClassroom({ params }) {
   try {
-    console.log(params);
+    console.log("parans fron axiosu", params);
     const access_token = localStorage.getItem("access_token");
     const classroom = await axios.get(
       `${process.env.Server_Url}/user/classroom/get-a-classroom/${params}`,
@@ -92,6 +92,7 @@ export async function GetOneClassroom({ params }) {
         },
       }
     );
+    console.log("data axious", classroom);
     return classroom;
   } catch (err) {
     return err;
