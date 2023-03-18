@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import Layout from "../../layouts/classroomLayout";
 import { GetUser } from "../../service/service";
@@ -13,7 +13,6 @@ function Setting() {
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     phone: "",
     school: "",
   });
@@ -62,7 +61,7 @@ function Setting() {
       school: user?.data?.data?.school,
       phone: user?.data?.data?.phone,
     }));
-  }, [user.data]);
+  }, []);
 
   //handle summit file
   const handleSubmit = async (e) => {
@@ -79,7 +78,7 @@ function Setting() {
       formData.append("file", file);
       setLoading((prev) => (prev = true));
       const updateProfile = await UploadProfilePicture(formData);
-      console.log(updateProfile);
+
       if (updateProfile?.status === 200) {
         setLoading((prev) => (prev = false));
         Swal.fire("success", "upload image is successful", "success");
@@ -115,14 +114,17 @@ function Setting() {
     try {
       e.preventDefault();
       const userUpdate = await UpdateUserData(userData);
-      setUserData((prevState) => ({
-        ...prevState,
-        firstName: userUpdate?.data?.data?.firstName,
-        lastName: userUpdate?.data?.data?.lastName,
-        school: userUpdate?.data?.data?.school,
-        phone: userUpdate?.data?.data?.phone,
-      }));
+
       if (userUpdate.status === 200) {
+        user.refetch().then(
+          setUserData((prevState) => ({
+            ...prevState,
+            firstName: userUpdate?.data?.firstName,
+            lastName: userUpdate?.data?.lastName,
+            school: userUpdate?.data?.school,
+            phone: userUpdate?.data?.phone,
+          }))
+        );
         Swal.fire("success", "update your profile successfully😃", "success");
       }
     } catch (err) {
@@ -138,7 +140,7 @@ function Setting() {
           !triggersidebar ? "items-center" : "items-center"
         } bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
-        <div className="w-max h-max bg-white p-10 rounded-xl border-2 border-solid">
+        <div className="w-max h-max bg-white p-10 rounded-xl border-2 border-solid mt-10">
           <div>
             <span className="text-4xl font-medium text-gray-800">
               Account setting
@@ -153,14 +155,21 @@ function Setting() {
                       src={user.data.data.picture}
                       layout="fill"
                       className="object-cover"
+                      alt={`profile picture of ${user.data.data.firstName}`}
                     />
                   )}
                 </div>
               ) : (
-                <div className="relative w-40 h-40 bg-blue-500  rounded-md overflow-hidden flex justify-center items-center">
-                  <span className="text-8xl font-Kanit font-semibold text-white">
-                    {user?.data?.data?.firstName.charAt(0)}
-                  </span>
+                <div className="w-40 h-40 bg-white rounded-md flex items-center justify-center">
+                  {loading ? (
+                    <Loading />
+                  ) : (
+                    <div className="relative w-40 h-40 bg-blue-500  rounded-md overflow-hidden flex justify-center items-center">
+                      <span className="text-8xl font-Kanit font-semibold text-white">
+                        {user?.data?.data?.firstName.charAt(0)}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -176,7 +185,8 @@ function Setting() {
                       aria-label="upload profile picture"
                       onChange={handleFileInputChange}
                       type="file"
-                      class="text-sm text-grey-500
+                      accept="image/png, image/gif, image/jpeg"
+                      className="text-sm text-grey-500
             file:mr-5 file:w-28 file:py-2
             file:rounded-full file:border-0
             file:text-sm file:font-medium
@@ -203,7 +213,7 @@ function Setting() {
               <div>
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  for="grid-first-name"
+                  htmlFor="grid-first-name"
                 >
                   First Name
                 </label>
@@ -223,7 +233,7 @@ function Setting() {
               <div>
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  for="grid-last-name"
+                  htmlFor="grid-last-name"
                 >
                   Last Name
                 </label>
@@ -243,7 +253,7 @@ function Setting() {
               <div>
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  for="grid-last-name"
+                  htmlFor="grid-last-name"
                 >
                   Phone number
                 </label>
@@ -262,7 +272,7 @@ function Setting() {
               <div>
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  for="grid-last-name"
+                  htmlFor="grid-last-name"
                 >
                   School
                 </label>

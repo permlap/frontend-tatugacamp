@@ -10,6 +10,11 @@ import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
 import { GetUser } from "../../service/service";
 import Link from "next/link";
+import {
+  BsChevronCompactDown,
+  BsChevronDoubleDown,
+  BsChevronDown,
+} from "react-icons/bs";
 
 function AuthButton() {
   const [dropDown, setDropDown] = useState(false);
@@ -20,7 +25,6 @@ function AuthButton() {
   const queryClient = useQueryClient();
   //set accestoken to localstore
   useEffect(() => {
-    console.log("useEffect on saving access_token runs!");
     if (router.query.access_token) {
       localStorage.setItem("access_token", router.query.access_token);
       setAccess_token((prev) => (prev = localStorage.getItem("access_token")));
@@ -66,30 +70,27 @@ function AuthButton() {
     setAccess_token(null);
     refetch();
     queryClient.removeQueries("user");
+    router.push({
+      pathname: "/",
+    });
   };
 
   return (
     <Menu>
       <Menu.Button
-        className="flex bg-transparent relative border-0 cursor-pointer 
-    hover:ring-2 rounded-md p-3 ring-orange-400 active:ring-4 
+        className="flex bg-white relative border-0 cursor-pointer 
+    rounded-md p-3  ring-orange-400 group
     items-center justify-center gap-x-3"
       >
-        <span className="text-black text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
-          welcome
-          <span className="first-letter:uppercase font-semibold text-white md:text-orange-400 ">
-            {data.data.firstName} {data.data.lastName}
-          </span>
-        </span>
-
         {data.data.picture ? (
-          <Image
-            src={data.data.picture}
-            alt={data.data.firstName}
-            width={35}
-            height={35}
-            className="rounded-full object-cover"
-          />
+          <div className="relative w-10 h-10 rounded-md  overflow-hidden">
+            <Image
+              src={data.data.picture}
+              alt={data.data.firstName}
+              layout="fill"
+              className=" object-cover "
+            />
+          </div>
         ) : (
           <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
             <span className="uppercase font-sans font-black text-3xl text-white">
@@ -97,6 +98,17 @@ function AuthButton() {
             </span>
           </div>
         )}
+        <span className="text-black text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
+          <span className="first-letter:uppercase font-semibold text-white md:text-orange-400 ">
+            {data.data.firstName} {data.data.lastName}
+          </span>
+        </span>
+        <div className="group-hover:scale-0 transition duration-100 group-hover:opacity-0 ">
+          <BsChevronCompactDown />
+        </div>
+        <div className="group-hover:scale-110 transition opacity-0 duration-200 group-hover:opacity-100 absolute right-3">
+          <BsChevronDoubleDown />
+        </div>
       </Menu.Button>
       <Transition
         as={Fragment}

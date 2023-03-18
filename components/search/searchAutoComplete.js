@@ -28,7 +28,6 @@ function SearchAutoComplete({
   }
   useEffect(() => {
     if (firstRender === false) {
-      console.log("useEffect runn!");
       handleSelectedActivity(selected);
     } else null;
     setFirstRender(false);

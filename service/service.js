@@ -56,9 +56,10 @@ export async function DeleteClassroom(classroomId) {
         },
       }
     );
+    console.log(deleteClassroom);
     return deleteClassroom;
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 }
 

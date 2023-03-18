@@ -20,8 +20,8 @@ function SidebarClassroom({ user, sideMenus, triggersidebar }) {
 
   return (
     <div
-      className={`bg-white w-[280px] h-screen rounded-tr-md block opacity-100    transition duration-300  rounded-br-md sticky font-Kanit top-0 left-0 
-      ${triggersidebar === false && "-translate-x-60 hidden opacity-0  "}`}
+      className={`bg-white w-[280px] h-screen rounded-tr-md block opacity-100 scale-100    transition duration-300  rounded-br-md sticky font-Kanit top-0 left-0 
+      ${triggersidebar === false && "-translate-x-60  hide  "}`}
     >
       <ul className="list-none pl-0 flex justify-center items-center flex-col">
         <li className="mt-12">
@@ -45,7 +45,7 @@ function SidebarClassroom({ user, sideMenus, triggersidebar }) {
               )}
             </div>
             <div className="mt-2 flex flex-col items-center justify-center">
-              <span>welcome {user?.data?.data?.firstName}</span>
+              <span>Hi, {user?.data?.data?.firstName}</span>
               <span className="text-md font-light">
                 {user?.data?.data?.email}
               </span>

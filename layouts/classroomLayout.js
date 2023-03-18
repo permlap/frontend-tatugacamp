@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiChevronsLeft, FiChevronsRight, FiSidebar } from "react-icons/fi";
+import AuthButton from "../components/auth/button";
 
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
@@ -8,7 +9,10 @@ function Layout({ children, user, sideMenus, trigger }) {
 
   return (
     <>
-      <main>
+      <main className="">
+        <div className="absolute top-0 right-0 mr-5 mt-5">
+          <AuthButton />
+        </div>
         <div
           onClick={() => {
             setTriggerSidebar((prev) => !prev);
@@ -16,7 +20,7 @@ function Layout({ children, user, sideMenus, trigger }) {
           }}
           aria-label="Show sidebar"
           role="button"
-          className="text-2xl mt-5 ml-5 fixed z-20 w-10 h-10 
+          className="text-2xl mt-5 ml-5 fixed z-10 w-10 h-10 
         flex justify-center items-center  text-black drop-shadow cursor-pointer
         hover:scale-125 transition duration-100 ease-in-out"
         >

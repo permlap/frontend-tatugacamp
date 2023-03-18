@@ -25,6 +25,7 @@ import {
   FiArrowLeftCircle,
 } from "react-icons/fi";
 import Layout from "../../layouts/classroomLayout";
+import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 
 function Index() {
   const router = useRouter();
@@ -44,23 +45,24 @@ function Index() {
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
     setAccess_token(access_token);
-    if (user.data === "Unauthorized") {
+    console.log("run!");
+    if (user.data === "Unauthorized" || !user) {
       router.push("/auth/signIn");
     }
   }, []);
 
-  if (user.isLoading) {
-    return (
-      <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">
-        <Lottie
-          animationData={animationData}
-          height={200}
-          loop={true}
-          width={200}
-        />
-      </div>
-    );
-  }
+  // if (user.isLoading) {
+  //   return (
+  //     <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">
+  //       <Lottie
+  //         animationData={animationData}
+  //         height={200}
+  //         loop={true}
+  //         width={200}
+  //       />
+  //     </div>
+  //   );
+  // }
 
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
@@ -106,6 +108,10 @@ function Index() {
     },
   ];
 
+  const style = {
+    height: 500,
+  };
+
   return (
     <div className="bg-white w-full h-full font-Kanit">
       <Head>
@@ -125,15 +131,21 @@ function Index() {
         <Layout user={user} sideMenus={sideMenus} />
 
         <div
-          className={`flex justify-center items-center  lg:items-cente bg-transparent w-full h-full`}
+          className={`flex justify-center items-center  lg:items-center bg-transparent w-full h-full`}
         >
           <div className="xl:w-full  h-max m-5  flex flex-col  justify-center items-center pb-14">
-            <header className="mt-5 bg-white rounded-lg  p-5 md:px-10 xl:px-20 w-max border-2 border-solid ">
+            <header className="mt-5 bg-transparent rounded-lg  p-5 md:px-10 xl:px-20 w-max  relative  ">
               <div className=" w-full flex items-center justify-center    bg-transparent">
-                <div className="xl:w-[40rem] md:w-96 text-center ">
-                  <span className="xl:text-7xl md:text-2xl font-Kanit tracking-wider leading-snug">
-                    สร้างห้องเรียนของคุณได้ที่นี้ 👨‍🏫
+                <div
+                  className="xl:w-[30rem] md:w-96 text-left leading-[3.5rem] mt-16 ml-28 pl-10 py-5 rounded-lg 
+                  h-max z-10 relative"
+                >
+                  <span className="xl:text-7xl md:text-2xl font-semibold  font-Kanit tracking-wider ">
+                    สร้างห้องเรียนของคุณได้ที่นี่
                   </span>
+                </div>
+                <div className="absolute -top-20 -left-36 ">
+                  <Lottie animationData={teacherAnimation} style={style} />
                 </div>
               </div>
               <div>
