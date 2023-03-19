@@ -70,10 +70,10 @@ function Navbar() {
                 <ion-icon name="logo-instagram"></ion-icon>
               </a>
             </div>
-            <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
+            <div className="w-[35px] h-[35px] rounded-full overflow-hidden bg-white">
               <Link href="/">
                 <Image
-                  src={TaTugaLogo}
+                  src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp.png"
                   width={35}
                   height={35}
                   alt="TaTuga camp logo"

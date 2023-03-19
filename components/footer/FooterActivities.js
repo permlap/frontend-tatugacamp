@@ -19,10 +19,10 @@ function FooterActivities() {
       <div className="w-full h-full  md:py-5 pt-5 justify-center flex flex-col md:flex-row  md:pt-2   text-center text-white items-center bg-[#2C7CD1] md:bg-transparent  ">
         <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem]  md:h-max rounded-full overflow-hidden bg-white">
           <Image
-            className="object-center rounded-full"
+            className="object-center rounded-full "
             width={200}
             height={200}
-            alt="logo tatuga camp"
+            alt="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp.png"
             src="/logo/TaTuga camp.png"
             priority
           />
