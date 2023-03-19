@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { CreateStudentApi, GetAllStudents } from "../../service/students";
 import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import Loading from "../loading/loading";
-function CreateStudent({ close }) {
+function CreateStudent({ close, handlePassingstudents }) {
   const router = useRouter();
   const [succesful, setSuccesful] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,12 +19,13 @@ function CreateStudent({ close }) {
   );
 
   useEffect(() => {
-    setSortedStudents(() => {
+    setSortedStudents((prev) => {
       return students?.data?.data.sort((a, b) => {
         return parseInt(a.number) - parseInt(b.number);
       });
     });
-  }, [students?.data?.data]);
+    handlePassingstudents(sortedStudents);
+  }, [students.isFetching, sortedStudents]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,10 +42,12 @@ function CreateStudent({ close }) {
       if (createStudent) {
         setSuccesful(true);
       }
+      await students.refetch();
+      document.getElementById("form-create-students").reset();
+
       setTimeout(() => {
         setSuccesful(false);
       }, 2000);
-      students.refetch();
     } catch (err) {
       setLoading(false);
       setError(err?.props?.response?.data?.message);
@@ -56,7 +59,7 @@ function CreateStudent({ close }) {
   };
   return (
     <div>
-      <div className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto z-10  ">
+      <div className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto z-30  ">
         <div className="flex items-center justify-center gap-x-5  bg-transparent h-[0.05rem] w-max">
           <div
             className="w-96 h-[30rem] bg-white border-2 border-solid flex flex-col justify-start items-center 
@@ -81,8 +84,8 @@ function CreateStudent({ close }) {
                       <div className="grid  grid-cols-3  w-full">
                         <div className="flex justify-center items-center  ">
                           <span
-                            className="w-8 h-8 bg-[#EDBA02] flex items-center justify-center 
-                          rounded-full font-bold text-white"
+                            className="w-8 h-8 bg-[#2C7CD1] flex items-center justify-center 
+                          rounded-xl font-bold text-white"
                           >
                             {list.number}
                           </span>
@@ -105,6 +108,7 @@ function CreateStudent({ close }) {
         z-20"
           >
             <form
+              id="form-create-students"
               className=" w-80 flex flex-col justify-center items-center "
               onSubmit={handleSubmit}
             >
@@ -184,7 +188,7 @@ function CreateStudent({ close }) {
           </div>
           <div
             onClick={() => close()}
-            className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-white/10 backdrop-blur-sm"
+            className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-black/50 "
           ></div>
         </div>
       </div>

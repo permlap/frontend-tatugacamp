@@ -78,9 +78,9 @@ function AuthButton() {
   return (
     <Menu>
       <Menu.Button
-        className="flex bg-white relative border-0 cursor-pointer 
+        className="flex bg-white  border-0 cursor-pointer 
     rounded-md p-3  ring-orange-400 group
-    items-center justify-center gap-x-3"
+    items-center justify-center gap-x-3 "
       >
         {data.data.picture ? (
           <div className="relative w-10 h-10 rounded-md  overflow-hidden">
@@ -119,13 +119,13 @@ function AuthButton() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items>
+        <Menu.Items className="relative z-50">
           <Menu.Item>
             {({ active }) => (
               <ul
                 role="button"
                 className="list-none flex flex-col gap-y-4 bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
-        md:right-10 md:top-26 w-24 cursor-pointer"
+        md:right-10 md:top-26 w-24 cursor-pointe   "
               >
                 <li
                   onClick={() =>

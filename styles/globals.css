@@ -147,3 +147,34 @@
 .this-will-not-be-read {
   display: none !important;
 }
+
+.popup {
+  animation-name: popupAnimation;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+@keyframes popupAnimation {
+  0% {
+    transform: translateY(3rem);
+    scale: 0;
+    opacity: 0;
+  }
+  25% {
+    opacity: 20;
+  }
+  50% {
+    transform: translateY(0rem);
+    scale: 1;
+    opacity: 100;
+  }
+  75% {
+    transform: translateY(0rem);
+    scale: 1;
+    opacity: 100;
+  }
+  100% {
+    transform: translateY(0rem);
+    scale: 1;
+    opacity: 100;
+  }
+}

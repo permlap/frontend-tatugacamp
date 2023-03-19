@@ -10,7 +10,6 @@ function CreateClass({ close, refetch }) {
 
     const formData = new FormData(e.target);
     const inputObject = Object.fromEntries(formData);
-
     const classroom = await CreateClassroom(inputObject, access_token);
     refetch();
     close();
@@ -92,6 +91,10 @@ function CreateClass({ close, refetch }) {
           </button>
         </form>
       </div>
+      <div
+        onClick={() => close()}
+        className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-black/30 "
+      ></div>
     </div>
   );
 }

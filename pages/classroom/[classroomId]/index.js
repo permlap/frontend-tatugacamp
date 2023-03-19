@@ -23,18 +23,44 @@ import * as ClassroomAnimation from "../../../components/90714-online-learning.j
 import { BsPeopleFill } from "react-icons/bs";
 import { AiTwotoneStar } from "react-icons/ai";
 import Image from "next/image";
+import { GetAllScoresClassroom } from "../../../service/scores";
+import CreateScore from "../../../components/form/createScore";
 function Index() {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
+
+  const students = useQuery(
+    ["students"],
+    () => GetAllStudents({ classroomId: router.query.classroomId }),
+    { enabled: false }
+  );
+  const classroom = useQuery(
+    ["classroom"],
+    () => GetOneClassroom({ params: router.query.classroomId }),
+    { enabled: false }
+  );
+  const scores = useQuery(["scores"], () =>
+    GetAllScoresClassroom({ classroomId: router.query.classroomId })
+  );
   const [studentsRearrange, setStudentRearrange] = useState(
     students?.data?.data
   );
-  const students = useQuery(["students"], () =>
-    GetAllStudents({ classroomId: router.query.classroomId })
+
+  // find totalPoints in the classroom
+  const totalPoints = students?.data?.data?.reduce(
+    (acc, obj) => acc + obj.score.totalPoints,
+    0
   );
 
+  //create new copy of students data
+  const coppyStudentsData = students?.data?.data?.slice();
+
+  //rearrange copy studens data to the first array is the highest score
+  const highestScorePlayer = coppyStudentsData?.sort(
+    (a, b) => b.score.totalPoints - a.score.totalPoints
+  )[0];
+
   useEffect(() => {
-    students.refetch();
     setStudentRearrange(() => {
       return students?.data?.data.sort((a, b) => {
         return parseInt(a.number) - parseInt(b.number);
@@ -42,12 +68,9 @@ function Index() {
     });
   }, [students?.data?.data]);
 
-  const classroom = useQuery(
-    ["classroom"],
-    () => GetOneClassroom({ params: router.query.classroomId }),
-
-    { enabled: false }
-  );
+  const handlePassingstudents = (students) => {
+    setStudentRearrange(students);
+  };
 
   const classroomCode =
     classroom.data?.data?.classroomCode.slice(0, 3) +
@@ -59,10 +82,11 @@ function Index() {
       router.push("/auth/signIn");
     }
     if (router.isReady) {
-      console.log("router is ready", router.isReady);
       classroom.refetch();
+      students.refetch();
+      scores.refetch();
     }
-  }, [router.isReady]);
+  }, [router.isReady, user.data === "Unauthorized"]);
 
   useEffect(() => {
     if (classroom?.data?.response?.data.statusCode === 401) {
@@ -76,21 +100,7 @@ function Index() {
       icon: "👨‍🏫",
       url: `#`,
     },
-    {
-      title: "คะแนน",
-      icon: "🌟",
-      url: "#",
-    },
-    {
-      title: "เครื่องมือ",
-      icon: "🧰",
-      url: "#",
-    },
-    {
-      title: "ตั้งค่า",
-      icon: "🔧",
-      url: "#",
-    },
+
     {
       title: "Go back",
       icon: <FiArrowLeftCircle />,
@@ -113,17 +123,27 @@ function Index() {
     height: 280,
   };
 
+  //covert date
+  const date = new Date(classroom.data?.data?.createAt);
+
+  const formattedDate = date.toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
   return (
     <>
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
-      <div className="flex ">
+      <div className="flex  ">
         <Layout user={user} sideMenus={sideMenus} />
-        <div className="w-full flex flex-col items-center gap-10 h-full">
+
+        <div className="w-full flex flex-col items-center gap-10 h-full pb-40">
           {/* header section */}
           <header
-            className="w-3/4 rounded-3xl bg-transparent mt-32 flex gap-x-4  bg-blue-200 h-40 
+            className="w-full max-w-6xl rounded-3xl mt-32 flex gap-x-4 z-10 bg-blue-200 h-40 
           items-center justify-start relative  "
           >
             <div
@@ -137,11 +157,11 @@ function Index() {
               <Popover className="relative flex items-center justify-center">
                 {({ open }) => (
                   <>
-                    <Popover.Button className="bg-transparent border-none active:border-none">
+                    <Popover.Button className="bg-transparent border-none active:border-none  ">
                       <div
                         aria-label="ขยายเพื่อดูรหัสห้องเรียน"
                         className={`
-                      w-max p-3 bg-[#EDBA02] rounded-xl cursor-pointer
+                      w-max p-3 bg-[#EDBA02] rounded-xl cursor-pointer 
              hover:scale-110 transition duration-200 ease-in-out`}
                       >
                         <span className="font-sans font-bold text-2xl text-white">
@@ -152,7 +172,7 @@ function Index() {
                     <Popover.Panel>
                       {({ close }) => (
                         <div
-                          className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto
+                          className="w-full h-full fixed  overflow-hidden right-0 left-0 top-0 bottom-0 m-auto
                       bg-white/10 backdrop-blur-sm"
                           onClick={() => close()}
                         >
@@ -173,7 +193,7 @@ function Index() {
             </div>
 
             {/* text in header */}
-            <div className="font-Kanit text-2xl font-light ml-10 w-80 h-max ">
+            <div className="font-Kanit text-2xl font-light ml-10 w-full  h-max ">
               <div>
                 <span className="mr-2">Welcome to</span>
                 <span className="text-4xl font-semibold uppercase">
@@ -187,15 +207,18 @@ function Index() {
                 <span className="font-Kanit font-normal px-2 tracking-wider text-white text-base bg-[#EDBA02] p-1 rounded-xl">
                   {classroom.data?.data?.level}
                 </span>
+                <span className="text-sm ml-5 uppercase">
+                  create at {formattedDate}
+                </span>
               </div>
             </div>
-            <div className="absolute right-0 -top-20">
+            <div className="absolute right-0 -top-20 ">
               <Lottie animationData={ClassroomAnimation} style={style} />
             </div>
           </header>
 
           {/* main part */}
-          <main className="w-3/4 h-full flex flex-col">
+          <main className="w-full max-w-6xl h-full flex flex-col">
             <div className="flex flex-col gap-3">
               <div className="font-sans font-normal tracking-wide flex items-center gap-5 text-gray-400">
                 <span>Overview</span>
@@ -218,7 +241,14 @@ function Index() {
                         </div>
                       </Popover.Button>
                       <Popover.Panel>
-                        {({ close }) => <CreateStudent close={close} />}
+                        {({ close }) => (
+                          <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
+                            <CreateStudent
+                              close={close}
+                              handlePassingstudents={handlePassingstudents}
+                            />
+                          </div>
+                        )}
                       </Popover.Panel>
                     </>
                   )}
@@ -242,7 +272,9 @@ function Index() {
                     <AiTwotoneStar size={20} />
                   </div>
                   <div className="flex items-start justify-center flex-col font-sans">
-                    <span className="font-bold text-2xl">30 points</span>
+                    <span className="font-bold text-2xl">
+                      {totalPoints} points
+                    </span>
                     <span className="text-sm font-medium">Overall score</span>
                   </div>
                 </div>
@@ -251,7 +283,9 @@ function Index() {
                     🥇
                   </div>
                   <div className="flex items-start justify-center flex-col font-sans">
-                    <span className="font-bold text-2xl">Permlap 01</span>
+                    <span className="font-bold text-2xl">
+                      {highestScorePlayer?.firstName}
+                    </span>
                     <span className="text-sm font-medium">
                       the highest score
                     </span>
@@ -261,27 +295,60 @@ function Index() {
             </div>
             {/* 
             students' avatar are here */}
-            <div className="w-full flex flex-wrap gap-x-16 gap-y-9 mt-5">
-              {studentsRearrange?.map((list) => {
+            <div className="w-full max-w-7xl flex flex-wrap gap-x-12 gap-y-9 mt-10 ">
+              {studentsRearrange?.map((student) => {
                 return (
-                  <div
-                    className="w-40 h-36  flex-col items-center justify-start flex"
-                    key={list.id}
-                  >
-                    <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
-                      <Image
-                        src={list.picture}
-                        layout="fill"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="font-Kanit text-xl">
-                      <span className=" bg-blue-500  rounded-full">
-                        {list.number}
-                      </span>
-                      {list.firstName}
-                    </div>
-                  </div>
+                  <Popover key={student.id}>
+                    {({ open }) => (
+                      <div className="relative ">
+                        <Popover.Button className="bg-transparent border-none active:border-none appearance-none focus:outline-none">
+                          <div
+                            className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
+                     duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
+                            key={student.id}
+                          >
+                            <div
+                              className="absolute w-10 h-10 rounded-full bg-[#EDBA02] ring-2 ring-white
+                    flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5"
+                            >
+                              {student.score.totalPoints}
+                            </div>
+                            <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
+                              <Image
+                                src={student.picture}
+                                layout="fill"
+                                alt="student's avatar"
+                                className="object-cover scale-150 translate-y-8"
+                              />
+                            </div>
+                            <div className="font-Kanit text-xl flex items-center justify-start gap-2">
+                              <div className=" bg-blue-500 font-semibold text-white w-5 h-5 flex items-center justify-center  rounded-md">
+                                {student.number}
+                              </div>
+                              {student.firstName}
+                            </div>
+                          </div>
+                        </Popover.Button>
+                        <Popover.Panel>
+                          {({ close }) => (
+                            <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
+                              {scores?.data?.data?.map((score) => {
+                                return (
+                                  <CreateScore
+                                    key={score.id}
+                                    close={close}
+                                    student={student}
+                                    scores={scores.data}
+                                    students={students}
+                                  />
+                                );
+                              })}
+                            </div>
+                          )}
+                        </Popover.Panel>
+                      </div>
+                    )}
+                  </Popover>
                 );
               })}
             </div>

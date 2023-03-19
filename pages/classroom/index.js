@@ -45,24 +45,11 @@ function Index() {
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
     setAccess_token(access_token);
-    console.log("run!");
+
     if (user.data === "Unauthorized" || !user) {
       router.push("/auth/signIn");
     }
   }, []);
-
-  // if (user.isLoading) {
-  //   return (
-  //     <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">
-  //       <Lottie
-  //         animationData={animationData}
-  //         height={200}
-  //         loop={true}
-  //         width={200}
-  //       />
-  //     </div>
-  //   );
-  // }
 
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
@@ -114,6 +101,11 @@ function Index() {
 
   return (
     <div className="bg-white w-full h-full font-Kanit">
+      <div className="fixed lg:hidden z-50 top-0 right-0 bottom-0 left-0 m-auto bg-black w-full h-full text-white flex justify-center items-center">
+        <div className="w-40 text-center ">
+          รองรับการแสดงผลบน desktop เท่านั้น! โปรดเข้าใหม่โดยใช้คอมพิวเตอร์
+        </div>
+      </div>
       <Head>
         <meta charSet="UTF-8" />
         <meta
@@ -173,10 +165,12 @@ function Index() {
                       </div>
                       <Popover.Panel>
                         {({ close }) => (
-                          <CreateClass
-                            close={close}
-                            refetch={classrooms.refetch}
-                          />
+                          <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-20">
+                            <CreateClass
+                              close={close}
+                              refetch={classrooms.refetch}
+                            />
+                          </div>
                         )}
                       </Popover.Panel>
                     </>
