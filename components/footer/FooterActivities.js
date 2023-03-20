@@ -21,8 +21,8 @@ function FooterActivities() {
           <Image
             className="object-center rounded-full "
             width={200}
-            height={200} 
-            alt="tatuga logo"0
+            height={200}
+            alt="tatuga logo"
             src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp.png"
             priority
           />

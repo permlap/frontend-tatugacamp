@@ -375,7 +375,7 @@ function Index() {
               </a>
             )}
 
-            {/* <button
+            <button
               onClick={GetAccesTokenFacebook}
               className="w-full  h-9 mt-2 rounded-full bg-white text-black font-sans font-bold cursor-pointer
               text-md cursor-pointer:border-2 border-solid hover:scale-110 transition duration-200  ease-in-out
@@ -387,7 +387,7 @@ function Index() {
                 <BsFacebook />
               </div>
               <span>continue with Facebook</span>
-            </button> */}
+            </button>
           </div>
         </div>
       </div>
