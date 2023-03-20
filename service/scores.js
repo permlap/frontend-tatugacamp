@@ -20,13 +20,23 @@ export async function GetAllScoresClassroom({ classroomId }) {
   }
 }
 
-export async function UpdateScoreOnStudent({ scoreId, studentId }) {
+export async function UpdateScoreOnStudent(
+  { scoreId, studentId },
+  inputValues
+) {
   try {
+    let points = 1;
+
+    if (!inputValues[scoreId]) {
+      points = 1;
+    } else if (inputValues[scoreId]) {
+      points = Number(inputValues[scoreId]);
+    }
     const access_token = localStorage.getItem("access_token");
     const updateScore = await axios.put(
       `${process.env.Server_Url}/user/score/individual/update`,
       {
-        points: 1,
+        points: points,
       },
       {
         params: {

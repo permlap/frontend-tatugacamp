@@ -10,8 +10,12 @@ import {
 import { VscDebugRestart } from "react-icons/vsc";
 import sound from "../../public/sound/ringing.mp3";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import Layout from "../../components/layout";
+import Layout from "../../layouts/classroomLayout";
+import { FiArrowLeftCircle } from "react-icons/fi";
+import { useQuery } from "react-query";
+import { GetUser } from "../../service/service";
 const Timer = () => {
+  const user = useQuery(["user"], () => GetUser());
   const [initalTime, setInitalTime] = useState(0);
   console.log("inital time", initalTime);
   const [minutes, setMinutes] = useState(0);
@@ -22,6 +26,8 @@ const Timer = () => {
   const [start, setStart] = useState(false);
   const [counter, setCounter] = useState("wait");
   const handle = useFullScreenHandle();
+  const [classroomId, setClassroomId] = useState();
+
   const timeChoices = [
     {
       seconds: 10,
@@ -45,6 +51,7 @@ const Timer = () => {
   //prepare sound for the last 3 sec
   useEffect(() => {
     setAudio(new Audio(sound));
+    setClassroomId(localStorage.getItem("classroomId"));
   }, []);
 
   //set miliseconds to seconds and minutes
@@ -91,8 +98,31 @@ const Timer = () => {
     setStart(true);
   }
 
+  const sideMenus = [
+    {
+      title: "หน้าหลัก",
+      icon: "🏫",
+      url: `/classroom`,
+    },
+    {
+      title: "ห้องเรียน",
+      icon: "👨‍🏫",
+      url: `/classroom/${classroomId}`,
+    },
+    {
+      title: "timer",
+      icon: "⏲️",
+      url: `/teacher-tools/timer`,
+    },
+
+    {
+      title: "Go back",
+      icon: <FiArrowLeftCircle />,
+      url: `/classroom/${classroomId}`,
+    },
+  ];
   return (
-    <Layout>
+    <>
       <Head>
         <title>Timer🕛 - เครื่องจับเวลา</title>
         <link
@@ -114,8 +144,9 @@ const Timer = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <div className="relative">
-        <FullScreen handle={handle}>
+      <div className="flex w-full bg-black">
+        <Layout sideMenus={sideMenus} user={user} />
+        <FullScreen handle={handle} className="w-full">
           <div className="absolute right-8 top-5">
             {!handle.active && (
               <button
@@ -141,6 +172,7 @@ const Timer = () => {
               </button>
             )}
           </div>
+
           <div
             className={`w-full h-screen  ${
               seconds < 4 && counter !== "wait" && minutes === 0
@@ -283,7 +315,7 @@ const Timer = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

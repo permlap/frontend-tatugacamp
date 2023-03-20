@@ -184,7 +184,7 @@ function Index() {
             lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-5 gap-5 mt-14 
             ${classroomState?.[0] ? "flex" : "hidden"} `}
             >
-              {classroomState?.map((list, index) => {
+              {classroomState?.map((classroom, index) => {
                 return (
                   <div
                     key={index}
@@ -193,7 +193,7 @@ function Index() {
                   >
                     <div className="text-right mt-2 ">
                       <dev className="text-3xl absolute right-4 top-3">
-                        {!list.selected && (
+                        {!classroom.selected && (
                           <div
                             onClick={() => handleOpenClasssDeleted(index)}
                             role="button"
@@ -203,12 +203,12 @@ function Index() {
                             <MdDelete />
                           </div>
                         )}
-                        {list.selected && (
+                        {classroom.selected && (
                           <div className="flex gap-x-4">
                             <div
                               role="button"
                               onClick={() => {
-                                deleteClassroom.mutate(list.id);
+                                deleteClassroom.mutate(classroom.id);
                               }}
                               className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
                             >
@@ -229,20 +229,21 @@ function Index() {
                     </div>
                     <div className="flex flex-col mt-4 md:mt-2 lg:mt-5 ml-5 ">
                       <span className="text-lg text-gray-600 font-light">
-                        {list.level}
+                        {classroom.level}
                       </span>
                       <span className="font-bold text-3xl  text-[#EDBA02]">
-                        {list.title}
+                        {classroom.title}
                       </span>
-                      <span>{list.description}</span>
+                      <span>{classroom.description}</span>
                     </div>
                     <div className="flex justify-center items-center lg:mt-5 ">
                       <button
-                        onClick={() =>
+                        onClick={() => {
+                          localStorage.setItem("classroomId", classroom.id);
                           router.push({
-                            pathname: `/classroom/${list.id}`,
-                          })
-                        }
+                            pathname: `/classroom/${classroom.id}`,
+                          });
+                        }}
                         className="w-3/4 absolute md:relative bottom-2  h-9 mt-2 rounded-lg bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover:bg-[#FFC800] active:border-2 active:text-black active:border-gray-300
                active:border-solid  focus:border-2 

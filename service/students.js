@@ -50,3 +50,39 @@ export async function CreateStudentApi(data) {
     throw new Error(err);
   }
 }
+
+export async function UpdateStudent({
+  firstName,
+  lastName,
+  number,
+  studentId,
+}) {
+  try {
+    console.log(firstName, lastName, number, studentId);
+    const access_token = localStorage.getItem("access_token");
+    const converNumber = Number(number);
+    const StringNumber = converNumber.toString();
+    const updateStudent = await axios.put(
+      `${process.env.Server_Url}/student/update`,
+      {
+        firstName: firstName,
+        lastName: lastName,
+        number: number,
+      },
+      {
+        params: {
+          studentId: studentId,
+        },
+        headers: {
+          Authorization: "Bearer " + access_token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(updateStudent);
+    return updateStudent;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}

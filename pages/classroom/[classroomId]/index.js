@@ -96,9 +96,19 @@ function Index() {
   // for passing data to sidebar
   const sideMenus = [
     {
+      title: "หน้าหลัก",
+      icon: "🏫",
+      url: `/classroom`,
+    },
+    {
       title: "ห้องเรียน",
       icon: "👨‍🏫",
       url: `#`,
+    },
+    {
+      title: "timer",
+      icon: "⏲️",
+      url: `/teacher-tools/timer`,
     },
 
     {
@@ -293,6 +303,7 @@ function Index() {
                 </div>
               </div>
             </div>
+
             {/* 
             students' avatar are here */}
             <div className="w-full max-w-7xl flex flex-wrap gap-x-12 gap-y-9 mt-10 ">
@@ -308,8 +319,12 @@ function Index() {
                             key={student.id}
                           >
                             <div
-                              className="absolute w-10 h-10 rounded-full bg-[#EDBA02] ring-2 ring-white
-                    flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5"
+                              className={`absolute w-10 h-10 rounded-full   ${
+                                student.score.totalPoints < 0
+                                  ? "bg-red-600"
+                                  : "bg-[#EDBA02] "
+                              } ring-2 ring-white
+                    flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
                             >
                               {student.score.totalPoints}
                             </div>

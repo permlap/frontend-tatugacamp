@@ -9,19 +9,23 @@ function SidebarClassroom({ user, sideMenus, triggersidebar }) {
 
   const lastRoute = pathname.split("/").pop(); // "setting"
   const [isClick, setIsClick] = useState();
-
   useEffect(() => {
     if (lastRoute === "setting") {
       setIsClick(1);
     } else if (lastRoute === "classroom") {
       setIsClick(0);
+    } else if (lastRoute === "[classroomId]") {
+      setIsClick(1);
+    } else if (lastRoute === "timer") {
+      setIsClick(2);
     }
   }, []);
 
   return (
     <div
-      className={`bg-white w-[280px] h-screen rounded-tr-md block opacity-100 scale-100    transition duration-300  rounded-br-md sticky font-Kanit top-0 left-0 
-      ${triggersidebar === false && "-translate-x-60  hide  "}`}
+      className={`bg-white w-[280px] h-screen rounded-tr-md block opacity-100 scale-100 drop-shadow-xl 
+        transition duration-300  rounded-br-md fixed font-Kanit  top-0 left-0 z-20 
+      ${triggersidebar === false && "-translate-x-96   "}`}
     >
       <ul className="list-none pl-0 flex justify-center items-center flex-col">
         <li className="mt-12">
