@@ -128,17 +128,6 @@ function Navbar() {
               </Button>
             </Link>
           </li>
-          <li>
-            <Link href="/teacher-tools">
-              <button
-                className="focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto
-             bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out 
-             cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]"
-              >
-                <span>Timer 🕛</span>
-              </button>
-            </Link>
-          </li>
 
           <li className="">
             <Link href="/about-us">

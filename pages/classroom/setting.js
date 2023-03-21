@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import Layout from "../../layouts/classroomLayout";
-import { GetUser } from "../../service/service";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
-import { UpdateUserData, UploadProfilePicture } from "../../service/user";
+import {
+  GetUser,
+  UpdateUserData,
+  UploadProfilePicture,
+} from "../../service/user";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import Loading from "../../components/loading/loading";

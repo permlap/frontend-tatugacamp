@@ -153,6 +153,7 @@
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
 }
+
 @keyframes popupAnimation {
   0% {
     transform: translateY(3rem);

@@ -1,22 +1,6 @@
 import axios from "axios";
 import Error from "next/error";
 import { FcUndo } from "react-icons/fc";
-export async function GetUser() {
-  try {
-    const access_token = localStorage.getItem("access_token");
-    const user = await axios.get(`${process.env.Server_Url}/users/me`, {
-      headers: {
-        Authorization: "Bearer " + access_token,
-      },
-    });
-
-    return user;
-  } catch (err) {
-    if (err.response.status === 401) {
-      return "Unauthorized";
-    }
-  }
-}
 
 export async function CreateClassroom(inputObject, access_token) {
   try {
@@ -87,7 +71,35 @@ export async function GetOneClassroom({ params }) {
       `${process.env.Server_Url}/user/classroom/get-a-classroom/${params}`,
       {
         headers: {
+          "Content-Type": "application/json",
           Authorization: "Bearer " + access_token,
+        },
+      }
+    );
+
+    return classroom;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function UpdateClassroom({ classroomState }) {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    const classroom = await axios.put(
+      `${process.env.Server_Url}/user/classroom/update`,
+      {
+        title: classroomState.title,
+        level: classroomState.level,
+        description: classroomState.description,
+      },
+      {
+        params: {
+          classroomId: classroomState.id,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
         },
       }
     );

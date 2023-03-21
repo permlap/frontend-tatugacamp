@@ -1,6 +1,23 @@
 import axios from "axios";
 import Error from "next/error";
 
+export async function GetUser() {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    const user = await axios.get(`${process.env.Server_Url}/users/me`, {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    });
+
+    return user;
+  } catch (err) {
+    if (err.response.status === 401) {
+      return "Unauthorized";
+    }
+  }
+}
+
 export async function UploadProfilePicture(formData) {
   try {
     const access_token = localStorage.getItem("access_token");

@@ -6,11 +6,7 @@ import { FcCheckmark, FcCancel } from "react-icons/fc";
 import CreateClass from "../../components/form/createClass";
 import { Popover } from "@headlessui/react";
 import { useMutation, useQuery } from "react-query";
-import {
-  DeleteClassroom,
-  GetAllClassrooms,
-  GetUser,
-} from "../../service/service";
+import { DeleteClassroom, GetAllClassrooms } from "../../service/classroom";
 import * as animationData from "../../components/LoadingScreen.json";
 import Lottie from "lottie-react";
 import Head from "next/head";
@@ -26,6 +22,7 @@ import {
 } from "react-icons/fi";
 import Layout from "../../layouts/classroomLayout";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
+import { GetUser } from "../../service/user";
 
 function Index() {
   const router = useRouter();
@@ -44,6 +41,9 @@ function Index() {
 
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      router.push("/auth/signIn");
+    }
     setAccess_token(access_token);
 
     if (user.data === "Unauthorized") {
@@ -106,20 +106,35 @@ function Index() {
 
   return (
     <div className="bg-white w-full h-full font-Kanit">
+      <Head>
+        <meta property="og:title" content={`TaTuga class`} />
+        <meta
+          property="og:description"
+          content="ห้องเรีัยน tatuga จาก tatuga camp"
+        />
+        <meta property="og:image" content="/thumnail/thumnail.jpg" />
+        <meta property="og:image:secure_url" content="/thumnail/thumnail.jpg" />
+        <meta name="twitter:image:src" content="/thumnail/thumnail.jpg" />
+        <meta
+          name="keywords"
+          content={`TaTuga camp, tatugacamp, tatuga camp, English, English camp, camp for 
+            learning English, card game, activities in classroom, กิจกรรมค่ายภาษาอังกฤษ,
+             การ์ดเกมเพื่อการเรียนรู้, การ์ดเกม, `}
+        />
+        <meta charSet="UTF-8" />
+        <meta
+          name="description"
+          content="ห้องเรียนจาก Tatuga camp ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TaTuga class</title>
+      </Head>
       <div className="fixed lg:hidden z-50 top-0 right-0 bottom-0 left-0 m-auto bg-black w-full h-full text-white flex justify-center items-center">
         <div className="w-40 text-center ">
           รองรับการแสดงผลบน desktop เท่านั้น! โปรดเข้าใหม่โดยใช้คอมพิวเตอร์
         </div>
       </div>
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta
-          name="description"
-          content="oneline taboo game for students who wants to play them online เกมส์ทาบู ทายคำศัพท์ จาก TaTuga camp"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>TaTuga class</title>
-      </Head>
+
       <div
         className={`flex  w-full bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
           classroomState?.[0] ? "h-full" : "h-screen"

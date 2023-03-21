@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import SidebarClassroom from "../../../components/sidebar/sidebarClassroom";
-import { GetOneClassroom, GetUser } from "../../../service/service";
+import { GetOneClassroom } from "../../../service/classroom";
 import {
   FiHome,
   FiSettings,
@@ -25,10 +25,14 @@ import { AiTwotoneStar } from "react-icons/ai";
 import Image from "next/image";
 import { GetAllScoresClassroom } from "../../../service/scores";
 import CreateScore from "../../../components/form/createScore";
+import CreateClass from "../../../components/form/createClass";
+import UpdateClass from "../../../components/form/updateClass";
+import { GetUser } from "../../../service/user";
+import { Skeleton } from "@mui/material";
 function Index() {
   const router = useRouter();
+  const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
   const user = useQuery(["user"], () => GetUser());
-
   const students = useQuery(
     ["students"],
     () => GetAllStudents({ classroomId: router.query.classroomId }),
@@ -39,12 +43,38 @@ function Index() {
     () => GetOneClassroom({ params: router.query.classroomId }),
     { enabled: false }
   );
-  const scores = useQuery(["scores"], () =>
-    GetAllScoresClassroom({ classroomId: router.query.classroomId })
+  const scores = useQuery(
+    ["scores"],
+    () => GetAllScoresClassroom({ classroomId: router.query.classroomId }),
+    { enabled: false }
   );
   const [studentsRearrange, setStudentRearrange] = useState(
     students?.data?.data
   );
+  console.log(students.isLoading, "students fetching");
+  console.log(classroom.isLoading, "classroom fetching");
+  console.log(scores.isLoading, "scores fetching");
+
+  //check whether there is authorrized acccess or not
+  useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      router.push("/auth/signIn");
+    }
+    if (user.data === "Unauthorized") {
+      router.push("/auth/signIn");
+    }
+    if (user.isFetching === false) {
+      if (!user.data) {
+        router.push("/auth/signIn");
+      }
+    }
+    if (router.isReady) {
+      classroom.refetch();
+      students.refetch();
+      scores.refetch();
+    }
+  }, [router.isReady, user.data === "Unauthorized"]);
 
   // find totalPoints in the classroom
   const totalPoints = students?.data?.data?.reduce(
@@ -76,22 +106,6 @@ function Index() {
     classroom.data?.data?.classroomCode.slice(0, 3) +
     "-" +
     classroom.data?.data?.classroomCode.slice(3);
-
-  useEffect(() => {
-    if (user.data === "Unauthorized") {
-      router.push("/auth/signIn");
-    }
-    if (user.isFetching === false) {
-      if (!user.data) {
-        router.push("/auth/signIn");
-      }
-    }
-    if (router.isReady) {
-      classroom.refetch();
-      students.refetch();
-      scores.refetch();
-    }
-  }, [router.isReady, user.data === "Unauthorized"]);
 
   useEffect(() => {
     if (classroom?.data?.response?.data.statusCode === 401) {
@@ -161,6 +175,30 @@ function Index() {
             className="w-full max-w-6xl rounded-3xl mt-32 flex gap-x-4 z-10 bg-blue-200 h-40 
           items-center justify-start relative  "
           >
+            <Popover>
+              {({ open }) => (
+                <>
+                  <Popover.Button
+                    className="absolute top-4 left-3 text-2xl text-gray-500 cursor-pointer
+border-none flex items-center justify-center hover:animate-spin bg-transparent animate-none 	"
+                  >
+                    <div className="flex items-center justify-center">
+                      <FiSettings />
+                    </div>
+                  </Popover.Button>
+                  <Popover.Panel>
+                    {({ close }) => (
+                      <UpdateClass
+                        close={close}
+                        classroom={classroom?.data?.data}
+                        refetch={classroom.refetch}
+                      />
+                    )}
+                  </Popover.Panel>
+                </>
+              )}
+            </Popover>
+
             <div
               className="flex flex-col items-center justify-center gap-y-3 absolute top-[5rem] right-[2rem] z-10 
             p-2 "
@@ -172,7 +210,7 @@ function Index() {
               <Popover className="relative flex items-center justify-center">
                 {({ open }) => (
                   <>
-                    <Popover.Button className="bg-transparent border-none active:border-none  ">
+                    <Popover.Button className="bg-transparent border-none active:border-none ">
                       <div
                         aria-label="ขยายเพื่อดูรหัสห้องเรียน"
                         className={`
@@ -227,7 +265,7 @@ function Index() {
                 </span>
               </div>
             </div>
-            <div className="absolute right-0 -top-20 ">
+            <div className="absolute right-0 -top-20  ">
               <Lottie animationData={ClassroomAnimation} style={style} />
             </div>
           </header>
@@ -312,65 +350,94 @@ function Index() {
             {/* 
             students' avatar are here */}
             <div className="w-full max-w-7xl flex flex-wrap gap-x-12 gap-y-9 mt-10 ">
-              {studentsRearrange?.map((student) => {
-                return (
-                  <Popover key={student.id}>
-                    {({ open }) => (
-                      <div className="relative ">
-                        <Popover.Button className="bg-transparent border-none active:border-none appearance-none focus:outline-none">
+              {students.isLoading
+                ? skeletion.map((number) => {
+                    return (
+                      <Skeleton key={number} variant="rounded">
+                        <button className="bg-transparent border-none active:border-none appearance-none focus:outline-none">
                           <div
                             className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
-                     duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
-                            key={student.id}
+                       duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
                           >
                             <div
-                              className={`absolute w-10 h-10 rounded-full   ${
-                                student.score.totalPoints < 0
-                                  ? "bg-red-600"
-                                  : "bg-[#EDBA02] "
-                              } ring-2 ring-white
-                    flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
-                            >
-                              {student.score.totalPoints}
-                            </div>
+                              className={`absolute w-10 h-10 rounded-full    ring-2 ring-white
+                      flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
+                            ></div>
                             <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
                               <Image
-                                src={student.picture}
+                                src=""
                                 layout="fill"
                                 alt="student's avatar"
                                 className="object-cover scale-150 translate-y-8"
                               />
                             </div>
                             <div className="font-Kanit text-xl flex items-center justify-start gap-2">
-                              <div className=" bg-blue-500 font-semibold text-white w-5 h-5 flex items-center justify-center  rounded-md">
-                                {student.number}
-                              </div>
-                              {student.firstName}
+                              <div className=" bg-blue-500 font-semibold text-white w-5 h-5 flex items-center justify-center  rounded-md"></div>
                             </div>
                           </div>
-                        </Popover.Button>
-                        <Popover.Panel>
-                          {({ close }) => (
-                            <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
-                              {scores?.data?.data?.map((score) => {
-                                return (
-                                  <CreateScore
-                                    key={score.id}
-                                    close={close}
-                                    student={student}
-                                    scores={scores.data}
-                                    students={students}
+                        </button>
+                      </Skeleton>
+                    );
+                  })
+                : studentsRearrange?.map((student) => {
+                    return (
+                      <Popover key={student.id}>
+                        {({ open }) => (
+                          <div className="relative ">
+                            <Popover.Button className="bg-transparent border-none active:border-none appearance-none focus:outline-none">
+                              <div
+                                className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
+                       duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
+                                key={student.id}
+                              >
+                                <div
+                                  className={`absolute w-10 h-10 rounded-full   ${
+                                    student.score.totalPoints < 0
+                                      ? "bg-red-600"
+                                      : "bg-[#EDBA02] "
+                                  } ring-2 ring-white
+                      flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
+                                >
+                                  {student.score.totalPoints}
+                                </div>
+                                <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
+                                  <Image
+                                    src={student.picture}
+                                    layout="fill"
+                                    alt="student's avatar"
+                                    className="object-cover scale-150 translate-y-8"
                                   />
-                                );
-                              })}
-                            </div>
-                          )}
-                        </Popover.Panel>
-                      </div>
-                    )}
-                  </Popover>
-                );
-              })}
+                                </div>
+                                <div className="font-Kanit text-xl flex items-center justify-start gap-2">
+                                  <div className=" bg-blue-500 font-semibold text-white w-5 h-5 flex items-center justify-center  rounded-md">
+                                    {student.number}
+                                  </div>
+                                  {student.firstName}
+                                </div>
+                              </div>
+                            </Popover.Button>
+                            <Popover.Panel>
+                              {({ close }) => (
+                                <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
+                                  {scores?.data?.data?.map((score) => {
+                                    return (
+                                      <CreateScore
+                                        key={score.id}
+                                        close={close}
+                                        student={student}
+                                        scores={scores.data}
+                                        students={students}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </Popover.Panel>
+                          </div>
+                        )}
+                      </Popover>
+                    );
+                  })}
             </div>
           </main>
         </div>

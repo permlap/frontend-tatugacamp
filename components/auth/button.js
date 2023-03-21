@@ -8,13 +8,13 @@ import Loading from "../loading/loading";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
-import { GetUser } from "../../service/service";
 import Link from "next/link";
 import {
   BsChevronCompactDown,
   BsChevronDoubleDown,
   BsChevronDown,
 } from "react-icons/bs";
+import { GetUser } from "../../service/user";
 
 function AuthButton() {
   const [dropDown, setDropDown] = useState(false);

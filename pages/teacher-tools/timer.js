@@ -13,7 +13,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Layout from "../../layouts/classroomLayout";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { useQuery } from "react-query";
-import { GetUser } from "../../service/service";
+import { GetUser } from "../../service/user";
 const Timer = () => {
   const user = useQuery(["user"], () => GetUser());
   const [initalTime, setInitalTime] = useState(0);
@@ -147,10 +147,11 @@ const Timer = () => {
       <div className="flex w-full bg-black">
         <Layout sideMenus={sideMenus} user={user} />
         <FullScreen handle={handle} className="w-full">
-          <div className="absolute right-8 top-5">
+          <div className=" right-[47%] top-10 absolute ">
             {!handle.active && (
               <button
-                className="w-max h-max flex group flex-col gap-y-1 items-center justify-center p-0 bg-transparent border-0 cursor-pointer text-white"
+                className="w-max h-max flex group flex-col gap-y-1 items-center justify-center p-0 bg-transparent border-0 
+                cursor-pointer text-white"
                 onClick={handle.enter}
               >
                 <div className="group-hover:scale-125 transition duration-200 ease-in-out ">
