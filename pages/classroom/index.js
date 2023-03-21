@@ -149,12 +149,15 @@ function Index() {
             <header className="mt-5 bg-transparent rounded-lg  p-5 md:px-10 xl:px-20 w-max  relative  ">
               <div className=" w-full flex items-center justify-center    bg-transparent">
                 <div
-                  className="xl:w-[30rem] md:w-96 text-left leading-[3.5rem] mt-16 ml-28 pl-10 py-5 rounded-lg 
+                  className="xl:w-[35rem] md:w-96 text-left leading-[3.5rem] mt-16 ml-28 pl-10 py-5 rounded-lg 
                   h-max z-10 relative"
                 >
-                  <span className="xl:text-7xl md:text-2xl font-semibold  font-Kanit tracking-wider ">
-                    สร้างห้องเรียนของคุณได้ที่นี่
-                  </span>
+                  <div className="xl:text-7xl md:text-2xl font-semibold  font-Kanit tracking-wider relative ">
+                    <span className="text-8xl hover:text-[#2C7CD1] text-black duration-150 transition">
+                      สร้าง
+                    </span>
+                    <span>ห้องเรียนของคุณได้ที่นี่</span>
+                  </div>
                 </div>
                 <div className="absolute -top-20 -left-36 ">
                   <Lottie animationData={teacherAnimation} style={style} />

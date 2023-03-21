@@ -10,7 +10,7 @@ function Layout({ children, user, sideMenus, trigger }) {
 
   return (
     <>
-      <main className="bg-white">
+      <main className="bg-white w-max h-max">
         <div className="absolute top-0 right-0 mr-5 mt-5">
           <AuthButton />
         </div>

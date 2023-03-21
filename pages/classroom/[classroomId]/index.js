@@ -51,9 +51,6 @@ function Index() {
   const [studentsRearrange, setStudentRearrange] = useState(
     students?.data?.data
   );
-  console.log(students.isLoading, "students fetching");
-  console.log(classroom.isLoading, "classroom fetching");
-  console.log(scores.isLoading, "scores fetching");
 
   //check whether there is authorrized acccess or not
   useEffect(() => {
