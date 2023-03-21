@@ -1,4 +1,5 @@
 import axios from "axios";
+import Error from "next/error";
 import { FcUndo } from "react-icons/fc";
 export async function GetUser() {
   try {
@@ -34,6 +35,7 @@ export async function CreateClassroom(inputObject, access_token) {
       }
     );
   } catch (err) {
+    console.log("err from service", err);
     throw new Error(err);
   }
 }

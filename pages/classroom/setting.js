@@ -54,6 +54,11 @@ function Setting() {
     if (user.data === "Unauthorized") {
       router.push("/auth/signIn");
     }
+    if (user.isFetching === false) {
+      if (!user.data) {
+        router.push("/auth/signIn");
+      }
+    }
     setUserData((prevState) => ({
       ...prevState,
       firstName: user?.data?.data?.firstName,

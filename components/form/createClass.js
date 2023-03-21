@@ -2,17 +2,27 @@ import React from "react";
 
 import { CreateClassroom } from "../../service/service";
 import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
+import Swal from "sweetalert2";
 
 function CreateClass({ close, refetch }) {
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const access_token = localStorage.getItem("access_token");
+    try {
+      e.preventDefault();
+      const access_token = localStorage.getItem("access_token");
 
-    const formData = new FormData(e.target);
-    const inputObject = Object.fromEntries(formData);
-    const classroom = await CreateClassroom(inputObject, access_token);
-    refetch();
-    close();
+      const formData = new FormData(e.target);
+      const inputObject = Object.fromEntries(formData);
+      const classroom = await CreateClassroom(inputObject, access_token);
+      refetch();
+      close();
+    } catch (err) {
+      console.log("err", err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+    }
   };
 
   return (
@@ -64,7 +74,7 @@ function CreateClass({ close, refetch }) {
             </div>
           </div>
           <div className="flex flex-col relative mt-2">
-            <label className="font-sans font-normal">คำอธิบาย</label>
+            <label className="font-sans font-normal">คำอธิบาย (optional)</label>
             <input
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"

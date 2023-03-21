@@ -2,17 +2,16 @@ import Lottie from "lottie-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FiPlusSquare, FiSave, FiSettings } from "react-icons/fi";
-
 import { UpdateScoreOnStudent } from "../../service/scores";
 import * as animationData from "../../public/json/well-done-output.json";
 import fileSoundPositive from "../../public/sound/ging.mp3";
 import fileSoundNagative from "../../public/sound/wrong.mp3";
 import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
 import { UpdateStudent } from "../../service/students";
+
 function CreateScore({ close, student, scores, students }) {
   const [soundPositive, setSoundPositive] = useState(null);
   const [soundNagative, setSoundNagative] = useState(null);
-
   const [clickScoreTitle, setClickScoreTitle] = useState();
   const [runScoreTitle, setRunScoreTitle] = useState(false);
   const [runAnimation, setRunAnimation] = useState(false);

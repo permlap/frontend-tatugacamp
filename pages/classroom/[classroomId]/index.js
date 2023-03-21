@@ -81,6 +81,11 @@ function Index() {
     if (user.data === "Unauthorized") {
       router.push("/auth/signIn");
     }
+    if (user.isFetching === false) {
+      if (!user.data) {
+        router.push("/auth/signIn");
+      }
+    }
     if (router.isReady) {
       classroom.refetch();
       students.refetch();

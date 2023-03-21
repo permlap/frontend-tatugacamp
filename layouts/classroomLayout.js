@@ -1,3 +1,4 @@
+import { Popover, Transition } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import { FiChevronsLeft, FiChevronsRight, FiSidebar } from "react-icons/fi";
 import AuthButton from "../components/auth/button";
@@ -5,32 +6,48 @@ import AuthButton from "../components/auth/button";
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
 function Layout({ children, user, sideMenus, trigger }) {
-  const [triggersidebar, setTriggerSidebar] = useState(false);
+  const [triggersidebar, setTriggerSidebar] = useState(true);
 
   return (
     <>
-      <main className="">
+      <main className="bg-transparent">
         <div className="absolute top-0 right-0 mr-5 mt-5">
           <AuthButton />
         </div>
-        <div
-          onClick={() => {
-            setTriggerSidebar((prev) => !prev);
-            trigger && trigger((prev) => (prev = triggersidebar));
-          }}
-          aria-label="Show sidebar"
-          role="button"
-          className="text-2xl mt-5 ml-5 fixed z-30 w-10 h-10 
+        <Popover className="relative">
+          {({ open }) => (
+            <>
+              <Popover.Button className=" w-max bg-transparent h-max border-none active:border-none z-30 relative">
+                <div
+                  // onClick={() => {
+                  //   setTriggerSidebar((prev) => !prev);
+                  //   trigger && trigger((prev) => (prev = triggersidebar));
+                  // }}
+                  aria-label="Show sidebar"
+                  role="button"
+                  className="text-2xl mt-5 ml-5 fixed z-30 w-10 h-10 
         flex justify-center items-center  text-black drop-shadow cursor-pointer
-        hover:scale-125 transition duration-100 ease-in-out"
-        >
-          <FiSidebar />
-        </div>
-        <SidebarClassroom
-          sideMenus={sideMenus}
-          user={user}
-          triggersidebar={triggersidebar}
-        />
+        hover:scale-125 transition duration-100 ease-in-out "
+                >
+                  <FiSidebar />
+                </div>
+              </Popover.Button>
+              <Transition>
+                <Popover.Panel>
+                  {({ close }) => (
+                    <SidebarClassroom
+                      sideMenus={sideMenus}
+                      user={user}
+                      triggersidebar={triggersidebar}
+                      close={close}
+                    />
+                  )}
+                </Popover.Panel>
+              </Transition>
+            </>
+          )}
+        </Popover>
+
         <section>{children}</section>
       </main>
     </>
