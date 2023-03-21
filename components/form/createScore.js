@@ -6,8 +6,16 @@ import { UpdateScoreOnStudent } from "../../service/scores";
 import * as animationData from "../../public/json/well-done-output.json";
 import fileSoundPositive from "../../public/sound/ging.mp3";
 import fileSoundNagative from "../../public/sound/wrong.mp3";
-import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
-import { UpdateStudent } from "../../service/students";
+import {
+  FcBusinessContact,
+  FcCancel,
+  FcCheckmark,
+  FcLineChart,
+  FcViewDetails,
+} from "react-icons/fc";
+import { DelteStudent, UpdateStudent } from "../../service/students";
+import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
 
 function CreateScore({ close, student, scores, students }) {
   const [soundPositive, setSoundPositive] = useState(null);
@@ -18,6 +26,7 @@ function CreateScore({ close, student, scores, students }) {
   const [pointsValue, setpointsValue] = useState(1);
   const [data, setData] = useState(animationData);
   const [error, setError] = useState();
+  const [isDeleteStudent, setIsDeleteStudent] = useState(false);
   const [triggerSetting, setTriggerSetting] = useState(false);
   const [studentData, setStdentData] = useState({
     firstName: "",
@@ -42,12 +51,30 @@ function CreateScore({ close, student, scores, students }) {
     setpointsValue((prev) => ({ ...prev, [id]: value }));
   };
 
+  //handleonChange when update students data
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setStdentData((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  //handle delete student
+  const handleDelteStudent = async (data) => {
+    try {
+      const deletedStudent = await DelteStudent({ studentId: data.studentId });
+      Swal.fire("success", deletedStudent.data.message, "success");
+      students.refetch();
+      console.log(deletedStudent);
+    } catch (err) {
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+      students.refetch();
+    }
   };
 
   //handle sumit to update student data
@@ -162,6 +189,39 @@ function CreateScore({ close, student, scores, students }) {
         className="flex w-max h-max font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-20 
     top-0 right-0 left-0 bottom-0 m-auto fixed"
       >
+        <div
+          className="absolute right-5 top-5 gap-1 flex items-center 
+        justify-center text-red-500 hover:text-red-800 transition duration-150 cursor-pointer "
+        >
+          {isDeleteStudent === false && (
+            <div
+              className="flex items-center justify-center"
+              onClick={() => setIsDeleteStudent(true)}
+            >
+              <MdDelete size={25} />
+              <span className="text-sm">ลบผู้เรียน</span>
+            </div>
+          )}
+
+          {isDeleteStudent === true && (
+            <div className="flex gap-x-4">
+              <div
+                onClick={() => handleDelteStudent({ studentId: student.id })}
+                role="button"
+                className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
+              >
+                <FcCheckmark size={25} />
+              </div>
+              <div
+                role="button"
+                onClick={() => setIsDeleteStudent(false)}
+                className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
+              >
+                <FcCancel size={25} />
+              </div>
+            </div>
+          )}
+        </div>
         {runAnimation && (
           <div className="absolute z-10   top-10 right-0 left-0 bottom-0 m-auto flex items-center justify-center flex-col">
             <Lottie animationData={data} style={style} />
@@ -204,7 +264,7 @@ function CreateScore({ close, student, scores, students }) {
                   role="button"
                   onClick={() => setTriggerSetting((prev) => (prev = true))}
                   aria-label="button for setting student's data"
-                  className="w-max h-max bg-slate-500  text-lg cursor-pointer hover:text-red-500 hover:bg-white
+                  className="w-max h-max bg-slate-500 mt-2  text-lg cursor-pointer hover:text-red-500 hover:bg-white
                   text-white p-1 rounded-md flex gap-2 px-6 transition duration-150 ease-in-out z-20 group hover:ring-2  bottom-0 ring-black"
                 >
                   <span>ตั้งค่า</span>
@@ -293,19 +353,19 @@ function CreateScore({ close, student, scores, students }) {
                 </button>
               </form>
             )}
-            <div className="">
-              <div className="flex items-center justify-center h-5 mt-2 text-lg w-full">
+            <div className="flex flex-col">
+              <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
                 คะแนนของผู้เรียน
               </div>
               <div
                 className="w-96 h-48 flex flex-col items-center gap-3 mt-3 overflow-auto 
-              scrollbar justify-start "
+              scrollbar justify-start  "
               >
                 {student.score.title.map((title) => {
                   return (
                     <div
                       key={title.id}
-                      className="w-5/6 h-5 py-2 rounded-lg font-Kanit text-md
+                      className="w-5/6 h-5 py-2  rounded-lg font-Kanit text-md
                     bg-yellow-300 flex items-center justify-between"
                     >
                       <div className="text-md ml-10">{title.title}</div>
@@ -387,6 +447,12 @@ function CreateScore({ close, student, scores, students }) {
                       </div>
                     );
                   })}
+                </div>
+                <div className="w-max h-max text-sm mt-2 text-red-600">
+                  <span>
+                    **หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น
+                    -5
+                  </span>
                 </div>
               </div>
             </div>

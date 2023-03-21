@@ -183,6 +183,8 @@ function Index() {
                 </Popover>
               </div>
             </header>
+
+            {/* classrooms are here  */}
             <main
               className={`w-full h-max lg:pb-40 flex-col  
               md:flex-row md:flex-wrap items-start justify-center 

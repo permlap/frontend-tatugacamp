@@ -63,7 +63,7 @@ export async function UpdateStudent({
     const converNumber = Number(number);
     const StringNumber = converNumber.toString();
     const updateStudent = await axios.put(
-      `${process.env.Server_Url}/student/update`,
+      `${process.env.Server_Url}/user/student/update`,
       {
         firstName: firstName,
         lastName: lastName,
@@ -81,6 +81,29 @@ export async function UpdateStudent({
     );
     console.log(updateStudent);
     return updateStudent;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
+
+export async function DelteStudent({ studentId }) {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    console.log("studentId", studentId);
+    const deleteStudent = await axios.delete(
+      `${process.env.Server_Url}/user/student/delete`,
+      {
+        params: {
+          studentId: studentId,
+        },
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    console.log(deleteStudent);
+    return deleteStudent;
   } catch (err) {
     console.log(err);
     throw new Error(err);

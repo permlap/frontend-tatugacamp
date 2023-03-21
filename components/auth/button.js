@@ -78,8 +78,8 @@ function AuthButton() {
   return (
     <Menu>
       <Menu.Button
-        className="flex bg-white  border-0 cursor-pointer 
-    rounded-md p-3  ring-orange-400 group
+        className="flex bg-white w-46 relative   border-0 cursor-pointer 
+    rounded-md p-3   ring-orange-400 group
     items-center justify-center gap-x-3 "
       >
         {data.data.picture ? (

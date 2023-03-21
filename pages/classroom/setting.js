@@ -139,6 +139,11 @@ function Setting() {
 
   return (
     <div className="flex font-sans  ">
+      <div className="fixed lg:hidden z-50 top-0 right-0 bottom-0 left-0 m-auto bg-black w-full h-full text-white flex justify-center items-center">
+        <div className="w-40 text-center ">
+          รองรับการแสดงผลบน desktop เท่านั้น! โปรดเข้าใหม่โดยใช้คอมพิวเตอร์
+        </div>
+      </div>
       <Layout sideMenus={sideMenus} user={user} trigger={chooseMessage} />
       <div
         className={`w-full h-screen mt-10  flex flex-col ${

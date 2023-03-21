@@ -188,14 +188,14 @@ function Index() {
                       {({ close }) => (
                         <div
                           className="w-full h-full fixed  overflow-hidden right-0 left-0 top-0 bottom-0 m-auto
-                      bg-white/10 backdrop-blur-sm"
+                      bg-white/30 backdrop-blur-md"
                           onClick={() => close()}
                         >
                           <div
                             className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto bg-[#EDBA02] rounded-xl cursor-pointer
             hover:scale-110 transition duration-200 ease-in-out"
                           >
-                            <span className="font-sans font-bold text-9xl text-white">
+                            <span className="font-sans font-bold text-[15rem] text-white px-40">
                               {classroomCode}
                             </span>
                           </div>
@@ -287,10 +287,10 @@ function Index() {
                     <AiTwotoneStar size={20} />
                   </div>
                   <div className="flex items-start justify-center flex-col font-sans">
-                    <span className="font-bold text-2xl">
-                      {totalPoints} points
+                    <span className="font-bold text-2xl"></span>
+                    <span className="text-sm font-medium text-gray-200">
+                      Tasks progress incoming
                     </span>
-                    <span className="text-sm font-medium">Overall score</span>
                   </div>
                 </div>
                 <div className="w-5/6  py-1 h-16 bg-[#EB6297] flex items-center justify-start gap-5  rounded-lg text-white">
