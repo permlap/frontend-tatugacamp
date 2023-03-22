@@ -24,8 +24,7 @@ import { BsPeopleFill } from "react-icons/bs";
 import { AiTwotoneStar } from "react-icons/ai";
 import Image from "next/image";
 import { GetAllScoresClassroom } from "../../../service/scores";
-import CreateScore from "../../../components/form/createScore";
-import CreateClass from "../../../components/form/createClass";
+import UpdateScore from "../../../components/form/updateScore";
 import UpdateClass from "../../../components/form/updateClass";
 import { GetUser } from "../../../service/user";
 import { Skeleton } from "@mui/material";
@@ -112,7 +111,7 @@ function Index() {
   // for passing data to sidebar
   const sideMenus = [
     {
-      title: "หน้าหลัก",
+      title: "โรงเรียน",
       icon: "🏫",
       url: `/classroom`,
     },
@@ -360,14 +359,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                               className={`absolute w-10 h-10 rounded-full    ring-2 ring-white
                       flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
                             ></div>
-                            <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
-                              <Image
-                                src=""
-                                layout="fill"
-                                alt="student's avatar"
-                                className="object-cover scale-150 translate-y-8"
-                              />
-                            </div>
+                            <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white"></div>
                             <div className="font-Kanit text-xl flex items-center justify-start gap-2">
                               <div className=" bg-blue-500 font-semibold text-white w-5 h-5 flex items-center justify-center  rounded-md"></div>
                             </div>
@@ -416,17 +408,13 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                             <Popover.Panel>
                               {({ close }) => (
                                 <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
-                                  {scores?.data?.data?.map((score) => {
-                                    return (
-                                      <CreateScore
-                                        key={score.id}
-                                        close={close}
-                                        student={student}
-                                        scores={scores.data}
-                                        students={students}
-                                      />
-                                    );
-                                  })}
+                                  <UpdateScore
+                                    close={close}
+                                    student={student}
+                                    scores={scores.data}
+                                    students={students}
+                                    refetchScores={scores.refetch}
+                                  />
                                 </div>
                               )}
                             </Popover.Panel>

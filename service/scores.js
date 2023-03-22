@@ -27,10 +27,10 @@ export async function UpdateScoreOnStudent(
   try {
     let points = 1;
 
-    if (!inputValues[scoreId]) {
+    if (!inputValues) {
       points = 1;
-    } else if (inputValues[scoreId]) {
-      points = Number(inputValues[scoreId]);
+    } else if (inputValues) {
+      points = Number(inputValues);
     }
     const access_token = localStorage.getItem("access_token");
     const updateScore = await axios.put(
@@ -51,6 +51,53 @@ export async function UpdateScoreOnStudent(
 
     return updateScore;
   } catch (err) {
+    throw new Error(err);
+  }
+}
+
+export async function CreateScoreOnClass({ title, emoji, classroomId }) {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    const score = await axios.post(
+      `${process.env.Server_Url}/user/score/create`,
+      {
+        title: title,
+        picture: emoji,
+      },
+      {
+        params: {
+          classroomId: classroomId,
+        },
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return score;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
+
+export async function HideScore({ scoreId }) {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    const score = await axios.put(
+      `${process.env.Server_Url}/user/score/hide-score`,
+      {},
+      {
+        params: {
+          scoreId: scoreId,
+        },
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return score;
+  } catch (err) {
+    console.log(err);
     throw new Error(err);
   }
 }

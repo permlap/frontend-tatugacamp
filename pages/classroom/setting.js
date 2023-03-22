@@ -30,7 +30,7 @@ function Setting() {
   // for passing data to sidebar
   const sideMenus = [
     {
-      title: "หน้าหลัก",
+      title: "โรงเรียน",
       icon: "🏫",
       url: "/classroom",
     },

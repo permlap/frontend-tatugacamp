@@ -100,7 +100,7 @@ const Timer = () => {
 
   const sideMenus = [
     {
-      title: "หน้าหลัก",
+      title: "โรงเรียน",
       icon: "🏫",
       url: `/classroom`,
     },
@@ -144,7 +144,7 @@ const Timer = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <div className="flex w-full bg-black">
+      <div className="flex w-full">
         <Layout sideMenus={sideMenus} user={user} />
         <FullScreen handle={handle} className="w-full">
           <div className=" right-[47%] top-10 absolute ">
