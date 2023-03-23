@@ -41,7 +41,7 @@ function Setting() {
       url: "/classroom/setting",
     },
     {
-      title: "Go back",
+      title: "หน้าหลัก",
       icon: <FiArrowLeftCircle />,
       url: "/",
     },

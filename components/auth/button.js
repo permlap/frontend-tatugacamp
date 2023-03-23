@@ -32,7 +32,7 @@ function AuthButton() {
     }
     refetch();
   }, [router.query?.access_token]);
-
+  console.log(router.query.access_token);
   const { isLoading, isError, data, error, isFetching, refetch } = useQuery(
     ["user"],
     () => GetUser(access_token),

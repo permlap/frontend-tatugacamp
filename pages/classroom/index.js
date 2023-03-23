@@ -28,34 +28,37 @@ function Index() {
   const router = useRouter();
   const [access_token, setAccess_token] = useState();
   const [classroomState, setClassroomState] = useState();
-  const classrooms = useQuery(["classrooms"], () =>
-    GetAllClassrooms().then((res) => {
-      setClassroomState((prev) => (prev = res?.data));
-    })
+  const classrooms = useQuery(
+    ["classrooms"],
+    () =>
+      GetAllClassrooms().then((res) => {
+        setClassroomState((prev) => (prev = res?.data));
+      }),
+    {
+      enabled: false,
+    }
   );
-  const user = useQuery(["user"], () => GetUser());
+  const user = useQuery(["user"], () => GetUser(), {
+    enabled: false,
+  });
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
     classrooms.refetch();
   });
 
   useEffect(() => {
+    if (router.query.access_token) {
+      localStorage.setItem("access_token", router.query.access_token);
+      setAccess_token((prev) => (prev = localStorage.getItem("access_token")));
+    }
     const access_token = localStorage.getItem("access_token");
-    if (!access_token) {
-      router.push("/auth/signIn");
-    }
     setAccess_token(access_token);
-
-    if (user.data === "Unauthorized") {
-      router.push("/auth/signIn");
-    }
-    if (user.isFetching === false) {
-      if (!user.data) {
-        router.push("/auth/signIn");
-      }
-    }
-  }, [user.data]);
-
+    user.refetch();
+    classrooms.refetch();
+  }, [router.query?.access_token]);
+  console.log("user.isLoading", user.isLoading);
+  console.log("classrooms.isLoading", classrooms.isLoading);
+  console.log(access_token);
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
     const newItems = classroomState.map((item, i) => {
@@ -94,7 +97,7 @@ function Index() {
       url: "/classroom/setting",
     },
     {
-      title: "Go back",
+      title: "หน้าหลัก",
       icon: <FiArrowLeftCircle />,
       url: "/",
     },

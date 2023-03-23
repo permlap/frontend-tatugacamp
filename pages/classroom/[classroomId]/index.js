@@ -127,9 +127,9 @@ function Index() {
     },
 
     {
-      title: "Go back",
+      title: "หน้าหลัก",
       icon: <FiArrowLeftCircle />,
-      url: `/classroom`,
+      url: `/`,
     },
   ];
   if (!router.isReady) {
