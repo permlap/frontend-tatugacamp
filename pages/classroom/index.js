@@ -129,37 +129,36 @@ function Index() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>TaTuga class</title>
       </Head>
-      <div className="fixed lg:hidden z-50 top-0 right-0 bottom-0 left-0 m-auto bg-black w-full h-full text-white flex justify-center items-center">
-        <div className="w-40 text-center ">
-          รองรับการแสดงผลบน desktop เท่านั้น! โปรดเข้าใหม่โดยใช้คอมพิวเตอร์
-        </div>
-      </div>
 
       <div
-        className={`flex  w-full bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
-          classroomState?.[0] ? "h-full" : "h-screen"
+        className={`flex  w-full  bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
+          classroomState?.[0] ? "h-full md:pb-[30rem] " : "h-screen"
         } `}
       >
         <Layout user={user} sideMenus={sideMenus} />
 
         <div
-          className={`flex justify-center items-center  lg:items-center bg-transparent w-full h-full`}
+          className={`flex justify-center items-center md:items-start    lg:items-center  w-full h-full`}
         >
-          <div className="xl:w-full  h-max m-5  flex flex-col  justify-center items-center pb-14">
-            <header className="mt-5 bg-transparent rounded-lg  p-5 md:px-10 xl:px-20 w-max  relative  ">
-              <div className=" w-full flex items-center justify-center    bg-transparent">
+          <div className="xl:w-full  h-max m-5  flex flex-col  justify-center items-center pb-14 ">
+            <header className="mt-28 md:mt-2  rounded-lg   p-5 md:px-10 xl:px-20 w-max  relative     ">
+              <div className=" w-full md:block flex items-center justify-center    bg-transparent">
                 <div
-                  className="xl:w-[35rem] md:w-96 text-left leading-[3.5rem] mt-16 ml-28 pl-10 py-5 rounded-lg 
-                  h-max z-10 relative"
+                  className="xl:w-[35rem] w-40   md:w-96 p-20 flex flex-col items-center justify-center
+                   text-left leading-[3.5rem] md:mt-32 lg:mt-20   md:ml-28 md:pl-10 py-5 rounded-lg 
+                  h-10 md:h-max z-10 relative "
                 >
-                  <div className="xl:text-7xl md:text-2xl font-semibold  font-Kanit tracking-wider relative ">
-                    <span className="text-8xl hover:text-[#2C7CD1] text-black duration-150 transition">
+                  <div
+                    className="xl:text-6xl text-xl w-60 md:w-96 lg:w-[30rem] mt-20 md:mt-0   md:text-left md:text-2xl font-semibold  
+                  font-Kanit tracking-wider  "
+                  >
+                    <span className="md:text-8xl text-5xl hover:text-[#2C7CD1] text-black duration-150 transition">
                       สร้าง
                     </span>
                     <span>ห้องเรียนของคุณได้ที่นี่</span>
                   </div>
                 </div>
-                <div className="absolute -top-20 -left-36 ">
+                <div className="absolute md:-top-20 lg:-top-20 lg:-left-36 ">
                   <Lottie animationData={teacherAnimation} style={style} />
                 </div>
               </div>
@@ -167,7 +166,7 @@ function Index() {
                 <Popover className="relative">
                   {({ open }) => (
                     <>
-                      <div className="mt-20 w-full flex justify-center items-center  font-Kanit ">
+                      <div className="lg:mt-20 md:mt-5 mt-20 w-full flex justify-center items-center  font-Kanit ">
                         <div className="flex gap-x-2 justify-center items-center ">
                           <span className="text-xl font-bold text-[#2C7CD1] ">
                             กดเพื่อ
@@ -213,8 +212,8 @@ function Index() {
                 return (
                   <div
                     key={index}
-                    className=" h-72 md:w-60 md:h-max lg:w-60 xl:w-80 md:pb-3  border-2 border-solid 
-                    rounded-3xl overflow-hidden relative bg-white"
+                    className=" h-48  w-full  md:w-60 md:h-max lg:w-60 xl:w-80 md:pb-3  border-2 border-solid 
+                    rounded-3xl overflow-hidden relative bg-white flex flex-col md:block items-start justify-center "
                   >
                     <div className="text-right mt-2 ">
                       <dev className="text-3xl absolute right-4 top-3">
@@ -252,7 +251,7 @@ function Index() {
                         )}
                       </dev>
                     </div>
-                    <div className="flex flex-col mt-4 md:mt-2 lg:mt-5 ml-5 ">
+                    <div className="flex flex-col mt-0 pl-10 md:pl-5 md:mt-2 lg:mt-5 mb-10 ">
                       <span className="text-lg text-gray-600 font-light">
                         {classroom.level}
                       </span>
@@ -261,7 +260,7 @@ function Index() {
                       </span>
                       <span>{classroom.description}</span>
                     </div>
-                    <div className="flex justify-center items-center lg:mt-5 ">
+                    <div className="flex justify-center items-center  w-full lg:mt-5 ">
                       <button
                         onClick={() => {
                           localStorage.setItem("classroomId", classroom.id);

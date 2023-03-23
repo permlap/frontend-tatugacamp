@@ -200,10 +200,14 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   };
 
   return (
-    <div key={student.id}>
+    <div
+      className=" md:w-full h-full font-Kanit md:p-5 z-20 
+top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
+      key={student.id}
+    >
       <div
-        className="flex w-max h-max font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-20 
-    top-0 right-0 left-0 bottom-0 m-auto fixed"
+        className="flex md:flex-row flex-col w-[95%] md:w-3/4 lg:w-2/4 h-max font-Kanit bg-white border-2 border-solid
+    rounded-lg drop-shadow-xl md:p-5 static"
       >
         <div
           className="absolute right-5 top-5 gap-1 flex items-center 
@@ -239,7 +243,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
           )}
         </div>
         {runAnimation && (
-          <div className="absolute z-10   top-10 right-0 left-0 bottom-0 m-auto flex items-center justify-center flex-col">
+          <div className="absolute z-40   top-10 right-0 left-0 bottom-0 m-auto flex items-center justify-center flex-col">
             <Lottie animationData={data} style={style} />
             {runScoreTitle && (
               <div className="top-10 right-0 left-0 bottom-0 m-auto  absolute flex items-center justify-center text-5xl popup">
@@ -250,7 +254,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
         )}
 
         {/* avatar here  */}
-        <div className=" w-[40rem] flex flex-col justify-center items-center ">
+        <div className=" md:w-[40rem] w-full flex flex-col justify-center items-center ">
           <div className="w-full h-max flex items-center justify-center gap-6  ">
             {triggerSetting === false ? (
               <div className="w-40  h-full  flex items-center justify-center px-5 flex-col relative">
@@ -262,7 +266,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
                     className="object-cover scale-150 translate-y-10"
                   />
                   <div
-                    className={`absolute w-14 h-14 rounded-full ${
+                    className={`absolute w-14 h-14  rounded-full ${
                       student.score.totalPoints < 0
                         ? "bg-red-600"
                         : "bg-[#EDBA02] "
@@ -294,7 +298,8 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
             ) : (
               <form
                 onSubmit={handleSummitEditStudentData}
-                className="w-40  h-full  flex items-center justify-center px-5 flex-col relative"
+                className="md:w-40 w-full  h-full  flex items-center mt-10 md:mt-0
+                 md:items-center justify-center px-5 flex-col relative"
               >
                 <div className="flex flex-col relative">
                   <label className="font-sans font-normal">แก้ไขชื่อจริง</label>
@@ -361,8 +366,9 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
                 )}
                 <button
                   aria-label="button for setting student's data"
-                  className="w-max h-max bg-red-500 mt-10   text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
-              text-white p-1 rounded-md flex items-center justify-center gap-2 px-6 transition duration-150 ease-in-out"
+                  className="w-max h-max bg-red-500 md:mt-10  mt-2 text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
+              text-white p-1 rounded-md flex items-center justify-center gap-2 px-6 
+              transition duration-150 ease-in-out"
                 >
                   <span>บันทึก</span>
                   <div className="text-white flex items-center justify-center ">
@@ -371,152 +377,114 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
                 </button>
               </form>
             )}
+          </div>
+        </div>
+        {/* score part */}
+        <div className=" flex-col  w-full md:w-full  ">
+          <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
+            คะแนนของผู้เรียน
+          </div>
 
-            {/* score part */}
-            <div className="flex flex-col">
-              <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
-                คะแนนของผู้เรียน
-              </div>
-              {/* <div
-                className="w-96 h-48 flex flex-col items-center gap-3 mt-3 overflow-auto 
-              scrollbar justify-start  "
-              >
-                {student.score.title.map((title) => {
+          <div className="">
+            <div
+              className={`md:w-96  w-full  h-full grid ${
+                triggerCreateNewScore ? " grid-cols-1" : " grid-cols-3"
+              } gap-5  items-center justify-center`}
+            >
+              {triggerCreateNewScore === false ? (
+                scores?.data.map((score) => {
+                  if (score.display === false) return null;
                   return (
                     <div
-                      key={title.id}
-                      className="w-5/6 h-5 py-2  rounded-lg font-Kanit text-md
-                    bg-yellow-300 flex items-center justify-between"
+                      key={score.id}
+                      className="w-full h-full flex items-center justify-center flex-col gap-2"
                     >
-                      <div className="text-md ml-10">{title.title}</div>
-                      <div>
-                        {student.score.score.map((score) => {
-                          if (score.scoreId === title.id) {
-                            return (
-                              <div
-                                key={score.id}
-                                className="text-xl font-sans font-bold mr-20"
-                              >
-                                {score.points}
-                              </div>
-                            );
-                          }
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-                {student.score.title.length === 0 && (
-                  <div className="mt-5 flex items-center justify-center flex-col">
-                    <div className="text-7xl mb-4">😢</div>
-                    <div>ยังไม่มีคะแนนเลยจ้า</div>
-                  </div>
-                )}
-              </div> */}
-              <div>
-                <div
-                  className={`w-96  h-full grid ${
-                    triggerCreateNewScore ? " grid-cols-1" : " grid-cols-3"
-                  } gap-5  items-center justify-center`}
-                >
-                  {triggerCreateNewScore === false ? (
-                    scores?.data.map((score) => {
-                      if (score.display === false) return null;
-                      return (
-                        <div
-                          key={score.id}
-                          className="w-full h-full flex items-center justify-center flex-col gap-2"
-                        >
-                          {runAnimation ? (
-                            <button
-                              aria-label={`buuton ${score.title} `}
-                              role="button"
-                              className="w-full h-full  px-2 bg-gray-300 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
+                      {runAnimation ? (
+                        <button
+                          aria-label={`buuton ${score.title} `}
+                          role="button"
+                          className="w-full h-full  px-2 bg-gray-300 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
                border-2 border-solid hover:scale-110
              hover:bg-yellow-200 transition duration-150 ease-in-out"
-                            >
-                              <div className="mt-2">{score.picture}</div>
-                              <div>{score.title}</div>
-                            </button>
-                          ) : (
-                            <div
-                              key={score.id}
-                              className="group relative w-full h-full"
-                            >
-                              <button
-                                onClick={() =>
-                                  onClick({
-                                    scoreId: score.id,
-                                    studentId: student.id,
-                                    scoreTitle: score.title,
-                                    scoreEmoji: score.picture,
-                                    pointsValue,
-                                  })
-                                }
-                                aria-label={`buuton ${score.title} `}
-                                role="button"
-                                className="w-full h-full px-2 bg-white flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
+                        >
+                          <div className="mt-2">{score.picture}</div>
+                          <div>{score.title}</div>
+                        </button>
+                      ) : (
+                        <div
+                          key={score.id}
+                          className="group relative w-full h-full"
+                        >
+                          <button
+                            onClick={() =>
+                              onClick({
+                                scoreId: score.id,
+                                studentId: student.id,
+                                scoreTitle: score.title,
+                                scoreEmoji: score.picture,
+                                pointsValue,
+                              })
+                            }
+                            aria-label={`buuton ${score.title} `}
+                            role="button"
+                            className="w-full h-full px-2 bg-white flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
            border-2 border-solid hover:scale-110  group
          hover:bg-yellow-200 transition duration-150 ease-in-out"
-                              >
-                                <div className="mt-2">{score.picture}</div>
-                                <div>{score.title}</div>
-                              </button>
-                              <div
-                                onClick={() =>
-                                  onClickToHide({ scoreId: score.id })
-                                }
-                                className="absolute top-1 right-1 hidden group-hover:block  hover:text-red-600"
-                              >
-                                <MdDelete />
-                              </div>
-                            </div>
-                          )}
+                          >
+                            <div className="mt-2">{score.picture}</div>
+                            <div>{score.title}</div>
+                          </button>
+                          <div
+                            onClick={() => onClickToHide({ scoreId: score.id })}
+                            className="absolute  top-1 right-1 hidden group-hover:block  hover:text-red-600"
+                          >
+                            <MdDelete />
+                          </div>
                         </div>
-                      );
-                    })
-                  ) : (
-                    <div className="w-full  flex items-center justify-center">
-                      <CreateScore
-                        refetchScores={refetchScores}
-                        setTriggerCreateNewScore={setTriggerCreateNewScore}
-                        classroomId={student?.classroomId}
-                      />
+                      )}
                     </div>
-                  )}
-                  {!triggerCreateNewScore && (
-                    <div
-                      onClick={() => setTriggerCreateNewScore(true)}
-                      className="flex items-center justify-center "
-                    >
-                      <div
-                        className="w-max h-full px-2 bg-white py-1 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
+                  );
+                })
+              ) : (
+                <div className="w-full  flex items-center justify-center">
+                  <CreateScore
+                    refetchScores={refetchScores}
+                    setTriggerCreateNewScore={setTriggerCreateNewScore}
+                    classroomId={student?.classroomId}
+                  />
+                </div>
+              )}
+              {!triggerCreateNewScore && (
+                <div
+                  onClick={() => setTriggerCreateNewScore(true)}
+                  className="flex items-center justify-center "
+                >
+                  <div
+                    className="w-max h-full px-2 bg-white py-1 flex flex-col font-Kanit text-lg
+                         items-center justify-center rounded-lg cursor-pointer
              border-2 border-solid hover:scale-110
            hover:bg-yellow-200 transition duration-150 ease-in-out"
-                      >
-                        <FiPlus />
-                        <span className="text-sm">สร้างคะแนน</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className="w-full flex items-center justify-center flex-col mt-5">
-                  <input
-                    placeholder="1"
-                    onChange={handleChangeScore}
-                    className="w-20 text-lg font-sans font-semibold rounded-md border-0 ring-blue-500 ring-2 active:border-0 focus:border-0 text-center placeholder:text-black"
-                    value={pointsValue}
-                    type="number"
-                    name="points"
-                  />
-                  <div className="w-max h-max text-sm mt-2 text-red-600">
-                    <span>
-                      **หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย -
-                      เช่น -5
-                    </span>
+                  >
+                    <FiPlus />
+                    <span className="text-sm">สร้างคะแนน</span>
                   </div>
                 </div>
+              )}
+            </div>
+
+            <div className="w-full flex items-center justify-center flex-col mt-5 ">
+              <input
+                placeholder="1"
+                onChange={handleChangeScore}
+                className="w-20 text-lg font-sans font-semibold rounded-md border-0 ring-blue-500 ring-2 active:border-0 focus:border-0 text-center placeholder:text-black"
+                value={pointsValue}
+                type="number"
+                name="points"
+              />
+              <div className="w-max h-max text-sm mt-2 text-red-600">
+                <span>
+                  **หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น -5
+                </span>
               </div>
             </div>
           </div>

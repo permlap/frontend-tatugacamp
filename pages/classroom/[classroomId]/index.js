@@ -165,10 +165,11 @@ function Index() {
       <div className="flex  ">
         <Layout user={user} sideMenus={sideMenus} />
 
-        <div className="w-full flex flex-col items-center gap-10 h-full pb-40">
+        <div className="w-full flex flex-col items-center justify-center  gap-10 h-full pb-40">
           {/* header section */}
           <header
-            className="w-full max-w-6xl rounded-3xl mt-32 flex gap-x-4 z-10 bg-blue-200 h-40 
+            className="w-[90%] max-w-6xl rounded-3xl mt-32 flex  flex-col-reverse md:flex-row md:gap-x-4 z-10
+             bg-blue-200 md:h-52 lg:h-40 
           items-center justify-start relative  "
           >
             <Popover>
@@ -196,10 +197,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             </Popover>
 
             <div
-              className="flex flex-col items-center justify-center gap-y-3 absolute top-[5rem] right-[2rem] z-10 
+              className="flex flex-col items-center justify-center gap-y-3 static  md:absolute top-[5rem] right-[2rem] z-10 
             p-2 "
             >
-              <span className="font-Kanit font-semibold text-2xl bg-white rounded-md px-4 drop-shadow-md  text-gray-800">
+              <span className="font-Kanit font-semibold text-2xl bg-transparent md:bg-white rounded-md px-4 drop-shadow-md  text-gray-800">
                 Code รหัสห้องเรียน
               </span>
 
@@ -226,10 +227,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                           onClick={() => close()}
                         >
                           <div
-                            className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto bg-[#EDBA02] rounded-xl cursor-pointer
+                            className="w-5/6 md:w-max p-3 h-max fixed right-0 text-center left-0 top-0 bottom-0 m-auto bg-[#EDBA02] rounded-xl cursor-pointer
             hover:scale-110 transition duration-200 ease-in-out"
                           >
-                            <span className="font-sans font-bold text-[15rem] text-white px-40">
+                            <span className="font-sans font-bold  text-3xl md:text-9xl xl:text-[15rem] text-white md:px-40">
                               {classroomCode}
                             </span>
                           </div>
@@ -242,34 +243,38 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             </div>
 
             {/* text in header */}
-            <div className="font-Kanit text-2xl font-light ml-10 w-full  h-max ">
-              <div>
-                <span className="mr-2">Welcome to</span>
-                <span className="text-4xl font-semibold uppercase">
+            <div className="font-Kanit text-2xl font-light md:ml-10 m-2 md:w-80 lg:w-full  md:h-max md:block flex flex-col items-center justify-center">
+              <div className="flex md:block items-center justify-center w-full flex-col">
+                <span className="mr-2 md:block hidden">Welcome to</span>
+                <div className="mr-2 md:hidden block">Welcome to</div>
+                <span className="text-4xl font-semibold text-center md:text-left uppercase">
                   {classroom.data?.data?.title}
                 </span>
               </div>
-              <div className="mt-2 ">
+              <div className="mt-2  md:flex">
                 <span className="font-Kanit font-light text-base mr-5 ">
                   {classroom.data?.data?.description}
                 </span>
                 <span className="font-Kanit font-normal px-2 tracking-wider text-white text-base bg-[#EDBA02] p-1 rounded-xl">
                   {classroom.data?.data?.level}
                 </span>
-                <span className="text-sm ml-5 uppercase">
+                <span className="text-sm ml-5 uppercase hidden  md:block">
                   create at {formattedDate}
                 </span>
+                <div className="text-sm ml-5 uppercase md:hidden block mt-2">
+                  create at {formattedDate}
+                </div>
               </div>
             </div>
-            <div className="absolute right-0 -top-20  ">
+            <div className="absolute right-0 -top-20 hidden md:block  ">
               <Lottie animationData={ClassroomAnimation} style={style} />
             </div>
           </header>
 
           {/* main part */}
-          <main className="w-full max-w-6xl h-full flex flex-col">
-            <div className="flex flex-col gap-3">
-              <div className="font-sans font-normal tracking-wide flex items-center gap-5 text-gray-400">
+          <main className="w-full max-w-6xl h-full flex flex-col  ">
+            <div className="flex flex-col gap-3 md:pl-5 lg:pl-0  items-center justify-center md:items-start">
+              <div className="font-sans font-normal tracking-wide flex items-center gap-5 pl-5 md:pl-0 text-gray-400">
                 <span>Overview</span>
                 <Popover className="relative s">
                   {({ open }) => (
@@ -304,8 +309,11 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                 </Popover>
               </div>
 
-              <div className="grid grid-cols-3 w-full ">
-                <div className="w-5/6 py-1 h-16 bg-[#F2CC5B] flex items-center justify-start gap-5  rounded-lg text-white">
+              <div className="grid md:grid-cols-3 grid-cols-2 w-[95%] md:w-full gap-2 md:gap-0 ">
+                <div
+                  className="md:w-5/6 w-full  py-1 h-16 bg-[#F2CC5B] flex items-center 
+                justify-start gap-2  rounded-lg text-white"
+                >
                   <div className="bg-white/40 backdrop-blur-sm p-3 rounded-lg ml-5">
                     <BsPeopleFill size={20} />
                   </div>
@@ -316,7 +324,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     <span className="text-sm font-medium">students</span>
                   </div>
                 </div>
-                <div className="w-5/6  py-1 h-16 bg-[#503E9D] flex items-center justify-start gap-5  rounded-lg text-white">
+                <div className="md:w-5/6 w-full   py-1 h-16 bg-[#503E9D] flex items-center justify-start gap-5  rounded-lg text-white">
                   <div className="bg-white/40 backdrop-blur-sm p-3 rounded-lg ml-5">
                     <AiTwotoneStar size={20} />
                   </div>
@@ -327,7 +335,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     </span>
                   </div>
                 </div>
-                <div className="w-5/6  py-1 h-16 bg-[#EB6297] flex items-center justify-start gap-5  rounded-lg text-white">
+                <div
+                  className="md:w-5/6 w-full col-span-2 md:col-span-1
+                  py-1 h-16 bg-[#EB6297] flex items-center md:justify-start justify-center gap-5  rounded-lg text-white"
+                >
                   <div className="bg-white/40 backdrop-blur-sm p-3 rounded-lg ml-5">
                     🥇
                   </div>
@@ -345,7 +356,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
 
             {/* 
             students' avatar are here */}
-            <div className="w-full max-w-7xl flex flex-wrap gap-x-12 gap-y-9 mt-10 ">
+            <div
+              className="w-full max-w-7xl grid grid-cols-2 items-center justify-center md:justify-start  
+            md:flex md:flex-wrap md:gap-x-12 md:gap-y-9 mt-10 "
+            >
               {students.isLoading
                 ? skeletion.map((number) => {
                     return (
@@ -372,8 +386,8 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     return (
                       <Popover key={student.id}>
                         {({ open }) => (
-                          <div className="relative ">
-                            <Popover.Button className="bg-transparent border-none active:border-none appearance-none focus:outline-none">
+                          <div className="relative md:block flex items-start justify-center">
+                            <Popover.Button className="bg-transparent  border-none active:border-none appearance-none focus:outline-none">
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
                        duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
@@ -407,15 +421,13 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                             </Popover.Button>
                             <Popover.Panel>
                               {({ close }) => (
-                                <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
-                                  <UpdateScore
-                                    close={close}
-                                    student={student}
-                                    scores={scores.data}
-                                    students={students}
-                                    refetchScores={scores.refetch}
-                                  />
-                                </div>
+                                <UpdateScore
+                                  close={close}
+                                  student={student}
+                                  scores={scores.data}
+                                  students={students}
+                                  refetchScores={scores.refetch}
+                                />
                               )}
                             </Popover.Panel>
                           </div>

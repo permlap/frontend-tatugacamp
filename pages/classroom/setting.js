@@ -96,6 +96,7 @@ function Setting() {
       }
     } catch (err) {
       setLoading((prev) => (prev = false));
+      console.log(err);
       if (err.props.response.data.statusCode === 413) {
         Swal.fire(
           "error",
@@ -141,26 +142,20 @@ function Setting() {
   };
 
   return (
-    <div className="flex font-sans  ">
-      <div className="fixed lg:hidden z-50 top-0 right-0 bottom-0 left-0 m-auto bg-black w-full h-full text-white flex justify-center items-center">
-        <div className="w-40 text-center ">
-          รองรับการแสดงผลบน desktop เท่านั้น! โปรดเข้าใหม่โดยใช้คอมพิวเตอร์
-        </div>
-      </div>
+    <div className="flex font-sans   ">
       <Layout sideMenus={sideMenus} user={user} trigger={chooseMessage} />
       <div
-        className={`w-full h-screen mt-10  flex flex-col ${
-          !triggersidebar ? "items-center" : "items-center"
-        } bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
+        className={`w-full h-screen mt-10 md:mt-0  flex flex-col items-center md:justify-center
+         bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
-        <div className="w-max h-max bg-white p-10 rounded-xl border-2 border-solid mt-10">
-          <div>
-            <span className="text-4xl font-medium text-gray-800">
+        <div className=" h-max w-max md:max-w-xl lg:max-w-3xl md:mt-0 bg-white md:p-10 lg:px-20 p-2 rounded-xl mt-20 border-2 border-solid ">
+          <div className="flex flex-col items-center justify-center md:block">
+            <span className="text-4xl font-medium text-gray-800 ">
               Account setting
             </span>
-            <div className="flex gap-5 mt-5">
+            <div className="flex md:gap-5 mt-5  items-center justify-center">
               {user?.data?.data?.picture ? (
-                <div className="relative w-40 h-40 rounded-md overflow-hidden flex justify-center items-center">
+                <div className="relative md:w-40 md:h-40 w-20 h-20 rounded-md overflow-hidden flex justify-center items-center">
                   {loading ? (
                     <Loading />
                   ) : (
@@ -191,7 +186,7 @@ function Setting() {
 
                 <form
                   onSubmit={handleSubmit}
-                  className="flex w-max  flex-col gap-2 justify-start items-start "
+                  className="flex w-max  flex-col  gap-2 justify-start items-start bg-white"
                 >
                   <label>
                     <input
@@ -202,7 +197,7 @@ function Setting() {
                       className="text-sm text-grey-500
             file:mr-5 file:w-28 file:py-2
             file:rounded-full file:border-0
-            file:text-sm file:font-medium
+            file:text-sm file:font-medium 
             file:bg-blue-50 file:text-blue-700
             hover:file:cursor-pointer hover:file:bg-amber-50
             hover:file:text-amber-700
@@ -221,8 +216,11 @@ function Setting() {
               </div>
             </div>
           </div>
-          <form onSubmit={handleSubmitData} className=" mt-10 max-w-3xl  ">
-            <div className="grid grid-cols-2 gap-5">
+          <form
+            onSubmit={handleSubmitData}
+            className=" mt-10 max-w-3xl flex items-center justify-center md:block "
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 md:gap-10 lg:gap-x-20 gap-2">
               <div>
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -234,7 +232,7 @@ function Setting() {
                   value={userData.firstName}
                   onChange={handleChange}
                   name="firstName"
-                  className="appearance-none block w-80 bg-[#EDBA02]
+                  className="appearance-none block w-60 md:w-40 lg:w-full bg-[#EDBA02]
                  text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-whit  border-none
                   border-red-500 rounded py-3 px-4 mb-3 leading-tight 
                  focus:outline-none e"
@@ -254,7 +252,7 @@ function Setting() {
                   value={userData.lastName}
                   onChange={handleChange}
                   name="lastName"
-                  className="appearance-none block w-80
+                  className="appearance-none block w-60 md:w-40 lg:w-full
                 bg-[#EDBA02] text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-whit  border-none
                  rounded py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                   id="grid-last-name"
@@ -274,7 +272,7 @@ function Setting() {
                   value={userData.phone}
                   onChange={handleChange}
                   name="phone"
-                  className="appearance-none block w-80
+                  className="appearance-none block w-60 md:w-40 lg:w-full
                 bg-[#EDBA02] text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-red-500 placeholder:font-normal border-none
                  rounded py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                   id="grid-last-name"
@@ -293,7 +291,7 @@ function Setting() {
                   value={userData.school}
                   onChange={handleChange}
                   name="school"
-                  className="appearance-none block w-80 
+                  className="appearance-none block w-60 md:w-40 lg:w-full
                 bg-[#EDBA02] text-black font-bold font-sans focus:bg-[#e7c95c] placeholder:text-red-500 placeholder:font-normal border-none
                 rounded py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500"
                   id="grid-last-name"

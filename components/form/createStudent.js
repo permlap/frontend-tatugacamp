@@ -62,8 +62,8 @@ function CreateStudent({ close, handlePassingstudents }) {
       <div className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto z-30  ">
         <div className="flex items-center justify-center gap-x-5  bg-transparent h-[0.05rem] w-max">
           <div
-            className="w-96 h-[30rem] bg-white border-2 border-solid flex flex-col justify-start items-center 
-          rounded-xl font-Kanit"
+            className="w-96 h-[30rem] bg-white border-2 border-solid  flex-col justify-start items-center 
+          rounded-xl font-Kanit md:flex hidden"
           >
             <div className=" font-Kanit font-bold text-xl mt-2">
               <span className="text-black">รายชื่อนักเรียน</span>

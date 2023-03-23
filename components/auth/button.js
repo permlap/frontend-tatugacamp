@@ -78,7 +78,7 @@ function AuthButton() {
   return (
     <Menu>
       <Menu.Button
-        className="flex bg-white w-46 relative   border-0 cursor-pointer 
+        className="flex bg-white w-46 relative z-50    border-0 cursor-pointer 
     rounded-md p-3   ring-orange-400 group
     items-center justify-center gap-x-3 "
       >
@@ -98,8 +98,8 @@ function AuthButton() {
             </span>
           </div>
         )}
-        <span className="text-black text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
-          <span className="first-letter:uppercase font-semibold text-white md:text-orange-400 ">
+        <span className=" text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
+          <span className="first-letter:uppercase font-semibold text-orange-400 ">
             {data.data.firstName} {data.data.lastName}
           </span>
         </span>
