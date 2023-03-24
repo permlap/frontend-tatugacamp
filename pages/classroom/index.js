@@ -27,7 +27,6 @@ import FullScreenLoading from "../../components/loading/FullScreenLoading";
 
 function Index() {
   const router = useRouter();
-  const [access_token, setAccessToken] = useState();
   const [runFetchClassroom, setRunFetchClassroom] = useState(false);
   const [classroomState, setClassroomState] = useState();
 
@@ -44,6 +43,7 @@ function Index() {
   );
   useEffect(() => {
     user.refetch();
+    const access_token = localStorage.getItem("access_token");
     console.log(
       "check",
       user.data == "Unauthorized",
@@ -51,6 +51,7 @@ function Index() {
       user.error
     );
     if (user.data == "Unauthorized" && !access_token) {
+      console.log("redirect to login");
       router.push({
         pathname: "/auth/signIn",
       });

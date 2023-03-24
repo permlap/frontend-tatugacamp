@@ -22,6 +22,7 @@ function Index() {
   useEffect(() => {
     setBrower(currentBrowser(window));
   }, []);
+
   //handle login locally
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,9 +52,13 @@ function Index() {
           icon: "success",
           title: "Login success",
         });
-        router.push(`/?access_token=${data.data.access_token}`, undefined, {
-          shallow: true,
-        });
+        router.push(
+          `/classroom/?access_token=${data.data.access_token}`,
+          undefined,
+          {
+            shallow: true,
+          }
+        );
       }
     } catch (err) {
       if (err.code === "ERR_BAD_REQUEST") {
