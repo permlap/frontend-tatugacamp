@@ -207,10 +207,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
     >
       <div
         className="flex md:flex-row flex-col w-[95%] md:w-3/4 lg:w-2/4 h-max font-Kanit bg-white border-2 border-solid
-    rounded-lg drop-shadow-xl md:p-5 static"
+    rounded-lg drop-shadow-xl md:p-5 relative "
       >
         <div
-          className="absolute right-5 top-5 gap-1 flex items-center 
+          className="absolute z-20 right-5 top-5 gap-1 flex items-center 
         justify-center text-red-500 hover:text-red-800 transition duration-150 cursor-pointer "
         >
           {isDeleteStudent === false && (

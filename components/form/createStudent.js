@@ -160,6 +160,7 @@ function CreateStudent({ close, handlePassingstudents }) {
                   placeholder="เช่น 02"
                   maxLength="10"
                   min="1"
+                  required
                 />
                 <div
                   className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
