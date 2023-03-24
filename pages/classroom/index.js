@@ -27,8 +27,11 @@ import FullScreenLoading from "../../components/loading/FullScreenLoading";
 
 function Index() {
   const router = useRouter();
-  const [access_token, setAccess_token] = useState();
+  const [access_token, setAccessToken] = useState();
+  const [runFetchClassroom, setRunFetchClassroom] = useState(false);
   const [classroomState, setClassroomState] = useState();
+
+  const user = useQuery(["user"], () => GetUser());
   const classrooms = useQuery(
     ["classrooms"],
     () =>
@@ -36,37 +39,39 @@ function Index() {
         setClassroomState((prev) => (prev = res?.data));
       }),
     {
-      enabled: false,
+      enabled: runFetchClassroom,
     }
   );
-  const user = useQuery(["user"], () => GetUser(), {
-    enabled: false,
-  });
+  useEffect(() => {
+    user.refetch();
+    console.log(
+      "check",
+      user.data == "Unauthorized",
+      !access_token,
+      user.error
+    );
+    if (user.data == "Unauthorized" && !access_token) {
+      router.push({
+        pathname: "/auth/signIn",
+      });
+    }
+  }, []);
+
+  console.log("user.isSuccess", user.isSuccess);
+  console.log("user.data", user.data);
+  console.log("runFetchClassroom", runFetchClassroom);
+  console.log("classrooms.data", classrooms.data);
+
+  useEffect(() => {
+    if (user.data !== "Unauthorized" && user.data !== undefined) {
+      setRunFetchClassroom(true);
+    }
+  }, [user.data]);
+
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
     classrooms.refetch();
   });
-
-  useEffect(() => {
-    if (router.query.access_token) {
-      localStorage.setItem("access_token", router.query.access_token);
-      setAccess_token((prev) => (prev = localStorage.getItem("access_token")));
-    }
-    const access_token = localStorage.getItem("access_token");
-    setAccess_token(access_token);
-    user.refetch();
-    classrooms.refetch();
-    console.log("user.isLoading", user.isLoading);
-    if (user.isLoading === false) {
-      console.log("run");
-      console.log("!user.data", !user.data);
-      console.log("user.data === Unauthorized ", user.data === "Unauthorized");
-      console.log("!access_token", !access_token);
-      if (!user.data || !access_token) {
-        router.push("/auth/signIn");
-      }
-    }
-  }, [router.query?.access_token]);
 
   if (user.isLoading) {
     return <FullScreenLoading />;

@@ -18,28 +18,21 @@ import { GetUser } from "../../service/user";
 
 function AuthButton() {
   const [dropDown, setDropDown] = useState(false);
-  const { data: session, status } = useSession();
   const router = useRouter();
-  const [hasToken, setHasToken] = useState(false);
-  const [access_token, setAccess_token] = useState();
+
   const queryClient = useQueryClient();
+
   //set accestoken to localstore
   useEffect(() => {
     if (router.query.access_token) {
       localStorage.setItem("access_token", router.query.access_token);
-      setAccess_token((prev) => (prev = localStorage.getItem("access_token")));
-      setHasToken(true);
+      refetch();
     }
-    refetch();
   }, [router.query?.access_token]);
 
-  const { isLoading, isError, data, error, isFetching, refetch } = useQuery(
-    ["user"],
-    () => GetUser(access_token),
-    {
-      enabled: hasToken,
-    }
-  );
+  const { isLoading, data, refetch } = useQuery(["user"], () => GetUser(), {
+    enabled: false,
+  });
 
   if (isLoading) {
     return <Loading />;
@@ -67,9 +60,8 @@ function AuthButton() {
 
   const signOut = () => {
     localStorage.removeItem("access_token");
-    setAccess_token(null);
-    refetch();
     queryClient.removeQueries("user");
+    refetch();
     router.push({
       pathname: "/",
     });

@@ -4,6 +4,7 @@ import Error from "next/error";
 export async function GetUser() {
   try {
     const access_token = localStorage.getItem("access_token");
+    console.log("access_token", access_token);
     const user = await axios.get(`${process.env.Server_Url}/users/me`, {
       headers: {
         Authorization: "Bearer " + access_token,

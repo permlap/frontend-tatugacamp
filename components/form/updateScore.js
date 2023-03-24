@@ -243,10 +243,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
           )}
         </div>
         {runAnimation && (
-          <div className="absolute z-40   top-10 right-0 left-0 bottom-0 m-auto flex items-center justify-center flex-col">
+          <div className="absolute z-40  top-10 right-0 left-0 bottom-0 m-auto flex items-center justify-center flex-col">
             <Lottie animationData={data} style={style} />
             {runScoreTitle && (
-              <div className="top-10 right-0 left-0 absolute z-40  bottom-0 m-auto  flex items-center justify-center text-5xl popup">
+              <div className="text-black absolute flex items-center justify-center font-bold font-Kanit text-5xl popup">
                 {clickScoreTitle}
               </div>
             )}
