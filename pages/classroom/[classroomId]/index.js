@@ -28,6 +28,7 @@ import UpdateScore from "../../../components/form/updateScore";
 import UpdateClass from "../../../components/form/updateClass";
 import { GetUser } from "../../../service/user";
 import { Skeleton } from "@mui/material";
+import Unauthorized from "../../../components/error/unauthorized";
 function Index() {
   const router = useRouter();
   const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
@@ -156,6 +157,10 @@ function Index() {
     month: "short",
     year: "numeric",
   });
+
+  if (!user.data) {
+    return <Unauthorized user={user} />;
+  }
 
   return (
     <>

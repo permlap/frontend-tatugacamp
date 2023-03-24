@@ -52,6 +52,7 @@ function Index() {
           icon: "success",
           title: "Login success",
         });
+        localStorage.setItem("access_token", data.data.access_token);
         router.push(
           `/classroom/?access_token=${data.data.access_token}`,
           undefined,

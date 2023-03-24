@@ -16,17 +16,19 @@ function Layout({ children, user, sideMenus, trigger }) {
       <Popover className="relative">
         {({ open }) => (
           <>
-            <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
-              <div
-                aria-label="Show sidebar"
-                role="button"
-                className="text-2xl mt-5 ml-5 fixed z-30 w-10 h-10 
+            {user.data && (
+              <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
+                <div
+                  aria-label="Show sidebar"
+                  role="button"
+                  className="text-2xl mt-5 ml-5 fixed z-30 w-10 h-10 
         flex justify-center items-center   text-black drop-shadow cursor-pointer
         hover:scale-125 transition duration-100 ease-in-out "
-              >
-                <FiSidebar />
-              </div>
-            </Popover.Button>
+                >
+                  <FiSidebar />
+                </div>
+              </Popover.Button>
+            )}
             <Transition>
               <Popover.Panel>
                 {({ close }) => (

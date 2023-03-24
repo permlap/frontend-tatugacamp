@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import Loading from "../../components/loading/loading";
 import { useRouter } from "next/router";
+import Unauthorized from "../../components/error/unauthorized";
 
 function Setting() {
   const [userData, setUserData] = useState({
@@ -140,6 +141,9 @@ function Setting() {
       Swal.fire("error", err.props.response.data.message.toString(), "error");
     }
   };
+  if (!user.data) {
+    return <Unauthorized user={user} />;
+  }
 
   return (
     <div className="flex font-sans   ">

@@ -1,7 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { BiLogOutCircle, BiUser, BiWrench } from "react-icons/bi";
-import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import Loading from "../loading/loading";

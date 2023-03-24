@@ -24,6 +24,8 @@ import Layout from "../../layouts/classroomLayout";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 import { GetUser } from "../../service/user";
 import FullScreenLoading from "../../components/loading/FullScreenLoading";
+import Swal from "sweetalert2";
+import Unauthorized from "../../components/error/unauthorized";
 
 function Index() {
   const router = useRouter();
@@ -46,11 +48,19 @@ function Index() {
     }
   );
   useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    console.log("isLoading run");
-    console.log("user.error", user.error, "access_token", access_token);
-    console.log();
-    if (user.error && !access_token) {
+    if (router.query.access_token) {
+      localStorage.setItem("access_token", router.query.access_token);
+      const access_token = localStorage.getItem("access_token");
+      console.log("isLoading run");
+      console.log("user.error", user.error, "access_token", access_token);
+      console.log();
+      if (user.error && !access_token) {
+        console.log("redirect");
+        router.push({
+          pathname: "/auth/signIn",
+        });
+      }
+    } else if (user.error && !access_token) {
       console.log("redirect");
       router.push({
         pathname: "/auth/signIn",
@@ -124,6 +134,10 @@ function Index() {
   const style = {
     height: 500,
   };
+
+  if (!user.data) {
+    return <Unauthorized user={user} />;
+  }
 
   return (
     <div className="bg-white w-full h-full font-Kanit">
