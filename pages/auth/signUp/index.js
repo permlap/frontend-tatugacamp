@@ -126,9 +126,13 @@ function Index() {
           icon: "success",
           title: "Login success",
         });
-        router.push(`/?access_token=${data.data.access_token}`, undefined, {
-          shallow: true,
-        });
+        router.push(
+          `/classroom/?access_token=${data.data.access_token}`,
+          undefined,
+          {
+            shallow: true,
+          }
+        );
       }
       console.log(data);
     } catch (err) {

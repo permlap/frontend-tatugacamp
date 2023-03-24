@@ -13,7 +13,9 @@ export async function GetUser() {
     return user;
   } catch (err) {
     if (err.response.status === 401) {
-      return "Unauthorized";
+      throw new Error("Unauthorized");
+    } else {
+      throw new Error(err);
     }
   }
 }
