@@ -41,7 +41,7 @@ function AuthButton() {
     }
   );
 
-  if (isFetching) {
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -125,7 +125,7 @@ function AuthButton() {
               <ul
                 role="button"
                 className="list-none flex flex-col gap-y-4 bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
-        md:right-10 md:top-26 w-24 cursor-pointe   "
+        md:right-10 md:top-26 w-24 cursor-pointe  relative  "
               >
                 <li
                   onClick={() =>

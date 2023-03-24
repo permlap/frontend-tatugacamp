@@ -23,6 +23,7 @@ import {
 import Layout from "../../layouts/classroomLayout";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 import { GetUser } from "../../service/user";
+import FullScreenLoading from "../../components/loading/FullScreenLoading";
 
 function Index() {
   const router = useRouter();
@@ -66,6 +67,10 @@ function Index() {
       }
     }
   }, [router.query?.access_token]);
+
+  if (user.isLoading) {
+    return <FullScreenLoading />;
+  }
 
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
