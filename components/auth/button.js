@@ -32,7 +32,7 @@ function AuthButton() {
     }
     refetch();
   }, [router.query?.access_token]);
-  console.log(router.query.access_token);
+
   const { isLoading, isError, data, error, isFetching, refetch } = useQuery(
     ["user"],
     () => GetUser(access_token),
@@ -78,7 +78,7 @@ function AuthButton() {
   return (
     <Menu>
       <Menu.Button
-        className="flex bg-white w-46 relative z-50    border-0 cursor-pointer 
+        className="flex bg-white w-46 relative z-20    border-0 cursor-pointer 
     rounded-md p-3   ring-orange-400 group
     items-center justify-center gap-x-3 "
       >

@@ -55,10 +55,18 @@ function Index() {
     setAccess_token(access_token);
     user.refetch();
     classrooms.refetch();
+    console.log("user.isLoading", user.isLoading);
+    if (user.isLoading === false) {
+      console.log("run");
+      console.log("!user.data", !user.data);
+      console.log("user.data === Unauthorized ", user.data === "Unauthorized");
+      console.log("!access_token", !access_token);
+      if (!user.data || !access_token) {
+        router.push("/auth/signIn");
+      }
+    }
   }, [router.query?.access_token]);
-  console.log("user.isLoading", user.isLoading);
-  console.log("classrooms.isLoading", classrooms.isLoading);
-  console.log(access_token);
+
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
     const newItems = classroomState.map((item, i) => {
@@ -135,7 +143,7 @@ function Index() {
 
       <div
         className={`flex  w-full  bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
-          classroomState?.[0] ? "h-full md:pb-[30rem] " : "h-screen"
+          classroomState?.[0] ? "h-full pb-40 md:pb-[30rem] " : "h-screen"
         } `}
       >
         <Layout user={user} sideMenus={sideMenus} />

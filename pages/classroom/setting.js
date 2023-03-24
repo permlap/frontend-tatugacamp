@@ -148,12 +148,15 @@ function Setting() {
         className={`w-full h-screen mt-10 md:mt-0  flex flex-col items-center md:justify-center
          bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
-        <div className=" h-max w-max md:max-w-xl lg:max-w-3xl md:mt-0 bg-white md:p-10 lg:px-20 p-2 rounded-xl mt-20 border-2 border-solid ">
-          <div className="flex flex-col items-center justify-center md:block">
+        <div
+          className=" h-max w-5/6 md:max-w-xl lg:max-w-3xl
+         md:mt-0 bg-white md:p-10 lg:px-20 p-2 rounded-xl mt-20 border-2 border-solid "
+        >
+          <div className="flex flex-col items-center justify-center  md:block">
             <span className="text-4xl font-medium text-gray-800 ">
               Account setting
             </span>
-            <div className="flex md:gap-5 mt-5  items-center justify-center">
+            <div className="flex gap-x-5 md:gap-5 mt-5  items-center justify-center">
               {user?.data?.data?.picture ? (
                 <div className="relative md:w-40 md:h-40 w-20 h-20 rounded-md overflow-hidden flex justify-center items-center">
                   {loading ? (
@@ -181,21 +184,23 @@ function Setting() {
                 </div>
               )}
 
-              <div className="flex flex-col gap-y-5">
-                <span className="text-xl">Change your profile here</span>
+              <div className="flex flex-col w-3/5 md:w-full gap-y-5 ">
+                <span className="md:text-xl text-sm">
+                  Change your profile here
+                </span>
 
                 <form
                   onSubmit={handleSubmit}
-                  className="flex w-max  flex-col  gap-2 justify-start items-start bg-white"
+                  className="flex md:w-max w-full  flex-col  gap-2 justify-start items-start "
                 >
-                  <label>
+                  <label className="w-3/4 ">
                     <input
                       aria-label="upload profile picture"
                       onChange={handleFileInputChange}
                       type="file"
                       accept="image/png, image/gif, image/jpeg"
                       className="text-sm text-grey-500
-            file:mr-5 file:w-28 file:py-2
+            file:mr-5 md:file:w-max file:w-20 w-full file:py-2
             file:rounded-full file:border-0
             file:text-sm file:font-medium 
             file:bg-blue-50 file:text-blue-700
@@ -205,7 +210,7 @@ function Setting() {
                     />
                   </label>
                   <button
-                    className=" w-28  h-max px-6 py-2 text-sm rounded-full border-none  bg-[#2C7CD1] text-white font-sans font-bold
+                    className=" md:w-28 w-20 text-center  h-max px-0 md:px-6 py-2 text-sm rounded-full border-none  bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 focus:border-solid hover:scale-110 transition duration-200
                hover:bg-red-700"
