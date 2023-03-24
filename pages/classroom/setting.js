@@ -310,7 +310,7 @@ function Setting() {
               </div>
               <button
                 aria-label="update user button"
-                className=" w-28  h-max px-6 py-2 text-sm rounded-xl border-none  bg-[#2C7CD1] text-white font-sans font-bold
+                className=" w-28  h-max px-6 py-2 text-sm mb-5 rounded-xl border-none  bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 focus:border-solid hover:scale-110 transition duration-200
                hover:bg-red-700"

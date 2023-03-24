@@ -362,7 +362,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             {/* 
             students' avatar are here */}
             <div
-              className="w-full max-w-7xl grid grid-cols-2 items-center justify-center md:justify-start  
+              className="w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
             md:flex md:flex-wrap md:gap-x-12 md:gap-y-9 mt-10 "
             >
               {students.isLoading

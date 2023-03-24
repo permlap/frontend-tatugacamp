@@ -5,7 +5,7 @@ function Unauthorized({ user }) {
   return (
     <Layout user={user}>
       <div
-        className={`w-full h-screen mt-10 md:mt-0  flex flex-col items-center md:justify-center
+        className={`w-screen h-screen flex  items-center justify-center
 bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
         <div className="text-xl md:text-3xl font-Kanit">
