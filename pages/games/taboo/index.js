@@ -8,11 +8,9 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import Head from "next/head";
 import { Skeleton } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import { FcLock, FcUnlock } from "react-icons/fc";
 function Index() {
-  const { data: session, status } = useSession();
   const [taboo, setTaboo] = useState();
   const [random, setRandom] = useState();
   const length = taboo?.length || 0;
