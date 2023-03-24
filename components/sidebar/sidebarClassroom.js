@@ -24,7 +24,7 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
   return (
     <div className="fixed z-20">
       <div
-        className={`bg-white w-[280px] h-screen rounded-tr-md  
+        className={`bg-white w-[280px] h-full rounded-tr-md  
         transition duration-300  rounded-br-md fixed font-Kanit  top-0 left-0 z-20`}
       >
         <ul className="list-none pl-0 flex justify-center items-center flex-col">

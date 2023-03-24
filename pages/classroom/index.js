@@ -46,19 +46,17 @@ function Index() {
     }
   );
   useEffect(() => {
-    if (!user.isLoading) {
-      const access_token = localStorage.getItem("access_token");
-      console.log("isLoading run");
-      console.log("user.error", user.error, "access_token", access_token);
-      if (user.error && !access_token) {
-        console.log("redirect");
-        router.push({
-          pathname: "/auth/signIn",
-        });
-      }
+    const access_token = localStorage.getItem("access_token");
+    console.log("isLoading run");
+    console.log("user.error", user.error, "access_token", access_token);
+    console.log();
+    if (user.error && !access_token) {
+      console.log("redirect");
+      router.push({
+        pathname: "/auth/signIn",
+      });
     }
   }, [user.data]);
-  console.log("user.error", user.error);
   useEffect(() => {
     if (user.data !== "Unauthorized" && user.data !== undefined) {
       setRunFetchClassroom(true);
@@ -155,7 +153,7 @@ function Index() {
 
       <div
         className={`flex  w-full  bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
-          classroomState?.[0] ? "h-full pb-40 md:pb-[30rem] " : "h-screen"
+          classroomState?.[0] ? "h-full pb-60 md:pb-[30rem] " : "h-screen"
         } `}
       >
         <Layout user={user} sideMenus={sideMenus} />
