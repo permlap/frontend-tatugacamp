@@ -17,7 +17,7 @@ function Footer(props) {
   return (
     <div>
       <div className="w-full h-full md:py-20 mt-0 justify-center flex flex-col md:flex-row pt-8 md:pt-2   text-center text-white items-center bg-transparent   ">
-        <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem]  md:h-max rounded-full overflow-hidden bg-white">
+        <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem]  md:ring-4 md:ring-black   md:h-max rounded-full overflow-hidden bg-white">
           <Image
             className="object-center rounded-full"
             width={300}
@@ -31,7 +31,7 @@ function Footer(props) {
           <li>
             <div className="w-full flex justify-center">
               <div className="w-3/4 py-4 md:py-10 h-max ">
-                <span className="md:text-md lg:text-2xl font-Inter font-thin ">
+                <span className="md:text-md lg:text-2xl font-sans font-normal text-black">
                   {dataFooter}
                 </span>
               </div>

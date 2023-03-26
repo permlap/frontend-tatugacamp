@@ -21,6 +21,14 @@ function AuthButton() {
 
   const queryClient = useQueryClient();
 
+  const { isLoading, data, refetch, isFetching } = useQuery(
+    ["user"],
+    () => GetUser(),
+    {
+      enabled: false,
+    }
+  );
+
   //set accestoken to localstore
   useEffect(() => {
     if (router.query.access_token) {
@@ -29,14 +37,6 @@ function AuthButton() {
       refetch();
     }
   }, [router.query?.access_token]);
-
-  const { isLoading, data, refetch, isFetching } = useQuery(
-    ["user"],
-    () => GetUser(),
-    {
-      enabled: false,
-    }
-  );
 
   if (isFetching) {
     return <Loading />;

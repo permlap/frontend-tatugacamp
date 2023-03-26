@@ -23,8 +23,6 @@ import {
 import Layout from "../../layouts/classroomLayout";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 import { GetUser } from "../../service/user";
-import FullScreenLoading from "../../components/loading/FullScreenLoading";
-import Swal from "sweetalert2";
 import Unauthorized from "../../components/error/unauthorized";
 
 function Index() {
@@ -33,9 +31,7 @@ function Index() {
   const [runFetchClassroom, setRunFetchClassroom] = useState(false);
   const [classroomState, setClassroomState] = useState();
 
-  const user = useQuery(["user"], () => GetUser(), {
-    enabled: false,
-  });
+  const user = useQuery(["user"], () => GetUser());
 
   const classrooms = useQuery(
     ["classrooms"],
@@ -51,9 +47,6 @@ function Index() {
     if (router.query.access_token) {
       localStorage.setItem("access_token", router.query.access_token);
       const access_token = localStorage.getItem("access_token");
-      console.log("isLoading run");
-      console.log("user.error", user.error, "access_token", access_token);
-      console.log();
       if (user.error && !access_token) {
         console.log("redirect");
         router.push({
@@ -66,25 +59,20 @@ function Index() {
         pathname: "/auth/signIn",
       });
     }
-  }, [user.data]);
+  }, [user.data?.status]);
   useEffect(() => {
     if (user.data !== "Unauthorized" && user.data !== undefined) {
       setRunFetchClassroom(true);
     }
   }, [user.data]);
-  useEffect(() => {
-    if (router.isReady) {
-      user.refetch();
-    }
-  }, [router.isReady]);
 
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
     classrooms.refetch();
   });
 
-  if (user.isLoading) {
-    return <FullScreenLoading />;
+  if (user.isError) {
+    return <Unauthorized user={user} />;
   }
 
   //handle open make sure to delete classroom

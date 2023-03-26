@@ -382,7 +382,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
         {/* score part */}
         <div className=" flex-col  w-full md:w-full  ">
           <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
-            คะแนนของผู้เรียน
+            คะแนนความประพฤติ
           </div>
 
           <div className="">
