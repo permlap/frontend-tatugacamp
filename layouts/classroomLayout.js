@@ -7,7 +7,7 @@ import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
 function Layout({ children, user, sideMenus, trigger }) {
   const [triggersidebar, setTriggerSidebar] = useState(true);
-
+  console.log(user.data);
   return (
     <main className=" ">
       <div className="absolute top-0 right-0 mr-5 mt-5">
@@ -16,7 +16,7 @@ function Layout({ children, user, sideMenus, trigger }) {
       <Popover className="relative">
         {({ open }) => (
           <>
-            {user.data && (
+            {!user.isError && (
               <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
                 <div
                   aria-label="Show sidebar"

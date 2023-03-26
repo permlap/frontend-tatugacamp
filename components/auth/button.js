@@ -21,12 +21,8 @@ function AuthButton() {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, data, refetch, isFetching } = useQuery(
-    ["user"],
-    () => GetUser(),
-    {
-      enabled: false,
-    }
+  const { isLoading, data, refetch, isFetching } = useQuery(["user"], () =>
+    GetUser()
   );
 
   //set accestoken to localstore
