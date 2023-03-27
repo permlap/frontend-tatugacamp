@@ -44,6 +44,7 @@
     "sweetalert2": "^11.6.2",
     "swiper": "^8.4.4",
     "use-sound": "^4.0.1",
+    "uuid": "^9.0.0",
     "yup": "^1.0.0"
   },
   "devDependencies": {

@@ -191,7 +191,7 @@ function Index() {
                     <>
                       <div className="lg:mt-20 md:mt-5 mt-20 w-full flex justify-center items-center  font-Kanit ">
                         <div className="flex gap-x-2 justify-center items-center ">
-                          <span className="text-xl font-bold text-[#2C7CD1] ">
+                          <span className="text-xl md:text-2xl font-bold text-[#2C7CD1] ">
                             กดเพื่อ
                           </span>
                           <Popover.Button
@@ -199,11 +199,11 @@ function Index() {
                 ${open ? "" : "text-opacity-90"}
             bg-[#EDBA02] border-2 border-transparent border-solid text-md px-5 py-2 rounded-lg 
                 font-bold font-Kanit text-white cursor-pointer
-              active:border-black hover:scale-110 transition duration-150 ease-in-out"`}
+              active:border-black hover:scale-110 transition md:text-2xl duration-150 ease-in-out"`}
                           >
                             <span> สร้าง</span>
                           </Popover.Button>
-                          <span className="text-xl font-bold text-[#2C7CD1]">
+                          <span className="text-xl  md:text-2xl  font-bold text-[#2C7CD1]">
                             ห้องเรียน
                           </span>
                         </div>

@@ -134,7 +134,6 @@ function Index() {
           }
         );
       }
-      console.log(data);
     } catch (err) {
       if (err.code === "ERR_BAD_REQUEST") {
         setLoading(false);

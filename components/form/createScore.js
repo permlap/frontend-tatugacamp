@@ -16,7 +16,7 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
       };
     });
   };
-  console.log("classroomId", classroomId);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

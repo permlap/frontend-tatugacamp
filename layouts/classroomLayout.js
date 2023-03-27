@@ -7,7 +7,7 @@ import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
 function Layout({ children, user, sideMenus, trigger }) {
   const [triggersidebar, setTriggerSidebar] = useState(true);
-  console.log(user.data);
+
   return (
     <main className=" ">
       <div className="absolute top-0 right-0 mr-5 mt-5">

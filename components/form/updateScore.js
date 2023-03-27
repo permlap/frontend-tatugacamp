@@ -58,10 +58,8 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   //handle hiden score
   const onClickToHide = async ({ scoreId }) => {
     try {
-      console.log(scoreId);
       const hideScore = await HideScore({ scoreId });
       refetchScores();
-      console.log(hideScore);
     } catch (err) {
       Swal.fire("error", err?.response?.data?.message.toString(), "error");
     }
@@ -120,7 +118,6 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
       setClickScoreTitle(() => {
         let points = 1;
 
-        console.log("pointsValue", pointsValue);
         if (!pointsValue) {
           points = 1;
         } else if (pointsValue) {

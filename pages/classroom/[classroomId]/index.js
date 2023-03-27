@@ -303,6 +303,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                         {({ close }) => (
                           <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
                             <CreateStudent
+                              students={students}
                               close={close}
                               handlePassingstudents={handlePassingstudents}
                             />

@@ -29,7 +29,7 @@ function AuthButton() {
   useEffect(() => {
     if (router.query.access_token) {
       localStorage.setItem("access_token", router.query.access_token);
-      console.log("store access_token");
+
       refetch();
     }
   }, [router.query?.access_token]);

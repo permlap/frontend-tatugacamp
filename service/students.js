@@ -20,20 +20,25 @@ export async function GetAllStudents(data) {
   }
 }
 
-export async function CreateStudentApi(data) {
+export async function CreateStudentApi({
+  number,
+  firstName,
+  lastName,
+  classroomId,
+}) {
   const picture = [
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/332251711_5899805890085945_1007978248439093741_n.jpg",
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/335121687_1247712589490354_6188669462534140807_n.jpg",
   ];
   try {
-    const converNumber = Number(data.inputObject.number);
+    const converNumber = Number(number);
     const StringNumber = converNumber.toString();
     const access_token = localStorage.getItem("access_token");
     const student = await axios.post(
-      `${process.env.Server_Url}/user/student/create?classroomId=${data.classroomId}`,
+      `${process.env.Server_Url}/user/student/create?classroomId=${classroomId}`,
       {
-        firstName: data.inputObject.firstName,
-        lastName: data.inputObject.lastName,
+        firstName: firstName,
+        lastName: lastName,
         number: StringNumber,
         picture: picture[Math.floor(Math.random() * 2)],
       },
