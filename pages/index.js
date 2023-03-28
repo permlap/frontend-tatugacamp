@@ -78,7 +78,7 @@ export default function Home(props) {
   };
 
   return (
-    <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover  ">
+    <div>
       <Facebook />
       <Layout>
         <Head>
@@ -181,54 +181,55 @@ export default function Home(props) {
             </div>
           </div>
         </header>
-
-        <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-no-repeat bg-cover ">
-          <div className="w-max h-max font-Kanit  z-30 font-medium text-[1.5rem] md:text-[1.7rem]  px-5 py-3 text-white rounded-xl bg-[#2C7CD1]">
-            <span>แหล่งรวบรวมความรู้ สำหรับครู👩🏼‍🏫</span>
-          </div>
-
-          <ul className="list-none pl-0 w-full  h-24 flex mt-10 flex-col-reverse  md:flex-row items-center justify-center md:items-end  md:gap-x-12 font-Kanit font-light text-lg">
-            <li className="z-30   ">
-              <SearchAutoComplete
-                searchFor={"ค้นหากิจกรรม"}
-                activityPosts={postsData}
-                handleSelectedActivity={handleSelectedActivity}
-              />
-            </li>
-            {Menus.map((list, index) => {
-              return (
-                <li
-                  onClick={() => handleFectchMenu(index)}
-                  key={index}
-                  className={` ${
-                    activeMenu === index
-                      ? "border-[#EDBA02] text-[#EDBA02] font-semibold"
-                      : "border-transparent"
-                  } underLineHover cursor-pointer `}
-                >
-                  <span className="active:text-[#EDBA02]">{list.name}</span>
-                </li>
-              );
-            })}
-          </ul>
-          <div></div>
-
-          {isFetching ? (
-            <div className="mt-10">
-              <Loading />
+        <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat  bg-cover  ">
+          <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-no-repeat bg-cover ">
+            <div className="w-max h-max font-Kanit  z-30 font-medium text-[1.5rem] md:text-[1.7rem]  px-5 py-3 text-white rounded-xl bg-[#2C7CD1]">
+              <span>แหล่งรวบรวมความรู้ สำหรับครู👩🏼‍🏫</span>
             </div>
-          ) : (
-            <ListActivity
-              activityPosts={postsData}
-              dataSearchOptios={dataSearchOptios}
-              likes={props.likes}
-            />
-          )}
-        </main>
 
-        <footer>
-          <Footer descriptionMeta={descriptionMeta} />
-        </footer>
+            <ul className="list-none pl-0 w-full  h-24 flex mt-10 flex-col-reverse  md:flex-row items-center justify-center md:items-end  md:gap-x-12 font-Kanit font-light text-lg">
+              <li className="z-30   ">
+                <SearchAutoComplete
+                  searchFor={"ค้นหากิจกรรม"}
+                  activityPosts={postsData}
+                  handleSelectedActivity={handleSelectedActivity}
+                />
+              </li>
+              {Menus.map((list, index) => {
+                return (
+                  <li
+                    onClick={() => handleFectchMenu(index)}
+                    key={index}
+                    className={` ${
+                      activeMenu === index
+                        ? "border-[#EDBA02] text-[#EDBA02] font-semibold"
+                        : "border-transparent"
+                    } underLineHover cursor-pointer `}
+                  >
+                    <span className="active:text-[#EDBA02]">{list.name}</span>
+                  </li>
+                );
+              })}
+            </ul>
+            <div></div>
+
+            {isFetching ? (
+              <div className="mt-10">
+                <Loading />
+              </div>
+            ) : (
+              <ListActivity
+                activityPosts={postsData}
+                dataSearchOptios={dataSearchOptios}
+                likes={props.likes}
+              />
+            )}
+          </main>
+
+          <footer>
+            <Footer descriptionMeta={descriptionMeta} />
+          </footer>
+        </div>
       </Layout>
     </div>
   );
