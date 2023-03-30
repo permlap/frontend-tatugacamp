@@ -27,8 +27,17 @@ export async function CreateStudentApi({
   classroomId,
 }) {
   const picture = [
-    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/332251711_5899805890085945_1007978248439093741_n.jpg",
-    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/335121687_1247712589490354_6188669462534140807_n.jpg",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3049.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3050.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3051.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3052.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3053.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3054.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3061.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3062.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3063.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3064.PNG",
   ];
   try {
     const converNumber = Number(number);
@@ -40,7 +49,7 @@ export async function CreateStudentApi({
         firstName: firstName,
         lastName: lastName,
         number: StringNumber,
-        picture: picture[Math.floor(Math.random() * 2)],
+        picture: picture[Math.floor(Math.random() * picture.length)],
       },
       {
         headers: {

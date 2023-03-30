@@ -3196,7 +3196,7 @@
   "resolved" "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz"
   "version" "1.2.1"
 
-"prisma@*", "prisma@^4.8.1":
+"prisma@*":
   "integrity" "sha512-ZMLnSjwulIeYfaU1O6/LF6PEJzxN5par5weykxMykS9Z6ara/j76JH3Yo2AH3bgJbPN4Z6NeCK9s5fDkzf33cg=="
   "resolved" "https://registry.npmjs.org/prisma/-/prisma-4.8.1.tgz"
   "version" "4.8.1"

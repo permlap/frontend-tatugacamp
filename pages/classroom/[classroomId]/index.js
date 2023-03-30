@@ -414,7 +414,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                                     src={student.picture}
                                     layout="fill"
                                     alt="student's avatar"
-                                    className="object-cover scale-150 translate-y-8"
+                                    className="object-cover scale-150 translate-y-5"
                                   />
                                 </div>
                                 <div className="font-Kanit text-xl flex items-center justify-start gap-2">
