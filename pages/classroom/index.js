@@ -10,16 +10,8 @@ import { DeleteClassroom, GetAllClassrooms } from "../../service/classroom";
 import * as animationData from "../../components/LoadingScreen.json";
 import Lottie from "lottie-react";
 import Head from "next/head";
-
 import { useRouter } from "next/router";
-import {
-  FiHome,
-  FiGrid,
-  FiSettings,
-  FiChevronsLeft,
-  FiChevronsRight,
-  FiArrowLeftCircle,
-} from "react-icons/fi";
+import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import Layout from "../../layouts/classroomLayout";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 import { GetUser } from "../../service/user";

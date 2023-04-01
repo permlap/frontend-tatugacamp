@@ -9,6 +9,7 @@ import {
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useQuery } from "react-query";
 import { CreateStudentApi, GetAllStudents } from "../../service/students";
+import Lottie from "lottie-react";
 import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import Loading from "../loading/loading";
 import ExcelTable from "./createManyStudent";
