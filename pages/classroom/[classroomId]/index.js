@@ -1,18 +1,9 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import SidebarClassroom from "../../../components/sidebar/sidebarClassroom";
 import { GetOneClassroom } from "../../../service/classroom";
-import {
-  FiHome,
-  FiSettings,
-  FiChevronsLeft,
-  FiChevronsRight,
-  FiArrowLeftCircle,
-} from "react-icons/fi";
+import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import Head from "next/head";
-import Loading from "../../../components/loading/loading";
 import FullScreenLoading from "../../../components/loading/FullScreenLoading";
 import { Popover, Transition } from "@headlessui/react";
 import Layout from "../../../layouts/classroomLayout";
@@ -31,6 +22,8 @@ import { Skeleton } from "@mui/material";
 import Unauthorized from "../../../components/error/unauthorized";
 function Index() {
   const router = useRouter();
+
+  const [loadedImages, setLoadedImages] = useState([]);
   const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
   const user = useQuery(["user"], () => GetUser());
   const students = useQuery(
@@ -158,10 +151,15 @@ function Index() {
     year: "numeric",
   });
 
+  //if no user data return unauthorization page
   if (!user.data) {
     return <Unauthorized user={user} />;
   }
 
+  const handleLoadingComplete = (id) => {
+    setLoadedImages((prevImages) => [...prevImages, id]);
+  };
+  console.log(loadedImages);
   return (
     <>
       <Head>
@@ -409,14 +407,29 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                                 >
                                   {student.score.totalPoints}
                                 </div>
+
+                                {!loadedImages.includes(student.id) && (
+                                  <div>
+                                    <Skeleton
+                                      variant="circular"
+                                      width={96}
+                                      height={96}
+                                    />
+                                  </div>
+                                )}
+
                                 <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
                                   <Image
                                     src={student.picture}
                                     layout="fill"
                                     alt="student's avatar"
                                     className="object-cover scale-150 translate-y-5"
+                                    onLoad={() =>
+                                      handleLoadingComplete(student.id)
+                                    }
                                   />
                                 </div>
+
                                 <div className="font-Kanit text-xl flex items-center justify-start gap-2">
                                   <div className=" bg-blue-500 font-semibold text-white w-5 h-5 flex items-center justify-center  rounded-md">
                                     {student.number}

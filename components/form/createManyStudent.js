@@ -12,45 +12,54 @@ function ExcelTable({ getExcelData, students }) {
   };
 
   const handleCreateMany = async (e) => {
+    const updatedTableData = [];
     for (const student of tableData) {
       try {
+        const updatedStudentLoading = {
+          ...student,
+          Notloading: false,
+        };
+        updatedTableData.push(updatedStudentLoading);
         const createStudent = await CreateStudentApi({
           firstName: student.firstName,
           lastName: student.lastName,
           number: student.number,
           classroomId: router.query.classroomId,
         });
+
+        const index = updatedTableData.findIndex((s) => s.id === student.id); // Find the index of the current student in the updatedTableData array
+        const updatedStudentSuccess = {
+          ...student,
+          status: 200,
+          Notloading: true,
+        };
+        updatedTableData.splice(index, 1, updatedStudentSuccess); // Replace
+
         students.refetch();
-        console.log("Created student:", createStudent);
       } catch (err) {
-        getExcelData((prevTableData) => {
-          return prevTableData.map((prevStudent) => {
-            if (prevStudent.id === student.id) {
-              return {
-                ...prevStudent,
-                error: err?.props?.response?.data?.message.toString(),
-              };
-            }
-            return prevStudent;
-          });
-        });
-        console.error("Error creating student:", err);
+        const index = updatedTableData.findIndex((s) => s.id === student.id); // Find the index of the current student in the updatedTableData array
+        const updatedStudentSuccess = {
+          ...student,
+          status: 400,
+          Notloading: true,
+        };
+        updatedTableData.splice(index, 1, updatedStudentSuccess); // Replace the current student with the updatedStudentSuccess object at the same index
       }
     }
+    console.log(updatedTableData);
+    getExcelData(updatedTableData);
   };
-  console.log(tableData);
+
   const generateTable = () => {
     const rows = excelData.split("\n");
-    const table = [];
 
     const arrayOfObjects = rows.map((item) => {
       const [number, firstName, lastName] = item.split("\t");
       const uniqueId = uuidv4();
       return { id: uniqueId, number, firstName, lastName };
     });
-
-    getExcelData(arrayOfObjects);
     setTableData(arrayOfObjects);
+    getExcelData(arrayOfObjects);
   };
 
   return (

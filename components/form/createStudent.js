@@ -1,4 +1,3 @@
-import Lottie from "lottie-react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
@@ -8,13 +7,13 @@ import {
   FcUndo,
 } from "react-icons/fc";
 import { SiMicrosoftexcel } from "react-icons/si";
-
-import { isError, useQuery } from "react-query";
-import Swal from "sweetalert2";
+import { useQuery } from "react-query";
 import { CreateStudentApi, GetAllStudents } from "../../service/students";
 import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import Loading from "../loading/loading";
 import ExcelTable from "./createManyStudent";
+import { MdError } from "react-icons/md";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
 function CreateStudent({ close, handlePassingstudents }) {
   const router = useRouter();
@@ -30,11 +29,11 @@ function CreateStudent({ close, handlePassingstudents }) {
     GetAllStudents({ classroomId: router.query.classroomId })
   );
 
+  console.log("tabelData", tabelData);
   //get excelData
   const getExcelData = (data) => {
     setTabledata(data);
   };
-
   // sort student by nuber
   useEffect(() => {
     setSortedStudents((prev) => {
@@ -73,7 +72,6 @@ function CreateStudent({ close, handlePassingstudents }) {
       setError(err?.props?.response?.data?.message);
     }
   };
-
   const style = {
     height: 50,
   };
@@ -82,7 +80,7 @@ function CreateStudent({ close, handlePassingstudents }) {
       <div className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto z-30  ">
         <div className="flex items-center justify-center gap-x-5  bg-transparent h-[0.05rem] w-max">
           <div
-            className="w-96 h-[30rem] bg-white border-2 border-solid  flex-col justify-start items-center 
+            className="w-[30rem] h-[30rem] bg-white border-2 border-solid  flex-col justify-start items-center 
           rounded-xl font-Kanit md:flex hidden"
           >
             <div className=" font-Kanit font-bold text-xl mt-2">
@@ -93,10 +91,17 @@ function CreateStudent({ close, handlePassingstudents }) {
               </span>
             </div>
             <div className="w-full  flex flex-col items-center justify-start mt-5">
-              <ul className="grid grid-cols-3 pl-0 list-none w-full">
+              <ul
+                className={`grid ${
+                  isExcelData === false ? "grid-cols-4" : "grid-cols-3"
+                } pl-0 list-none w-full`}
+              >
                 <li className="flex justify-center items-cente">เลขที่</li>
                 <li className="flex justify-center items-cente">ชื่อจริง</li>
                 <li className="flex justify-center items-cente">นามสกุล</li>
+                {isExcelData === false && (
+                  <li className="flex justify-center items-cente">สถานะ</li>
+                )}
               </ul>
               <ul
                 className=" mt-5 list-disc flex flex-col justify-start items-start w-full pl-0
@@ -106,11 +111,7 @@ function CreateStudent({ close, handlePassingstudents }) {
                   ? tabelData?.map((list) => {
                       return (
                         <li key={list.id} className="w-full">
-                          <div
-                            className={`grid  ${
-                              list.error ? "grid-cols-4" : "grid-cols-3 "
-                            } w-full`}
-                          >
+                          <div className={`grid  grid-cols-4 w-full`}>
                             <div className="flex justify-center items-center  ">
                               <span
                                 className="w-8 h-8 bg-[#2C7CD1] flex items-center justify-center 
@@ -126,10 +127,23 @@ function CreateStudent({ close, handlePassingstudents }) {
                               {list.lastName}
                             </span>
 
-                            {list.error && (
-                              <span className="flex text-red-500 justify-center  items-center    bg-white">
-                                {list.error}
-                              </span>
+                            {list.status === 400 && (
+                              <div className="flex text-red-500 justify-center  items-center relative group cursor-pointer   bg-white">
+                                <div className="w-40 text-xs h-max bg-white rounded-md absolute top-0 right-0 left-0 bottom-0 m-auto hidden group-hover:flex">
+                                  {list.error}
+                                </div>
+                                <MdError />
+                              </div>
+                            )}
+                            {list.status === 200 && (
+                              <div className="flex text-green-500 text-lg justify-center  items-center  ">
+                                <AiOutlineCheckCircle />
+                              </div>
+                            )}
+                            {list.Notloading === false && (
+                              <div className="flex justify-center  items-center  ">
+                                <Loading />
+                              </div>
                             )}
                           </div>
                         </li>
