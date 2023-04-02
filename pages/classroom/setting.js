@@ -162,7 +162,10 @@ function Setting() {
             </span>
             <div className="flex gap-x-5 md:gap-5 mt-5  items-center justify-center">
               {user?.data?.data?.picture ? (
-                <div className="relative md:w-40 md:h-40 w-20 h-20 rounded-md overflow-hidden flex justify-center items-center">
+                <div
+                  className="relative lg:w-60 lg:h-48 md:w-40 md:h-40 w-20 h-20 rounded-md overflow-hidden 
+                flex justify-center items-center"
+                >
                   {loading ? (
                     <Loading />
                   ) : (

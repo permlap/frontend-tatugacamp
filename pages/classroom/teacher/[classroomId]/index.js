@@ -1,25 +1,25 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { GetOneClassroom } from "../../../service/classroom";
+import { GetOneClassroom } from "../../../../service/classroom";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import Head from "next/head";
-import FullScreenLoading from "../../../components/loading/FullScreenLoading";
+import FullScreenLoading from "../../../../components/loading/FullScreenLoading";
 import { Popover, Transition } from "@headlessui/react";
-import Layout from "../../../layouts/classroomLayout";
-import CreateStudent from "../../../components/form/createStudent";
-import { GetAllStudents } from "../../../service/students";
+import Layout from "../../../../layouts/classroomLayout";
+import CreateStudent from "../../../../components/form/createStudent";
+import { GetAllStudents } from "../../../../service/students";
 import Lottie from "lottie-react";
-import * as ClassroomAnimation from "../../../components/90714-online-learning.json";
+import * as ClassroomAnimation from "../../../../components/90714-online-learning.json";
 import { BsPeopleFill } from "react-icons/bs";
 import { AiTwotoneStar } from "react-icons/ai";
 import Image from "next/image";
-import { GetAllScoresClassroom } from "../../../service/scores";
-import UpdateScore from "../../../components/form/updateScore";
-import UpdateClass from "../../../components/form/updateClass";
-import { GetUser } from "../../../service/user";
+import { GetAllScoresClassroom } from "../../../../service/scores";
+import UpdateScore from "../../../../components/form/updateScore";
+import UpdateClass from "../../../../components/form/updateClass";
+import { GetUser } from "../../../../service/user";
 import { Skeleton } from "@mui/material";
-import Unauthorized from "../../../components/error/unauthorized";
+import Unauthorized from "../../../../components/error/unauthorized";
 function Index() {
   const router = useRouter();
 
@@ -107,7 +107,7 @@ function Index() {
     {
       title: "โรงเรียน",
       icon: "🏫",
-      url: `/classroom`,
+      url: `/classroom/teacher`,
     },
     {
       title: "ห้องเรียน",

@@ -20,6 +20,7 @@ module.exports = {
       fontFamily: {
         Inter: ["Inter", "sans-serif"],
         Kanit: ["Kanit", "sans-serif"],
+        Poppins: ["Poppins", "sans-serif"],
       },
       boxShadow: {
         insetShadow: "inset  0px -12px 10px 0px rgba(0, 0, 0, 0.3)",

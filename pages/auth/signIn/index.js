@@ -54,7 +54,7 @@ function Index() {
         });
         localStorage.setItem("access_token", data.data.access_token);
         router.push(
-          `/classroom/?access_token=${data.data.access_token}`,
+          `/classroom/teacher/?access_token=${data.data.access_token}`,
           undefined,
           {
             shallow: true,
