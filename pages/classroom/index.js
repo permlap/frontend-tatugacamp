@@ -34,7 +34,7 @@ function Index() {
     },
   ];
   return (
-    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed  bg-cover pb-20">
+    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom  bg-cover pb-20">
       <Head>
         <meta property="og:title" content={`TaTuga class`} />
         <meta
@@ -102,7 +102,7 @@ function Index() {
                 รวดเร็ว - tatuga class
               </span>
             </div>
-            <div className="flex  w-full items-center justify-center gap-5 mt-10 ">
+            <div className="flex  w-full items-center justify-center md:justify-start  gap-5 mt-10 ">
               <div className="text-xl font-Kanit font-bold text-blue-900">
                 สำหรับครู
               </div>

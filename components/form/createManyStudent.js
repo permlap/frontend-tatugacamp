@@ -46,7 +46,7 @@ function ExcelTable({ getExcelData, students }) {
         updatedTableData.splice(index, 1, updatedStudentSuccess); // Replace the current student with the updatedStudentSuccess object at the same index
       }
     }
-    console.log(updatedTableData);
+
     getExcelData(updatedTableData);
   };
 

@@ -20,6 +20,7 @@ import UpdateClass from "../../../../components/form/updateClass";
 import { GetUser } from "../../../../service/user";
 import { Skeleton } from "@mui/material";
 import Unauthorized from "../../../../components/error/unauthorized";
+import { MdAssignment } from "react-icons/md";
 function Index() {
   const router = useRouter();
 
@@ -115,6 +116,11 @@ function Index() {
       url: `#`,
     },
     {
+      title: "มอบหมายงาน",
+      icon: "🎒",
+      url: `/classroom/teacher/${router.query.classroomId}/assignment`,
+    },
+    {
       title: "timer",
       icon: "⏲️",
       url: `/teacher-tools/timer`,
@@ -126,6 +132,7 @@ function Index() {
       url: `/`,
     },
   ];
+
   if (!router.isReady) {
     return <FullScreenLoading />;
   }
@@ -159,15 +166,14 @@ function Index() {
   const handleLoadingComplete = (id) => {
     setLoadedImages((prevImages) => [...prevImages, id]);
   };
-  console.log(loadedImages);
+
   return (
     <>
+      <Layout user={user} sideMenus={sideMenus} />
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
-      <div className="flex  ">
-        <Layout user={user} sideMenus={sideMenus} />
-
+      <div className="flex bg-[#F6F1E9] items-center justify-center ">
         <div className="w-full flex flex-col items-center justify-center  gap-10 h-full pb-40">
           {/* header section */}
           <header
@@ -390,7 +396,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     return (
                       <Popover key={student.id}>
                         {({ open }) => (
-                          <div className="relative md:block flex items-start justify-center">
+                          <div className="relative group md:block flex items-start justify-center">
                             <Popover.Button className="bg-transparent  border-none active:border-none appearance-none focus:outline-none">
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
@@ -423,7 +429,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                                     src={student.picture}
                                     layout="fill"
                                     alt="student's avatar"
-                                    className="object-cover scale-150 translate-y-5"
+                                    className="object-cover scale-125 group-hover:scale-150 transition duration-150 ease-out translate-y-5"
                                     onLoad={() =>
                                       handleLoadingComplete(student.id)
                                     }

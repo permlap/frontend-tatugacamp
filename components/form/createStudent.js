@@ -30,7 +30,6 @@ function CreateStudent({ close, handlePassingstudents }) {
     GetAllStudents({ classroomId: router.query.classroomId })
   );
 
-  console.log("tabelData", tabelData);
   //get excelData
   const getExcelData = (data) => {
     setTabledata(data);

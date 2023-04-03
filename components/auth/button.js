@@ -5,20 +5,13 @@ import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import Loading from "../loading/loading";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
-import Link from "next/link";
-import {
-  BsChevronCompactDown,
-  BsChevronDoubleDown,
-  BsChevronDown,
-} from "react-icons/bs";
+import { BsChevronCompactDown, BsChevronDoubleDown } from "react-icons/bs";
 import { GetUser } from "../../service/user";
 
 function AuthButton() {
   const [dropDown, setDropDown] = useState(false);
   const router = useRouter();
-
   const queryClient = useQueryClient();
 
   const { isLoading, data, refetch, isFetching } = useQuery(["user"], () =>
@@ -38,7 +31,7 @@ function AuthButton() {
     return <Loading />;
   }
 
-  if (!data || data === "Unauthorized") {
+  if (!data.data || data === "Unauthorized") {
     return (
       <div>
         <button
@@ -66,7 +59,7 @@ function AuthButton() {
       pathname: "/",
     });
   };
-
+  console.log(data.data);
   return (
     <Menu>
       <Menu.Button
