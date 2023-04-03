@@ -59,7 +59,7 @@ function AuthButton() {
       pathname: "/",
     });
   };
-  console.log(data.data);
+
   return (
     <Menu>
       <Menu.Button
