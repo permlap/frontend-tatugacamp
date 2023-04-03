@@ -141,7 +141,7 @@ function Index() {
           content="ห้องเรียนจาก Tatuga camp ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>TaTuga class</title>
+        <title>Teacher class</title>
       </Head>
 
       <div

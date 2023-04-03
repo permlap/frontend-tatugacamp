@@ -48,39 +48,25 @@ function Navbar() {
               <Listmenu />
             </li>
           </Button>
-          <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center gap-x-2 text-[20px] ">
-            <div>
-              <a
-                className="no-underline text-white"
-                href={`${
-                  brower === "Safari"
-                    ? "fb://page/?id=107002408742438"
-                    : "fb://page/107002408742438"
-                }`}
-              >
-                <ion-icon name="logo-facebook"></ion-icon>
-              </a>
-            </div>
-
-            <div>
-              <a
-                className="no-underline text-white"
-                href="http://instagram.com/_u/tatugacamp/"
-              >
-                <ion-icon name="logo-instagram"></ion-icon>
-              </a>
-            </div>
-            <div className="w-[35px] h-[35px] rounded-full overflow-hidden bg-white">
-              <Link href="/">
-                <Image
-                  src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp.png"
-                  width={35}
-                  height={35}
-                  alt="TaTuga camp logo"
-                />
-              </Link>
-            </div>
-          </li>
+          <div className="lg:w-[25rem] md:hiden flex   gap-2 items-center justify-center  ">
+            <input
+              className="bg-blue-200  appearance-none border-none border-gray-200 rounded w-full py-2 px-4  
+              leading-tight focus:outline-none focus:bg-blue-400 focus:border-2 focus:right-4 placeholder:text-md placeholder:font-Kanit
+              placeholder:text-black placeholder:font-medium focus:placeholder:text-white text-black focus:text-white font-sans font-semibold "
+              type="number"
+              name="description"
+              placeholder="รหัสห้องเรียน"
+              maxLength="6"
+            />
+            <button
+              className="w-40  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
+              text-md cursor-pointer hover: active:border-2  active:border-gray-300
+               active:border-solid  focus:border-2 
+              focus:border-solid"
+            >
+              เข้าร่วม
+            </button>
+          </div>
         </ul>
 
         <div
@@ -118,6 +104,31 @@ function Navbar() {
                 About us
               </li>
             </Link>
+            <div>
+              <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center justify-center gap-x-5 text-[30px] ">
+                <div>
+                  <a
+                    className="no-underline text-white"
+                    href={`${
+                      brower === "Safari"
+                        ? "fb://page/?id=107002408742438"
+                        : "fb://page/107002408742438"
+                    }`}
+                  >
+                    <ion-icon name="logo-facebook"></ion-icon>
+                  </a>
+                </div>
+
+                <div>
+                  <a
+                    className="no-underline text-white"
+                    href="http://instagram.com/_u/tatugacamp/"
+                  >
+                    <ion-icon name="logo-instagram"></ion-icon>
+                  </a>
+                </div>
+              </li>
+            </div>
           </ul>
         </div>
 
