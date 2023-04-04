@@ -1,4 +1,5 @@
 import axios from "axios";
+import Error from "next/error";
 
 export async function CreateAssignmentApi({
   classroomId,
@@ -32,7 +33,6 @@ export async function CreateAssignmentApi({
     );
     return assignment;
   } catch (err) {
-    console.log(err);
     throw new Error(err);
   }
 }
@@ -58,4 +58,32 @@ export async function GetAllAssignments({ classroomId }) {
     console.log(err);
     throw new Error(err);
   }
+}
+
+export async function GetAssignmentProgress({ assignments }) {
+  let progresses = [];
+  for (const assignment of assignments) {
+    try {
+      const access_token = localStorage.getItem("access_token");
+
+      const progress = await axios.get(
+        `${process.env.Server_Url}/user/assignment/progress-assignment`,
+
+        {
+          params: {
+            assignmentId: assignment.id,
+          },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+      progresses.push({ ...assignment, progress: progress.data });
+    } catch (err) {
+      console.log(err);
+      throw new Error(err);
+    }
+  }
+  return progresses;
 }

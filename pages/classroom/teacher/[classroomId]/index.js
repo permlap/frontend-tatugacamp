@@ -396,7 +396,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     return (
                       <Popover key={student.id}>
                         {({ open }) => (
-                          <div className="relative group md:block flex items-start justify-center">
+                          <div className="relative md:block flex items-start justify-center">
                             <Popover.Button className="bg-transparent  border-none active:border-none appearance-none focus:outline-none">
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
@@ -429,7 +429,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                                     src={student.picture}
                                     layout="fill"
                                     alt="student's avatar"
-                                    className="object-cover scale-125 group-hover:scale-150 transition duration-150 ease-out translate-y-5"
+                                    className="object-cover scale-125 hover:scale-150 transition duration-150 translate-y-5"
                                     onLoad={() =>
                                       handleLoadingComplete(student.id)
                                     }
