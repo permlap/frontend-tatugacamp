@@ -51,7 +51,6 @@ function Assignment() {
       enabled: false,
     }
   );
-  console.log(progresses.data);
 
   //check whether there is authorrized acccess or not
   useEffect(() => {

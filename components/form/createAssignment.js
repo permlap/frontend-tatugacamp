@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
 import { Editor } from "@tinymce/tinymce-react";
 import { GrScorecard } from "react-icons/gr";
 import Image from "next/image";
-import { CreateAssignmentApi } from "../../service/assignment";
+import {
+  AssignWorkToSTudent,
+  CreateAssignmentApi,
+} from "../../service/assignment";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 
@@ -13,13 +16,16 @@ export default function CreateAssignment({
   students,
 }) {
   const rounter = useRouter();
+  const [assignmentCreated, setAssignmentCreated] = useState();
   const [assignmentData, setAssignmentData] = useState({
     title: "",
     body: "",
     deadline: "",
     maxScore: "",
   });
+  const [isChecked, setIsChecked] = useState();
   const [isAssignStudent, setIsAssignmentStdent] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAssignmentData((prev) => {
@@ -28,6 +34,66 @@ export default function CreateAssignment({
         [name]: value,
       };
     });
+  };
+
+  useEffect(() => {
+    setIsChecked(() =>
+      students?.data?.data?.map((student) => {
+        return {
+          ...student,
+          [student.id]: false,
+        };
+      })
+    );
+    // setIsChecked((prev) => {
+    //   return prev?.reduce((result, currentObj) => {
+    //     return { ...result, ...currentObj };
+    //   });
+    // });
+  }, [students.data]);
+
+  const handleChangeCheck = ({ studentId }) => {
+    // setIsChecked((prev) => {
+    //   return {
+    //     ...prev,
+    //     [studentId]: !prev[studentId],
+    //   };
+    // });
+    setIsChecked((prevState) => {
+      return prevState.map((prevStudent) => {
+        if (prevStudent.id === studentId) {
+          return {
+            ...prevStudent,
+            [studentId]: !prevStudent[studentId],
+          };
+        } else {
+          return { ...prevStudent };
+        }
+      });
+    });
+  };
+
+  const onClickIsCheck = () => {
+    setIsChecked((prevState) => {
+      return prevState.map((student) => {
+        return {
+          ...student,
+          [student.id]: !student[student.id],
+        };
+      });
+    });
+  };
+  const onClickAssignWork = async () => {
+    try {
+      const assign = AssignWorkToSTudent({ isChecked, assignmentCreated });
+    } catch (err) {
+      console.log(err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+    }
   };
   const handleSubmit = async (e) => {
     try {
@@ -39,7 +105,9 @@ export default function CreateAssignment({
         maxScore: assignmentData.maxScore,
         deadline: assignmentData.deadline,
       });
+
       Swal.fire("success", "assignment has been createed", "success");
+      setAssignmentCreated(createAssignment);
       setIsAssignmentStdent(true);
     } catch (err) {
       console.log(err);
@@ -162,20 +230,63 @@ export default function CreateAssignment({
             </div>
           </div>
         ) : (
-          <div className="w-full flex items-center justify-start flex-col gap-10">
+          <form className="w-full flex items-center justify-start flex-col gap-10">
             <div className="text-2xl font-Kanit font-semibold">
               เลือกผู้เรียนเพื่อมอบหมายงาน
             </div>
-            <div className="w-2/4 h-3/4 border-2 border-solid flex items-center justify-start flex-col">
-              {students?.data?.data?.map((student) => {
+            <div className="w-2/4 h-3/4 flex items-center justify-center overflow-auto scrollbar  flex-col gap-2">
+              {isChecked?.map((student, index) => {
+                const studentId = student.id;
+                const oddNumber = index % 2;
                 return (
-                  <div>
-                    <div>{student.firstName}</div>
+                  <div
+                    className={`grid grid-cols-4 w-full items-center justify-center ${
+                      oddNumber === 0 ? "bg-blue-100" : "bg-orange-100"
+                    } py-2 
+                  text-lg font-Kanit `}
+                  >
+                    <div className="flex items-center justify-center">
+                      {student.number}
+                    </div>
+                    <div className="flex items-center justify-center">
+                      {student.firstName}
+                    </div>
+                    <div className="flex items-center justify-center">
+                      {student.lastName}
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <input
+                        checked={student?.[student.id]}
+                        onChange={() =>
+                          handleChangeCheck({ studentId: student.id })
+                        }
+                        type="checkbox"
+                        className="w-6 h-6  text-blue-600 bg-gray-100 border-gray-300 rounded
+                       focus:ring-blue-500 dark:focus:ring-blue-600
+                       dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                    </div>
                   </div>
                 );
               })}
             </div>
-          </div>
+            <div className="flex gap-5">
+              <button
+                type="button"
+                onClick={onClickIsCheck}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                เลือกผู้เรียนทั้งหมด
+              </button>
+              <button
+                type="button"
+                onClick={onClickAssignWork}
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                มอบหมายงาน
+              </button>
+            </div>
+          </form>
         )}
       </form>
       <div

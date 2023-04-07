@@ -7,12 +7,6 @@ module.exports = {
   important: "#__next",
   theme: {
     extend: {
-      fontWeight: ["responsive", "hover", "focus"],
-      opacity: ["hover"],
-      borderColor: ["hover", "focus"],
-      margin: ["first", "last"],
-      backgroundColor: ["odd", "even"],
-      scale: ["hover", "active", "group-hover"],
       keyframes: {
         wave: {
           "0%%": { transform: "translateY(0rem)" },

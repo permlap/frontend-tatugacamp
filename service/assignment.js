@@ -87,3 +87,35 @@ export async function GetAssignmentProgress({ assignments }) {
   }
   return progresses;
 }
+
+export async function AssignWorkToSTudent({ isChecked, assignmentCreated }) {
+  let stduentOnAssignment = [];
+  for (const student of isChecked) {
+    console.log(student[student.id]);
+    if (student[student.id] === true) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        console.log(access_token);
+        const assign = await axios.post(
+          `${process.env.Server_Url}/user/assignment/assign-work-to-student`,
+          {},
+          {
+            params: {
+              studentId: student.id,
+              assignmentId: assignmentCreated.data.id,
+            },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        );
+        stduentOnAssignment.push(assign);
+      } catch (err) {
+        console.log(err);
+        throw new Error(err);
+      }
+    }
+  }
+  return stduentOnAssignment;
+}
