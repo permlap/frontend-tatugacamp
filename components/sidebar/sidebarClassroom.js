@@ -7,7 +7,8 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
   const router = useRouter();
   const pathname = router.pathname; // e.g. "/classroom/setting"
 
-  const lastRoute = pathname.split("/").pop(); // "setting"
+  const lastRoute = pathname.split("/").pop();
+  console.log(lastRoute); // "setting"
   const [isClick, setIsClick] = useState();
   useEffect(() => {
     if (lastRoute === "setting") {
@@ -16,6 +17,8 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
       setIsClick(0);
     } else if (lastRoute === "[classroomId]") {
       setIsClick(1);
+    } else if (lastRoute === "assignment") {
+      setIsClick(2);
     } else if (lastRoute === "timer") {
       setIsClick(2);
     }

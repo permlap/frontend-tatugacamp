@@ -18,11 +18,13 @@ import {
   GetAssignmentProgress,
 } from "../../../../service/assignment";
 import { GetAllStudents } from "../../../../service/students";
+import ShowAssignment from "../../../../components/form/showAssignment";
 function Assignment() {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
-
   const [triggerAssignment, setTriggerAssignment] = useState(false);
+  const [showAssignment, setShowAssignment] = useState(false);
+  const [passAssianment, setPassAssignment] = useState();
   const classroom = useQuery(
     ["classroom"],
     () => GetOneClassroom({ params: router.query.classroomId }),
@@ -37,13 +39,7 @@ function Assignment() {
       enabled: false,
     }
   );
-  const progresses = useQuery(
-    ["progresses"],
-    () => GetAssignmentProgress({ assignments: assignments?.data?.data }),
-    {
-      enabled: assignments.isSuccess,
-    }
-  );
+
   const students = useQuery(
     ["students"],
     () => GetAllStudents({ classroomId: router.query.classroomId }),
@@ -73,6 +69,7 @@ function Assignment() {
       students.refetch();
     }
   }, [router.isReady, user.data === "Unauthorized"]);
+
   const sideMenus = [
     {
       title: "โรงเรียน",
@@ -130,7 +127,7 @@ function Assignment() {
   };
 
   return (
-    <div className="w-full  bg-[#F6F1E9]">
+    <div className="w-full pb-96  bg-[#F6F1E9]">
       <Layout sideMenus={sideMenus} user={user} />
       <div className="pt-36">
         <header className="w-full flex items-center justify-center ">
@@ -261,14 +258,28 @@ text-black transition duration-150 cursor-pointer"
             }`}
           >
             <CreateAssignment
-              close={close}
+              assignments={assignments}
               setTriggerAssignment={setTriggerAssignment}
               students={students}
             />
           </div>
+          <div
+            className={` top-0 right-0 left-0 bottom-0 m-auto righ z-40 ${
+              showAssignment === false ? "hidden" : "fixed"
+            }`}
+          >
+            <ShowAssignment
+              setShowAssignment={setShowAssignment}
+              passAssianment={passAssianment}
+              classroomId={router?.query?.classroomId}
+              students={students}
+              assignments={assignments}
+              setTriggerAssignment={setTriggerAssignment}
+            />
+          </div>
           {/* assignments are here */}
           <div className=" w-full max-w-7xl mt-5 gap-5 grid items-center justify-center ">
-            {progresses?.data?.map((assignment, index) => {
+            {assignments?.data?.map((assignment, index) => {
               //covert date
               const date = new Date(assignment.deadline);
               const formattedDate = date.toLocaleDateString("en-US", {
@@ -279,6 +290,10 @@ text-black transition duration-150 cursor-pointer"
 
               return (
                 <div
+                  onClick={() => {
+                    setPassAssignment(assignment);
+                    setShowAssignment(true);
+                  }}
                   key={index}
                   className={`w-[35rem] h-36 px-10 py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
                  duration-150 transition relative

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
 import { Editor } from "@tinymce/tinymce-react";
 import { GrScorecard } from "react-icons/gr";
 import Image from "next/image";
@@ -9,11 +8,15 @@ import {
 } from "../../service/assignment";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import Loading from "../loading/loading";
+import { AiOutlineCheckCircle } from "react-icons/ai";
+import { MdError } from "react-icons/md";
 
 export default function CreateAssignment({
   close,
   setTriggerAssignment,
   students,
+  assignments,
 }) {
   const rounter = useRouter();
   const [assignmentCreated, setAssignmentCreated] = useState();
@@ -25,7 +28,9 @@ export default function CreateAssignment({
   });
   const [isChecked, setIsChecked] = useState();
   const [isAssignStudent, setIsAssignmentStdent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  // handle chagne of assignment's detail
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAssignmentData((prev) => {
@@ -36,6 +41,7 @@ export default function CreateAssignment({
     });
   };
 
+  //set isCheck to students
   useEffect(() => {
     setIsChecked(() =>
       students?.data?.data?.map((student) => {
@@ -52,6 +58,7 @@ export default function CreateAssignment({
     // });
   }, [students.data]);
 
+  // when input checkobx change apply value to isChecked in each student
   const handleChangeCheck = ({ studentId }) => {
     // setIsChecked((prev) => {
     //   return {
@@ -73,6 +80,7 @@ export default function CreateAssignment({
     });
   };
 
+  //handle click to sclect all student
   const onClickIsCheck = () => {
     setIsChecked((prevState) => {
       return prevState.map((student) => {
@@ -83,16 +91,19 @@ export default function CreateAssignment({
       });
     });
   };
+
+  //handle click to assign student work
   const onClickAssignWork = async () => {
     try {
-      const assign = AssignWorkToSTudent({ isChecked, assignmentCreated });
+      setLoading(true);
+      const assign = await AssignWorkToSTudent({
+        isChecked,
+        assignmentCreated: assignmentCreated.data,
+      });
+      setIsChecked(assign);
+      setLoading(false);
     } catch (err) {
       console.log(err);
-      Swal.fire(
-        "error",
-        err?.props?.response?.data?.message.toString(),
-        "error"
-      );
     }
   };
   const handleSubmit = async (e) => {
@@ -105,6 +116,8 @@ export default function CreateAssignment({
         maxScore: assignmentData.maxScore,
         deadline: assignmentData.deadline,
       });
+
+      assignments.refetch();
 
       Swal.fire("success", "assignment has been createed", "success");
       setAssignmentCreated(createAssignment);
@@ -123,7 +136,7 @@ export default function CreateAssignment({
       <form
         onSubmit={handleSubmit}
         className="flex w-5/6  h-5/6 font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-10 z-40 
-    top-0 right-0 left-0 bottom-0 m-auto fixed"
+    top-0 right-0 left-0 bottom-0 m-auto fixed items-center justify-center"
       >
         {isAssignStudent === false ? (
           <div className="w-full flex gap-8">
@@ -230,45 +243,63 @@ export default function CreateAssignment({
             </div>
           </div>
         ) : (
-          <form className="w-full flex items-center justify-start flex-col gap-10">
+          <form className="w-full h-full flex items-center justify-start flex-col gap-10">
             <div className="text-2xl font-Kanit font-semibold">
               เลือกผู้เรียนเพื่อมอบหมายงาน
             </div>
-            <div className="w-2/4 h-3/4 flex items-center justify-center overflow-auto scrollbar  flex-col gap-2">
-              {isChecked?.map((student, index) => {
-                const studentId = student.id;
-                const oddNumber = index % 2;
-                return (
-                  <div
-                    className={`grid grid-cols-4 w-full items-center justify-center ${
-                      oddNumber === 0 ? "bg-blue-100" : "bg-orange-100"
-                    } py-2 
+
+            <div className="w-2/4 h-3/4 flex relative items-center justify-start overflow-auto scrollbar  flex-col gap-2">
+              {loading ? (
+                <div className="absolute w-full  h-full flex items-center justify-center">
+                  <Loading />
+                </div>
+              ) : (
+                isChecked?.map((student, index) => {
+                  const studentId = student.id;
+                  const oddNumber = index % 2;
+                  return (
+                    <div
+                      key={student.id}
+                      className={`grid grid-cols-4 w-full relative items-center justify-center ${
+                        oddNumber === 0 ? "bg-blue-100" : "bg-orange-100"
+                      } py-2 
                   text-lg font-Kanit `}
-                  >
-                    <div className="flex items-center justify-center">
-                      {student.number}
-                    </div>
-                    <div className="flex items-center justify-center">
-                      {student.firstName}
-                    </div>
-                    <div className="flex items-center justify-center">
-                      {student.lastName}
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <input
-                        checked={student?.[student.id]}
-                        onChange={() =>
-                          handleChangeCheck({ studentId: student.id })
-                        }
-                        type="checkbox"
-                        className="w-6 h-6  text-blue-600 bg-gray-100 border-gray-300 rounded
+                    >
+                      {student.status === 201 && (
+                        <div className="flex items-center justify-center left-3  absolute text-green-500">
+                          <AiOutlineCheckCircle />
+                        </div>
+                      )}
+                      {student.status?.error && (
+                        <div className="flex items-center justify-center left-3 absolute text-red-600">
+                          <MdError />
+                        </div>
+                      )}
+                      <div className="flex items-center justify-center">
+                        {student.number}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {student.firstName}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {student.lastName}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <input
+                          checked={student?.[student.id]}
+                          onChange={() =>
+                            handleChangeCheck({ studentId: student.id })
+                          }
+                          type="checkbox"
+                          className="w-6 h-6  text-blue-600 bg-gray-100 border-gray-300 rounded
                        focus:ring-blue-500 dark:focus:ring-blue-600
                        dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
             <div className="flex gap-5">
               <button
@@ -290,7 +321,10 @@ export default function CreateAssignment({
         )}
       </form>
       <div
-        onClick={() => setTriggerAssignment(false)}
+        onClick={() => {
+          setIsAssignmentStdent(false);
+          setTriggerAssignment(false);
+        }}
         className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-black/30 "
       ></div>
     </div>

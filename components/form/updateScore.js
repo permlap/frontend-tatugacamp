@@ -274,7 +274,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                   </div>
                 </div>
 
-                <div className="mt-2 text-lg">
+                <div className="mt-2 text-lg w-max">
                   <span className="mr-2">{student.firstName}</span>
                   <span>{student.lastName}</span>
                 </div>

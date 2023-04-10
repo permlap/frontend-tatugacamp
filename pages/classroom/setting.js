@@ -33,7 +33,7 @@ function Setting() {
     {
       title: "โรงเรียน",
       icon: "🏫",
-      url: "/classroom",
+      url: "/classroom/teacher",
     },
 
     {

@@ -102,12 +102,12 @@ const Timer = () => {
     {
       title: "โรงเรียน",
       icon: "🏫",
-      url: `/classroom`,
+      url: `/classroom/teacher`,
     },
     {
       title: "ห้องเรียน",
       icon: "👨‍🏫",
-      url: `/classroom/${classroomId}`,
+      url: `/classroom/teacher/${classroomId}`,
     },
     {
       title: "timer",
