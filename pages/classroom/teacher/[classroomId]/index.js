@@ -435,7 +435,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                                   </div>
                                 )}
 
-                                <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
+                                <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 ">
                                   <Image
                                     src={student.picture}
                                     layout="fill"

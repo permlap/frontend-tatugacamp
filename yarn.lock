@@ -249,6 +249,13 @@
   "resolved" "https://registry.npmjs.org/@emotion/hash/-/hash-0.8.0.tgz"
   "version" "0.8.0"
 
+"@emotion/is-prop-valid@^0.8.2":
+  "integrity" "sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA=="
+  "resolved" "https://registry.npmjs.org/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz"
+  "version" "0.8.8"
+  dependencies:
+    "@emotion/memoize" "0.7.4"
+
 "@emotion/is-prop-valid@^1.1.3":
   "integrity" "sha512-RFg04p6C+1uO19uG8N+vqanzKqiM9eeV1LDOG3bmkYmuOj7NbKNlFC/4EZq5gnwAIlcC/jOT24f8Td0iax2SXA=="
   "resolved" "https://registry.npmjs.org/@emotion/is-prop-valid/-/is-prop-valid-1.1.3.tgz"
@@ -260,6 +267,11 @@
   "integrity" "sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ=="
   "resolved" "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.7.5.tgz"
   "version" "0.7.5"
+
+"@emotion/memoize@0.7.4":
+  "integrity" "sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw=="
+  "resolved" "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.7.4.tgz"
+  "version" "0.7.4"
 
 "@emotion/react@^11.0.0-rc.0", "@emotion/react@^11.4.1", "@emotion/react@^11.5.0", "@emotion/react@^11.9.3":
   "integrity" "sha512-g9Q1GcTOlzOEjqwuLF/Zd9LC+4FljjPjDfxSM7KmEakm+hsHXk+bYZ2q+/hTJzr0OUNkujo72pXLQvXj6H+GJQ=="
@@ -709,6 +721,11 @@
   "resolved" "https://registry.npmjs.org/@types/estree/-/estree-0.0.51.tgz"
   "version" "0.0.51"
 
+"@types/file-saver@^2.0.5":
+  "integrity" "sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ=="
+  "resolved" "https://registry.npmjs.org/@types/file-saver/-/file-saver-2.0.5.tgz"
+  "version" "2.0.5"
+
 "@types/js-cookie@^2.2.6":
   "integrity" "sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA=="
   "resolved" "https://registry.npmjs.org/@types/js-cookie/-/js-cookie-2.2.7.tgz"
@@ -723,6 +740,25 @@
   "integrity" "sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ=="
   "resolved" "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   "version" "0.0.29"
+
+"@types/lodash.debounce@^4.0.6":
+  "integrity" "sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA=="
+  "resolved" "https://registry.npmjs.org/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz"
+  "version" "4.0.7"
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.throttle@^4.1.6":
+  "integrity" "sha512-znwGDpjCHQ4FpLLx19w4OXDqq8+OvREa05H89obtSyXyOFKL3dDjCslsmfBz0T2FU8dmf5Wx1QvogbINiGIu9g=="
+  "resolved" "https://registry.npmjs.org/@types/lodash.throttle/-/lodash.throttle-4.1.7.tgz"
+  "version" "4.1.7"
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  "integrity" "sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.192.tgz"
+  "version" "4.14.192"
 
 "@types/node@*", "@types/node@^17.0.5", "@types/node@>=8.1.0":
   "integrity" "sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw=="
@@ -751,6 +787,28 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-key-handler@^1.2.0":
+  "integrity" "sha512-Xl9ng7svRkucjLV8YS+FeFRSOysLCyn2BZmPdh5iPnLImJHTnfRC6jM2opPKFWDWuyaMJCW51HnLcNjob26pKA=="
+  "resolved" "https://registry.npmjs.org/@types/react-key-handler/-/react-key-handler-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-portal@^4.0.4":
+  "integrity" "sha512-ecVWngYHeSymq5XdrQOXRpIb9ay5SM4Stm/ur6+wc0Z+r05gafZ5SuMRbXKYsj4exNJa+4CTKK6J7qcTKm9K5g=="
+  "resolved" "https://registry.npmjs.org/@types/react-portal/-/react-portal-4.0.4.tgz"
+  "version" "4.0.4"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-swipe@^6.0.2":
+  "integrity" "sha512-LQGMw9AsJKqgb9HqlZq3DlptIQ3mpYBqYTeEggnog+4dHqLuEPoLI9wqy9s8XkVyWB2zJg276jrKYadknD0bng=="
+  "resolved" "https://registry.npmjs.org/@types/react-swipe/-/react-swipe-6.0.2.tgz"
+  "version" "6.0.2"
+  dependencies:
+    "@types/react" "*"
+    "@types/swipe" "*"
+
 "@types/react-transition-group@^4.4.5":
   "integrity" "sha512-juKD/eiSM3/xZYzjuzH6ZwpP+/lejltmiS3QEzV/vmb/Q8+HfDmxu+Baga8UEMGBqV88Nbg4l2hY/K2DkyaLLA=="
   "resolved" "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.5.tgz"
@@ -762,6 +820,15 @@
   "integrity" "sha512-iz3BtLuIYH1uWdsv6wXYdhozhqj20oD4/Hk2DNXIn1kFsmp9x8d9QB6FnPhfkbhd2PgEONt9Q1x/ebkwjfFLow=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.15.tgz"
   "version" "18.0.15"
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    "csstype" "^3.0.2"
+
+"@types/react@^16.9.1":
+  "integrity" "sha512-x7El4ktgDR1KhtMO/ytMvhGEdFt15nRiNcwKJL0rORvCNC9KDB242m6Lj/BqJ8/k4br1gmThdyHoz3fSUXZueQ=="
+  "resolved" "https://registry.npmjs.org/@types/react/-/react-16.14.39.tgz"
+  "version" "16.14.39"
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -787,6 +854,11 @@
   "integrity" "sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew=="
   "resolved" "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz"
   "version" "0.16.2"
+
+"@types/swipe@*":
+  "integrity" "sha512-zkLaqdRTuWg7WpTwDvCFaTuMXhre1a9AjA2xHrSnkk5N09obkA1yAo5qKXoJmWkq8LjMi94E3ejy/L4qMSTw4A=="
+  "resolved" "https://registry.npmjs.org/@types/swipe/-/swipe-2.0.28.tgz"
+  "version" "2.0.28"
 
 "@types/trusted-types@^2.0.2":
   "integrity" "sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg=="
@@ -1143,6 +1215,15 @@
     "follow-redirects" "^1.14.9"
     "form-data" "^4.0.0"
 
+"axios@^1.3.4":
+  "integrity" "sha512-glL/PvG/E+xCWwV8S6nCHcrfg1exGx7vxyUIivIA1iL7BIh6bePylCfVHwp6k13ao7SATxB6imau2kqY+I67kw=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-1.3.5.tgz"
+  "version" "1.3.5"
+  dependencies:
+    "follow-redirects" "^1.15.0"
+    "form-data" "^4.0.0"
+    "proxy-from-env" "^1.1.0"
+
 "axobject-query@^2.2.0":
   "integrity" "sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA=="
   "resolved" "https://registry.npmjs.org/axobject-query/-/axobject-query-2.2.0.tgz"
@@ -1313,6 +1394,11 @@
   "resolved" "https://registry.npmjs.org/chrome-trace-event/-/chrome-trace-event-1.0.3.tgz"
   "version" "1.0.3"
 
+"classnames@^2.2.6":
+  "integrity" "sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw=="
+  "resolved" "https://registry.npmjs.org/classnames/-/classnames-2.3.2.tgz"
+  "version" "2.3.2"
+
 "client-only@^0.0.1":
   "integrity" "sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA=="
   "resolved" "https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz"
@@ -1461,7 +1547,19 @@
   "resolved" "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz"
   "version" "1.0.8"
 
+"debounce@^1.2.0":
+  "integrity" "sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug=="
+  "resolved" "https://registry.npmjs.org/debounce/-/debounce-1.2.1.tgz"
+  "version" "1.2.1"
+
 "debug@^2.1.3":
+  "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
+  "resolved" "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
+  "version" "2.6.9"
+  dependencies:
+    "ms" "2.0.0"
+
+"debug@^2.6.6":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
   "version" "2.6.9"
@@ -1601,10 +1699,27 @@
   dependencies:
     "ssr-window" "^4.0.0"
 
+"easy-bem@^1.1.1":
+  "integrity" "sha512-GJRqdiy2h+EXy6a8E6R+ubmqUM08BK0FWNq41k24fup6045biQ8NXxoXimiwegMQvFFV3t1emADdGNL1TlS61A=="
+  "resolved" "https://registry.npmjs.org/easy-bem/-/easy-bem-1.1.1.tgz"
+  "version" "1.1.1"
+
 "electron-to-chromium@^1.4.251":
   "integrity" "sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA=="
   "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.284.tgz"
   "version" "1.4.284"
+
+"embla-carousel-react@^7.1.0":
+  "integrity" "sha512-tbYRPRZSDNd2QLNqYDcArAakGIxtUbhS7tkP0dGXktXHGgcX+3ji3VrOUTOftBiujZrMV8kRxtrRUe/1soloIQ=="
+  "resolved" "https://registry.npmjs.org/embla-carousel-react/-/embla-carousel-react-7.1.0.tgz"
+  "version" "7.1.0"
+  dependencies:
+    "embla-carousel" "7.1.0"
+
+"embla-carousel@7.1.0":
+  "integrity" "sha512-Bh8Pa8NWzgugLkf8sAGexQlBCNDFaej5BXiKgQdRJ1mUC9NWBrw9Z23YVPVGkguWoz5LMjZXXFVGCobl3UPt/Q=="
+  "resolved" "https://registry.npmjs.org/embla-carousel/-/embla-carousel-7.1.0.tgz"
+  "version" "7.1.0"
 
 "emoji-regex@^9.2.2":
   "integrity" "sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg=="
@@ -1752,6 +1867,13 @@
     "debug" "^3.2.7"
     "find-up" "^2.1.0"
 
+"eslint-plugin-flowtype@^2.50.0":
+  "integrity" "sha512-X+AoKVOr7Re0ko/yEXyM5SSZ0tazc6ffdIOocp2fFUlWoDt7DV0Bz99mngOkAFLOAWjqRA5jPwqUCbrx13XoxQ=="
+  "resolved" "https://registry.npmjs.org/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.50.3.tgz"
+  "version" "2.50.3"
+  dependencies:
+    "lodash" "^4.17.10"
+
 "eslint-plugin-import@*", "eslint-plugin-import@^2.26.0":
   "integrity" "sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA=="
   "resolved" "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.26.0.tgz"
@@ -1848,7 +1970,7 @@
   "resolved" "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.3.0.tgz"
   "version" "3.3.0"
 
-"eslint@*", "eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^3 || ^4 || ^5 || ^6 || ^7 || ^8", "eslint@^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0", "eslint@^6.0.0 || ^7.0.0 || ^8.0.0", "eslint@^7.23.0 || ^8.0.0", "eslint@>=5", "eslint@8.19.0":
+"eslint@*", "eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^3 || ^4 || ^5 || ^6 || ^7 || ^8", "eslint@^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0", "eslint@^6.0.0 || ^7.0.0 || ^8.0.0", "eslint@^7.23.0 || ^8.0.0", "eslint@>=2.0.0", "eslint@>=5", "eslint@8.19.0":
   "integrity" "sha512-SXOPj3x9VKvPe81TjjUJCYlV4oJjQw68Uek+AM0X4p+33dj2HY5bpTZOgnQHcG2eAm1mtCU9uNMnJi7exU/kYw=="
   "resolved" "https://registry.npmjs.org/eslint/-/eslint-8.19.0.tgz"
   "version" "8.19.0"
@@ -1947,12 +2069,17 @@
   "resolved" "https://registry.npmjs.org/eventsource/-/eventsource-2.0.2.tgz"
   "version" "2.0.2"
 
+"exenv@^1.2.0":
+  "integrity" "sha512-Z+ktTxTwv9ILfgKCk32OX3n/doe+OcLTRtqK9pcL+JsP3J1/VW8Uvl4ZjLlKqeW4rzK4oesDOGMEMRIZqtP4Iw=="
+  "resolved" "https://registry.npmjs.org/exenv/-/exenv-1.2.2.tgz"
+  "version" "1.2.2"
+
 "expand-template@^2.0.3":
   "integrity" "sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg=="
   "resolved" "https://registry.npmjs.org/expand-template/-/expand-template-2.0.3.tgz"
   "version" "2.0.3"
 
-"fast-deep-equal@^3.1.1", "fast-deep-equal@^3.1.3":
+"fast-deep-equal@^3.1.1", "fast-deep-equal@^3.1.3", "fast-deep-equal@3.1.3":
   "integrity" "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="
   "resolved" "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"
   "version" "3.1.3"
@@ -2015,6 +2142,11 @@
     "loader-utils" "^2.0.0"
     "schema-utils" "^3.0.0"
 
+"file-saver@^2.0.5":
+  "integrity" "sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA=="
+  "resolved" "https://registry.npmjs.org/file-saver/-/file-saver-2.0.5.tgz"
+  "version" "2.0.5"
+
 "fill-range@^7.0.1":
   "integrity" "sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ=="
   "resolved" "https://registry.npmjs.org/fill-range/-/fill-range-7.0.1.tgz"
@@ -2047,7 +2179,7 @@
   "resolved" "https://registry.npmjs.org/flatted/-/flatted-3.2.6.tgz"
   "version" "3.2.6"
 
-"follow-redirects@^1.14.9", "follow-redirects@^1.2.4":
+"follow-redirects@^1.14.9", "follow-redirects@^1.15.0", "follow-redirects@^1.2.4":
   "integrity" "sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.1.tgz"
   "version" "1.15.1"
@@ -2070,6 +2202,26 @@
   "integrity" "sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA=="
   "resolved" "https://registry.npmjs.org/fraction.js/-/fraction.js-4.2.0.tgz"
   "version" "4.2.0"
+
+"framer-motion@^4.1.17":
+  "integrity" "sha512-thx1wvKzblzbs0XaK2X0G1JuwIdARcoNOW7VVwjO8BUltzXPyONGAElLu6CiCScsOQRI7FIk/45YTFtJw5Yozw=="
+  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-4.1.17.tgz"
+  "version" "4.1.17"
+  dependencies:
+    "framesync" "5.3.0"
+    "hey-listen" "^1.0.8"
+    "popmotion" "9.3.6"
+    "style-value-types" "4.1.4"
+    "tslib" "^2.1.0"
+  optionalDependencies:
+    "@emotion/is-prop-valid" "^0.8.2"
+
+"framesync@5.3.0":
+  "integrity" "sha512-oc5m68HDO/tuK2blj7ZcdEBRx3p1PjrgHazL8GYEpvULhrtGIFbQArN6cQS2QhW8mitffaB+VYzMjDqBxxQeoA=="
+  "resolved" "https://registry.npmjs.org/framesync/-/framesync-5.3.0.tgz"
+  "version" "5.3.0"
+  dependencies:
+    "tslib" "^2.1.0"
 
 "from2@^2.1.1":
   "integrity" "sha512-OMcX/4IC/uqEPVgGeyfN22LJk6AZrMkRZHxcHBMBvHScDGgwTm2GT2Wkgtocyd3JfZffjj2kYUDXXII0Fk9W0g=="
@@ -2300,6 +2452,11 @@
   dependencies:
     "function-bind" "^1.1.1"
 
+"hey-listen@^1.0.8":
+  "integrity" "sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q=="
+  "resolved" "https://registry.npmjs.org/hey-listen/-/hey-listen-1.0.8.tgz"
+  "version" "1.0.8"
+
 "hoist-non-react-statics@^3.3.1":
   "integrity" "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="
   "resolved" "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
@@ -2382,6 +2539,11 @@
   dependencies:
     "from2" "^2.1.1"
     "p-is-promise" "^1.1.0"
+
+"intrinsic-scale@^3.0.4":
+  "integrity" "sha512-K9+8JfjKhu4cl3kLBHrHW/RnAQFlyyOBV+zoSyzUM+vXz11ypaN+adk5PtI1pvMAuQN1zKnQ+lu9g7kDs/3hHw=="
+  "resolved" "https://registry.npmjs.org/intrinsic-scale/-/intrinsic-scale-3.0.4.tgz"
+  "version" "3.0.4"
 
 "is-arrayish@^0.2.1":
   "integrity" "sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg=="
@@ -2634,6 +2796,32 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
+"lightbox.js-react@^0.5.1":
+  "integrity" "sha512-Vnr0+Z+4lCGDB+vGFGIwRgo8GEfT/cjHAMazKZ8Wec6woA0tpK97DhfnqzQ+WanSj9+NdrhwYKvSWf7vY+INtA=="
+  "resolved" "https://registry.npmjs.org/lightbox.js-react/-/lightbox.js-react-0.5.1.tgz"
+  "version" "0.5.1"
+  dependencies:
+    "@types/file-saver" "^2.0.5"
+    "@types/react-key-handler" "^1.2.0"
+    "@types/react-portal" "^4.0.4"
+    "@types/react-swipe" "^6.0.2"
+    "axios" "^1.3.4"
+    "embla-carousel-react" "^7.1.0"
+    "file-saver" "^2.0.5"
+    "framer-motion" "^4.1.17"
+    "intrinsic-scale" "^3.0.4"
+    "react-bootstrap-icons" "^1.8.1"
+    "react-div-100vh" "^0.7.0"
+    "react-indiana-drag-scroll" "^2.1.0"
+    "react-key-handler" "^1.2.0-beta.3"
+    "react-magnifier" "^3.0.4"
+    "react-portal" "^4.2.2"
+    "react-swipe" "^6.0.4"
+    "react-youtube" "^10.1.0"
+    "react-zoom-pan-pinch" "^2.1.3"
+    "tslib" "^2.3.1"
+    "usehooks-ts" "^2.9.1"
+
 "lilconfig@^2.0.5":
   "integrity" "sha512-xaYmXZtTHPAw5m+xLN8ab9C+3a8YmV3asNSPOATITbtwrfbwaLJj8h66H1WMIpALCkqsIzK3h7oQ+PdX+LQ9Eg=="
   "resolved" "https://registry.npmjs.org/lilconfig/-/lilconfig-2.0.5.tgz"
@@ -2695,10 +2883,30 @@
     "p-locate" "^2.0.0"
     "path-exists" "^3.0.0"
 
+"lodash.debounce@^4.0.8":
+  "integrity" "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
+  "resolved" "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
+  "version" "4.0.8"
+
+"lodash.isequal@^4.5.0":
+  "integrity" "sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ=="
+  "resolved" "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
+  "version" "4.5.0"
+
 "lodash.merge@^4.6.2":
   "integrity" "sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ=="
   "resolved" "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
   "version" "4.6.2"
+
+"lodash.throttle@^4.1.1":
+  "integrity" "sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ=="
+  "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
+  "version" "4.1.1"
+
+"lodash@^4.17.10":
+  "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
+  "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
+  "version" "4.17.21"
 
 "loose-envify@^1.1.0", "loose-envify@^1.4.0":
   "integrity" "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q=="
@@ -3128,6 +3336,16 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-2.3.0.tgz"
   "version" "2.3.0"
 
+"popmotion@9.3.6":
+  "integrity" "sha512-ZTbXiu6zIggXzIliMi8LGxXBF5ST+wkpXGEjeTUDUOCdSQ356hij/xjeUdv0F8zCQNeqB1+PR5/BB+gC+QLAPw=="
+  "resolved" "https://registry.npmjs.org/popmotion/-/popmotion-9.3.6.tgz"
+  "version" "9.3.6"
+  dependencies:
+    "framesync" "5.3.0"
+    "hey-listen" "^1.0.8"
+    "style-value-types" "4.1.4"
+    "tslib" "^2.1.0"
+
 "postcss-import@^14.1.0":
   "integrity" "sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw=="
   "resolved" "https://registry.npmjs.org/postcss-import/-/postcss-import-14.1.0.tgz"
@@ -3224,7 +3442,7 @@
     "speedometer" "~1.0.0"
     "through2" "~2.0.3"
 
-"prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@^15.5.8", "prop-types@^15.6.0", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1", "prop-types@15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -3237,6 +3455,11 @@
   "integrity" "sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA=="
   "resolved" "https://registry.npmjs.org/property-expr/-/property-expr-2.0.5.tgz"
   "version" "2.0.5"
+
+"proxy-from-env@^1.1.0":
+  "integrity" "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="
+  "resolved" "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
+  "version" "1.1.0"
 
 "pump@^3.0.0":
   "integrity" "sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww=="
@@ -3290,6 +3513,13 @@
     "minimist" "^1.2.0"
     "strip-json-comments" "~2.0.1"
 
+"react-bootstrap-icons@^1.8.1":
+  "integrity" "sha512-j4hSby6gT9/enhl3ybB1tfr1slZNAYXDVntcRrmVjxB3//2WwqrzpESVqKhyayYVaWpEtnwf9wgUQ03cuziwrw=="
+  "resolved" "https://registry.npmjs.org/react-bootstrap-icons/-/react-bootstrap-icons-1.10.3.tgz"
+  "version" "1.10.3"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-confetti@^6.1.0":
   "integrity" "sha512-7Ypx4vz0+g8ECVxr88W9zhcQpbeujJAVqL14ZnXJ3I23mOI9/oBVTQ3dkJhUmB0D6XOtCZEM6N0Gm9PMngkORw=="
   "resolved" "https://registry.npmjs.org/react-confetti/-/react-confetti-6.1.0.tgz"
@@ -3297,7 +3527,12 @@
   dependencies:
     "tween-functions" "^1.2.0"
 
-"react-dom@*", "react-dom@^16 || ^17 || ^18", "react-dom@^16.8.0  || ^17.0.0 || ^18.0.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@^18.0.0 || ^17.0.1 || ^16.7.0", "react-dom@>=16.6.0", "react-dom@18.2.0":
+"react-div-100vh@^0.7.0":
+  "integrity" "sha512-I3d77tQyaSlOx/6vurDDLk7upb5GA2ldEtVXkk7Kn5cy+tLlS0KlqDK14xUxlxh7jz4StjgKcwFyrpymsPpomA=="
+  "resolved" "https://registry.npmjs.org/react-div-100vh/-/react-div-100vh-0.7.0.tgz"
+  "version" "0.7.0"
+
+"react-dom@*", "react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16 || ^17 || ^18", "react-dom@^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0", "react-dom@^16.8.0  || ^17.0.0 || ^18.0.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@^18.0.0 || ^17.0.1 || ^16.7.0", "react-dom@>=16.6.0", "react-dom@>=16.8 || ^17.0.0", "react-dom@15 - 18", "react-dom@18.2.0":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
@@ -3327,6 +3562,15 @@
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.7.1.tgz"
   "version" "4.7.1"
 
+"react-indiana-drag-scroll@^2.1.0":
+  "integrity" "sha512-+W/3B2OQV0FrbdnsoIo4dww/xpH0MUQJz6ziQb7H+oBko3OCbXuzDFYnho6v6yhGrYDNWYPuFUewb89IONEl/A=="
+  "resolved" "https://registry.npmjs.org/react-indiana-drag-scroll/-/react-indiana-drag-scroll-2.2.0.tgz"
+  "version" "2.2.0"
+  dependencies:
+    "classnames" "^2.2.6"
+    "debounce" "^1.2.0"
+    "easy-bem" "^1.1.1"
+
 "react-intersection-observer@^9.4.0":
   "integrity" "sha512-v0403CmomOVlzhqFXlzOxg0ziLcVq8mfbP0AwAcEQWgZmR2OulOT79Ikznw4UlB3N+jlUYqLMe4SDHUOyp0t2A=="
   "resolved" "https://registry.npmjs.org/react-intersection-observer/-/react-intersection-observer-9.4.0.tgz"
@@ -3347,6 +3591,26 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
+"react-key-handler@^1.2.0-beta.3":
+  "integrity" "sha512-Isd5O3JKDbPNCERVThPyJ0tTUDkeuTrGHE4+7lNT+6isXlLykroOaGuJ8A22hq6SpbSUKaPmGhxGAFtkag7Bgg=="
+  "resolved" "https://registry.npmjs.org/react-key-handler/-/react-key-handler-1.2.0-beta.3.tgz"
+  "version" "1.2.0-beta.3"
+  dependencies:
+    "eslint-plugin-flowtype" "^2.50.0"
+    "exenv" "^1.2.0"
+    "prop-types" "^15.6.2"
+
+"react-magnifier@^3.0.4":
+  "integrity" "sha512-v38ku46pdis9EO8VtnTxXg9boFbzXrs+m6VoP8zLbT8ZoyUvVoP/LDkrZtN6Wo5tsgJRvSzJJP5pKNzmvprTow=="
+  "resolved" "https://registry.npmjs.org/react-magnifier/-/react-magnifier-3.0.4.tgz"
+  "version" "3.0.4"
+  dependencies:
+    "@types/lodash.debounce" "^4.0.6"
+    "@types/lodash.throttle" "^4.1.6"
+    "@types/react" "^16.9.1"
+    "lodash.debounce" "^4.0.8"
+    "lodash.throttle" "^4.1.1"
+
 "react-messenger-chat-plugin@^3.0.5":
   "integrity" "sha512-393uI68xyWLElbIYZknOb+zeb8onxIi6ZxmyhsJT76ct6yu/S2Jv7H1eKeB6BqG+vLHST3PrUlTL8gauZdoYIg=="
   "resolved" "https://registry.npmjs.org/react-messenger-chat-plugin/-/react-messenger-chat-plugin-3.0.5.tgz"
@@ -3363,6 +3627,13 @@
     "prop-types" "^15.7.2"
     "react-fast-compare" "^3.0.1"
 
+"react-portal@^4.2.2":
+  "integrity" "sha512-vS18idTmevQxyQpnde0Td6ZcUlv+pD8GTyR42n3CHUQq9OHi1C4jDE4ZWEbEsrbrLRhSECYiao58cvocwMtP7Q=="
+  "resolved" "https://registry.npmjs.org/react-portal/-/react-portal-4.2.2.tgz"
+  "version" "4.2.2"
+  dependencies:
+    "prop-types" "^15.5.8"
+
 "react-query@^4.0.0-beta.23":
   "integrity" "sha512-e6mNBVAYGy0M1OwX0mhRB/lCkOedKeqTUrbPjNCqvm8hQGUsJJobqfHVvTv8o6JJaOO2MFcxKF4vZM+PEKbHZA=="
   "resolved" "https://registry.npmjs.org/react-query/-/react-query-4.0.0-beta.23.tgz"
@@ -3373,6 +3644,15 @@
     "broadcast-channel" "^3.4.1"
     "match-sorter" "^6.0.2"
     "use-sync-external-store" "^1.1.0"
+
+"react-swipe@^6.0.4":
+  "integrity" "sha512-NIF+gVOqPpE8GyCg0ssFC+fPgeqCwNnvqFU/A8nDAOvoncW3KjSVFwgkYNnErHvpFZGmsVw4SLWK96n7+mnChg=="
+  "resolved" "https://registry.npmjs.org/react-swipe/-/react-swipe-6.0.4.tgz"
+  "version" "6.0.4"
+  dependencies:
+    "lodash.isequal" "^4.5.0"
+    "prop-types" "^15.6.0"
+    "swipe-js-iso" "^2.1.5"
 
 "react-transition-group@^4.4.2":
   "integrity" "sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg=="
@@ -3409,7 +3689,21 @@
     "ts-easing" "^0.2.0"
     "tslib" "^2.1.0"
 
-"react@*", "react@^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0", "react@^16 || ^17 || ^18", "react@^16.3 || ^17 || ^18", "react@^16.3.0 || ^17.0.1 || ^18.0.0", "react@^16.8.0  || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17 || ^18", "react@^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0 || ^17.0.1 || ^16.7.0", "react@^18.2.0", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=17.0.2", "react@16 - 18", "react@18.2.0":
+"react-youtube@^10.1.0":
+  "integrity" "sha512-ZfGtcVpk0SSZtWCSTYOQKhfx5/1cfyEW1JN/mugGNfAxT3rmVJeMbGpA9+e78yG21ls5nc/5uZJETE3cm3knBg=="
+  "resolved" "https://registry.npmjs.org/react-youtube/-/react-youtube-10.1.0.tgz"
+  "version" "10.1.0"
+  dependencies:
+    "fast-deep-equal" "3.1.3"
+    "prop-types" "15.8.1"
+    "youtube-player" "5.5.2"
+
+"react-zoom-pan-pinch@^2.1.3":
+  "integrity" "sha512-4Cgdnn6OwN4DomY/E9NpAf0TyCtslEgwdYn96ZV/f5LKuw/FE3gcIBJiaKFmMGThDGV0yKN5mzO8noi34+UE4Q=="
+  "resolved" "https://registry.npmjs.org/react-zoom-pan-pinch/-/react-zoom-pan-pinch-2.6.1.tgz"
+  "version" "2.6.1"
+
+"react@*", "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0", "react@^16 || ^17 || ^18", "react@^16.0.0", "react@^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0", "react@^16.2.0-0", "react@^16.3 || ^17 || ^18", "react@^16.3.0 || ^17.0.1 || ^18.0.0", "react@^16.8.0  || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.1 || ^18.0.0", "react@^17 || ^18", "react@^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0 || ^17.0.1 || ^16.7.0", "react@^18.2.0", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=0.14.1", "react@>=16.6.0", "react@>=16.8", "react@>=16.8 || ^17.0.0", "react@>=16.8.0", "react@>=16.8.6", "react@>=17.0.2", "react@15 - 18", "react@16 - 18", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
@@ -3681,6 +3975,11 @@
   dependencies:
     "is-arrayish" "^0.3.1"
 
+"sister@^3.0.0":
+  "integrity" "sha512-p19rtTs+NksBRKW9qn0UhZ8/TUI9BPw9lmtHny+Y3TinWlOa9jWh9xB0AtPSdmOy49NJJJSSe0Ey4C7h0TrcYA=="
+  "resolved" "https://registry.npmjs.org/sister/-/sister-3.0.2.tgz"
+  "version" "3.0.2"
+
 "sitemap@^7.1.1":
   "integrity" "sha512-mK3aFtjz4VdJN0igpIJrinf3EO8U8mxOPsTBzSsy06UtjZQJ3YY3o3Xa7zSc5nMqcMrRwlChHZ18Kxg0caiPBg=="
   "resolved" "https://registry.npmjs.org/sitemap/-/sitemap-7.1.1.tgz"
@@ -3847,6 +4146,14 @@
     "@types/node" ">=8.1.0"
     "qs" "^6.11.0"
 
+"style-value-types@4.1.4":
+  "integrity" "sha512-LCJL6tB+vPSUoxgUBt9juXIlNJHtBMy8jkXzUJSBzeHWdBu6lhzHqCvLVkXFGsFIlNa2ln1sQHya/gzaFmB2Lg=="
+  "resolved" "https://registry.npmjs.org/style-value-types/-/style-value-types-4.1.4.tgz"
+  "version" "4.1.4"
+  dependencies:
+    "hey-listen" "^1.0.8"
+    "tslib" "^2.1.0"
+
 "styled-jsx@5.0.4":
   "integrity" "sha512-sDFWLbg4zR+UkNzfk5lPilyIgtpddfxXEULxhujorr5jtePTUqiPDc5BC0v1NRqTr/WaFBGQQUoYToGlF4B2KQ=="
   "resolved" "https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.0.4.tgz"
@@ -3887,6 +4194,11 @@
   "integrity" "sha512-FAyAddpbcpEawDNFZDoO9XFFOc0ulECgQcadMJpsjMjrlqG7svar+ZGG3qddYYi8MZwUULrOxbtQj98EMIbH8w=="
   "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.6.2.tgz"
   "version" "11.6.2"
+
+"swipe-js-iso@^2.1.5":
+  "integrity" "sha512-yTTU5tDYEvtKfCD8PN+Rva25acJwogUCd6wPT1n1im/MOJlg6PtHiPKaaNK7HDBiIrWThA/WRbJZbox2letghg=="
+  "resolved" "https://registry.npmjs.org/swipe-js-iso/-/swipe-js-iso-2.1.5.tgz"
+  "version" "2.1.5"
 
 "swiper@^8.4.4":
   "integrity" "sha512-jA/8BfOZwT8PqPSnMX0TENZYitXEhNa7ZSNj1Diqh5LZyUJoBQaZcqAiPQ/PIg1+IPaRn/V8ZYVb0nxHMh51yw=="
@@ -4041,7 +4353,7 @@
     "minimist" "^1.2.6"
     "strip-bom" "^3.0.0"
 
-"tslib@*", "tslib@^2.1.0", "tslib@^2.4.0":
+"tslib@*", "tslib@^2.1.0", "tslib@^2.3.1", "tslib@^2.4.0":
   "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
   "version" "2.4.0"
@@ -4154,6 +4466,11 @@
   "resolved" "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
   "version" "1.2.0"
 
+"usehooks-ts@^2.9.1":
+  "integrity" "sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA=="
+  "resolved" "https://registry.npmjs.org/usehooks-ts/-/usehooks-ts-2.9.1.tgz"
+  "version" "2.9.1"
+
 "util-deprecate@^1.0.1", "util-deprecate@^1.0.2", "util-deprecate@~1.0.1":
   "integrity" "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
   "resolved" "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
@@ -4259,6 +4576,15 @@
   "integrity" "sha512-o96x3OPo8GjWeSLF+wOAbrPfhFOGY0W00GNaxCDv+9hkcDJEnev1yh8S7pgHF0ik6zc8sQLuL8hjHjJULZp8bw=="
   "resolved" "https://registry.npmjs.org/yaml/-/yaml-2.1.1.tgz"
   "version" "2.1.1"
+
+"youtube-player@5.5.2":
+  "integrity" "sha512-ZGtsemSpXnDky2AUYWgxjaopgB+shFHgXVpiJFeNB5nWEugpW1KWYDaHKuLqh2b67r24GtP6HoSW5swvf0fFIQ=="
+  "resolved" "https://registry.npmjs.org/youtube-player/-/youtube-player-5.5.2.tgz"
+  "version" "5.5.2"
+  dependencies:
+    "debug" "^2.6.6"
+    "load-script" "^1.0.0"
+    "sister" "^3.0.0"
 
 "yup@^1.0.0":
   "integrity" "sha512-bRZIyMkoe212ahGJTE32cr2dLkJw53Va+Uw5mzsBKpcef9zCGQ23k/xtpQUfGwdWPKvCIlR8CzFwchs2rm2XpQ=="

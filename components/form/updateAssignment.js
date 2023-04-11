@@ -121,7 +121,6 @@ function UpdateAssignment({
     }
   };
 
-  console.log(assignmentData);
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -148,7 +147,8 @@ function UpdateAssignment({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-5/6 flex-col gap-10  h-5/6 font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-10 z-40 
+      className="flex w-5/6 h-[34rem] flex-col gap-2  p-10 font-Kanit bg-white border-2 
+      border-solid rounded-lg drop-shadow-xl  z-40 
 top-0 right-0 left-0 bottom-0 m-auto fixed"
     >
       <div
@@ -157,7 +157,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
       >
         <GrRevert />
       </div>
-      <div className="w-full flex items-center justify-center gap-10 ">
+      <div className="w-full flex items-center justify-center ">
         <div className="flex w-56 h-10 justify-between bg-blue-100  rounded-xl">
           {tabs.map((tab, index) => {
             return (
@@ -206,7 +206,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
                 textareaName="description"
                 initialValue={assignmentData?.description}
                 init={{
-                  height: 400,
+                  height: 300,
                   width: "100%",
                   menubar: false,
                   plugins: [
@@ -243,7 +243,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
             </button>
           </div>
           <div
-            className="w-[30%] h-full border-2 border-solid border-gray-200 rounded-xl 
+            className="w-[30%] h-98 border-2 border-solid border-gray-200 rounded-xl 
       flex flex-col items-center justify-start gap-5"
           >
             <div className="mt-5 flex flex-col">
@@ -285,7 +285,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
           </div>
         </div>
       ) : (
-        <form className="w-full flex items-center justify-start flex-col gap-10">
+        <form className="w-full flex items-center justify-start flex-col gap-1">
           <div className="text-2xl font-Kanit font-semibold">
             เลือกผู้เรียนเพื่อมอบหมายงาน
           </div>
@@ -351,7 +351,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
               })
             )}
           </div>
-          <div className="flex gap-5">
+          <div className="flex gap-5 mt-4">
             <button
               type="button"
               onClick={onClickIsCheck}

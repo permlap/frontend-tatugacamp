@@ -127,7 +127,7 @@ function Assignment() {
   };
 
   return (
-    <div className="w-full pb-96  bg-[#F6F1E9]">
+    <div className="w-full pb-96  ">
       <Layout sideMenus={sideMenus} user={user} />
       <div className="pt-36">
         <header className="w-full flex items-center justify-center ">
@@ -297,7 +297,7 @@ text-black transition duration-150 cursor-pointer"
                   key={index}
                   className={`w-[35rem] h-36 px-10 py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
                  duration-150 transition relative
-               rounded-lg flex flex-col gap-10 `}
+               rounded-lg flex flex-col gap-10 border-2 border-solid`}
                 >
                   <div className="flex ">
                     <div className="flex">
