@@ -304,7 +304,7 @@ text-black transition duration-150 cursor-pointer"
                       <div
                         className={`flex flex-col gap-2 w-3/4 font-Poppins text-black `}
                       >
-                        <span className=" font text-xl font-bold">
+                        <span className=" font text-xl font-bold w-max">
                           {assignment.title}
                         </span>
                         <div className="relative">

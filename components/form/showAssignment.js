@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import {
   DeleteAssignment,
+  ReviewStudentWork,
   ViewAllAssignOnStudent,
 } from "../../service/assignment";
 import { FiSettings } from "react-icons/fi";
-import { Skeleton } from "@mui/material";
+import { Box, Skeleton, TextField } from "@mui/material";
 import UpdateAssignment from "./updateAssignment";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
@@ -22,7 +23,12 @@ function ShowAssignment({
 }) {
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
   const [activeMenu, setActiveMenu] = useState(0);
+  const [teacherReview, setTeacherReview] = useState({
+    comment: "",
+    score: "",
+  });
   const [currentStudentWork, setCurrentStudentWork] = useState();
+  const [images, setImages] = useState([]);
   const menus = [
     {
       title: "assignment",
@@ -39,8 +45,9 @@ function ShowAssignment({
   );
 
   useEffect(() => {
-    initLightboxJS("0BBA-0D66-99C4-B63A", "individual");
+    initLightboxJS(process.env.LightboxJs_KEY, "individual");
   }, []);
+
   // refetch studentOnAssinment when  there is new passAssianment
   useEffect(() => {
     studentOnAssignments.refetch();
@@ -88,9 +95,54 @@ function ShowAssignment({
 
   //handle select student's work
   const handleSelectWork = (student) => {
+    setImages((prev) => {
+      return [
+        {
+          ...prev,
+          src: student.studentWork.picture,
+          alt: "student's work",
+        },
+      ];
+    });
     setCurrentStudentWork(student);
+    setTeacherReview((prev) => {
+      return {
+        ...prev,
+        comment: student.studentWork.comment,
+        score: student.studentWork.score,
+      };
+    });
   };
-  console.log(currentStudentWork);
+  const handleReviewWork = async (e) => {
+    try {
+      e.preventDefault();
+      const reviewWork = await ReviewStudentWork({
+        studentId: currentStudentWork.id,
+        assignmentId: passAssianment.id,
+        comment: teacherReview.comment,
+        score: teacherReview.score,
+      });
+      Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
+    } catch (err) {
+      console.log(err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.error?.message?.toString(),
+        "error"
+      );
+    }
+  };
+
+  const handleOnChangeReviewWork = (e) => {
+    const { name, value } = e.target;
+    setTeacherReview((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
   return (
     <div>
       {triggerUpdateAssignment ? (
@@ -104,8 +156,8 @@ function ShowAssignment({
         />
       ) : (
         <div
-          className="flex items-center justify-start w-5/6 gap-1 flex-col h-[34rem]
-           font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-10 z-40 
+          className="flex items-center justify-start w-max max-w-7xl gap-1 flex-col h-5/6 py-10
+           font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl  z-40 
   top-0 right-0 left-0 bottom-0 m-auto fixed"
         >
           {/* menu bars */}
@@ -129,10 +181,10 @@ function ShowAssignment({
               );
             })}
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center w-[80rem] ">
             {/* assignment detail */}
             {activeMenu === 0 && (
-              <div className="w-full">
+              <div className="w-[80rem] px-10 ">
                 <div>
                   <div className="flex justify-between">
                     <span className="lg:text-4xl">{passAssianment?.title}</span>
@@ -188,18 +240,24 @@ function ShowAssignment({
             {/* student's assignment */}
             {activeMenu === 1 && (
               <div className="flex items-start justify-start w-[80rem] ">
-                <div className="w-max flex flex-col h-[30rem] items-center justify-start ">
+                <div className="w-[60rem] flex flex-col h-[30rem] items-center justify-start ">
                   <span className="text-xl font-Kanit font-semibold">
                     สถานะการส่งงานของผู้เรียน
                   </span>
                   <ul className="w-full list-none pl-0">
-                    <li className="grid grid-cols-4 mt-4 gap-5 text-xl ">
+                    <li className="grid grid-cols-4 mt-4 gap-2 text-xl ">
                       <div className="flex justify-center">เลขที่</div>
-                      <div>ชื่อ</div>
-                      <div>นามสกุล</div>
-                      <div>สถานะ</div>
+                      <div className="flex items-center justify-center">
+                        ชื่อ
+                      </div>
+                      <div className="flex items-center justify-center">
+                        คะแนน
+                      </div>
+                      <div className="flex items-center justify-start">
+                        สถานะ
+                      </div>
                     </li>
-                    <div className="h-[28rem] w-max overflow-auto">
+                    <div className="h-[28rem] w-full overflow-auto">
                       {studentOnAssignments.isLoading && (
                         <div className="flex flex-col items-center justify-start mt-5 gap-5">
                           <Skeleton
@@ -243,15 +301,25 @@ function ShowAssignment({
                       {studentOnAssignments?.data?.data?.map(
                         (student, index) => {
                           return (
-                            <li className="grid grid-cols-4 gap-5 py-2  ">
+                            <li className="grid grid-cols-4 gap-2 py-2  ">
                               <div className="flex justify-center">
                                 {student.number}
                               </div>
-                              <div>{student.firstName}</div>
-                              <div>{student.lastName}</div>
+                              <div className="flex items-center justify-center">
+                                {student.firstName}
+                              </div>
+                              {student?.studentWork?.score ? (
+                                <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                  {student.studentWork.score}
+                                </div>
+                              ) : (
+                                <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                  0
+                                </div>
+                              )}
                               {student.status === "no-work" && (
                                 <div className="w-max bg-red-500 py-1 px-2 rounded-lg text-white">
-                                  ยังไม่ส่งงาน
+                                  ไม่ส่งงาน
                                 </div>
                               )}
                               {student.status === "have-work" &&
@@ -266,12 +334,15 @@ function ShowAssignment({
                                 )}
                               {student.status === "no-assign" && (
                                 <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
-                                  ไม่ถูกมอบหมายงาน
+                                  ไม่มีงาน
                                 </div>
                               )}
                               {student.status === "have-work" &&
-                                student.studentWork.score > 0 && (
-                                  <div className="w-max bg-green-500 py-1 px-2 rounded-lg text-white">
+                                student.studentWork.isSummited === true && (
+                                  <div
+                                    onClick={() => handleSelectWork(student)}
+                                    className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
+                                  >
                                     ตรวจแล้ว
                                   </div>
                                 )}
@@ -282,19 +353,24 @@ function ShowAssignment({
                     </div>
                   </ul>
                 </div>
-                <div className="flex flex-col w-full items-center justify-start px-10">
-                  <div className="flex w-full justify-between  ">
+
+                {/* review student work section */}
+                <div className="flex flex-col w-full items-center justify-start ">
+                  <div className="flex w-full justify-between ">
                     <div className="flex items-center justify-center relative">
                       <span className="text-3xl font-Kanit">
                         งานของผู้เรียน
                       </span>
                       <div className="w-96 h-[2px] bg-blue-700 absolute left-0 bottom-2"></div>
                     </div>
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex justify-center items-center gap-4">
+                      <div className="text-2xl">
+                        {currentStudentWork?.number}
+                      </div>
                       <div className="text-2xl">
                         {currentStudentWork?.firstName}
                       </div>
-                      <div className="w-16 h-16 relative rounded-full overflow-hidden bg-blue-100">
+                      <div className="w-16 h-16 relative rounded-full overflow-hidden bg-blue-100 mr-4">
                         <Image
                           src={currentStudentWork?.picture}
                           layout="fill"
@@ -304,18 +380,100 @@ function ShowAssignment({
                   </div>
 
                   <div>
-                    {currentStudentWork && (
+                    {currentStudentWork && images ? (
                       <SlideshowLightbox
+                        lightboxIdentifier="lightbox1"
+                        framework="next"
+                        images={images}
+                        showThumbnails={true}
                         theme="day"
-                        className="container grid grid-cols-2 gap-2 mx-auto h-96 overflow-auto"
+                        className={`container grid ${
+                          images.length === 1 ? "grid-cols-1" : "grid-cols-2"
+                        } gap-3 w-[40rem] mx-auto h-48 items-center place-items-center
+                         max-h-60 overflow-auto  `}
                       >
-                        <img
-                          className="w-full rounded"
-                          src={currentStudentWork?.studentWork?.picture}
-                        />
+                        {images.map((image) => (
+                          <div className="relative w-60 h-40 hover:scale-110 transition duration-150 ">
+                            <Image
+                              src={image?.src}
+                              alt={image?.alt}
+                              layout="fill"
+                              className="object-contain "
+                              data-lightboxjs="lightbox1"
+                              quality={80}
+                            />
+                          </div>
+                        ))}
                       </SlideshowLightbox>
+                    ) : (
+                      <div
+                        className="w-full h-80 flex items-center justify-center font-Kanit
+                      font-bold text-5xl text-gray-300"
+                      >
+                        โปรดเลือกงาน
+                      </div>
                     )}
                   </div>
+                  {currentStudentWork?.studentWork?.body && (
+                    <div className="w-full  h-max mt-5 flex items-start  relative">
+                      <div class="w-6 left-[5.2rem] top-1 overflow-hidden  inline-block absolute ">
+                        <div class=" h-10  bg-blue-100 -rotate-45 transform origin-top-right"></div>
+                      </div>
+                      <div className="flex justify-center items-center ml-5">
+                        <div className="w-16 h-16 relative rounded-full overflow-hidden bg-blue-100 ">
+                          <Image
+                            src={currentStudentWork?.picture}
+                            layout="fill"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="w-[28rem] ml-5 bg-blue-100 rounded-lg h-20 relative overflow-auto p-2">
+                        <div className="text-md ml-4 font-bold">
+                          {currentStudentWork?.firstName}
+                        </div>
+                        <span className="pl-4">
+                          {currentStudentWork.studentWork.body}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  <form
+                    onSubmit={handleReviewWork}
+                    className="w-full flex justify-center gap-5 mt-10"
+                  >
+                    <Box width="50%">
+                      <TextField
+                        name="comment"
+                        onChange={handleOnChangeReviewWork}
+                        fullWidth
+                        value={teacherReview.comment}
+                        label="comment"
+                      />
+                    </Box>
+                    <Box width="20%" className="relative ">
+                      <TextField
+                        fullWidth
+                        label="คะแนน"
+                        type="number"
+                        name="score"
+                        value={teacherReview.score}
+                        onChange={handleOnChangeReviewWork}
+                      />
+                      <span className="font-Poppins absolute top-4 right-5">
+                        /{passAssianment.maxScore}
+                      </span>
+                    </Box>
+                    <button
+                      className="w-20  h-9 mt-2 rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
+                       text-white font-sans font-bold
+              text-md cursor-pointer hover: active:border-2  active:border-gray-300
+               active:border-solid  focus:border-2 
+              focus:border-solid"
+                    >
+                      ส่ง
+                    </button>
+                  </form>
                 </div>
               </div>
             )}

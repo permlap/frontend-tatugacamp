@@ -225,3 +225,36 @@ export async function UpdateAssignmentApi({
     throw new Error(err);
   }
 }
+
+export async function ReviewStudentWork({
+  studentId,
+  assignmentId,
+  comment,
+  score,
+}) {
+  try {
+    const scoreNum = Number(score);
+    const access_token = localStorage.getItem("access_token");
+    const review = await axios.put(
+      `${process.env.Server_Url}/user/assignment/review-student-work`,
+      {
+        comment: comment,
+        score: scoreNum,
+        isSummited: true,
+      },
+      {
+        params: {
+          assignmentId: assignmentId,
+          studentId: studentId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return review;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
