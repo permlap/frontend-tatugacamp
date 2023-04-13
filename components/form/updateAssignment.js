@@ -11,6 +11,7 @@ import {
   UpdateAssignmentApi,
 } from "../../service/assignment";
 import Swal from "sweetalert2";
+import { Box, TextField } from "@mui/material";
 
 function UpdateAssignment({
   assignment,
@@ -181,57 +182,50 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
         <div className="w-full flex gap-8 ">
           <div className="flex-col flex gap-4 w-3/4">
             <div className="flex flex-col gap-0">
-              <label className="relative cursor-pointer">
-                <input
-                  onChange={handleChange}
-                  value={assignmentData?.title}
+              <Box width="100%">
+                <TextField
                   name="title"
-                  type="text"
-                  placeholder="title"
-                  className="h-10 w-3/4 pl-5 text-xl text-black appearance-none ring-2 ring-gray-200
-                border-0 rounded-lg border-opacity-50 outline-none focus:ring-black
-                placeholder-gray-300 placeholder-opacity-0 transition duration-200"
+                  onChange={handleChange}
+                  fullWidth
+                  label="title"
+                  value={assignmentData?.title}
                 />
-                <span
-                  className="text-2xl   bg-white  text-black
-             text-opacity-80  absolute left-5 top-2 px-1 transition duration-200 input-text"
-                >
-                  Title
-                </span>
-              </label>
+              </Box>
             </div>
-            <div className="flex flex-col gap-0">
-              <Editor
-                apiKey="bis00u2a6lpujg7c1unyyclqhzqbq3boyusyz01w3jdpgisi"
-                textareaName="description"
-                initialValue={assignmentData?.description}
-                init={{
-                  height: 300,
-                  width: "100%",
-                  menubar: false,
-                  plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | formatselect | " +
-                    "bold italic backcolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help",
-                  content_style:
-                    "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                }}
-                onEditorChange={(newText) =>
-                  setAssignmentData((prev) => {
-                    return {
-                      ...prev,
-                      body: newText,
-                    };
-                  })
-                }
-              />
-            </div>
+
+            <Editor
+              apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
+              textareaName="description"
+              initialValue={assignmentData?.description}
+              init={{
+                link_context_toolbar: true,
+                height: "100%",
+                width: "100%",
+                menubar: false,
+                plugins: [
+                  "advlist autolink lists link image charmap print preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                  "link",
+                ],
+                toolbar:
+                  "undo redo | formatselect | " +
+                  "bold italic backcolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help | link",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+              onEditorChange={(newText) =>
+                setAssignmentData((prev) => {
+                  return {
+                    ...prev,
+                    body: newText,
+                  };
+                })
+              }
+            />
+
             <button
               type="submit"
               className="w-full py-2 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold

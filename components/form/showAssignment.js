@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import {
   DeleteAssignment,
   ReviewStudentWork,
+  ReviewStudentWorkNoWork,
   ViewAllAssignOnStudent,
 } from "../../service/assignment";
 import { FiSettings } from "react-icons/fi";
@@ -45,7 +46,7 @@ function ShowAssignment({
   );
 
   useEffect(() => {
-    initLightboxJS(process.env.LightboxJs_KEY, "individual");
+    initLightboxJS(process.env.NEXT_PUBLIC_LIGHTBOX_KEY, "individual");
   }, []);
 
   // refetch studentOnAssinment when  there is new passAssianment
@@ -95,34 +96,55 @@ function ShowAssignment({
 
   //handle select student's work
   const handleSelectWork = (student) => {
-    setImages((prev) => {
-      return [
-        {
-          ...prev,
-          src: student.studentWork.picture,
-          alt: "student's work",
-        },
-      ];
-    });
+    if (student.studentWork) {
+      setImages((prev) => {
+        return [
+          {
+            src: !student?.studentWork?.picture
+              ? ""
+              : student?.studentWork?.picture,
+            alt: "student's work",
+          },
+        ];
+      });
+    } else if (!student.studentWork) {
+      setImages(null);
+    }
+
     setCurrentStudentWork(student);
     setTeacherReview((prev) => {
       return {
         ...prev,
-        comment: student.studentWork.comment,
-        score: student.studentWork.score,
+        comment: !student?.studentWork?.comment
+          ? ""
+          : student?.studentWork?.comment,
+        score: !student?.studentWork?.score ? "" : student?.studentWork?.score,
       };
     });
   };
+
   const handleReviewWork = async (e) => {
     try {
       e.preventDefault();
-      const reviewWork = await ReviewStudentWork({
-        studentId: currentStudentWork.id,
-        assignmentId: passAssianment.id,
-        comment: teacherReview.comment,
-        score: teacherReview.score,
-      });
-      Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
+      if (currentStudentWork.status === "have-work") {
+        const reviewWork = await ReviewStudentWork({
+          studentId: currentStudentWork.id,
+          assignmentId: passAssianment.id,
+          comment: teacherReview.comment,
+          score: teacherReview.score,
+        });
+        studentOnAssignments.refetch();
+        Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
+      } else if (currentStudentWork.status === "no-work") {
+        const reviewWork = await ReviewStudentWorkNoWork({
+          studentId: currentStudentWork.id,
+          assignmentId: passAssianment.id,
+          comment: teacherReview.comment,
+          score: teacherReview.score,
+        });
+        studentOnAssignments.refetch();
+        Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
+      }
     } catch (err) {
       console.log(err);
       Swal.fire(
@@ -318,7 +340,11 @@ function ShowAssignment({
                                 </div>
                               )}
                               {student.status === "no-work" && (
-                                <div className="w-max bg-red-500 py-1 px-2 rounded-lg text-white">
+                                <div
+                                  onClick={() => handleSelectWork(student)}
+                                  className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
+                                  hover:scale-105 transition duration-150"
+                                >
                                   ไม่ส่งงาน
                                 </div>
                               )}
@@ -329,12 +355,12 @@ function ShowAssignment({
                                     className=" w-max cursor-pointer hover:scale-105 transition duration-150
                                      bg-yellow-500 py-1 px-2 rounded-lg text-white"
                                   >
-                                    ส่งงานแล้ว
+                                    รอการตรวจ
                                   </div>
                                 )}
                               {student.status === "no-assign" && (
                                 <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
-                                  ไม่มีงาน
+                                  ไม่ได้มอบหมาย
                                 </div>
                               )}
                               {student.status === "have-work" &&
@@ -355,7 +381,7 @@ function ShowAssignment({
                 </div>
 
                 {/* review student work section */}
-                <div className="flex flex-col w-full items-center justify-start ">
+                <div className="flex flex-col w-full items-center justify-between h-[31rem]">
                   <div className="flex w-full justify-between ">
                     <div className="flex items-center justify-center relative">
                       <span className="text-3xl font-Kanit">
@@ -379,43 +405,49 @@ function ShowAssignment({
                     </div>
                   </div>
 
-                  <div>
-                    {currentStudentWork && images ? (
+                  <div className="">
+                    {currentStudentWork && images && images[0].src !== "" ? (
                       <SlideshowLightbox
+                        downloadImages={true}
                         lightboxIdentifier="lightbox1"
+                        showThumbnails={true}
                         framework="next"
                         images={images}
-                        showThumbnails={true}
                         theme="day"
                         className={`container grid ${
                           images.length === 1 ? "grid-cols-1" : "grid-cols-2"
                         } gap-3 w-[40rem] mx-auto h-48 items-center place-items-center
                          max-h-60 overflow-auto  `}
                       >
-                        {images.map((image) => (
-                          <div className="relative w-60 h-40 hover:scale-110 transition duration-150 ">
+                        {images.map((image) => {
+                          return (
                             <Image
                               src={image?.src}
                               alt={image?.alt}
-                              layout="fill"
+                              width={240}
+                              height={160}
                               className="object-contain "
                               data-lightboxjs="lightbox1"
                               quality={80}
                             />
-                          </div>
-                        ))}
+                          );
+                        })}
                       </SlideshowLightbox>
                     ) : (
                       <div
                         className="w-full h-80 flex items-center justify-center font-Kanit
                       font-bold text-5xl text-gray-300"
                       >
-                        โปรดเลือกงาน
+                        {currentStudentWork?.status === "no-work" &&
+                          "ผู้เรียนยังไม่ส่งงาน"}
+                        {currentStudentWork?.status === "have-work" &&
+                          "ผู้เรียนยังไม่ส่งงาน"}
+                        {!currentStudentWork && "โปรดเลือกงาน"}
                       </div>
                     )}
                   </div>
                   {currentStudentWork?.studentWork?.body && (
-                    <div className="w-full  h-max mt-5 flex items-start  relative">
+                    <div className="w-full  h-max mt-5 flex items-start  relative ">
                       <div class="w-6 left-[5.2rem] top-1 overflow-hidden  inline-block absolute ">
                         <div class=" h-10  bg-blue-100 -rotate-45 transform origin-top-right"></div>
                       </div>
@@ -433,7 +465,7 @@ function ShowAssignment({
                           {currentStudentWork?.firstName}
                         </div>
                         <span className="pl-4">
-                          {currentStudentWork.studentWork.body}
+                          {currentStudentWork?.studentWork?.body}
                         </span>
                       </div>
                     </div>

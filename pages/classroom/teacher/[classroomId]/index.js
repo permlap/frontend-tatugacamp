@@ -173,7 +173,7 @@ function Index() {
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
-      <div className="flex bg-[#F6F1E9] pb-96 items-center justify-center ">
+      <div className="flex  pb-96 items-center justify-center ">
         <div className="w-full flex flex-col items-center justify-center  gap-10 h-full pb-40">
           {/* header section */}
           <header
@@ -411,7 +411,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                             <Popover.Button className="bg-transparent  border-none active:border-none appearance-none focus:outline-none">
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
-                       duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
+                       duration-200 rounded-2xl bg-white border-2 border-solid relative hover:bg-orange-100 transition drop-shadow-md"
                                 key={student.id}
                               >
                                 <div
