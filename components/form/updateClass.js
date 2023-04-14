@@ -34,7 +34,7 @@ function UpdateClass({ close, classroom, refetch }) {
   };
 
   return (
-    <div className="relative z-50">
+    <div className="relative z-20">
       <div
         className="flex w-max h-max font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-20 
         top-0 right-0 left-0 bottom-0 m-auto fixed"

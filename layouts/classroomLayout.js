@@ -16,7 +16,7 @@ function Layout({ children, user, sideMenus, trigger }) {
       <Popover className="relative">
         {({ open }) => (
           <>
-            {!user.isError && (
+            {!user.isError && user?.data?.status === 200 && (
               <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
                 <div
                   aria-label="Show sidebar"

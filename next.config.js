@@ -30,6 +30,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: [
+      "source.unsplash.com",
       "scontent.fnak3-1.fna.fbcdn.net",
       "cdn.sanity.io",
       "rickandmortyapi.com",

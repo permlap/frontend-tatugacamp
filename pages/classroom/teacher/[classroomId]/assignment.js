@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../../layouts/classroomLayout";
 import { useQuery } from "react-query";
 import { GetUser } from "../../../../service/user";
@@ -13,13 +13,36 @@ import * as ClassroomAnimation from "../../../../components/90714-online-learnin
 import UpdateClass from "../../../../components/form/updateClass";
 import Image from "next/image";
 import CreateAssignment from "../../../../components/form/createAssignment";
+import {
+  GetAllAssignments,
+  GetAssignmentProgress,
+} from "../../../../service/assignment";
+import { GetAllStudents } from "../../../../service/students";
+import ShowAssignment from "../../../../components/form/showAssignment";
 function Assignment() {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
-
+  const [triggerAssignment, setTriggerAssignment] = useState(false);
+  const [showAssignment, setShowAssignment] = useState(false);
+  const [passAssianment, setPassAssignment] = useState();
   const classroom = useQuery(
     ["classroom"],
     () => GetOneClassroom({ params: router.query.classroomId }),
+    {
+      enabled: false,
+    }
+  );
+  const assignments = useQuery(
+    ["assignments"],
+    () => GetAllAssignments({ classroomId: router.query.classroomId }),
+    {
+      enabled: false,
+    }
+  );
+
+  const students = useQuery(
+    ["students"],
+    () => GetAllStudents({ classroomId: router.query.classroomId }),
     {
       enabled: false,
     }
@@ -42,9 +65,11 @@ function Assignment() {
     if (router.isReady) {
       classroom.refetch();
       user.refetch();
+      assignments.refetch();
+      students.refetch();
     }
   }, [router.isReady, user.data === "Unauthorized"]);
-  console.log(router.query.classroomId);
+
   const sideMenus = [
     {
       title: "โรงเรียน",
@@ -101,34 +126,8 @@ function Assignment() {
     height: 280,
   };
 
-  const fakeData = [
-    {
-      tittle: "How to grow you Facebook page",
-      description: "Follow these easy and simple steps...",
-      day: "10",
-      month: "December",
-      progress: "50%",
-      background: "#FADC36",
-    },
-    {
-      tittle: "Grow your community",
-      description: "Follow these easy and simple steps...",
-      day: "3",
-      month: "Arpill",
-      progress: "70%",
-      background: "#0068FF",
-    },
-    {
-      tittle: "Data Science Boots camp",
-      description: "Follow these easy and simple steps...",
-      day: "31",
-      month: "January",
-      progress: "10%",
-      background: "#D076FF",
-    },
-  ];
   return (
-    <div className="w-full  bg-[#F6F1E9]">
+    <div className="w-full pb-96  ">
       <Layout sideMenus={sideMenus} user={user} />
       <div className="pt-36">
         <header className="w-full flex items-center justify-center ">
@@ -236,63 +235,94 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             </div>
           </div>
         </header>
-        <main className="w-full max-w-7xl py-5  mt-10 flex flex-col items-center justify-center relative">
-          <Popover className="relative">
-            {({ open }) => (
-              <>
-                <div
-                  className="bg-white w-[28rem] h-20 rounded-full drop-shadow-md flex items-center 
+        <main className="w-full  py-5  mt-10 flex flex-col items-center justify-center relative">
+          <div
+            className="bg-white w-[28rem] h-20 rounded-full drop-shadow-md flex items-center 
           justify-start gap-2 "
-                >
-                  <div className="w-10 h-10 relative ml-5 rounded-full overflow-hidden">
-                    <Image src={user?.data?.data?.picture} layout="fill" />
-                  </div>
-                  <Popover.Button
-                    className="w-80 border-none py-2 rounded-full bg-blue-100 text-center font-Poppins text-sm hover:bg-[#2C7CD1] hover:text-white
+          >
+            <div className="w-10 h-10 relative ml-5 rounded-full overflow-hidden">
+              <Image src={user?.data?.data?.picture} layout="fill" />
+            </div>
+            <button
+              onClick={() => setTriggerAssignment(true)}
+              className="w-80 border-none py-2 rounded-full bg-blue-100 text-center font-Poppins text-sm hover:bg-[#2C7CD1] hover:text-white
 text-black transition duration-150 cursor-pointer"
-                  >
-                    <div>create your assignment</div>
-                  </Popover.Button>
-                </div>
-                <Popover.Panel>
-                  {({ close }) => (
-                    <div className="fixed top-0 right-0 left-0 bottom-0 m-auto righ z-40">
-                      <CreateAssignment close={close} />
-                    </div>
-                  )}
-                </Popover.Panel>
-              </>
-            )}
-          </Popover>
+            >
+              <div>create your assignment</div>
+            </button>
+          </div>
 
-          <div className=" w-full max-w-7xl mt-5 gap-5 grid items-center justify-center">
-            {fakeData.map((assignment, index) => {
+          <div
+            className={` top-0 right-0 left-0 bottom-0 m-auto righ z-40 ${
+              triggerAssignment === false ? "hidden" : "fixed"
+            }`}
+          >
+            <CreateAssignment
+              assignments={assignments}
+              setTriggerAssignment={setTriggerAssignment}
+              students={students}
+            />
+          </div>
+          <div
+            className={` top-0 right-0 left-0 bottom-0 m-auto righ z-40 ${
+              showAssignment === false ? "hidden" : "fixed"
+            }`}
+          >
+            <ShowAssignment
+              setShowAssignment={setShowAssignment}
+              passAssianment={passAssianment}
+              classroomId={router?.query?.classroomId}
+              students={students}
+              assignments={assignments}
+              setTriggerAssignment={setTriggerAssignment}
+            />
+          </div>
+          {/* assignments are here */}
+          <div className=" w-full max-w-7xl mt-5 gap-5 grid items-center justify-center ">
+            {assignments?.data?.map((assignment, index) => {
+              //covert date
+              const date = new Date(assignment.deadline);
+              const formattedDate = date.toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              });
+
               return (
                 <div
-                  style={{ background: `${assignment.background}` }}
+                  onClick={() => {
+                    setPassAssignment(assignment);
+                    setShowAssignment(true);
+                  }}
                   key={index}
-                  className={`w-[35rem] h-36 px-10 py-5   hover:scale-105 cursor-pointer
-                 duration-150 transition
-               rounded-lg flex flex-col gap-10`}
+                  className={`w-[35rem] h-36 px-10 py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
+                 duration-150 transition relative
+               rounded-lg flex flex-col gap-10 border-2 border-solid`}
                 >
-                  <div className=" flex justify-between">
-                    <div className="flex gap-5">
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden">
-                        <Image src={user.data?.data?.picture} layout="fill" />
-                      </div>
+                  <div className="flex ">
+                    <div className="flex">
                       <div
-                        className={`flex flex-col gap-2 w-3/4 font-Poppins ${
-                          assignment.background === "#FADC36"
-                            ? "text-black"
-                            : "text-white"
-                        } `}
+                        className={`flex flex-col gap-2 w-3/4 font-Poppins text-black `}
                       >
-                        <span className="font-bold text-xl">
-                          {assignment?.tittle}
+                        <span className=" font text-xl font-bold w-max">
+                          {assignment.title}
                         </span>
-                        <span className="leading-tight tracking-tighter">
-                          {assignment?.description}
-                        </span>
+                        <div className="relative">
+                          <div className="w-96  h-[0.5px]  mb-2 bg-blue-800 rounded-full "></div>
+
+                          <div
+                            className="h-24 overflow-hidden fade-mask"
+                            dangerouslySetInnerHTML={{
+                              __html: assignment?.description,
+                            }}
+                          />
+                          <div className="w-96 bg-gray-200 h-2 rounded-full overflow-hidden">
+                            <div
+                              style={{ width: assignment.progress.progress }}
+                              className={` bg-blue-800 h-2 `}
+                            ></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div>
@@ -304,23 +334,24 @@ text-black transition duration-150 cursor-pointer"
                         <span>{assignment?.month}</span>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <div
-                      className={`font-Poppins text-xs ${
-                        assignment.background === "#FADC36"
-                          ? "text-black"
-                          : "text-white"
-                      } font-semibold`}
-                    >
-                      students' progress
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-gray-300 overflow-hidden">
-                      <div
-                        style={{ width: assignment.progress }}
-                        className={`h-full bg-white `}
-                      ></div>
+                    <div className="relative">
+                      {assignment.maxScore && (
+                        <div className="flex items-center justify-center flex-col">
+                          <div
+                            className="w-20 h-20 bg-[#EDBA02] rounded-full text-white text-4xl
+                        font-Poppins font-bold flex items-center justify-center"
+                          >
+                            {assignment.maxScore}
+                          </div>
+                          <div className="font-Poppins font-semibold">
+                            score
+                          </div>
+                        </div>
+                      )}
+                      <div className="font-Poppins gap-1 text-sm flex w-max absolute bottom-0 -left-12">
+                        <span>กำหนดส่ง</span>
+                        <span>{formattedDate}</span>
+                      </div>
                     </div>
                   </div>
                 </div>

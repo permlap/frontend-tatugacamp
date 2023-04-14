@@ -69,6 +69,7 @@ export async function UpdateStudent({
   lastName,
   number,
   studentId,
+  chooseAvatar,
 }) {
   try {
     console.log(firstName, lastName, number, studentId);
@@ -81,6 +82,7 @@ export async function UpdateStudent({
         firstName: firstName,
         lastName: lastName,
         number: number,
+        picture: chooseAvatar,
       },
       {
         params: {

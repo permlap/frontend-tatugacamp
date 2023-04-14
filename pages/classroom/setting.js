@@ -33,7 +33,7 @@ function Setting() {
     {
       title: "โรงเรียน",
       icon: "🏫",
-      url: "/classroom",
+      url: "/classroom/teacher",
     },
 
     {
@@ -153,7 +153,7 @@ function Setting() {
          bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
         <div
-          className=" h-max w-5/6 md:max-w-xl lg:max-w-3xl
+          className=" h-5/6 w-5/6 md:max-w-xl lg:max-w-3xl
          md:mt-0 bg-white md:p-10 lg:px-20 p-2 rounded-xl mt-20 border-2 border-solid "
         >
           <div className="flex flex-col items-center justify-center  md:block">

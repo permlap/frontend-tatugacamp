@@ -153,6 +153,7 @@ function Index() {
                   </div>
                   <div className="w-3/4  h-2/4 relative mt-2 ">
                     <Image
+                      alt="tatuga avatar"
                       src={list.picture}
                       layout="fill"
                       className="object-contain object-left  transition duration-150 "

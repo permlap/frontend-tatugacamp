@@ -1,6 +1,7 @@
 import { StyledEngineProvider } from "@mui/material";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
+
 import "../styles/globals.css";
 import "../styles/taboo.css";
 import "../styles/auth.css";

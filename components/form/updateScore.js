@@ -17,13 +17,14 @@ import { DelteStudent, UpdateStudent } from "../../service/students";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 import CreateScore from "./createScore";
-
+import { avartars } from "../../data/students";
 function UpdateScore({ close, student, scores, students, refetchScores }) {
   const [soundPositive, setSoundPositive] = useState(null);
   const [soundNagative, setSoundNagative] = useState(null);
   const [clickScoreTitle, setClickScoreTitle] = useState();
   const [runScoreTitle, setRunScoreTitle] = useState(false);
   const [runAnimation, setRunAnimation] = useState(false);
+  const [chooseAvatar, setShooseAvatar] = useState();
   const [pointsValue, setpointsValue] = useState(1);
   const [data, setData] = useState(animationData);
   const [error, setError] = useState();
@@ -54,6 +55,16 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
     // set point value as diffrent value as differnt id
     // setpointsValue((prev) => ({ ...prev, [id]: value }));
   };
+
+  const handleChooseAvatar = ({ avartar, index }) => {
+    setShooseAvatar(() => {
+      return {
+        avartar: avartar,
+        index: index,
+      };
+    });
+  };
+  console.log(chooseAvatar);
 
   //handle hiden score
   const onClickToHide = async ({ scoreId }) => {
@@ -100,6 +111,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
         lastName: studentData.lastName,
         number: studentData.number,
         studentId: student.id,
+        chooseAvatar: chooseAvatar.avartar,
       });
       students.refetch();
       setTriggerSetting((prev) => (prev = false));
@@ -204,7 +216,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
     >
       <div
         className="flex md:flex-row flex-col w-[95%] md:w-3/4 lg:w-2/4 h-max font-Kanit bg-white border-2 border-solid
-    rounded-lg drop-shadow-xl md:p-5 relative "
+    rounded-lg drop-shadow-xl md:p-5 md:px-0 relative items-center justify-center"
       >
         <div
           className="absolute z-20 right-5 top-5 gap-1 flex items-center 
@@ -274,7 +286,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                   </div>
                 </div>
 
-                <div className="mt-2 text-lg">
+                <div className="mt-2 text-lg w-max">
                   <span className="mr-2">{student.firstName}</span>
                   <span>{student.lastName}</span>
                 </div>
@@ -295,197 +307,231 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
             ) : (
               <form
                 onSubmit={handleSummitEditStudentData}
-                className="md:w-40 w-full  h-full  flex items-center mt-10 md:mt-0
-                 md:items-center justify-center px-5 flex-col relative"
+                className="md:w-full w-full  h-full gap-10  flex items-center mt-10 md:mt-0
+                 md:items-start justify-between px-5  relative"
               >
-                <div className="flex flex-col relative">
-                  <label className="font-sans font-normal">แก้ไขชื่อจริง</label>
-                  <input
-                    onChange={handleOnChange}
-                    className="w-40 h-7 rounded-md   pl-10 
+                <div className="flex items-center justify-center flex-col">
+                  <div className="flex flex-col relative">
+                    <label className="font-sans font-normal">
+                      แก้ไขชื่อจริง
+                    </label>
+                    <input
+                      onChange={handleOnChange}
+                      className="w-40 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
-                    type="text"
-                    name="firstName"
-                    placeholder="แก้ไขชื่อจริง"
-                    maxLength="30"
-                    value={studentData.firstName}
-                  />
-                  <div
-                    className="absolute bottom-1 left-2 bg-white text-[#2C7CD1] w-5 h-5 text-xl 
+                      type="text"
+                      name="firstName"
+                      placeholder="แก้ไขชื่อจริง"
+                      maxLength="30"
+                      value={studentData.firstName}
+                    />
+                    <div
+                      className="absolute bottom-1 left-2 bg-white text-[#2C7CD1] w-5 h-5 text-xl 
                rounded-full flex items-center justify-center "
-                  >
-                    <FcBusinessContact />
+                    >
+                      <FcBusinessContact />
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col relative mt-2">
-                  <label className="font-sans font-normal">แก้ไขนาสกุล</label>
-                  <input
-                    onChange={handleOnChange}
-                    className="w-40 h-7 rounded-md   pl-10 
+                  <div className="flex flex-col relative mt-2">
+                    <label className="font-sans font-normal">แก้ไขนาสกุล</label>
+                    <input
+                      onChange={handleOnChange}
+                      className="w-40 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
-                    type="text"
-                    name="lastName"
-                    placeholder="แก้ไขนาสกุล"
-                    maxLength="30"
-                    value={studentData.lastName}
-                  />
-                  <div
-                    className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
+                      type="text"
+                      name="lastName"
+                      placeholder="แก้ไขนาสกุล"
+                      maxLength="30"
+                      value={studentData.lastName}
+                    />
+                    <div
+                      className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
                rounded-full flex items-center justify-center "
-                  >
-                    <FcLineChart />
+                    >
+                      <FcLineChart />
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col relative mt-2 mb-2">
-                  <label className="font-sans font-normal">แก้ไขเลขที่</label>
-                  <input
-                    onChange={handleOnChange}
-                    className="w-40 h-7 rounded-md   pl-10 
+                  <div className="flex flex-col relative mt-2 mb-2">
+                    <label className="font-sans font-normal">แก้ไขเลขที่</label>
+                    <input
+                      onChange={handleOnChange}
+                      className="w-40 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
-                    type="number"
-                    name="number"
-                    placeholder="แก้ไขเลขที่"
-                    min="1"
-                    value={studentData.number}
-                  />
-                  <div
-                    className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
+                      type="number"
+                      name="number"
+                      placeholder="แก้ไขเลขที่"
+                      min="1"
+                      value={studentData.number}
+                    />
+                    <div
+                      className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
                rounded-full flex items-center justify-center "
-                  >
-                    <FcViewDetails />
+                    >
+                      <FcViewDetails />
+                    </div>
                   </div>
-                </div>
-                {error && (
-                  <div className="absolute bottom-12 w-max text-red-600">
-                    {error}
-                  </div>
-                )}
-                <button
-                  aria-label="button for setting student's data"
-                  className="w-max h-max bg-red-500 md:mt-10  mt-2 text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
+                  {error && (
+                    <div className="absolute bottom-12 w-max text-red-600">
+                      {error}
+                    </div>
+                  )}
+                  <button
+                    aria-label="button for setting student's data"
+                    className="w-max h-max bg-red-500 md:mt-10  mt-2 text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
               text-white p-1 rounded-md flex items-center justify-center gap-2 px-6 
               transition duration-150 ease-in-out"
-                >
-                  <span>บันทึก</span>
-                  <div className="text-white flex items-center justify-center ">
-                    <FiSave />
+                  >
+                    <span>บันทึก</span>
+                    <div className="text-white flex items-center justify-center ">
+                      <FiSave />
+                    </div>
+                  </button>
+                </div>
+                <div className="flex flex-col items-center justify-center ">
+                  <div className="mb-10 text-xl">เลือก Avatar ผู้เรียน</div>
+                  <div className="grid grid-cols-5 gap-4">
+                    {avartars.map((avartar, index) => {
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => handleChooseAvatar({ avartar, index })}
+                          className={`bg-white drop-shadow-md  hover:scale-110 ${
+                            chooseAvatar?.index === index
+                              ? "border-black border-2"
+                              : "border-black border-none"
+                          }
+                         border-solid rounded-lg relative w-16 h-16 transition duration-150`}
+                        >
+                          <Image
+                            src={avartar}
+                            layout="fill"
+                            className="object-contain"
+                          />
+                        </button>
+                      );
+                    })}
                   </div>
-                </button>
+                </div>
               </form>
             )}
           </div>
         </div>
         {/* score part */}
-        <div className=" flex-col  w-full md:w-full  ">
-          <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
-            คะแนนความประพฤติ
-          </div>
+        {triggerSetting === false && (
+          <div className=" flex-col  w-full md:w-full  ">
+            <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
+              คะแนนความประพฤติ
+            </div>
 
-          <div className="">
-            <div
-              className={`md:w-96  w-full  h-full grid ${
-                triggerCreateNewScore ? " grid-cols-1" : " grid-cols-3"
-              } gap-5  items-center justify-center`}
-            >
-              {triggerCreateNewScore === false ? (
-                scores?.data.map((score) => {
-                  if (score.display === false) return null;
-                  return (
-                    <div
-                      key={score.id}
-                      className="w-full h-full flex items-center justify-center flex-col gap-2"
-                    >
-                      {runAnimation ? (
-                        <button
-                          aria-label={`buuton ${score.title} `}
-                          role="button"
-                          className="w-full h-full  px-2 bg-gray-300 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
-               border-2 border-solid hover:scale-110
-             hover:bg-yellow-200 transition duration-150 ease-in-out"
-                        >
-                          <div className="mt-2">{score.picture}</div>
-                          <div>{score.title}</div>
-                        </button>
-                      ) : (
-                        <div
-                          key={score.id}
-                          className="group relative w-full h-full"
-                        >
+            <div className="">
+              <div
+                className={`md:w-96  w-full  h-full grid ${
+                  triggerCreateNewScore ? " grid-cols-1" : " grid-cols-3"
+                } gap-5  items-center justify-center`}
+              >
+                {triggerCreateNewScore === false ? (
+                  scores?.data.map((score) => {
+                    if (score.display === false) return null;
+                    return (
+                      <div
+                        key={score.id}
+                        className="w-full h-full flex items-center justify-center flex-col gap-2"
+                      >
+                        {runAnimation ? (
                           <button
-                            onClick={() =>
-                              onClick({
-                                scoreId: score.id,
-                                studentId: student.id,
-                                scoreTitle: score.title,
-                                scoreEmoji: score.picture,
-                                pointsValue,
-                              })
-                            }
                             aria-label={`buuton ${score.title} `}
                             role="button"
-                            className="w-full h-full px-2 bg-white flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
-           border-2 border-solid hover:scale-110  group
-         hover:bg-yellow-200 transition duration-150 ease-in-out"
+                            className="w-full h-full  px-2 bg-gray-300 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
+               border-2 border-solid hover:scale-110
+             hover:bg-yellow-200 transition duration-150 ease-in-out"
                           >
                             <div className="mt-2">{score.picture}</div>
                             <div>{score.title}</div>
                           </button>
+                        ) : (
                           <div
-                            onClick={() => onClickToHide({ scoreId: score.id })}
-                            className="absolute  top-1 right-1 hidden group-hover:block  hover:text-red-600"
+                            key={score.id}
+                            className="group relative w-full h-full"
                           >
-                            <MdDelete />
+                            <button
+                              onClick={() =>
+                                onClick({
+                                  scoreId: score.id,
+                                  studentId: student.id,
+                                  scoreTitle: score.title,
+                                  scoreEmoji: score.picture,
+                                  pointsValue,
+                                })
+                              }
+                              aria-label={`buuton ${score.title} `}
+                              role="button"
+                              className="w-full h-full px-2 bg-white flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
+           border-2 border-solid hover:scale-110  group
+         hover:bg-yellow-200 transition duration-150 ease-in-out"
+                            >
+                              <div className="mt-2">{score.picture}</div>
+                              <div>{score.title}</div>
+                            </button>
+                            <div
+                              onClick={() =>
+                                onClickToHide({ scoreId: score.id })
+                              }
+                              className="absolute  top-1 right-1 hidden group-hover:block  hover:text-red-600"
+                            >
+                              <MdDelete />
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="w-full  flex items-center justify-center">
-                  <CreateScore
-                    refetchScores={refetchScores}
-                    setTriggerCreateNewScore={setTriggerCreateNewScore}
-                    classroomId={student?.classroomId}
-                  />
-                </div>
-              )}
-              {!triggerCreateNewScore && (
-                <div
-                  onClick={() => setTriggerCreateNewScore(true)}
-                  className="flex items-center justify-center "
-                >
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="w-full  flex items-center justify-center">
+                    <CreateScore
+                      refetchScores={refetchScores}
+                      setTriggerCreateNewScore={setTriggerCreateNewScore}
+                      classroomId={student?.classroomId}
+                    />
+                  </div>
+                )}
+                {!triggerCreateNewScore && (
                   <div
-                    className="w-max h-full px-2 bg-white py-1 flex flex-col font-Kanit text-lg
+                    onClick={() => setTriggerCreateNewScore(true)}
+                    className="flex items-center justify-center "
+                  >
+                    <div
+                      className="w-max h-full px-2 bg-white py-1 flex flex-col font-Kanit text-lg
                          items-center justify-center rounded-lg cursor-pointer
              border-2 border-solid hover:scale-110
            hover:bg-yellow-200 transition duration-150 ease-in-out"
-                  >
-                    <FiPlus />
-                    <span className="text-sm">สร้างคะแนน</span>
+                    >
+                      <FiPlus />
+                      <span className="text-sm">สร้างคะแนน</span>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            <div className="w-full flex items-center justify-center flex-col mt-5 ">
-              <input
-                placeholder="1"
-                onChange={handleChangeScore}
-                className="w-20 text-lg font-sans font-semibold rounded-md border-0 ring-blue-500 ring-2 active:border-0 focus:border-0 text-center placeholder:text-black"
-                value={pointsValue}
-                type="number"
-                name="points"
-              />
-              <div className="w-max h-max text-sm mt-2 text-red-600">
-                <span>
-                  **หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น -5
-                </span>
+              <div className="w-full flex items-center justify-center flex-col mt-5 ">
+                <input
+                  placeholder="1"
+                  onChange={handleChangeScore}
+                  className="w-20 text-lg font-sans font-semibold rounded-md border-0 ring-blue-500 ring-2 active:border-0 focus:border-0 text-center placeholder:text-black"
+                  value={pointsValue}
+                  type="number"
+                  name="points"
+                />
+                <div className="w-max h-max text-sm mt-2 text-red-600">
+                  <span>
+                    **หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น
+                    -5
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div

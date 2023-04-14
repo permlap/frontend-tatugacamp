@@ -31,7 +31,7 @@ function AuthButton() {
     return <Loading />;
   }
 
-  if (!data.data || data === "Unauthorized") {
+  if (!data?.data || data === "Unauthorized") {
     return (
       <div>
         <button
@@ -59,7 +59,7 @@ function AuthButton() {
       pathname: "/",
     });
   };
-  console.log(data.data);
+
   return (
     <Menu>
       <Menu.Button
@@ -67,11 +67,11 @@ function AuthButton() {
     rounded-md p-3   ring-orange-400 group
     items-center justify-center gap-x-3 "
       >
-        {data.data.picture ? (
+        {data?.data?.picture ? (
           <div className="relative w-10 h-10 rounded-md  overflow-hidden">
             <Image
-              src={data.data.picture}
-              alt={data.data.firstName}
+              src={data?.data?.picture}
+              alt={data?.data?.firstName}
               layout="fill"
               className=" object-cover "
             />
@@ -79,13 +79,13 @@ function AuthButton() {
         ) : (
           <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
             <span className="uppercase font-sans font-black text-3xl text-white">
-              {data.data.firstName.charAt(0)}
+              {data?.data?.firstName.charAt(0)}
             </span>
           </div>
         )}
         <span className=" text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
           <span className="first-letter:uppercase font-semibold text-orange-400 ">
-            {data.data.firstName} {data.data.lastName}
+            {data?.data?.firstName} {data?.data?.lastName}
           </span>
         </span>
         <div className="group-hover:scale-0 transition duration-100 group-hover:opacity-0 ">

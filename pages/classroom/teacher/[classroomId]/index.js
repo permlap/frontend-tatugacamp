@@ -173,7 +173,7 @@ function Index() {
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
-      <div className="flex bg-[#F6F1E9] items-center justify-center ">
+      <div className="flex  pb-96 items-center justify-center ">
         <div className="w-full flex flex-col items-center justify-center  gap-10 h-full pb-40">
           {/* header section */}
           <header
@@ -276,7 +276,14 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
               </div>
             </div>
             <div className="absolute right-0 -top-20 hidden md:block  ">
-              <Lottie animationData={ClassroomAnimation} style={style} />
+              {/* <Lottie animationData={ClassroomAnimation} style={style} /> */}
+              <div className="w-96 h-80">
+                <Image
+                  src="/image/classroom-online.png"
+                  layout="fill"
+                  className="object-contain"
+                />
+              </div>
             </div>
           </header>
 
@@ -368,7 +375,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             students' avatar are here */}
             <div
               className="w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
-            md:flex md:flex-wrap md:gap-x-12 md:gap-y-9 mt-10 "
+            md:grid md:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 "
             >
               {students.isLoading
                 ? skeletion.map((number) => {
@@ -393,14 +400,18 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     );
                   })
                 : studentsRearrange?.map((student) => {
+                    const shortName = student.firstName.replace(
+                      /^นาย|^นางสาว|^นาง|^เด็กชาย|^เด็กหญิง|/,
+                      ""
+                    );
                     return (
                       <Popover key={student.id}>
                         {({ open }) => (
-                          <div className="relative group md:block flex items-start justify-center">
+                          <div className="relative  md:block flex items-start justify-center">
                             <Popover.Button className="bg-transparent  border-none active:border-none appearance-none focus:outline-none">
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
-                       duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
+                       duration-200 rounded-2xl bg-white border-2 border-solid relative hover:bg-orange-100 transition drop-shadow-md"
                                 key={student.id}
                               >
                                 <div
@@ -424,23 +435,23 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                                   </div>
                                 )}
 
-                                <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white">
+                                <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 ">
                                   <Image
                                     src={student.picture}
                                     layout="fill"
                                     alt="student's avatar"
-                                    className="object-cover scale-125 group-hover:scale-150 transition duration-150 ease-out translate-y-5"
+                                    className="object-cover scale-125 hover:scale-150 transition duration-150 translate-y-5"
                                     onLoad={() =>
                                       handleLoadingComplete(student.id)
                                     }
                                   />
                                 </div>
 
-                                <div className="font-Kanit text-xl flex items-center justify-start gap-2">
+                                <div className="font-Kanit text-xl flex items-center w-max  justify-start gap-2">
                                   <div className=" font-semibold text-gray-700 w-5 h-5 flex items-center justify-center  rounded-md">
                                     {student.number}
                                   </div>
-                                  {student.firstName}
+                                  <span className="text-md">{shortName}</span>
                                 </div>
                               </div>
                             </Popover.Button>

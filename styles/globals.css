@@ -193,3 +193,7 @@ input[type="text"]:not(:placeholder-shown) ~ .input-text {
     margin: 0;
   }
 }
+
+.fade-mask {
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1), transparent 90%);
+}
