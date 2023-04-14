@@ -53,7 +53,9 @@ function Index() {
         <meta charSet="UTF-8" />
         <meta
           name="description"
-          content="ห้องเรียนจาก Tatuga camp ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class"
+          content="ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class 
+          TaTuga Class Classroom Management for Everyone
+          จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>TaTuga class</title>
@@ -154,6 +156,7 @@ function Index() {
                   <div className="w-3/4  h-2/4 relative mt-2 ">
                     <Image
                       alt="tatuga avatar"
+                      priority
                       src={list.picture}
                       layout="fill"
                       className="object-contain object-left  transition duration-150 "

@@ -8,6 +8,9 @@ function generateSiteMap(posts) {
        <loc>https://tatugacamp.com</loc>
      </url>
      <url>
+     <loc>https://tatugacamp.com/classroom</loc>
+    </url>
+     <url>
        <loc>https://tatugacamp.com/about-us</loc>
      </url>
      ${posts
