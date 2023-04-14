@@ -323,7 +323,10 @@ function ShowAssignment({
                       {studentOnAssignments?.data?.data?.map(
                         (student, index) => {
                           return (
-                            <li className="grid grid-cols-4 gap-2 py-2  ">
+                            <li
+                              key={index}
+                              className="grid grid-cols-4 gap-2 py-2  "
+                            >
                               <div className="flex justify-center">
                                 {student.number}
                               </div>
@@ -419,9 +422,10 @@ function ShowAssignment({
                         } gap-3 w-[40rem] mx-auto h-48 items-center place-items-center
                          max-h-60 overflow-auto  `}
                       >
-                        {images.map((image) => {
+                        {images.map((image, index) => {
                           return (
                             <Image
+                              key={index}
                               src={image?.src}
                               alt={image?.alt}
                               width={240}
@@ -448,8 +452,8 @@ function ShowAssignment({
                   </div>
                   {currentStudentWork?.studentWork?.body && (
                     <div className="w-full  h-max mt-5 flex items-start  relative ">
-                      <div class="w-6 left-[5.2rem] top-1 overflow-hidden  inline-block absolute ">
-                        <div class=" h-10  bg-blue-100 -rotate-45 transform origin-top-right"></div>
+                      <div className="w-6 left-[5.2rem] top-1 overflow-hidden  inline-block absolute ">
+                        <div className=" h-10  bg-blue-100 -rotate-45 transform origin-top-right"></div>
                       </div>
                       <div className="flex justify-center items-center ml-5">
                         <div className="w-16 h-16 relative rounded-full overflow-hidden bg-blue-100 ">

@@ -394,6 +394,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                     {avartars.map((avartar, index) => {
                       return (
                         <button
+                          key={index}
                           type="button"
                           onClick={() => handleChooseAvatar({ avartar, index })}
                           className={`bg-white drop-shadow-md  hover:scale-110 ${
