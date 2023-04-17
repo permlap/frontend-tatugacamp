@@ -24,7 +24,6 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   const [clickScoreTitle, setClickScoreTitle] = useState();
   const [runScoreTitle, setRunScoreTitle] = useState(false);
   const [runAnimation, setRunAnimation] = useState(false);
-  const [chooseAvatar, setShooseAvatar] = useState();
   const [pointsValue, setpointsValue] = useState(1);
   const [data, setData] = useState(animationData);
   const [error, setError] = useState();
@@ -43,6 +42,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
       firstName: student.firstName,
       lastName: student.lastName,
       number: student.number,
+      picture: student?.picture,
     }));
     setSoundNagative(new Audio(fileSoundNagative));
     setSoundPositive(new Audio(fileSoundPositive));
@@ -57,9 +57,10 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   };
 
   const handleChooseAvatar = ({ avartar, index }) => {
-    setShooseAvatar(() => {
+    setStdentData((prev) => {
       return {
-        avartar: avartar,
+        ...prev,
+        picture: avartar,
         index: index,
       };
     });
@@ -100,7 +101,6 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
       students.refetch();
     }
   };
-
   //handle sumit to update student data
   const handleSummitEditStudentData = async (e) => {
     e.preventDefault();
@@ -110,7 +110,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
         lastName: studentData.lastName,
         number: studentData.number,
         studentId: student.id,
-        chooseAvatar: chooseAvatar.avartar,
+        chooseAvatar: studentData.picture,
       });
       students.refetch();
       setTriggerSetting((prev) => (prev = false));
@@ -214,7 +214,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
       key={student.id}
     >
       <div
-        className="flex md:flex-row flex-col w-[95%] md:w-3/4 lg:w-2/4 h-max font-Kanit bg-white border-2 border-solid
+        className="flex md:flex-row flex-col w-[95%] md:w-[42rem] lg:w-[45rem] h-max font-Kanit bg-white border-2 border-solid
     rounded-lg drop-shadow-xl md:p-5 md:px-0 relative items-center justify-center"
       >
         <div
@@ -263,9 +263,9 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
 
         {/* avatar here  */}
         <div className=" md:w-[40rem] w-full flex flex-col justify-center items-center ">
-          <div className="w-full h-max flex items-center justify-center gap-6  ">
+          <div className="w-full h-max flex items-center justify-center   ">
             {triggerSetting === false ? (
-              <div className="w-40  h-full  flex items-center justify-center px-5 flex-col relative">
+              <div className="w-full  h-full  flex items-center justify-center px-5 flex-col relative">
                 <div className="relative w-40 h-40 bg-transparent rounded-full overflow-hidden">
                   <Image
                     src={student.picture}
@@ -397,7 +397,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                           type="button"
                           onClick={() => handleChooseAvatar({ avartar, index })}
                           className={`bg-white drop-shadow-md  hover:scale-110 ${
-                            chooseAvatar?.index === index
+                            studentData?.index === index
                               ? "border-black border-2"
                               : "border-black border-none"
                           }
@@ -419,7 +419,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
         </div>
         {/* score part */}
         {triggerSetting === false && (
-          <div className=" flex-col  w-full md:w-full  ">
+          <div className=" flex-col  w-full md:w-max px-5   ">
             <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
               คะแนนความประพฤติ
             </div>
@@ -536,7 +536,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
 
       <div
         onClick={() => close()}
-        className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-black/20 "
+        className="w-full h-full fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-black/20 "
       ></div>
     </div>
   );

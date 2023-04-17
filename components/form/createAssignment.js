@@ -137,7 +137,7 @@ export default function CreateAssignment({
     <div>
       <form
         onSubmit={handleSubmit}
-        className="flex w-5/6  h-5/6 font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-10 z-40 
+        className="flex w-5/6  h-5/6  font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-40 
     top-0 right-0 left-0 bottom-0 m-auto fixed items-center justify-center"
       >
         {isAssignStudent === false ? (

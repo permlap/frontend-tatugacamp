@@ -174,7 +174,7 @@ function Index() {
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
       <div className="flex  pb-96 items-center justify-center ">
-        <div className="w-full flex flex-col items-center justify-center  gap-10 h-full pb-40">
+        <div className="w-full flex flex-col items-center justify-center  bg gap-10 h-full pb-40">
           {/* header section */}
           <header
             className="w-[90%] max-w-6xl rounded-3xl mt-32 flex  flex-col-reverse md:flex-row md:gap-x-4 z-10
@@ -374,8 +374,8 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             {/* 
             students' avatar are here */}
             <div
-              className="w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
-            md:grid md:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 "
+              className="lg:w-full md:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
+            md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 "
             >
               {students.isLoading
                 ? skeletion.map((number) => {

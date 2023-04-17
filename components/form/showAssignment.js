@@ -178,12 +178,12 @@ function ShowAssignment({
         />
       ) : (
         <div
-          className="flex items-center justify-start w-max max-w-7xl gap-1 flex-col h-5/6 py-10
+          className="flex items-center justify-start w-max max-w-7xl gap-1 flex-col h-max
            font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl  z-40 
   top-0 right-0 left-0 bottom-0 m-auto fixed"
         >
           {/* menu bars */}
-          <div className=" w-full relative -top-5 rounded-xl flex items-center justify-center gap-9">
+          <div className=" w-full relative mt-5 rounded-xl flex items-center justify-center gap-9">
             {menus.map((menu, index) => {
               return (
                 <div
@@ -261,7 +261,7 @@ function ShowAssignment({
 
             {/* student's assignment */}
             {activeMenu === 1 && (
-              <div className="flex items-start justify-start w-[80rem] ">
+              <div className="flex items-start justify-start w-[80rem]  ">
                 <div className="w-[60rem] flex flex-col h-[30rem] items-center justify-start ">
                   <span className="text-xl font-Kanit font-semibold">
                     สถานะการส่งงานของผู้เรียน
@@ -279,7 +279,7 @@ function ShowAssignment({
                         สถานะ
                       </div>
                     </li>
-                    <div className="h-[28rem] w-full overflow-auto">
+                    <div className="h-[23rem] w-full overflow-auto">
                       {studentOnAssignments.isLoading && (
                         <div className="flex flex-col items-center justify-start mt-5 gap-5">
                           <Skeleton
@@ -476,7 +476,7 @@ function ShowAssignment({
                   )}
                   <form
                     onSubmit={handleReviewWork}
-                    className="w-full flex justify-center gap-5 mt-10"
+                    className="w-full flex justify-center gap-5 mt-10 mb-5"
                   >
                     <Box width="50%">
                       <TextField
