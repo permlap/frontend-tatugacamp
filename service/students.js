@@ -72,16 +72,15 @@ export async function UpdateStudent({
   chooseAvatar,
 }) {
   try {
-    console.log(firstName, lastName, number, studentId);
     const access_token = localStorage.getItem("access_token");
     const converNumber = Number(number);
     const StringNumber = converNumber.toString();
     const updateStudent = await axios.put(
       `${process.env.Server_Url}/user/student/update`,
       {
-        firstName: firstName,
-        lastName: lastName,
-        number: number,
+        firstName,
+        lastName,
+        number,
         picture: chooseAvatar,
       },
       {

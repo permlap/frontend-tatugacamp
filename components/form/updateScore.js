@@ -64,7 +64,6 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
       };
     });
   };
-  console.log(chooseAvatar);
 
   //handle hiden score
   const onClickToHide = async ({ scoreId }) => {
