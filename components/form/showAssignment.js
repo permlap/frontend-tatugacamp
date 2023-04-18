@@ -126,6 +126,7 @@ function ShowAssignment({
   const handleReviewWork = async (e) => {
     try {
       e.preventDefault();
+
       if (currentStudentWork.status === "have-work") {
         const reviewWork = await ReviewStudentWork({
           studentId: currentStudentWork.id,
@@ -133,6 +134,7 @@ function ShowAssignment({
           comment: teacherReview.comment,
           score: teacherReview.score,
         });
+
         studentOnAssignments.refetch();
         Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
       } else if (currentStudentWork.status === "no-work") {
@@ -143,6 +145,8 @@ function ShowAssignment({
           score: teacherReview.score,
         });
         studentOnAssignments.refetch();
+        setCurrentStudentWork(reviewWork.data);
+
         Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
       }
     } catch (err) {
@@ -352,7 +356,8 @@ function ShowAssignment({
                                 </div>
                               )}
                               {student.status === "have-work" &&
-                                student.studentWork.score === 0 && (
+                                student.studentWork.score === 0 &&
+                                student.studentWork.isSummited === false && (
                                   <div
                                     onClick={() => handleSelectWork(student)}
                                     className=" w-max cursor-pointer hover:scale-105 transition duration-150

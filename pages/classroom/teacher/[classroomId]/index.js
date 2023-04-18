@@ -401,7 +401,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                   })
                 : studentsRearrange?.map((student) => {
                     const shortName = student.firstName.replace(
-                      /^นาย|^นางสาว|^นาง|^เด็กชาย|^เด็กหญิง|/,
+                      /^นาย|^นางสาว|^นาง|^เด็กชาย|^เด็กหญิง|^ด.ช.|^ด.ญ./,
                       ""
                     );
                     return (
