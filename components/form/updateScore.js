@@ -27,6 +27,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   const [pointsValue, setpointsValue] = useState(1);
   const [data, setData] = useState(animationData);
   const [error, setError] = useState();
+  const [loadingPoint, setLoadingPoint] = useState(false);
   const [isDeleteStudent, setIsDeleteStudent] = useState(false);
   const [triggerSetting, setTriggerSetting] = useState(false);
   const [triggerCreateNewScore, setTriggerCreateNewScore] = useState(false);
@@ -125,6 +126,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   // update student points
   const onClick = async (data) => {
     try {
+      setLoadingPoint(true);
       let checkNagativePoint = false;
       setClickScoreTitle(() => {
         let points = 1;
@@ -198,6 +200,7 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
       setTimeout(() => {
         setRunAnimation(false);
         setRunScoreTitle(false);
+        setLoadingPoint(false);
       }, 1500);
 
       students.refetch();
@@ -438,7 +441,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                         key={score.id}
                         className="w-full h-full flex items-center justify-center flex-col gap-2"
                       >
-                        {runAnimation ? (
+                        {loadingPoint ? (
                           <button
                             aria-label={`buuton ${score.title} `}
                             role="button"

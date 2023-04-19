@@ -220,7 +220,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                       <div
                         aria-label="ขยายเพื่อดูรหัสห้องเรียน"
                         className={`
-                      w-max p-3 bg-[#EDBA02] rounded-xl cursor-pointer 
+                      w-max p-3 bg-[#F55E00] rounded-xl cursor-pointer 
              hover:scale-110 transition duration-200 ease-in-out`}
                       >
                         <span className="font-sans font-bold text-2xl text-white">

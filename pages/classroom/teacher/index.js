@@ -15,6 +15,7 @@ import Layout from "../../../layouts/classroomLayout";
 import * as teacherAnimation from "../../../components/98349-teacher-in-classroom.json";
 import { GetUser } from "../../../service/user";
 import Unauthorized from "../../../components/error/unauthorized";
+import { Skeleton } from "@mui/material";
 
 function Index() {
   const router = useRouter();
@@ -222,6 +223,14 @@ function Index() {
             lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-5 gap-5 mt-14 
             ${classroomState?.[0] ? "flex" : "hidden"} `}
             >
+              {classrooms.isLoading && (
+                <div className=" gap-10 grid grid-cols-4 ">
+                  <Skeleton variant="rectangular" width={320} height={210} />
+                  <Skeleton variant="rectangular" width={320} height={210} />
+                  <Skeleton variant="rectangular" width={320} height={210} />
+                  <Skeleton variant="rectangular" width={320} height={210} />
+                </div>
+              )}
               {classroomState?.map((classroom, index) => {
                 return (
                   <div
