@@ -11,9 +11,11 @@ import { useEffect } from "react";
 import useScrollDirection from "../hooks/useScrollDirection";
 import { currentBrowser } from "../utils/platforms";
 import AuthButton from "./auth/button";
+import { useRouter } from "next/router";
 
 function Navbar() {
   const [brower, setBrower] = useState();
+  const router = useRouter();
   const scrollDirection = useScrollDirection();
   const [trigger, setTrigger] = useState(false);
   const onClick = () => {
@@ -59,6 +61,11 @@ function Navbar() {
               maxLength="6"
             />
             <button
+              onClick={() =>
+                router.push({
+                  pathname: "/classroom/student",
+                })
+              }
               className="w-40  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 

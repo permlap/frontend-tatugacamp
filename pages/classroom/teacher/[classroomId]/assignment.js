@@ -191,7 +191,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                           onClick={() => close()}
                         >
                           <div
-                            className="w-5/6 md:w-max p-3 h-max fixed right-0 text-center left-0 top-0 bottom-0 m-auto bg-[#EDBA02] rounded-xl cursor-pointer
+                            className="w-5/6 md:w-max p-3 h-max fixed right-0 text-center left-0 top-0 bottom-0 m-auto bg-[#F55E00] rounded-xl cursor-pointer
             hover:scale-110 transition duration-200 ease-in-out"
                           >
                             <span className="font-sans font-bold  text-3xl md:text-9xl xl:text-[15rem] text-white md:px-40">

@@ -77,6 +77,11 @@ function Index() {
                 maxLength="6"
               />
               <button
+                onClick={() =>
+                  router.push({
+                    pathname: "/classroom/student",
+                  })
+                }
                 className="w-40  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 
