@@ -11,7 +11,7 @@ export async function CreateAssignmentApi({
   try {
     const maxScoreNum = Number(maxScore);
     const dateFormat = new Date(deadline);
-    console.log(dateFormat);
+
     const access_token = localStorage.getItem("access_token");
     const assignment = await axios.post(
       `${process.env.Server_Url}/user/assignment/create`,
@@ -138,7 +138,6 @@ export async function AssignWorkToSTudent({ isChecked, assignmentCreated }) {
         stduentOnAssignment.push({ ...student, status: { error: err } });
       }
     } else if (student[student.id] === false) {
-      console.log(student);
       stduentOnAssignment.push(student);
     }
   }

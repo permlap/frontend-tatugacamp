@@ -20,8 +20,9 @@ export async function GetUser() {
   }
 }
 
-export async function UploadProfilePicture(formData) {
+export async function UploadProfilePicture({ formData }) {
   try {
+    console.log(formData);
     const access_token = localStorage.getItem("access_token");
     const profile = await axios.post(
       `${process.env.Server_Url}/users/upload`,
@@ -44,7 +45,7 @@ export async function UploadProfilePicture(formData) {
 export async function UpdateUserData(updateddata) {
   try {
     const access_token = localStorage.getItem("access_token");
-    console.log(updateddata);
+
     const updateData = await axios.put(
       `${process.env.Server_Url}/users/update-user`,
       {

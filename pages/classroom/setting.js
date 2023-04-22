@@ -71,7 +71,6 @@ function Setting() {
       phone: user?.data?.data?.phone,
     }));
   }, []);
-
   //handle summit file
   const handleSubmit = async (e) => {
     try {
@@ -83,10 +82,11 @@ function Setting() {
           "error"
         );
       }
+
       const formData = new FormData();
       formData.append("file", file);
       setLoading((prev) => (prev = true));
-      const updateProfile = await UploadProfilePicture(formData);
+      const updateProfile = await UploadProfilePicture({ formData });
 
       if (updateProfile?.status === 200) {
         setLoading((prev) => (prev = false));

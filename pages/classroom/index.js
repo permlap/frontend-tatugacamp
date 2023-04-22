@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/layout";
 import Image from "next/image";
 import Lottie from "lottie-react";
@@ -8,6 +8,7 @@ import Head from "next/head";
 
 function Index() {
   const router = useRouter();
+  const [classroomCode, setClassroomCode] = useState();
   const style = {
     height: 600,
   };
@@ -33,6 +34,8 @@ function Index() {
         "With our platform, you can easily export your data to Excel",
     },
   ];
+  console.log(classroomCode);
+
   return (
     <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom  bg-cover pb-20">
       <Head>
@@ -63,16 +66,18 @@ function Index() {
       <Layout>
         <header className="w-full max-w-9xl   h-max  flex justify-between items-center gap-12 font-sans">
           <div className="lg:w-max lg:max-w-4xl bg-transparent lg:ml-5 xl:pl-10 p-10 gap-2 flex flex-col items-start justify-center ">
-            <div className="lg:w-[25rem] md:flex hidden   gap-2 items-center justify-center  ">
-              <div className="text-xl w-full font-Kanit font-bold text-blue-900">
-                สำหรับนักเรียน
+            <div className="md:w-3/4 md:flex hidden   gap-2 items-center justify-center  ">
+              <div className="text-xl w-96 font-Kanit font-bold text-blue-900">
+                <span className="w-max">สำหรับนักเรียน</span>
               </div>
               <input
+                value={classroomCode}
+                onChange={(e) => setClassroomCode(e.target.value)}
                 className="bg-blue-200  appearance-none border-none border-gray-200 rounded w-full py-2 px-4  
               leading-tight focus:outline-none focus:bg-blue-400 focus:border-2 focus:right-4 placeholder:text-md placeholder:font-Kanit
               placeholder:text-black placeholder:font-medium focus:placeholder:text-white text-black focus:text-white font-sans font-semibold "
                 type="number"
-                name="description"
+                name="classroomCode"
                 placeholder="รหัสห้องเรียน"
                 maxLength="6"
               />
@@ -80,9 +85,12 @@ function Index() {
                 onClick={() =>
                   router.push({
                     pathname: "/classroom/student",
+                    query: {
+                      classroomCode: classroomCode,
+                    },
                   })
                 }
-                className="w-40  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
+                className="w-full  h-9   rounded-full bg-[#EDBA02] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"

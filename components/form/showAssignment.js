@@ -97,15 +97,18 @@ function ShowAssignment({
   //handle select student's work
   const handleSelectWork = (student) => {
     if (student.studentWork) {
-      setImages((prev) => {
-        return [
-          {
-            src: !student?.studentWork?.picture
-              ? ""
-              : student?.studentWork?.picture,
-            alt: "student's work",
-          },
-        ];
+      setImages(() => {
+        let pictures = [];
+        if (!student?.studentWork?.picture) {
+          pictures.push({ src: "", alt: "student's work" });
+        } else if (student.studentWork.picture) {
+          const arrayPictures = student.studentWork.picture.split(", ");
+          for (const arrayPicture of arrayPictures) {
+            pictures.push({ src: arrayPicture, alt: "student's work" });
+          }
+          console.log(pictures);
+          return pictures;
+        }
       });
     } else if (!student.studentWork) {
       setImages(null);
@@ -233,7 +236,7 @@ function ShowAssignment({
                       }}
                     />
                   </div>
-                  <div className="flex gap-2 items-end mt-5 justify-between">
+                  <div className="flex pb-5 gap-2 items-end mt-5 justify-between">
                     <div>
                       <span>กำหนดส่ง</span>
                       <span className="text-xl ml-2 font-semibold text-red-500">
@@ -389,7 +392,7 @@ function ShowAssignment({
                 </div>
 
                 {/* review student work section */}
-                <div className="flex flex-col w-full items-center justify-between h-[31rem]">
+                <div className="flex flex-col w-full items-center justify-between h-max">
                   <div className="flex w-full justify-between ">
                     <div className="flex items-center justify-center relative">
                       <span className="text-3xl font-Kanit">
@@ -424,7 +427,7 @@ function ShowAssignment({
                         theme="day"
                         className={`container grid ${
                           images.length === 1 ? "grid-cols-1" : "grid-cols-2"
-                        } gap-3 w-[40rem] mx-auto h-48 items-center place-items-center
+                        } w-[40rem] mx-auto h-full items-center place-items-center
                          max-h-60 overflow-auto  `}
                       >
                         {images.map((image, index) => {
@@ -444,7 +447,7 @@ function ShowAssignment({
                       </SlideshowLightbox>
                     ) : (
                       <div
-                        className="w-full h-80 flex items-center justify-center font-Kanit
+                        className="w-full h-40 flex items-center justify-center font-Kanit
                       font-bold text-5xl text-gray-300"
                       >
                         {currentStudentWork?.status === "no-work" &&

@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Lottie from "lottie-react";
 import { useRouter } from "next/router";
 import * as animationData from "../components/LoadingScreen.json";
-function Layout({ children }) {
+function Layout({ children, unLoading }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -21,11 +21,11 @@ function Layout({ children }) {
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
     };
-  });
+  }, []);
   return (
     <>
       <main>
-        {loading && (
+        {loading && !unLoading && (
           <div className="fixed z-50 flex items-center justify-center w-screen h-full top-[0%] left-[0%] mt-[0px] bg-white">
             <Lottie
               animationData={animationData}

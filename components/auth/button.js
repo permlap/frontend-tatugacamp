@@ -84,7 +84,7 @@ function AuthButton() {
           </div>
         )}
         <span className=" text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
-          <span className="first-letter:uppercase font-semibold text-orange-400 ">
+          <span className="first-letter:uppercase  text-orange-400 font-Kanit font-medium text-md ">
             {data?.data?.firstName} {data?.data?.lastName}
           </span>
         </span>

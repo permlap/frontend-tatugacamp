@@ -17,6 +17,7 @@ function Navbar() {
   const [brower, setBrower] = useState();
   const router = useRouter();
   const scrollDirection = useScrollDirection();
+  const [classroomCode, setClassroomCode] = useState("");
   const [trigger, setTrigger] = useState(false);
   const onClick = () => {
     setTrigger((preTrigger) => !preTrigger);
@@ -26,7 +27,8 @@ function Navbar() {
   isBrowser();
   useEffect(() => {
     setBrower(currentBrowser(window));
-  }, []);
+    setClassroomCode(router.query.classroomCode);
+  }, [router.isReady]);
   return (
     <nav
       className={`w-full bg-transparent fixed md:sticky  h-max top-0 z-50 font-Inter transition duration-200 ease-in-out ${
@@ -52,21 +54,31 @@ function Navbar() {
           </Button>
           <div className="lg:w-[25rem] md:hiden flex   gap-2 items-center justify-center  ">
             <input
+              value={classroomCode || ""}
+              onChange={(e) => setClassroomCode(e.target.value)}
               className="bg-blue-200  appearance-none border-none border-gray-200 rounded w-full py-2 px-4  
               leading-tight focus:outline-none focus:bg-blue-400 focus:border-2 focus:right-4 placeholder:text-md placeholder:font-Kanit
               placeholder:text-black placeholder:font-medium focus:placeholder:text-white text-black focus:text-white font-sans font-semibold "
               type="number"
-              name="description"
+              name="classroomCode"
               placeholder="รหัสห้องเรียน"
               maxLength="6"
             />
             <button
-              onClick={() =>
-                router.push({
-                  pathname: "/classroom/student",
-                })
-              }
-              className="w-40  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
+              type="button"
+              onClick={() => {
+                if (!classroomCode) {
+                  return null;
+                } else if (classroomCode) {
+                  router.push({
+                    pathname: "/classroom/student",
+                    query: {
+                      classroomCode: classroomCode,
+                    },
+                  });
+                }
+              }}
+              className="w-40 mr-2  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"

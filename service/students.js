@@ -93,7 +93,7 @@ export async function UpdateStudent({
         },
       }
     );
-    console.log(updateStudent);
+
     return updateStudent;
   } catch (err) {
     console.log(err);
@@ -104,7 +104,7 @@ export async function UpdateStudent({
 export async function DelteStudent({ studentId }) {
   try {
     const access_token = localStorage.getItem("access_token");
-    console.log("studentId", studentId);
+
     const deleteStudent = await axios.delete(
       `${process.env.Server_Url}/user/student/delete`,
       {
