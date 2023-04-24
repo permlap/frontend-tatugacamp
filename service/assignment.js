@@ -290,3 +290,26 @@ export async function ReviewStudentWorkNoWork({
     throw new Error(err);
   }
 }
+
+export async function DeleteStudentWork({ assignmentId, studentId }) {
+  try {
+    const access_token = localStorage.getItem("access_token");
+    const deleteStudent = await axios.delete(
+      `${process.env.Server_Url}/user/assignment/student-work/delete`,
+      {
+        params: {
+          assignmentId: assignmentId,
+          studentId: studentId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return deleteStudent;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}

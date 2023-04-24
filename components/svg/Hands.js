@@ -2,10 +2,11 @@ import React from "react";
 
 function Hands(props) {
   return (
-    <div xyz="fade-0 rotate-right-100% duration-25 iterate-infinite ease-in-out">
+    <div xyz="fade-0  rotate-right-100% duration-25 iterate-infinite ease-in-out">
       <svg
         className={`square xyz-in w-full h-full right-0`}
         viewBox="0 0 605 621"
+        width="100%"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >

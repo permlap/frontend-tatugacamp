@@ -22,6 +22,27 @@ export async function GetAllAssignment({ studentId, classroomId }) {
   }
 }
 
+export async function GetMyWork({ studentId, assignmentId }) {
+  try {
+    const myWork = await axios.get(
+      `${process.env.Server_Url}/student/student-assignment/view-my-work`,
+      {
+        params: {
+          studentId: studentId,
+          assignmentId: assignmentId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return myWork;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
+
 export async function SummitWork({ formFiles, body, assignmentId, studentId }) {
   try {
     console.log("server", formFiles);

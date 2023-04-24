@@ -62,13 +62,16 @@ function Index() {
           </div>
           <span className="font-Poppins font-semibold text-white">go back</span>
         </div>
-        <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
-          <Image
-            src={student?.picture}
-            layout="fill"
-            className="object-contain scale-125 translate-y-4"
-          />
-        </div>
+        {student?.picture && (
+          <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
+            <Image
+              priority={true}
+              src={student?.picture}
+              layout="fill"
+              className="object-contain scale-125 translate-y-4"
+            />
+          </div>
+        )}
         <div className="text-white font-Kanit font-normal flex gap-2">
           <span>{student?.firstName}</span>
           <span>{student?.lastName}</span>

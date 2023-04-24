@@ -177,7 +177,9 @@ export default function Home(props) {
                   learn through play with us
                 </span>
               </div>
-              <Hands />
+              <div className="w-40 md:w-80">
+                <Hands />
+              </div>
             </div>
           </div>
         </header>

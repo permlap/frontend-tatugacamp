@@ -16,6 +16,7 @@ function Index() {
   const [selected, setSelected] = useState(people?.[0]);
   const [query, setQuery] = useState("");
   const rounter = useRouter();
+  const [loading, setLoading] = useState(false);
   const classroom = useQuery(
     ["classroom-student"],
     () => JoinClassroom({ classroomCode: rounter.query.classroomCode }),
@@ -45,28 +46,30 @@ function Index() {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+
   return (
-    <div className="bg-[#2C7CD1] h-full">
+    <div className="bg-[#2C7CD1] h-screen">
       <Layout unLoading={true}>
         <div
           className="h-[40rem] w-full  bg-no-repeat bg-fixed bg-cover
      flex flex-col justify-start pt-28 items-center font-Kanit"
         >
           <main className="w-full flex items-center justify-center">
-            {classroom.isLoading && (
-              <div className="flex items-center justify-center flex-col w-full">
-                <Skeleton variant="circular" width={120} height={120} />
-                <Skeleton
-                  variant="text"
-                  width={200}
-                  sx={{ fontSize: "1rem" }}
-                />
-                <div className="mt-10 flex flex-col gap-4 justify-center items-center">
-                  <Skeleton variant="rounded" width={300} height={60} />
-                  <Skeleton variant="rounded" width={210} height={60} />
+            {classroom.isLoading ||
+              (loading === true && (
+                <div className="flex items-center justify-center flex-col w-full">
+                  <Skeleton variant="circular" width={120} height={120} />
+                  <Skeleton
+                    variant="text"
+                    width={200}
+                    sx={{ fontSize: "1rem" }}
+                  />
+                  <div className="mt-10 flex flex-col gap-4 justify-center items-center">
+                    <Skeleton variant="rounded" width={300} height={60} />
+                    <Skeleton variant="rounded" width={210} height={60} />
+                  </div>
                 </div>
-              </div>
-            )}
+              ))}
             {classroom.isError && (
               <div className="flex flex-col">
                 <div className=" flex items-center justify-center gap-2">
@@ -82,14 +85,15 @@ function Index() {
               </div>
             )}
 
-            {classroom.data && !classroom.isError && (
-              <form className="flex flex-col gap-2   w-5/6">
+            {classroom.data && !classroom.isError && loading === false && (
+              <div className="flex flex-col gap-2   w-5/6">
                 <div className="w-full flex flex-col ">
                   <div className="w-full flex gap-2 flex-col items-center justify-center mb-5">
-                    <div className="w-20 h-20 relative rounded-full overflow-hidden ring-4 ring-white">
+                    <div className="w-20 h-20 relative rounded-full overflow-hidden ring-4 ring-white bg-white">
                       <Image
                         src={classroom?.data?.data?.teacher?.picture}
                         layout="fill"
+                        className="object-contain"
                       />
                     </div>
                     <span className="flex gap-1 font-Kanit font-normal text-white">
@@ -124,7 +128,10 @@ function Index() {
                           }
                           onChange={(event) => setQuery(event.target.value)}
                         />
-                        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2 bg-transparent border-none">
+                        <Combobox.Button
+                          role="button"
+                          className="absolute inset-y-0 right-0 flex items-center pr-2 bg-transparent border-none"
+                        >
                           <HiChevronUpDown
                             className="h-5 w-5 text-gray-400"
                             aria-hidden="true"
@@ -193,6 +200,7 @@ function Index() {
                   {selected ? (
                     <button
                       onClick={() => {
+                        setLoading(true);
                         const serializedClassroomCode = JSON.stringify(
                           rounter.query.classroomCode
                         );
@@ -221,7 +229,7 @@ function Index() {
                     </div>
                   )}
                 </div>
-              </form>
+              </div>
             )}
           </main>
         </div>

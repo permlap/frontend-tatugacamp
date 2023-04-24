@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import {
   DeleteAssignment,
+  DeleteStudentWork,
   ReviewStudentWork,
   ReviewStudentWorkNoWork,
   ViewAllAssignOnStudent,
@@ -66,6 +67,26 @@ function ShowAssignment({
   const handleClickUpdateAssignment = () => {
     setTriggerUpdateAssignment(true);
   };
+  const handleDelteStudentWork = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const deleteStudentWork = await DeleteStudentWork({
+          assignmentId: passAssianment.id,
+          studentId: currentStudentWork.id,
+        });
+        studentOnAssignments.refetch();
+        Swal.fire("Deleted!", deleteStudentWork?.data, "success");
+      }
+    });
+  };
 
   //handle click to delete assignment
   const handleDeleteAssignment = () => {
@@ -106,7 +127,6 @@ function ShowAssignment({
           for (const arrayPicture of arrayPictures) {
             pictures.push({ src: arrayPicture, alt: "student's work" });
           }
-          console.log(pictures);
           return pictures;
         }
       });
@@ -395,9 +415,18 @@ function ShowAssignment({
                 <div className="flex flex-col w-full items-center justify-between h-max">
                   <div className="flex w-full justify-between ">
                     <div className="flex items-center justify-center relative">
-                      <span className="text-3xl font-Kanit">
-                        งานของผู้เรียน
-                      </span>
+                      <div className="text-3xl font-Kanit flex">
+                        <span>งานของผู้เรียน</span>
+                        {currentStudentWork?.status === "have-work" && (
+                          <div
+                            onClick={handleDelteStudentWork}
+                            className="flex items-center justify-center text-red-500 cursor-pointer
+                        hover:text-red-800 transition duration-150"
+                          >
+                            <MdDelete />
+                          </div>
+                        )}
+                      </div>
                       <div className="w-96 h-[2px] bg-blue-700 absolute left-0 bottom-2"></div>
                     </div>
                     <div className="flex justify-center items-center gap-4">
@@ -447,7 +476,7 @@ function ShowAssignment({
                       </SlideshowLightbox>
                     ) : (
                       <div
-                        className="w-full h-40 flex items-center justify-center font-Kanit
+                        className="w-full h-72 flex items-center justify-center font-Kanit
                       font-bold text-5xl text-gray-300"
                       >
                         {currentStudentWork?.status === "no-work" &&
@@ -476,9 +505,13 @@ function ShowAssignment({
                         <div className="text-md ml-4 font-bold">
                           {currentStudentWork?.firstName}
                         </div>
-                        <span className="pl-4">
-                          {currentStudentWork?.studentWork?.body}
-                        </span>
+
+                        <div
+                          className="pl-4"
+                          dangerouslySetInnerHTML={{
+                            __html: currentStudentWork?.studentWork?.body,
+                          }}
+                        />
                       </div>
                     </div>
                   )}
