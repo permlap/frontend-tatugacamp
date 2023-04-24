@@ -99,7 +99,7 @@ function Index() {
             ไม่พบผู้เรียนโปรดกลับสู่หน้าหลัก
           </div>
         )}
-        <div className="grid grid-cols-1 gap-4 place-items-center w-full	">
+        <div className="grid grid-cols-1 gap-4 place-items-center w-full pb-40	">
           {assignments?.data?.data?.map((assignment) => {
             return (
               <div
