@@ -169,12 +169,8 @@ export default function Home(props) {
                   </span>
                 </div>
 
-                <span className="LessSugar text-[0.9rem] md:text-lg">
-                  Enjoy fun Brush up Playground
-                </span>
-
-                <span className="LessSugar text-[0.9rem]  md:text-lg text-[#2C7CD1]">
-                  learn through play with us
+                <span className="LessSugar text-[0.9rem] md:text-lg ">
+                  Where learning becomes an adventure
                 </span>
               </div>
               <div className="w-40 md:w-80">
@@ -183,7 +179,7 @@ export default function Home(props) {
             </div>
           </div>
         </header>
-        <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat  bg-cover  ">
+        <div className="  ">
           <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-no-repeat bg-cover ">
             <div className="w-max h-max font-Kanit  z-30 font-medium text-[1.5rem] md:text-[1.7rem]  px-5 py-3 text-white rounded-xl bg-[#2C7CD1]">
               <span>แหล่งรวบรวมความรู้ สำหรับครู👩🏼‍🏫</span>

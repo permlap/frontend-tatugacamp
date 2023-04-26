@@ -173,7 +173,7 @@ function Index() {
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
-      <div className="flex  pb-96 items-center justify-center ">
+      <div className="flex  items-center justify-center bg-blue-50">
         <div className="w-full flex flex-col items-center justify-center  bg gap-10 h-full pb-40">
           {/* header section */}
           <header
@@ -292,7 +292,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             <div className="flex flex-col gap-3 md:pl-5 lg:pl-0  items-center justify-center md:items-start">
               <div className="font-sans font-normal tracking-wide flex items-center gap-5 pl-5 md:pl-0 text-gray-400">
                 <span>Overview</span>
-                <Popover className="relative s">
+                <Popover className="relative ">
                   {({ open }) => (
                     <>
                       <Popover.Button
@@ -375,8 +375,48 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             students' avatar are here */}
             <div
               className="lg:w-full md:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
-            md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 "
+            md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 place-items-center	"
             >
+              <Popover>
+                {({ open }) => (
+                  <>
+                    <Popover.Button>
+                      <div className="w-40 h-36 flex flex-col items-center justify-center rounded-xl group relative cursor-pointer ">
+                        <div
+                          className="w-28 h-28 flex items-center justify-center blur-none group-hover:blur-sm  bg-[#EDBA02] border-4 border-solid border-white rounded-full drop-shadow-xl
+                  group-hover:scale-110 transition duration-150 group-hover:border-2 overflow-hidden 
+                "
+                        >
+                          <div className="relative w-24 h-24 scale-150 -">
+                            <Image
+                              src="https://storage.googleapis.com/tatugacamp.com/Avatar%20students/scoreAll-1.png"
+                              layout="fill"
+                              className="object-contain -translate-y-1"
+                            />
+                          </div>
+                        </div>
+                        <span
+                          className="font-Kanit font-semibold text-lg group-hover:scale-100 scale-0 bg-white px-3 rounded-lg
+                 transition duration-150 absolute"
+                        >
+                          ให้คะแนนห้อง
+                        </span>
+                      </div>
+                    </Popover.Button>
+                    <Popover.Panel>
+                      {({ close }) => (
+                        <UpdateScore
+                          close={close}
+                          classroomScore={true}
+                          scores={scores.data}
+                          students={students}
+                        />
+                      )}
+                    </Popover.Panel>
+                  </>
+                )}
+              </Popover>
+
               {students.isLoading
                 ? skeletion.map((number) => {
                     return (

@@ -23,7 +23,7 @@ function FooterActivities() {
             width={200}
             height={200}
             alt="tatuga logo"
-            src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp.png"
+            src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp%20facebook.jpg"
             priority
           />
         </div>

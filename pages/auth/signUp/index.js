@@ -383,7 +383,7 @@ function Index() {
               className="w-full  h-9 mt-2 rounded-full bg-white text-black font-sans font-bold cursor-pointer
               text-md cursor-pointer:border-2 border-solid hover:scale-110 transition duration-200  ease-in-out
                active:border-2 active:text-black active:border-gray-300
-               active:border-solid  focus:border-2 
+               active:border-solid  focus:border-2 border-2 
               focus:border-solid flex items-center justify-center gap-x-2"
             >
               <div className="flex items-center justify-center text-2xl text-[#3b5998] ">

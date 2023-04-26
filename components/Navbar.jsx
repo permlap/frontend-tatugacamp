@@ -159,10 +159,14 @@ function Navbar() {
             scrollDirection === "up" ? "translate-y-0 " : "-translate-y-28 "
           }`}
         >
-          <li className="mr-auto">
+          <li className="mr-auto ml-5">
             <Link href="/">
-              <Button className="flex items-center pt-4 pr-4">
-                <Logo />
+              <Button className="flex items-center pt-4 pr-4 ">
+                <div className="w-max">
+                  <span className="MoreSugar normal-case text-4xl">
+                    Tatuga camp
+                  </span>
+                </div>
               </Button>
             </Link>
           </li>

@@ -48,7 +48,7 @@ function Index() {
         );
 
   return (
-    <div className="bg-[#2C7CD1] h-screen">
+    <div className="bg-[#2C7CD1] h-screen ">
       <Layout unLoading={true}>
         <div
           className="h-[40rem] w-full  bg-no-repeat bg-fixed bg-cover

@@ -34,7 +34,6 @@ function Index() {
         "With our platform, you can easily export your data to Excel",
     },
   ];
-  console.log(classroomCode);
 
   return (
     <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom  bg-cover pb-20">
@@ -66,6 +65,25 @@ function Index() {
       <Layout>
         <header className="w-full max-w-9xl   h-max  flex justify-between items-center gap-12 font-sans">
           <div className="lg:w-max lg:max-w-4xl bg-transparent lg:ml-5 xl:pl-10 p-10 gap-2 flex flex-col items-start justify-center ">
+            <div className="md:mt-5 mt-10">
+              <span className="font-medium text-gray-400 md:text-lg lg:text-xl ">
+                welcome to
+              </span>
+            </div>
+            <div className="flex flex-col w-full gap-0 md:gap-5">
+              <span className="font-Poppins font-bold  text-[#2C7CD1] text-3xl md:text-4xl lg:text-8xl">
+                TaTuga Class
+              </span>
+              <span className="text-[#2C7CD1] md:text-2xl lg:text-5xl font-bold font-Poppins relative z-10 ">
+                Classroom Management for Everyone
+              </span>
+            </div>
+            <div className="mt-1 font-Kanit text-lg w-3/4 leading-tight relative z-10">
+              <span className="text-blue-900">
+                จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ
+                รวดเร็ว - tatuga class
+              </span>
+            </div>
             <div className="md:w-3/4 md:flex hidden   gap-2 items-center justify-center  ">
               <div className="text-xl w-96 font-Kanit font-bold text-blue-900">
                 <span className="w-max">สำหรับนักเรียน</span>
@@ -98,26 +116,7 @@ function Index() {
                 เข้าร่วม
               </button>
             </div>
-            <div className="md:mt-5 mt-10">
-              <span className="font-medium text-gray-400 md:text-lg lg:text-xl ">
-                welcome to
-              </span>
-            </div>
-            <div className="flex flex-col w-full gap-0 md:gap-5">
-              <span className="font-Poppins font-bold  text-[#2C7CD1] text-3xl md:text-4xl lg:text-8xl">
-                TaTuga Class
-              </span>
-              <span className="text-[#2C7CD1] md:text-2xl lg:text-5xl font-bold font-Poppins relative z-10 ">
-                Classroom Management for Everyone
-              </span>
-            </div>
-            <div className="mt-1 font-Kanit text-lg w-3/4 leading-tight relative z-10">
-              <span className="text-blue-900">
-                จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ
-                รวดเร็ว - tatuga class
-              </span>
-            </div>
-            <div className="flex  w-full items-center justify-center md:justify-start  gap-5 mt-10 ">
+            <div className="flex  w-full items-center justify-center md:justify-start  gap-5  mt-2">
               <div className="text-xl font-Kanit font-bold text-blue-900">
                 สำหรับครู
               </div>
@@ -136,6 +135,7 @@ function Index() {
               </button>
             </div>
           </div>
+
           <div className="md:w-2/4 md:h-96 w-40 h-40 hidden md:flex items-center justify-center relative ">
             <div className="absolute -left-60 md:-left-20 ">
               <Lottie animationData={teacherAnimation} style={style} />

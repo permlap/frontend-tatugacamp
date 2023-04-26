@@ -3,10 +3,13 @@ import Swal from "sweetalert2";
 import { CreateScoreOnClass } from "../../service/scores";
 
 function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
+  const [activeEmoji, setActiveEmoji] = useState();
   const [scoreForm, setScoreForm] = useState({
     title: "",
     emoji: "",
   });
+  const emojis = ["😀", "🤣", "😍", "🤨", "😎", "❤️", "☹️", "😱"];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setScoreForm((prev) => {
@@ -36,13 +39,35 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
       );
     }
   };
+
   return (
     <form
       className=" w-full py-0 flex flex-col justify-center items-center "
       onSubmit={handleSubmit}
     >
-      <div className="flex flex-col relative">
-        <label className="font-sans font-normal">emoji</label>
+      <div className="relative grid grid-cols-4 gap-4">
+        {emojis.map((emoji, index) => {
+          return (
+            <div
+              key={index}
+              onClick={() => {
+                setActiveEmoji(index);
+                setScoreForm((prevState) => {
+                  return {
+                    ...prevState,
+                    emoji: emoji,
+                  };
+                });
+              }}
+              className={`hover:bg-slate-200 cursor-pointer p-2 rounded-lg border-2 border-solid transition duration-150 ${
+                activeEmoji === index ? "border-black" : "border-white"
+              }`}
+            >
+              {emoji}
+            </div>
+          );
+        })}
+        {/* <label className="font-sans font-normal">emoji</label>
         <input
           onChange={handleChange}
           className="w-18 h-7 rounded-md   pl-2 
@@ -53,7 +78,7 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
           maxLength="30"
           value={scoreForm.emoji}
           required
-        />
+        /> */}
       </div>
 
       <div className="flex flex-col relative mt-2">
@@ -72,7 +97,7 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
       </div>
       <div className="flex gap-1">
         <button
-          className="w-max  h-9 mt-2 rounded bg-[#2C7CD1] text-white font-sans font-bold
+          className="w-max  h-9 mt-2  px-2 rounded bg-[#2C7CD1] text-white font-sans font-bold
       text-md cursor-pointer hover: active:border-2  active:border-gray-300
        active:border-solid  focus:border-2 
       focus:border-solid"
@@ -82,7 +107,7 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
         <button
           type="button"
           onClick={() => setTriggerCreateNewScore(false)}
-          className="w-max  h-9 mt-2 rounded bg-red-600 text-white font-sans font-bold
+          className="w-max  h-9 mt-2 px-2 rounded bg-red-600 text-white font-sans font-bold
       text-md cursor-pointer hover: active:border-2  active:border-gray-300
        active:border-solid  focus:border-2 
       focus:border-solid"

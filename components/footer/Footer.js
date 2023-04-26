@@ -15,23 +15,23 @@ function Footer(props) {
     Swal.fire("Copy เบอร์โทร 061-027-7960 เรียบร้อย");
   };
   return (
-    <div>
-      <div className="w-full h-full md:py-20 mt-0 justify-center flex flex-col md:flex-row pt-8 md:pt-2   text-center text-white items-center bg-transparent   ">
-        <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem]  md:ring-4 md:ring-black   md:h-max rounded-full overflow-hidden bg-white">
+    <div className="bg-[url('/blob-scene-haikei.svg')] bg-cover bg-bottom h-max pt-10 ">
+      <div className="w-full h-full  md:py-5 pt-5 justify-center flex flex-col md:flex-row  md:pt-2   text-center text-white items-center bg-[#2C7CD1] md:bg-transparent  ">
+        <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem] relative lg:-top-9 md:h-max rounded-full overflow-hidden bg-white">
           <Image
-            className="object-center rounded-full"
-            width={300}
-            height={300}
-            alt="logo tatuga camp"
-            src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp.png"
+            className="object-center rounded-full "
+            width={200}
+            height={200}
+            alt="tatuga logo"
+            src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp%20facebook.jpg"
             priority
           />
         </div>
-        <ul className="list-none text-center w-full pl-0 justify-center">
+        <ul className="list-none text-center w-full pl-0 justify-center mt-5 md:mt-16">
           <li>
             <div className="w-full flex justify-center">
-              <div className="w-3/4 py-4 md:py-10 h-max ">
-                <span className="md:text-md lg:text-2xl font-sans font-normal text-black">
+              <div className="md:w-3/4 lg:w-2/4 w-3/4 mb-5  h-max ">
+                <span className="md:text-md text-white md:text-black lg:text-white lg:text-sm font-Inter font-thin md:font-normal ">
                   {dataFooter}
                 </span>
               </div>

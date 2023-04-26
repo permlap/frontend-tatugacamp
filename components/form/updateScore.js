@@ -2,7 +2,11 @@ import Lottie from "lottie-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FiPlus, FiPlusSquare, FiSave, FiSettings } from "react-icons/fi";
-import { HideScore, UpdateScoreOnStudent } from "../../service/scores";
+import {
+  HideScore,
+  UpdateScoreOnStudent,
+  UpdateScoreOnWholeClass,
+} from "../../service/scores";
 import * as animationData from "../../public/json/well-done-output.json";
 import fileSoundPositive from "../../public/sound/ging.mp3";
 import fileSoundNagative from "../../public/sound/wrong.mp3";
@@ -18,7 +22,17 @@ import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 import CreateScore from "./createScore";
 import { avartars } from "../../data/students";
-function UpdateScore({ close, student, scores, students, refetchScores }) {
+import { useRouter } from "next/router";
+function UpdateScore({
+  close,
+  student,
+  scores,
+  students,
+  refetchScores,
+  classroomScore,
+}) {
+  const router = useRouter();
+  const [classroomId, setClassroomId] = useState();
   const [soundPositive, setSoundPositive] = useState(null);
   const [soundNagative, setSoundNagative] = useState(null);
   const [clickScoreTitle, setClickScoreTitle] = useState();
@@ -40,15 +54,15 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
   useEffect(() => {
     setStdentData((prev) => ({
       ...prev,
-      firstName: student.firstName,
-      lastName: student.lastName,
-      number: student.number,
+      firstName: student?.firstName,
+      lastName: student?.lastName,
+      number: student?.number,
       picture: student?.picture,
     }));
+    setClassroomId(() => router.query.classroomId);
     setSoundNagative(new Audio(fileSoundNagative));
     setSoundPositive(new Audio(fileSoundPositive));
   }, []);
-
   //handle chnage on input score
   const handleChangeScore = (e) => {
     const { id, value } = e.target;
@@ -154,8 +168,12 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
           </div>
         );
       });
+      if (classroomScore === true) {
+        await UpdateScoreOnWholeClass(data, pointsValue, classroomId);
+      } else if (classroomScore !== true) {
+        await UpdateScoreOnStudent(data, pointsValue);
+      }
 
-      const updateScore = await UpdateScoreOnStudent(data, pointsValue);
       setData((prev) => {
         return {
           ...prev,
@@ -214,45 +232,47 @@ function UpdateScore({ close, student, scores, students, refetchScores }) {
     <div
       className=" md:w-full h-full font-Kanit md:p-5 z-20 
 top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
-      key={student.id}
+      key={student?.id}
     >
       <div
         className="flex md:flex-row flex-col w-[95%] md:w-[42rem] lg:w-[45rem] h-max font-Kanit bg-white border-2 border-solid
     rounded-lg drop-shadow-xl md:p-5 md:px-0 relative items-center justify-center"
       >
-        <div
-          className="absolute z-20 right-5 top-5 gap-1 flex items-center 
+        {classroomScore !== true && (
+          <div
+            className="absolute z-20 right-5 top-5 gap-1 flex items-center 
         justify-center text-red-500 hover:text-red-800 transition duration-150 cursor-pointer "
-        >
-          {isDeleteStudent === false && (
-            <div
-              className="flex items-center justify-center"
-              onClick={() => setIsDeleteStudent(true)}
-            >
-              <MdDelete size={25} />
-              <span className="text-sm">ลบผู้เรียน</span>
-            </div>
-          )}
+          >
+            {isDeleteStudent === false && (
+              <div
+                className="flex items-center justify-center"
+                onClick={() => setIsDeleteStudent(true)}
+              >
+                <MdDelete size={25} />
+                <span className="text-sm">ลบผู้เรียน</span>
+              </div>
+            )}
 
-          {isDeleteStudent === true && (
-            <div className="flex gap-x-4">
-              <div
-                onClick={() => handleDelteStudent({ studentId: student.id })}
-                role="button"
-                className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
-              >
-                <FcCheckmark size={25} />
+            {isDeleteStudent === true && (
+              <div className="flex gap-x-4">
+                <div
+                  onClick={() => handleDelteStudent({ studentId: student.id })}
+                  role="button"
+                  className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
+                >
+                  <FcCheckmark size={25} />
+                </div>
+                <div
+                  role="button"
+                  onClick={() => setIsDeleteStudent(false)}
+                  className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
+                >
+                  <FcCancel size={25} />
+                </div>
               </div>
-              <div
-                role="button"
-                onClick={() => setIsDeleteStudent(false)}
-                className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
-              >
-                <FcCancel size={25} />
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
         {runAnimation && (
           <div className="absolute z-40  top-10 right-0 left-0 bottom-0 m-auto flex items-center justify-center flex-col">
             <Lottie animationData={data} style={style} />
@@ -265,166 +285,176 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
         )}
 
         {/* avatar here  */}
-        <div className=" md:w-[40rem] w-full flex flex-col justify-center items-center ">
-          <div className="w-full h-max flex items-center justify-center   ">
-            {triggerSetting === false ? (
-              <div className="w-full  h-full  flex items-center justify-center px-5 flex-col relative">
-                <div className="relative w-40 h-40 bg-transparent rounded-full overflow-hidden">
-                  <Image
-                    src={student.picture}
-                    layout="fill"
-                    alt="students avatar"
-                    className="object-cover scale-150 translate-y-10"
-                  />
-                  <div
-                    className={`absolute w-14 h-14  rounded-full ${
-                      student.score.totalPoints < 0
-                        ? "bg-red-600"
-                        : "bg-[#EDBA02] "
-                    } ring-2 ring-white
+        {classroomScore !== true && (
+          <div className=" md:w-[40rem] w-full flex flex-col justify-center items-center ">
+            <div className="w-full h-max flex items-center justify-center   ">
+              {triggerSetting === false ? (
+                <div className="w-full  h-full  flex items-center justify-center px-5 flex-col relative">
+                  <div className="relative w-40 h-40 bg-transparent rounded-full overflow-hidden">
+                    <Image
+                      src={student?.picture}
+                      layout="fill"
+                      alt="students avatar"
+                      className="object-cover scale-150 translate-y-10"
+                    />
+                    <div
+                      className={`absolute w-14 h-14  rounded-full ${
+                        student?.score?.totalPoints < 0
+                          ? "bg-red-600"
+                          : "bg-[#EDBA02] "
+                      } ring-2 ring-white
                     flex justify-center items-center font-sans font-bold text-3xl z-10 text-white right-5 top-5`}
-                  >
-                    {student.score.totalPoints}
-                  </div>
-                </div>
-
-                <div className="mt-2 text-lg w-max">
-                  <span className="mr-2">{student.firstName}</span>
-                  <span>{student.lastName}</span>
-                </div>
-                <div className="font-light">เลขที่ {student.number}</div>
-                <div
-                  role="button"
-                  onClick={() => setTriggerSetting((prev) => (prev = true))}
-                  aria-label="button for setting student's data"
-                  className="w-max h-max  bg-slate-500 mt-2  text-lg cursor-pointer hover:text-red-500 hover:bg-white
-                  text-white p-1 rounded-md flex gap-2 px-6 transition duration-150 ease-in-out z-20 group hover:ring-2  bottom-0 ring-black"
-                >
-                  <span>ตั้งค่า</span>
-                  <div className="text-white group-hover:text-red-500 flex items-center justify-center ">
-                    <FiSettings />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <form
-                onSubmit={handleSummitEditStudentData}
-                className="md:w-full w-full  h-full gap-10  flex items-center mt-10 md:mt-0
-                 md:items-start justify-between px-5  relative"
-              >
-                <div className="flex items-center justify-center flex-col">
-                  <div className="flex flex-col relative">
-                    <label className="font-sans font-normal">
-                      แก้ไขชื่อจริง
-                    </label>
-                    <input
-                      onChange={handleOnChange}
-                      className="w-40 h-7 rounded-md   pl-10 
-                placeholder:italic placeholder:font-light"
-                      type="text"
-                      name="firstName"
-                      placeholder="แก้ไขชื่อจริง"
-                      maxLength="30"
-                      value={studentData.firstName}
-                    />
-                    <div
-                      className="absolute bottom-1 left-2 bg-white text-[#2C7CD1] w-5 h-5 text-xl 
-               rounded-full flex items-center justify-center "
                     >
-                      <FcBusinessContact />
+                      {student?.score?.totalPoints}
                     </div>
                   </div>
 
-                  <div className="flex flex-col relative mt-2">
-                    <label className="font-sans font-normal">แก้ไขนาสกุล</label>
-                    <input
-                      onChange={handleOnChange}
-                      className="w-40 h-7 rounded-md   pl-10 
-                placeholder:italic placeholder:font-light"
-                      type="text"
-                      name="lastName"
-                      placeholder="แก้ไขนาสกุล"
-                      maxLength="30"
-                      value={studentData.lastName}
-                    />
-                    <div
-                      className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
-               rounded-full flex items-center justify-center "
-                    >
-                      <FcLineChart />
-                    </div>
+                  <div className="mt-2 text-lg w-max">
+                    <span className="mr-2">{student?.firstName}</span>
+                    <span>{student?.lastName}</span>
                   </div>
-                  <div className="flex flex-col relative mt-2 mb-2">
-                    <label className="font-sans font-normal">แก้ไขเลขที่</label>
-                    <input
-                      onChange={handleOnChange}
-                      className="w-40 h-7 rounded-md   pl-10 
-                placeholder:italic placeholder:font-light"
-                      type="number"
-                      name="number"
-                      placeholder="แก้ไขเลขที่"
-                      min="1"
-                      value={studentData.number}
-                    />
-                    <div
-                      className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
-               rounded-full flex items-center justify-center "
-                    >
-                      <FcViewDetails />
-                    </div>
-                  </div>
-                  {error && (
-                    <div className="absolute bottom-12 w-max text-red-600">
-                      {error}
-                    </div>
-                  )}
-                  <button
+                  <div className="font-light">เลขที่ {student?.number}</div>
+                  <div
+                    role="button"
+                    onClick={() => setTriggerSetting((prev) => (prev = true))}
                     aria-label="button for setting student's data"
-                    className="w-max h-max bg-red-500 md:mt-10  mt-2 text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
+                    className="w-max h-max  bg-slate-500 mt-2  text-lg cursor-pointer hover:text-red-500 hover:bg-white
+                  text-white p-1 rounded-md flex gap-2 px-6 transition duration-150 ease-in-out z-20 group hover:ring-2  bottom-0 ring-black"
+                  >
+                    <span>ตั้งค่า</span>
+                    <div className="text-white group-hover:text-red-500 flex items-center justify-center ">
+                      <FiSettings />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSummitEditStudentData}
+                  className="md:w-full w-full  h-full gap-10  flex items-center mt-10 md:mt-0
+                 md:items-start justify-between px-5  relative"
+                >
+                  <div className="flex items-center justify-center flex-col">
+                    <div className="flex flex-col relative">
+                      <label className="font-sans font-normal">
+                        แก้ไขชื่อจริง
+                      </label>
+                      <input
+                        onChange={handleOnChange}
+                        className="w-40 h-7 rounded-md   pl-10 
+                placeholder:italic placeholder:font-light"
+                        type="text"
+                        name="firstName"
+                        placeholder="แก้ไขชื่อจริง"
+                        maxLength="30"
+                        value={studentData.firstName}
+                      />
+                      <div
+                        className="absolute bottom-1 left-2 bg-white text-[#2C7CD1] w-5 h-5 text-xl 
+               rounded-full flex items-center justify-center "
+                      >
+                        <FcBusinessContact />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col relative mt-2">
+                      <label className="font-sans font-normal">
+                        แก้ไขนาสกุล
+                      </label>
+                      <input
+                        onChange={handleOnChange}
+                        className="w-40 h-7 rounded-md   pl-10 
+                placeholder:italic placeholder:font-light"
+                        type="text"
+                        name="lastName"
+                        placeholder="แก้ไขนาสกุล"
+                        maxLength="30"
+                        value={studentData.lastName}
+                      />
+                      <div
+                        className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
+               rounded-full flex items-center justify-center "
+                      >
+                        <FcLineChart />
+                      </div>
+                    </div>
+                    <div className="flex flex-col relative mt-2 mb-2">
+                      <label className="font-sans font-normal">
+                        แก้ไขเลขที่
+                      </label>
+                      <input
+                        onChange={handleOnChange}
+                        className="w-40 h-7 rounded-md   pl-10 
+                placeholder:italic placeholder:font-light"
+                        type="number"
+                        name="number"
+                        placeholder="แก้ไขเลขที่"
+                        min="1"
+                        value={studentData.number}
+                      />
+                      <div
+                        className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
+               rounded-full flex items-center justify-center "
+                      >
+                        <FcViewDetails />
+                      </div>
+                    </div>
+                    {error && (
+                      <div className="absolute bottom-12 w-max text-red-600">
+                        {error}
+                      </div>
+                    )}
+                    <button
+                      aria-label="button for setting student's data"
+                      className="w-max h-max bg-red-500 md:mt-10  mt-2 text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
               text-white p-1 rounded-md flex items-center justify-center gap-2 px-6 
               transition duration-150 ease-in-out"
-                  >
-                    <span>บันทึก</span>
-                    <div className="text-white flex items-center justify-center ">
-                      <FiSave />
-                    </div>
-                  </button>
-                </div>
-                <div className="flex flex-col items-center justify-center ">
-                  <div className="mb-10 text-xl">เลือก Avatar ผู้เรียน</div>
-                  <div className="grid grid-cols-5 gap-4">
-                    {avartars.map((avartar, index) => {
-                      return (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => handleChooseAvatar({ avartar, index })}
-                          className={`bg-white drop-shadow-md  hover:scale-110 ${
-                            studentData?.index === index
-                              ? "border-black border-2"
-                              : "border-black border-none"
-                          }
-                         border-solid rounded-lg relative w-16 h-16 transition duration-150`}
-                        >
-                          <Image
-                            src={avartar}
-                            layout="fill"
-                            className="object-contain"
-                          />
-                        </button>
-                      );
-                    })}
+                    >
+                      <span>บันทึก</span>
+                      <div className="text-white flex items-center justify-center ">
+                        <FiSave />
+                      </div>
+                    </button>
                   </div>
-                </div>
-              </form>
-            )}
+                  <div className="flex flex-col items-center justify-center ">
+                    <div className="mb-10 text-xl">เลือก Avatar ผู้เรียน</div>
+                    <div className="grid grid-cols-5 gap-4">
+                      {avartars.map((avartar, index) => {
+                        return (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() =>
+                              handleChooseAvatar({ avartar, index })
+                            }
+                            className={`bg-white drop-shadow-md  hover:scale-110 ${
+                              studentData?.index === index
+                                ? "border-black border-2"
+                                : "border-black border-none"
+                            }
+                         border-solid rounded-lg relative w-16 h-16 transition duration-150`}
+                          >
+                            <Image
+                              src={avartar}
+                              layout="fill"
+                              className="object-contain"
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
-        </div>
+        )}
         {/* score part */}
         {triggerSetting === false && (
           <div className=" flex-col  w-full md:w-max px-5   ">
             <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
-              คะแนนความประพฤติ
+              {classroomScore === true
+                ? "ให้คะแนนทั้งห้องเรียน"
+                : "คะแนนความประพฤติ"}
             </div>
 
             <div className="">
@@ -460,10 +490,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                             <button
                               onClick={() =>
                                 onClick({
-                                  scoreId: score.id,
-                                  studentId: student.id,
-                                  scoreTitle: score.title,
-                                  scoreEmoji: score.picture,
+                                  scoreId: score?.id,
+                                  studentId: student?.id,
+                                  scoreTitle: score?.title,
+                                  scoreEmoji: score?.picture,
                                   pointsValue,
                                 })
                               }

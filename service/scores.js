@@ -55,6 +55,40 @@ export async function UpdateScoreOnStudent(
   }
 }
 
+export async function UpdateScoreOnWholeClass(
+  { scoreId },
+  inputValues,
+  classroomId
+) {
+  try {
+    let points = 1;
+    if (!inputValues) {
+      points = 1;
+    } else if (inputValues) {
+      points = Number(inputValues);
+    }
+    const access_token = localStorage.getItem("access_token");
+    const updateScore = await axios.put(
+      `${process.env.Server_Url}/user/score/update/score/students`,
+      {
+        points: points,
+      },
+      {
+        params: {
+          scoreId: scoreId,
+          classroomId: classroomId,
+        },
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return updateScore;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
+
 export async function CreateScoreOnClass({ title, emoji, classroomId }) {
   try {
     const access_token = localStorage.getItem("access_token");

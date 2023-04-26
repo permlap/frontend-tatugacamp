@@ -35,7 +35,6 @@ export async function CreateStudentApi({
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3054.PNG",
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3062.PNG",
-    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3063.PNG",
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3064.PNG",
   ];
   try {
