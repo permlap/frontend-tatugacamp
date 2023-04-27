@@ -60,7 +60,6 @@ export async function GetAllAssignments({ classroomId }) {
 
         const progress = await axios.get(
           `${process.env.Server_Url}/user/assignment/progress-assignment`,
-
           {
             params: {
               assignmentId: assignment.id,
@@ -78,6 +77,29 @@ export async function GetAllAssignments({ classroomId }) {
       }
     }
     return progresses;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
+
+export async function GetAssignment({ assignmentId }) {
+  try {
+    console.log(assignmentId);
+    const access_token = localStorage.getItem("access_token");
+    const progress = await axios.get(
+      `${process.env.Server_Url}/user/assignment/get-a-assignment`,
+      {
+        params: {
+          assignmentId: assignmentId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return progress;
   } catch (err) {
     console.log(err);
     throw new Error(err);

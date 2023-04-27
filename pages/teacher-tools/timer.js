@@ -10,14 +10,11 @@ import {
 import { VscDebugRestart } from "react-icons/vsc";
 import sound from "../../public/sound/ringing.mp3";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import Layout from "../../layouts/classroomLayout";
 import { FiArrowLeftCircle } from "react-icons/fi";
-import { useQuery } from "react-query";
-import { GetUser } from "../../service/user";
+import { useRouter } from "next/router";
 const Timer = () => {
-  const user = useQuery(["user"], () => GetUser());
+  const router = useRouter();
   const [initalTime, setInitalTime] = useState(0);
-  console.log("inital time", initalTime);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [minutesInput, setMinutesInput] = useState(0);
@@ -145,7 +142,17 @@ const Timer = () => {
       </Head>
 
       <div className="flex w-full">
-        <Layout sideMenus={sideMenus} user={user} />
+        <div
+          onClick={() =>
+            router.push({
+              pathname: `/classroom/teacher/${classroomId}`,
+            })
+          }
+          className="absolute top-5 left-5 bg-white px-7 py-2 rounded-lg 
+        font-Poppins hover:scale-110 transition duration-150 cursor-pointer"
+        >
+          back
+        </div>
         <FullScreen handle={handle} className="w-full">
           <div className=" right-[47%] top-10 absolute ">
             {!handle.active && (

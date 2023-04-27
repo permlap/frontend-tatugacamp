@@ -21,7 +21,7 @@ function UpdateAssignment({
   assignments,
 }) {
   const rounter = useRouter();
-  const [assignmentData, setAssignmentData] = useState(assignment);
+  const [assignmentData, setAssignmentData] = useState(assignment?.data?.data);
   const [isChecked, setIsChecked] = useState();
   const [isAssignStudent, setIsAssignmentStdent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -132,10 +132,8 @@ function UpdateAssignment({
         maxScore: assignmentData.maxScore,
         deadline: assignmentData.deadline,
       });
-      Swal.fire("success", "assignment has been createed", "success");
-      console.log(updateAssignment);
-      assignments.refetch();
-      setShowAssignment(false);
+      Swal.fire("success", "assignment has been updated", "success");
+      assignment.refetch();
     } catch (err) {
       console.log(err);
       Swal.fire(
@@ -148,18 +146,18 @@ function UpdateAssignment({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-5/6 h-[34rem] flex-col gap-2  p-10 font-Kanit bg-white border-2 
-      border-solid rounded-lg drop-shadow-xl  z-40 
-top-0 right-0 left-0 bottom-0 m-auto fixed"
+      className="flex flex-col gap-2 justify-center items-center bg-slate-200 h-screen font-Kanit 
+      "
     >
       <div
         onClick={() => setTriggerUpdateAssignment(false)}
-        className="absolute z-20 top-2 left-2 text-xl hover:scale-110 transition duration-150 cursor-pointer"
+        className="absolute z-20 top-5 left-5 text-xl hover:scale-110 transition duration-150 cursor-pointer"
       >
         <GrRevert />
       </div>
-      <div className="w-full flex items-center justify-center ">
-        <div className="flex w-56 h-10 justify-between bg-blue-100  rounded-xl">
+
+      <div className="w-full flex mt-2 items-center justify-center ">
+        <div className="flex w-56 h-10 justify-between bg-white  rounded-xl">
           {tabs.map((tab, index) => {
             return (
               <div
@@ -179,10 +177,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
         </div>
       </div>
       {isAssignStudent === false ? (
-        <div className="w-full flex gap-8 ">
-          <div className="flex-col flex gap-4 w-3/4">
+        <div className="w-full h-full flex gap-8  ">
+          <div className="flex-col flex gap-4 m-5 w-3/4">
             <div className="flex flex-col gap-0">
-              <Box width="100%">
+              <Box width="100%" className="bg-white">
                 <TextField
                   name="title"
                   onChange={handleChange}
@@ -228,7 +226,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
 
             <button
               type="submit"
-              className="w-full py-2 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
+              className="w-full py-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
           text-md cursor-pointer hover: active:border-2  active:border-gray-300
            active:border-solid  focus:border-2 hover:bg-red-500 transition duration-150
           focus:border-solid"
@@ -237,10 +235,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
             </button>
           </div>
           <div
-            className="w-[30%] h-98 border-2 border-solid border-gray-200 rounded-xl 
+            className="w-[30%]   border-solid border-gray-200 rounded-xl 
       flex flex-col items-center justify-start gap-5"
           >
-            <div className="mt-5 flex flex-col">
+            <div className=" flex flex-col">
               <label>กำหนดส่ง</label>
               <input
                 value={formattedDate}
@@ -279,12 +277,15 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
           </div>
         </div>
       ) : (
-        <form className="w-full flex items-center justify-start flex-col gap-1">
+        <form className="w-full h-full flex items-center justify-center flex-col gap-1">
           <div className="text-2xl font-Kanit font-semibold">
             เลือกผู้เรียนเพื่อมอบหมายงาน
           </div>
 
-          <div className="w-2/4 h-96 flex relative items-center justify-start overflow-auto scrollbar  flex-col gap-2">
+          <div
+            className="w-2/4 h-full max-h-[28rem] flex relative items-center
+           justify-start overflow-auto scrollbar  flex-col "
+          >
             {loading ? (
               <div className="absolute w-full  h-full flex items-center justify-center">
                 <Loading />
@@ -295,8 +296,8 @@ top-0 right-0 left-0 bottom-0 m-auto fixed"
                 return (
                   <div
                     key={student.id}
-                    className={`grid grid-cols-4 w-full relative items-center justify-center ${
-                      oddNumber === 0 ? "bg-blue-100" : "bg-orange-100"
+                    className={`grid grid-cols-4  w-full relative items-center justify-center ${
+                      oddNumber === 0 ? "bg-white" : "bg-orange-100"
                     } py-2 
               text-lg font-Kanit `}
                   >

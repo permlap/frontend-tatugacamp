@@ -22,7 +22,7 @@ function Index() {
     {
       title: "Gamification in classroom",
       picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3063.PNG",
+        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
       description:
         "Our platform incorporates gamification to make teaching a fantastic experience.",
     },

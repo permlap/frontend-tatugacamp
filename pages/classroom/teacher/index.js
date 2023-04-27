@@ -1,6 +1,4 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
 import { MdDelete } from "react-icons/md";
 import { FcCheckmark, FcCancel } from "react-icons/fc";
 import CreateClass from "../../../components/form/createClass";
@@ -11,11 +9,11 @@ import Lottie from "lottie-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
-import Layout from "../../../layouts/classroomLayout";
 import * as teacherAnimation from "../../../components/98349-teacher-in-classroom.json";
 import { GetUser } from "../../../service/user";
 import Unauthorized from "../../../components/error/unauthorized";
 import { Skeleton } from "@mui/material";
+import Layout from "../../../layouts/schoolLayout";
 
 function Index() {
   const router = useRouter();
