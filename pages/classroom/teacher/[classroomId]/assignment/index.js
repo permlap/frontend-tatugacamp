@@ -114,7 +114,7 @@ function Assignment() {
   };
 
   return (
-    <div className="w-full pb-96  ">
+    <div className="w-full pb-96   ">
       <Layout
         user={user}
         sideMenus={sideMenus}

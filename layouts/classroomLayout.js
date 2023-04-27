@@ -10,7 +10,7 @@ import { AiTwotoneStar } from "react-icons/ai";
 import CreateStudent from "../components/form/createStudent";
 import { RxLapTimer } from "react-icons/rx";
 import { useRouter } from "next/router";
-
+import UpdateClass from "../components/form/updateClass";
 function Layout({ children, user, sideMenus, trigger, classroom, students }) {
   const router = useRouter();
   const [triggersidebar, setTriggerSidebar] = useState(true);
@@ -49,7 +49,7 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
     setStudentRearrange(students);
   };
   return (
-    <main className="w-full flex justify-center items-center flex-col ">
+    <main className="w-full flex justify-center items-center flex-col  ">
       <div className="absolute top-0 right-0 mr-5 mt-5">
         <AuthButton />
       </div>
@@ -84,9 +84,8 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
           </>
         )}
       </Popover>
-
       <header
-        className="w-full max-w-6xl rounded-3xl mt-32  flex  flex-col-reverse md:flex-row md:gap-x-4 z-10
+        className="w-full max-w-6xl rounded-3xl  mt-32  flex  flex-col-reverse md:flex-row md:gap-x-4 z-10
              bg-blue-200 md:h-52 lg:h-40 
           items-center justify-start relative  "
       >
