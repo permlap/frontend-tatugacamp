@@ -131,7 +131,10 @@ function Assignment() {
               <Image src={user?.data?.data?.picture} layout="fill" />
             </div>
             <button
-              onClick={() => setTriggerAssignment(true)}
+              onClick={() => {
+                setTriggerAssignment(true);
+                document.body.style.overflow = "hidden";
+              }}
               className="w-80 border-none py-2 rounded-full bg-blue-100 text-center font-Poppins text-sm hover:bg-[#2C7CD1] hover:text-white
 text-black transition duration-150 cursor-pointer"
             >

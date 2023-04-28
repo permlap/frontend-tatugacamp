@@ -568,7 +568,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
       </div>
 
       <div
-        onClick={() => close()}
+        onClick={() => {
+          document.body.style.overflow = "auto";
+          close();
+        }}
         className="w-full h-full fixed right-0 left-0 top-0 bottom-0 m-auto -z-10 bg-black/20 "
       ></div>
     </div>

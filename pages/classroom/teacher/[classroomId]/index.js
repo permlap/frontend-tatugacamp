@@ -216,7 +216,12 @@ function Index() {
                       <Popover key={student.id}>
                         {({ open }) => (
                           <div className="relative  md:block flex items-start justify-center">
-                            <Popover.Button className="bg-transparent  border-none active:border-none appearance-none focus:outline-none">
+                            <Popover.Button
+                              onClick={() => {
+                                document.body.style.overflow = "hidden";
+                              }}
+                              className="bg-transparent  border-none active:border-none appearance-none focus:outline-none"
+                            >
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
                        duration-200 rounded-2xl bg-white border-2 border-solid relative hover:bg-orange-100 transition drop-shadow-md"

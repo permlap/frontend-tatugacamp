@@ -5,13 +5,23 @@ import AuthButton from "../components/auth/button";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 import Image from "next/image";
-import { BsPeopleFill } from "react-icons/bs";
+import { BsFillPeopleFill, BsPeopleFill } from "react-icons/bs";
 import { AiTwotoneStar } from "react-icons/ai";
 import CreateStudent from "../components/form/createStudent";
 import { RxLapTimer } from "react-icons/rx";
 import { useRouter } from "next/router";
 import UpdateClass from "../components/form/updateClass";
-function Layout({ children, user, sideMenus, trigger, classroom, students }) {
+import { MdEmojiPeople } from "react-icons/md";
+import AttendanceChecker from "../components/form/attendanceChecker";
+function Layout({
+  children,
+  user,
+  sideMenus,
+  trigger,
+  classroom,
+  students,
+  handleChildDisableContent,
+}) {
   const router = useRouter();
   const [triggersidebar, setTriggerSidebar] = useState(true);
   const [studentsRearrange, setStudentRearrange] = useState(
@@ -208,9 +218,12 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                   <div
                     aria-label="สร้างผู้เรียนของคุณ"
                     className={`
-                      w-max p-3 bg-[#2C7CD1] rounded-xl cursor-pointer
+                      w-max p-3 bg-[#2C7CD1] rounded-xl cursor-pointer flex gap-2
              hover:scale-110 transition duration-200 ease-in-out`}
                   >
+                    <div className="text-white">
+                      <BsFillPeopleFill />
+                    </div>
                     <span className="font-sans font-bold text-sm text-white">
                       สร้างผู้เรียน
                     </span>
@@ -245,6 +258,32 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             </div>
             <span>จับเวลา</span>
           </div>
+          <Popover>
+            {({ open }) => (
+              <div>
+                <Popover.Button>
+                  <div
+                    onClick={() => {
+                      document.body.style.overflow = "hidden";
+                    }}
+                    role="button"
+                    className="font-Kanit flex items-center justify-center gap-2 text-white
+           bg-green-700 w-max p-3 rounded-xl hover:scale-110 transition duration-150 cursor-pointer"
+                  >
+                    <div>
+                      <MdEmojiPeople />
+                    </div>
+                    <span>เช็คชื่อ</span>
+                  </div>
+                </Popover.Button>
+                <Popover.Panel>
+                  {({ close }) => (
+                    <AttendanceChecker close={close} students={students} />
+                  )}
+                </Popover.Panel>
+              </div>
+            )}
+          </Popover>
         </div>
 
         <div className="grid md:grid-cols-3 grid-cols-2 w-[95%] md:w-full gap-2 md:gap-0 ">

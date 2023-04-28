@@ -162,7 +162,7 @@ export default function Home(props) {
              md:mt-14 flex-col md:flex-row  flex justify-start items-center"
               id="header"
             >
-              <div className="w-full text-center mt-5 md:mt-0 justify-center  flex flex-col gap-y-0 md:gap-y-0">
+              <div className="w-10/12 md:w-full text-center mt-5 md:mt-0 justify-center  flex flex-col gap-y-0 md:gap-y-0">
                 <div className="square xyz-in">
                   <span className="text-[2rem] md:text-[3rem] MoreSugar text-[#2C7CD1]">
                     TaTuga camp

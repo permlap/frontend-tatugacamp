@@ -10,7 +10,7 @@ function Index() {
   const router = useRouter();
   const [classroomCode, setClassroomCode] = useState();
   const style = {
-    height: 600,
+    height: "100%",
   };
   const cardData = [
     {
@@ -36,7 +36,7 @@ function Index() {
   ];
 
   return (
-    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom  bg-cover pb-20">
+    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-screen lg:h-full  bg-cover pb-20">
       <Head>
         <meta property="og:title" content={`TaTuga class`} />
         <meta
@@ -70,11 +70,11 @@ function Index() {
                 welcome to
               </span>
             </div>
-            <div className="flex flex-col w-full gap-0 md:gap-5">
-              <span className="font-Poppins font-bold  text-[#2C7CD1] text-3xl md:text-4xl lg:text-8xl">
+            <div className="flex flex-col w-full gap-0 md:gap-1 lg:gap-1 xl:gap-5 ">
+              <span className="font-Poppins font-bold  text-[#2C7CD1] text-3xl md:text-4xl lg:text-6xl xl:text-7xl w-max">
                 TaTuga Class
               </span>
-              <span className="text-[#2C7CD1] md:text-2xl lg:text-5xl font-bold font-Poppins relative z-10 ">
+              <span className="text-[#2C7CD1] md:text-2xl lg:text-2xl font-bold font-Poppins relative z-10 ">
                 Classroom Management for Everyone
               </span>
             </div>
@@ -136,8 +136,8 @@ function Index() {
             </div>
           </div>
 
-          <div className="md:w-2/4 md:h-96 w-40 h-40 hidden md:flex items-center justify-center relative ">
-            <div className="absolute -left-60 md:-left-20 ">
+          <div className="md:w-full lg:w-full xl:w-2/4 md:h-96 w-40 h-40 hidden md:flex items-center justify-center relative ">
+            <div className="absolute -left-60 md:-left-52 lg:-left-16  md:w-96 lg:w-full ">
               <Lottie animationData={teacherAnimation} style={style} />
             </div>
           </div>

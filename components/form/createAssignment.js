@@ -132,6 +132,7 @@ export default function CreateAssignment({
       );
     }
   };
+  console.log(isChecked);
 
   return (
     <div>
@@ -317,6 +318,7 @@ export default function CreateAssignment({
       </form>
       <div
         onClick={() => {
+          document.body.style.overflow = "auto";
           setIsAssignmentStdent(false);
           setTriggerAssignment(false);
         }}
