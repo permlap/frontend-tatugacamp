@@ -19,10 +19,13 @@ import { GetAssignment } from "../../../../../../service/assignment";
 import { useRouter } from "next/router";
 import { GetAllStudents } from "../../../../../../service/students";
 import UpdateAssignment from "../../../../../../components/form/updateAssignment.js";
+import Unauthorized from "../../../../../../components/error/unauthorized.js";
+import { GetUser } from "../../../../../../service/user.js";
 function Index() {
   const router = useRouter();
   const [classroomId, setClassroomId] = useState();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
+  const user = useQuery(["user"], () => GetUser());
   const assignment = useQuery(
     ["assignment"],
     () => GetAssignment({ assignmentId: router.query.assignmentId }),
@@ -69,12 +72,11 @@ function Index() {
   }, []);
 
   // refetch studentOnAssinment when  there is new assignment?.data?.data?
-
   useEffect(() => {
     assignment.refetch();
     studentOnAssignments.refetch();
     setClassroomId(() => router.query.classroomId);
-  }, [router.isReady, assignment.isSuccess, classroomId]);
+  }, [router.isReady, assignment?.data?.data?.id, classroomId]);
 
   // convert date format
   const date = new Date(assignment?.data?.data?.deadline);
@@ -216,6 +218,10 @@ function Index() {
       };
     });
   };
+
+  if (!user.data || user.isError) {
+    return <Unauthorized user={user} />;
+  }
 
   return (
     <div className="bg-white w-full font-Kanit relative">

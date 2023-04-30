@@ -26,7 +26,9 @@ export async function CreateClassroom(inputObject, access_token) {
 
 export async function DeleteClassroom(classroomId) {
   const access_token = localStorage.getItem("access_token");
-
+  if (!access_token) {
+    throw new Error("Unauthorized");
+  }
   try {
     const deleteClassroom = await axios.delete(
       `${process.env.Server_Url}/user/classroom/delete`,

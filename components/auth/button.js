@@ -14,24 +14,23 @@ function AuthButton() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { isLoading, data, refetch, isFetching } = useQuery(["user"], () =>
-    GetUser()
+  const { isLoading, data, refetch, isFetching, isError } = useQuery(
+    ["user"],
+    () => GetUser()
   );
 
   //set accestoken to localstore
   useEffect(() => {
     if (router.query.access_token) {
       localStorage.setItem("access_token", router.query.access_token);
-
       refetch();
     }
-  }, [router.query?.access_token]);
-
+  }, [router.query?.access_token, router.isReady]);
   if (isFetching) {
     return <Loading />;
   }
 
-  if (!data?.data || data === "Unauthorized") {
+  if (!data?.data || data === "Unauthorized" || isError) {
     return (
       <div>
         <button
@@ -119,20 +118,22 @@ function AuthButton() {
                     })
                   }
                   className="flex justify-center items-center text-base font-light 
-                  gap-x-2 hover:font-bold "
+                  gap-x-2 hover:font-bold cursor-pointer group  "
                 >
                   <span>Account</span>
-                  <span className="text-center flex items-center justify-center">
+                  <span className="text-center flex items-center justify-center group-hover:scale-110 transition duration-150">
                     <BiUser />
                   </span>
                 </li>
                 <div className="arrow-left md:arrow-top absolute -left-3 top-auto bottom-auto"></div>
                 <li
                   onClick={signOut}
-                  className="flex justify-center items-center text-base font-light gap-x-2 hover:font-bold"
+                  className="flex justify-center items-center group text-base font-light gap-x-2 cursor-pointer
+                   hover:font-bold
+                "
                 >
                   <span>Logout</span>
-                  <span className="text-center flex items-center justify-center">
+                  <span className="text-center flex items-center justify-center group-hover:scale-110 transition duration-150">
                     <BiLogOutCircle />
                   </span>
                 </li>

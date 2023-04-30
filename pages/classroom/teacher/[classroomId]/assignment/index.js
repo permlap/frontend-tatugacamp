@@ -10,13 +10,11 @@ import Image from "next/image";
 import CreateAssignment from "../../../../../components/form/createAssignment";
 import { GetAllAssignments } from "../../../../../service/assignment";
 import { GetAllStudents } from "../../../../../service/students";
-import ShowAssignment from "../../../../../components/form/showAssignment";
 import Layout from "../../../../../layouts/classroomLayout";
 function Assignment() {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
   const [triggerAssignment, setTriggerAssignment] = useState(false);
-
   const classroom = useQuery(
     ["classroom"],
     () => GetOneClassroom({ params: router.query.classroomId }),
@@ -31,7 +29,6 @@ function Assignment() {
       enabled: false,
     }
   );
-
   const students = useQuery(
     ["students"],
     () => GetAllStudents({ classroomId: router.query.classroomId }),
@@ -78,6 +75,11 @@ function Assignment() {
       icon: "🎒",
       url: `#`,
     },
+    {
+      title: "ข้อมูลการเข้าเรียน",
+      icon: "🙌",
+      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
+    },
 
     {
       title: "หน้าหลัก",
@@ -90,37 +92,12 @@ function Assignment() {
     return <FullScreenLoading />;
   }
   //if no user data return unauthorization page
-  if (!user.data) {
+  if (!user.data || user.isError) {
     return <Unauthorized user={user} />;
   }
-
-  const classroomCode =
-    classroom.data?.data?.classroomCode.slice(0, 3) +
-    "-" +
-    classroom.data?.data?.classroomCode.slice(3);
-
-  //covert date
-  const date = new Date(classroom.data?.data?.createAt);
-
-  const formattedDate = date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-
-  //style animationLottie
-  const style = {
-    height: 280,
-  };
-
   return (
     <div className="w-full pb-96   ">
-      <Layout
-        user={user}
-        sideMenus={sideMenus}
-        classroom={classroom}
-        students={students}
-      />
+      <Layout sideMenus={sideMenus} />
       <div className="">
         <main className="w-full  py-5  mt-10 flex flex-col items-center justify-center relative">
           <div

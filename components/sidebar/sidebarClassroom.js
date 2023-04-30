@@ -21,6 +21,8 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
       setIsClick(2);
     } else if (lastRoute === "timer") {
       setIsClick(2);
+    } else if (lastRoute === "attendance") {
+      setIsClick(3);
     }
   }, []);
 

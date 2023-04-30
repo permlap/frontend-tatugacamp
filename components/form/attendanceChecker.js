@@ -1,9 +1,24 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MdEmojiPeople } from "react-icons/md";
+import Swal from "sweetalert2";
+import { CreateAttendance, GetAllAttendance } from "../../service/attendance";
+import Loading from "../loading/loading";
+import { useQuery } from "react-query";
 
 function AttendanceChecker({ close, students }) {
+  const router = useRouter();
   const [isCheckStudent, setIsCheckStudent] = useState();
-  //set all students to have defualt check to false
+  const currentDate = new Date().toISOString().slice(0, 10); // get current date in "yyyy-mm-dd" format
+  const [attendanceDate, setAttendanceDate] = useState(currentDate);
+  const [loading, setLoading] = useState(false);
+  const attendances = useQuery(
+    ["attendance"],
+    () => GetAllAttendance({ classroomId: router.query.classroomId }),
+    {
+      enabled: false,
+    }
+  );
   useEffect(() => {
     setIsCheckStudent(() =>
       students?.data?.data?.map((student) => {
@@ -71,7 +86,7 @@ function AttendanceChecker({ close, students }) {
   };
 
   const handleCheckAllstudent = (event) => {
-    const name = event.target.getAttribute("name");
+    const name = event.currentTarget.name;
     setIsCheckStudent((prevState) => {
       return prevState.map((prevStudent) => {
         if (
@@ -123,6 +138,31 @@ function AttendanceChecker({ close, students }) {
       });
     });
   };
+
+  const handleSummitForm = async () => {
+    try {
+      setLoading(true);
+      const createAttendace = await CreateAttendance({
+        isChecks: isCheckStudent,
+        attendanceDate: attendanceDate,
+        classroomId: router.query.classroomId,
+      });
+      console.log(createAttendace);
+      setLoading(false);
+      Swal.fire("success", "check attendacne completed", "success");
+      document.body.style.overflow = "auto";
+      attendances.refetch();
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+      document.body.style.overflow = "auto";
+    }
+  };
   return (
     <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
       <div
@@ -140,17 +180,42 @@ function AttendanceChecker({ close, students }) {
                 <MdEmojiPeople />
               </div>
             </div>
-
-            <div className="mt-2 flex flex-col text-black font-Kanit">
-              <label>เลือกวันที่</label>
-              <input
-                name="deadline"
-                className="w-40 appearance-none outline-none border-none ring-2 rounded-md px-5 
+            <div className="flex gap-10 items-end justify-center">
+              <div className="mt-2 flex flex-col text-black font-Kanit">
+                <label>เลือกวันที่</label>
+                <input
+                  onChange={(e) =>
+                    setAttendanceDate(() => {
+                      const value = e.target.value;
+                      return value;
+                    })
+                  }
+                  defaultValue={currentDate}
+                  name="deadline"
+                  className="w-40 appearance-none outline-none border-none ring-2 rounded-md px-5 
                 py-2 text-lg ring-gray-200 focus:ring-black "
-                type="date"
-                placeholder="Please select a date"
-                required
-              />
+                  type="date"
+                  placeholder="Please select a date"
+                />
+              </div>
+              {loading ? (
+                <div
+                  className="w-max  text-white flex items-center hover:scale-110 transition duration-150 
+                cursor-pointer
+               justify-center h-max px-8 py-2 rounded-lg font-Poppins"
+                >
+                  <Loading />
+                </div>
+              ) : (
+                <button
+                  onClick={handleSummitForm}
+                  className="w-max bg-blue-500 text-white flex items-center hover:scale-110 transition duration-150 
+                cursor-pointer
+               justify-center h-max px-8 py-2 rounded-lg font-Poppins"
+                >
+                  summit
+                </button>
+              )}
             </div>
           </div>
 
@@ -160,42 +225,54 @@ function AttendanceChecker({ close, students }) {
               <li className="col-span-2">ชื่อจริง</li>
               <li className="">นามสกุล</li>
               <div className="grid-cols-3 col-span-3  grid w-full gap-5 place-items-center ">
-                <div
-                  onClick={(event) => handleCheckAllstudent(event)}
+                <button
+                  onClick={handleCheckAllstudent}
                   name="present"
                   role="button"
                   aria-label="check all"
                   className="w-full bg-green-500 rounded-2xl text-white text-center 
-                  hover:scale-110 transition duration-150 cursor-pointer"
+                  hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  เข้าเรียน
-                </div>
-                <div
-                  onClick={(event) => handleCheckAllstudent(event)}
+                  <span className="block group-hover:hidden">เข้าเรียน</span>
+                  <span className="hidden group-hover:block text-base">
+                    เลือกทั้งหมด
+                  </span>
+                </button>
+                <button
+                  onClick={handleCheckAllstudent}
                   name="holiday"
                   role="button"
                   aria-label="check all"
                   className="w-full bg-yellow-500 rounded-2xl text-white text-center 
-                  hover:scale-110 transition duration-150 cursor-pointer"
+                  hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  ลา
-                </div>
-                <div
-                  onClick={(event) => handleCheckAllstudent(event)}
+                  <span className="block group-hover:hidden">ลา</span>
+                  <span className="hidden group-hover:block text-base">
+                    เลือกทั้งหมด
+                  </span>
+                </button>
+                <button
+                  onClick={handleCheckAllstudent}
                   name="absent"
                   role="button"
                   aria-label="check all"
                   className="w-full bg-red-500 rounded-2xl text-white text-center
-                  hover:scale-110 transition duration-150 cursor-pointer"
+                  hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  ขาด
-                </div>
+                  <span className="block group-hover:hidden">ขาด</span>
+                  <span className="hidden group-hover:block text-base">
+                    เลือกทั้งหมด
+                  </span>
+                </button>
               </div>
             </ul>
             <div className="w-full h-full items-center justify-start max-h-96 mt-2 overflow-auto scrollbar-hide fade-mask-short flex flex-col gap-2">
               {isCheckStudent?.map((student) => {
                 return (
-                  <ul className="list-none pl-0 grid grid-cols-7 w-full place-items-center text-black font-Kanit ">
+                  <ul
+                    key={student.id}
+                    className="list-none pl-0 grid grid-cols-7 w-full place-items-center text-black font-Kanit "
+                  >
                     <li className="">{student.number}</li>
                     <li className="col-span-2">{student.firstName}</li>
                     <li className="">{student?.lastName}</li>

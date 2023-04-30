@@ -4,6 +4,9 @@ import Error from "next/error";
 export async function GetUser() {
   try {
     const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      throw new Error("Unauthorized");
+    }
     const user = await axios.get(`${process.env.Server_Url}/users/me`, {
       headers: {
         Authorization: "Bearer " + access_token,
@@ -24,6 +27,9 @@ export async function UploadProfilePicture({ formData }) {
   try {
     console.log(formData);
     const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      throw new Error("Unauthorized");
+    }
     const profile = await axios.post(
       `${process.env.Server_Url}/users/upload`,
       formData,

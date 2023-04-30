@@ -89,6 +89,11 @@ function Index() {
       icon: "🎒",
       url: `/classroom/teacher/${router.query.classroomId}/assignment`,
     },
+    {
+      title: "ข้อมูลการเข้าเรียน",
+      icon: "🙌",
+      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
+    },
 
     {
       title: "หน้าหลัก",
@@ -108,15 +113,14 @@ function Index() {
     );
   }
 
+  if (!user.data || user.isError) {
+    return <Unauthorized user={user} />;
+  }
+
   //style animationLottie
   const style = {
     height: 280,
   };
-
-  //if no user data return unauthorization page
-  if (!user.data) {
-    return <Unauthorized user={user} />;
-  }
 
   const handleLoadingComplete = (id) => {
     setLoadedImages((prevImages) => [...prevImages, id]);
@@ -124,12 +128,7 @@ function Index() {
 
   return (
     <div className="bg-blue-50">
-      <Layout
-        user={user}
-        sideMenus={sideMenus}
-        classroom={classroom}
-        students={students}
-      />
+      <Layout sideMenus={sideMenus} />
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import Layout from "../../layouts/classroomLayout";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import {
   GetUser,
@@ -12,7 +11,7 @@ import Image from "next/image";
 import Loading from "../../components/loading/loading";
 import { useRouter } from "next/router";
 import Unauthorized from "../../components/error/unauthorized";
-
+import Layout from "../../layouts/schoolLayout";
 function Setting() {
   const [userData, setUserData] = useState({
     firstName: "",

@@ -86,7 +86,9 @@ function Index() {
             </div>
             <div className="md:w-3/4 md:flex hidden   gap-2 items-center justify-center  ">
               <div className="text-xl w-96 font-Kanit font-bold text-blue-900">
-                <span className="w-max">สำหรับนักเรียน</span>
+                <div className="w-max">
+                  <span>สำหรับนักเรียน</span>
+                </div>
               </div>
               <input
                 value={classroomCode}

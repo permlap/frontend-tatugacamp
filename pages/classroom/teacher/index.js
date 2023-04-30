@@ -61,10 +61,6 @@ function Index() {
     classrooms.refetch();
   });
 
-  if (user.isError) {
-    return <Unauthorized user={user} />;
-  }
-
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
     const newItems = classroomState.map((item, i) => {
@@ -113,10 +109,9 @@ function Index() {
     height: 500,
   };
 
-  if (!user.data) {
+  if (!user.data || user.isError) {
     return <Unauthorized user={user} />;
   }
-
   return (
     <div className="bg-white w-full h-full font-Kanit">
       <Head>

@@ -16,7 +16,7 @@ import ExcelTable from "./createManyStudent";
 import { MdError } from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 
-function CreateStudent({ close, handlePassingstudents }) {
+function CreateStudent({ close }) {
   const router = useRouter();
   const [succesful, setSuccesful] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,6 @@ function CreateStudent({ close, handlePassingstudents }) {
         return parseInt(a.number) - parseInt(b.number);
       });
     });
-    handlePassingstudents(sortedStudents);
   }, [students.isFetching, sortedStudents]);
 
   const handleSubmit = async (e) => {
