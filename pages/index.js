@@ -233,7 +233,7 @@ export default function Home({ post, blurData }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
+export async function getStaticProps(ctx) {
   const quary = `*[_type == "post"]{
     _id,
     slug,
