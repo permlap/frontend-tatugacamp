@@ -27,7 +27,7 @@ export default function Home({ post, blurData }) {
   const Menus = [{ name: "ล้างการค้นหา" }];
 
   // fetch data to next list
-  const { isLoading, isFetching, error, refetch, data } = useQuery({
+  const { isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: () =>
       axios.post("/api/handle-posts", { index: activeMenu }).then((res) => {

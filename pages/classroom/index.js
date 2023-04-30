@@ -174,7 +174,7 @@ function Index({ cardData }) {
 
 export default Index;
 
-export async function getServerSideProps(ctx) {
+export async function getStaticProps(ctx) {
   const cardData = [
     {
       title: "No login required for student",
