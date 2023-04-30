@@ -169,7 +169,7 @@ function Index(props) {
 
 export default Index;
 
-export const getStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
   const quaryImages = `*[_type == "heroImages"]`;
   const qurayCards = `*[_type == "aboutUsCards"]`;
   const mainImages = await sanityClient.fetch(quaryImages);
@@ -179,6 +179,5 @@ export const getStaticProps = async (ctx) => {
       data: mainImages,
       cards: cards,
     },
-    revalidate: 1,
   };
 };

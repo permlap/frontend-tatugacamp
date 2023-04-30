@@ -5,38 +5,17 @@ import Lottie from "lottie-react";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { returnProps } from "../../utils/imageMetadata";
 
-function Index() {
+function Index({ cardData }) {
   const router = useRouter();
   const [classroomCode, setClassroomCode] = useState();
   const style = {
     height: "100%",
   };
-  const cardData = [
-    {
-      title: "No login required for student",
-      picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3064.PNG",
-      description: " Students can submit their homework without logging in.",
-    },
-    {
-      title: "Gamification in classroom",
-      picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
-      description:
-        "Our platform incorporates gamification to make teaching a fantastic experience.",
-    },
-    {
-      title: "Export your data to Excel",
-      picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3062.PNG",
-      description:
-        "With our platform, you can easily export your data to Excel",
-    },
-  ];
 
   return (
-    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-screen lg:h-full  bg-cover pb-20">
+    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-full  bg-cover pb-20">
       <Head>
         <meta property="og:title" content={`TaTuga class`} />
         <meta
@@ -158,7 +137,7 @@ function Index() {
             </span>
           </div>
           <div className="lg:w-full md:w-[95%] gap-8 md:flex-row flex-col  flex md:gap-5  lg:gap-10 items-center justify-center py-4 ">
-            {cardData.map((list, index) => {
+            {cardData?.map((list, index) => {
               return (
                 <div
                   key={index}
@@ -168,13 +147,15 @@ function Index() {
                   <div className="font-Poppins text-xl font-bold ">
                     {list.title}
                   </div>
-                  <div className="w-3/4  h-2/4 relative mt-2 ">
+                  <div className="w-36  h-2/4 relative mt-2 rounded-md overflow-hidden ">
                     <Image
                       alt="tatuga avatar"
                       priority
                       src={list.picture}
                       layout="fill"
-                      className="object-contain object-left  transition duration-150 "
+                      placeholder="blur"
+                      blurDataURL={list.imageProps.blurDataURL}
+                      className="object-contain  object-center  transition duration-150  "
                     />
                   </div>
                   <div className="h-10 text-xs lg:relative  -bottom-4 leading-tight text-black group-hover:text-white font-semibold ">
@@ -192,3 +173,43 @@ function Index() {
 }
 
 export default Index;
+
+export async function getServerSideProps(ctx) {
+  const cardData = [
+    {
+      title: "No login required for student",
+      picture:
+        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3064.PNG",
+      description: " Students can submit their homework without logging in.",
+    },
+    {
+      title: "Gamification in classroom",
+      picture:
+        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
+      description:
+        "Our platform incorporates gamification to make teaching a fantastic experience.",
+    },
+    {
+      title: "Export your data to Excel",
+      picture:
+        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3062.PNG",
+      description:
+        "With our platform, you can easily export your data to Excel",
+    },
+  ];
+
+  const blurData = await Promise.all(
+    cardData.map(async (item) => {
+      const imageProps = await returnProps(item.picture);
+
+      // This will return the image a well as the needed plaiceholder
+      // info in the same object within the array 🤯
+      return { ...item, imageProps };
+    })
+  );
+  return {
+    props: {
+      cardData: blurData,
+    },
+  };
+}

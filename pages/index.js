@@ -13,15 +13,15 @@ import Facebook from "../components/facebook";
 import SearchAutoComplete from "../components/search/searchAutoComplete";
 import Loading from "../components/loading/loading";
 import Layout from "../components/layout";
+import { returnProps } from "../utils/imageMetadata";
 
-/** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-export default function Home(props) {
+export default function Home({ post, blurData }) {
   const router = useRouter();
   const [dataSearchOptios, setDataSearchOptions] = useState();
   const [DataDescriptionMeta, SetDataDescriptionMeta] = useState();
   const [current, setCurrent] = useState(0);
-  const length = props.mainImages.length;
-  const [postsData, setPostsData] = useState(props.data);
+  const length = blurData.length;
+  const [postsData, setPostsData] = useState(post);
 
   const [activeMenu, setActiveMenu] = useState(0);
   const Menus = [{ name: "ล้างการค้นหา" }];
@@ -47,14 +47,14 @@ export default function Home(props) {
 
   // automatic move image silder to the next one
   useEffect(() => {
-    if (!Array.isArray(props.mainImages) || props.mainImages.length <= 0) {
+    if (!Array.isArray(blurData) || blurData.length <= 0) {
       return null;
     }
     const intervalId = setInterval(() => {
       setCurrent(current === length - 1 ? 0 : current + 1);
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [length, props.mainImages, current]);
+  }, [length, blurData, current]);
 
   // set image silder to the next one
   const nextSlide = () => {
@@ -129,7 +129,7 @@ export default function Home(props) {
                   <ion-icon name="arrow-forward-circle"></ion-icon>
                 </button>
               </div>
-              {props.mainImages.map((silder, index) => {
+              {blurData.map((silder, index) => {
                 return (
                   <div
                     className={
@@ -148,7 +148,7 @@ export default function Home(props) {
                         alt={silder.title}
                         placeholder="blur"
                         quality={50}
-                        blurDataURL="data:image/jpeg;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                        blurDataURL={silder.imageProps.blurDataURL}
                       />
                     )}
                   </div>
@@ -219,7 +219,7 @@ export default function Home(props) {
               <ListActivity
                 activityPosts={postsData}
                 dataSearchOptios={dataSearchOptios}
-                likes={props.likes}
+                likes={post.likes}
               />
             )}
           </main>
@@ -233,7 +233,7 @@ export default function Home(props) {
   );
 }
 
-export const getServerSideProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
   const quary = `*[_type == "post"]{
     _id,
     slug,
@@ -250,10 +250,21 @@ export const getServerSideProps = async (ctx) => {
   const post = await sanityClient.fetch(quary);
   const mainImages = await sanityClient.fetch(quaryImages);
 
+  const blurData = await Promise.all(
+    mainImages.map(async (item) => {
+      const imageProps = await returnProps(
+        urlFor(item.mainImage.asset._ref).url()
+      );
+
+      // This will return the image a well as the needed plaiceholder
+      // info in the same object within the array 🤯
+      return { ...item, imageProps };
+    })
+  );
   return {
     props: {
-      data: post,
-      mainImages: mainImages,
+      post,
+      blurData,
     },
   };
-};
+}
