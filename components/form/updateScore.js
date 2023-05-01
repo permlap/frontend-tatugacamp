@@ -219,10 +219,13 @@ function UpdateScore({
         setRunAnimation(false);
         setRunScoreTitle(false);
         setLoadingPoint(false);
+        close();
       }, 1500);
-
+      document.body.style.overflow = "auto";
       students.refetch();
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
   const style = {
     height: 300,

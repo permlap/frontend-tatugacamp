@@ -96,7 +96,7 @@ function Assignment() {
     return <Unauthorized user={user} />;
   }
   return (
-    <div className="w-full pb-96   ">
+    <div className="w-full pb-96 bg-blue-50 ">
       <Layout sideMenus={sideMenus} />
       <div className="">
         <main className="w-full  py-5  mt-10 flex flex-col items-center justify-center relative">

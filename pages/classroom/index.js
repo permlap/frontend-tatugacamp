@@ -64,17 +64,17 @@ function Index({ cardData }) {
               </span>
             </div>
             <div className="md:w-3/4 md:flex hidden   gap-2 items-center justify-center  ">
-              <div className="text-xl w-96 font-Kanit font-bold text-blue-900">
+              <div className="w-96 font-Kanit font-bold text-blue-900">
                 <div className="w-max">
-                  <span>สำหรับนักเรียน</span>
+                  <span className="text-2xl ">สำหรับนักเรียน</span>
                 </div>
               </div>
               <input
                 value={classroomCode}
                 onChange={(e) => setClassroomCode(e.target.value)}
                 className="bg-blue-200  appearance-none border-none border-gray-200 rounded w-full py-2 px-4  
-              leading-tight focus:outline-none focus:bg-blue-400 focus:border-2 focus:right-4 placeholder:text-md placeholder:font-Kanit
-              placeholder:text-black placeholder:font-medium focus:placeholder:text-white text-black focus:text-white font-sans font-semibold "
+              leading-tight focus:outline-none focus:bg-blue-400 focus:border-2 focus:right-4 placeholder:text-md 
+              placeholder:text-black text-lg font-Poppins placeholder:text-md placeholder:font-Kanit placeholder:font-medium focus:placeholder:text-white text-black focus:text-white font-semibold "
                 type="number"
                 name="classroomCode"
                 placeholder="รหัสห้องเรียน"
@@ -98,7 +98,7 @@ function Index({ cardData }) {
               </button>
             </div>
             <div className="flex  w-full items-center justify-center md:justify-start  gap-5  mt-2">
-              <div className="text-xl font-Kanit font-bold text-blue-900">
+              <div className="text-2xl font-Kanit font-bold text-blue-900">
                 สำหรับครู
               </div>
               <button

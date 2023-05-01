@@ -85,10 +85,10 @@ function Index() {
   };
 
   return (
-    <div>
+    <div className="bg-blue-50">
       <Layout sideMenus={sideMenus}>
         <div className="w-full h-full mt-10 flex flex-col justify-center items-center pb-10">
-          <div className=" h-[40rem]  flex flex-col  w-[80rem] bg-blue-50  rounded-md font-Kanit overflow-auto">
+          <div className=" h-[40rem]  flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-auto">
             <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">
                 เลขที่
