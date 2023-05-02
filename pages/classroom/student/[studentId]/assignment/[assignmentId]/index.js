@@ -11,10 +11,15 @@ import {
 import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
 import Image from "next/image";
 import "lightbox.js-react/dist/index.css";
-import { FiMoreVertical } from "react-icons/fi";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 function Index() {
   const router = useRouter();
+  const menus = [
+    { title: "Summition", translate: "translate-x-7" },
+    { title: "Your work", translate: "translate-x-40" },
+  ];
+  const [teacher, setTeacher] = useState();
   const fetchStudentWork = useQuery(["student-work"], () =>
     GetMyWork({ studentId: student.id, assignmentId: assignment.id }).then(
       (res) => {
@@ -39,7 +44,7 @@ function Index() {
       }
     )
   );
-
+  const [activeMenu, setActiveMenu] = useState(0);
   const [student, setStudent] = useState();
   const [studentWork, setStudnetWork] = useState();
   const [assignment, setAssignment] = useState();
@@ -77,6 +82,10 @@ function Index() {
   };
 
   useEffect(() => {
+    setTeacher(() => {
+      const teacher = localStorage.getItem("teacher");
+      return JSON.parse(teacher);
+    });
     initLightboxJS(process.env.NEXT_PUBLIC_LIGHTBOX_KEY, "individual");
     const studentWork = localStorage.getItem("assignment");
     setStudent(() => {
@@ -88,11 +97,12 @@ function Index() {
       const assignment = localStorage.getItem("assignment");
       const convertAssignment = JSON.parse(assignment);
       setDeadline(() => {
-        const dateObj = new Date(convertAssignment.assignment.deadline);
-        const year = dateObj.getFullYear();
-        const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // +1 because months start from 0
-        const day = String(dateObj.getDate()).padStart(2, "0");
-        const formattedDate = `${day}/${month}/${year}`;
+        const date = new Date(convertAssignment.assignment.deadline);
+        const formattedDate = date.toLocaleDateString("th-TH", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
         return formattedDate;
       });
       return convertAssignment.assignment;
@@ -103,7 +113,7 @@ function Index() {
   }, []);
 
   return (
-    <div className="bg-[#2C7CD1]  w-full h-full font-Kanit relative pb-96 ">
+    <div className="bg-white  w-full h-full font-Kanit relative pb-96 ">
       <div className="w-full absolute top-0 flex justify-between items-center">
         <div
           role="button"
@@ -113,113 +123,145 @@ function Index() {
               pathname: `/classroom/student/${student.id}`,
             })
           }
-          className="w-28 h-10 bg-transparent border-2 border-solid border-white rounded-lg mt-2 ml-2
-        flex items-center justify-center active:bg-orange-500 hover:scale-110 transition duration-150"
+          className="w-max h-10  mt-2 ml-2
+        flex items-center justify-center active:scale-110 hover:scale-110 transition duration-150"
         >
-          <div className="text-2xl text-white flex items-center justify-center ">
+          <div className="text-2xl text-[#2C7CD1] flex items-center justify-center ">
             <IoCaretBackOutline />
           </div>
-          <span className="font-Poppins font-semibold text-white">go back</span>
         </div>
         <div className="mr-2">
           <div
-            className="text-slate-500 w-max h-max px-1 text-lg flex items-center justify-center py-[6px] 
-          rounded-md bg-slate-200 active:bg-blue-600 active:text-white"
+            className="text-[#F5FEFF] w-max h-max px-1 text-lg flex items-center justify-center py-[6px] 
+          rounded-md bg-[#2C7CD1] active:bg-blue-600 active:text-white"
           >
-            <FiMoreVertical />
+            <AiFillQuestionCircle />
           </div>
         </div>
       </div>
       <div className="w-full flex flex-col items-center justify-start pt-16 gap-2">
         <div className="w-full flex gap-2 items-center justify-center">
-          {studentWork?.status === "no-work" && (
-            <div
-              className="w-max px-3 h-10 bg-red-500 py-1 rounded-lg border-2 border-solid border-white
-          flex items-center justify-center"
-            >
-              <span className="flex items-center justify-center font-Kanit text-white flex-col">
-                <span>สถานะ</span>
-                <div className="text-lg">
-                  <span>ไม่ส่งงาน</span>
-                </div>
-              </span>
-            </div>
-          )}
-          {studentWork?.status === "have-work" &&
-            studentWork.isSummited === false && (
-              <div
-                className="w-max px-3 h-10 bg-red-500 py-1 rounded-lg border-2 border-solid border-white
-          flex items-center justify-center"
-              >
-                <span className="flex items-center justify-center font-Kanit text-white flex-col">
-                  <span>สถานะ</span>
-                  <div className="text-lg">
-                    <span>ส่งงานแล้ว</span>
-                  </div>
-                </span>
-              </div>
-            )}
-          {studentWork?.status === "have-work" &&
-            studentWork.isSummited === true && (
-              <div
-                className="w-max px-3 h-10 bg-red-500 py-1 rounded-lg border-2 border-solid border-white
-          flex items-center justify-center"
-              >
-                <span className="flex items-center justify-center font-Kanit text-white flex-col">
-                  <span>สถานะ</span>
-                  <div className="text-lg">
-                    <span>ตรวจแล้ว</span>
-                  </div>
-                </span>
-              </div>
-            )}
-          <div
-            className="w-max px-3 h-10 bg-orange-500 py-1 rounded-lg border-2 border-solid border-white
-          flex items-center justify-center"
-          >
-            <span className="flex items-center justify-center font-Kanit text-white flex-col">
-              <span>คะแนน</span>
-              <div className="text-lg">
-                <span>{!studentWork?.score ? 0 : studentWork.score}</span>
-                <span>/</span>
-                <span>{assignment?.maxScore}</span>
-              </div>
-            </span>
-          </div>
-          <div
-            className="w-max px-3 h-10 py-1 bg-pink-500 rounded-lg border-2 border-solid border-white
-          flex items-center justify-center"
-          >
-            <span className="flex items-center justify-center  font-Kanit text-white flex-col">
-              <span>กำหนดส่ง</span>
-              <span className="text-lg">{deadline}</span>
+          <div className="w-full text-left max-w-4xl overflow-auto">
+            <span className="font-Kanit text-3xl ml-5 font-bold text-black tracking-wide">
+              {assignment?.title}
             </span>
           </div>
         </div>
-        <div className="h-60 w-10/12 p-5 bg-white rounded-lg drop-shadow-lg overflow-auto relative border-2 border-solid border-black">
-          <div className="bg-gray-200 w-full left-0 top-0 py-2 flex justify-between  absolute font-semibold ">
-            <span className="ml-2">{assignment?.title}</span>
-            <div className="w-5 h-5 bg-[#2C7CD1] rounded-full mr-2"></div>
+        <div className="w-11/12 grid gap-2 ">
+          <div className="w-full  grid grid-cols-3 place-items-start items-center ">
+            <div>Assign by</div>
+            <div className="flex gap-2 justify-center items-center col-span-2">
+              <span className="uppercase">
+                {teacher?.firstName} {teacher?.lastName}
+              </span>
+              {teacher?.picture ? (
+                <div className="w-10 h-10 rounded-full overflow-hidden relative bg-slate-400">
+                  <Image
+                    src={teacher?.picture}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-10 h-10 rounded-full overflow-hidden relative bg-blue-400 flex items-center justify-center">
+                  <div className="font-Kanit font-bold text-2xl uppercase text-center text-white ">
+                    {teacher?.firstName.charAt(0)}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-
+          <div className="w-full grid grid-cols-3 place-items-start items-center">
+            <div>Deadline</div>
+            <div className="col-span-2 font-semibold">{deadline}</div>
+          </div>
+          <div className="w-full grid grid-cols-3 place-items-start items-center">
+            <div>Score</div>
+            <div className="text-lg">
+              <span>{!studentWork?.score ? 0 : studentWork.score}</span>
+              <span>/</span>
+              <span>{assignment?.maxScore}</span>
+            </div>
+          </div>
+          <div className="w-full grid grid-cols-3 place-items-start items-center">
+            <div>Status</div>
+            {studentWork?.status === "no-work" && (
+              <div
+                className="w-max px-2 h-4 bg-red-500 py-1 rounded-lg border-2 border-solid border-white
+          flex items-center justify-center"
+              >
+                <span className="flex items-center justify-center font-Kanit text-white flex-col">
+                  <div className="text-sm">
+                    <span>ไม่ส่งงาน</span>
+                  </div>
+                </span>
+              </div>
+            )}
+            {studentWork?.status === "have-work" &&
+              studentWork.isSummited === false && (
+                <div
+                  className="w-max px-2 h-4 bg-yellow-500 py-1 rounded-lg border-2 border-solid border-white
+          flex items-center justify-center"
+                >
+                  <span className="flex items-center justify-center font-Kanit text-white flex-col">
+                    <div className="text-sm">
+                      <span>รอตรวจ</span>
+                    </div>
+                  </span>
+                </div>
+              )}
+            {studentWork?.status === "have-work" &&
+              studentWork.isSummited === true && (
+                <div
+                  className="w-max px-2 h-4 bg-green-500 py-1 rounded-lg border-2 border-solid border-white
+          flex items-center justify-center"
+                >
+                  <span className="flex items-center justify-center font-Kanit text-white flex-col">
+                    <div className="text-sm">
+                      <span>ตรวจแล้ว</span>
+                    </div>
+                  </span>
+                </div>
+              )}
+          </div>
+        </div>
+        <div className="h-max w-11/12 bg-gray-200 rounded-md">
           <div
-            className="mt-5"
+            className=" p-5 text-black font-Kanit"
             dangerouslySetInnerHTML={{
               __html: assignment?.description,
             }}
           />
         </div>
-        <div className="w-11/12 h-1 bg-white my-2"></div>
+        <div className="font-Poppins flex w-full max-w-5xl h-10 mt-5 gap-10 font-semibold text-[#2C7CD1] relative ">
+          {menus.map((menu, index) => {
+            return (
+              <div
+                onClick={() => setActiveMenu(index)}
+                className={`${index === 0 && "ml-10"} cursor-pointer`}
+              >
+                <span
+                  className={`${
+                    activeMenu === index ? "font-bold" : "font-normal"
+                  }`}
+                >
+                  {menu.title}
+                </span>
+              </div>
+            );
+          })}
+          <div
+            className={`w-28 z-20 absolute h-1 bottom-0  ${menus[activeMenu]?.translate} left-0 transition duration-150 bg-blue-200`}
+          ></div>
+          <div className="absolute bottom-0 w-full h-1 bg-gray-200"></div>
+        </div>
+
         {studentWork?.status === "no-work" && (
           <form
             onSubmit={handleSummitWork}
             className="w-11/12 h-full mt-1 flex flex-col gap-2"
           >
-            <span className="text-2xl text-white font-Poppins font-semibold">
-              Summit section
-            </span>
-
-            <div className="h-60 relative overflow-hidden rounded-xl">
+            <div className="h-60 relative overflow-hidden rounded-xl drop-shadow-md">
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
                 textareaName="body"
@@ -232,13 +274,12 @@ function Index() {
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
                     "insertdatetime media table paste code help wordcount",
-                    "link",
                   ],
                   toolbar:
                     "undo redo | formatselect | " +
                     "bold italic backcolor | alignleft aligncenter " +
                     "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | link",
+                    "removeformat | ",
                   content_style:
                     "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
                 }}
@@ -251,7 +292,7 @@ function Index() {
                   });
                 }}
               />
-              <div className="w-full flex justify-end absolute bottom-0 h-10 bg-white">
+              <div className="w-full flex justify-end rounded-b-xl absolute left-1 bottom-0 h-10 bg-white">
                 <label className="w-40 ">
                   <input
                     onChange={handleFileEvent}
@@ -275,7 +316,7 @@ function Index() {
             </div>
 
             <button
-              className="w-40 h-10  bg-green-500 drop-shadow-md text-white rounded-xl
+              className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
            flex items-center justify-center"
             >
               ส่งงาน

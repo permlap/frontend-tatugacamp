@@ -19,7 +19,13 @@ function Index() {
   const [loading, setLoading] = useState(false);
   const classroom = useQuery(
     ["classroom-student"],
-    () => JoinClassroom({ classroomCode: rounter.query.classroomCode }),
+    () =>
+      JoinClassroom({ classroomCode: rounter.query.classroomCode }).then(
+        (res) => {
+          localStorage.setItem("teacher", JSON.stringify(res.data.teacher));
+          return res;
+        }
+      ),
     {
       enabled: false,
     }
@@ -48,7 +54,7 @@ function Index() {
         );
 
   return (
-    <div className="bg-[#2C7CD1] h-screen ">
+    <div className="bg-[#2C7CD1] h-full ">
       <Layout unLoading={true}>
         <div
           className="h-[40rem] w-full  bg-no-repeat bg-fixed bg-cover

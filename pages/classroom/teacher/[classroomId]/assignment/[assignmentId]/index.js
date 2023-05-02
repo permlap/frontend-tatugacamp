@@ -73,6 +73,7 @@ function Index() {
 
   // refetch studentOnAssinment when  there is new assignment?.data?.data?
   useEffect(() => {
+    students.refetch();
     assignment.refetch();
     studentOnAssignments.refetch();
     setClassroomId(() => router.query.classroomId);

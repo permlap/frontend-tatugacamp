@@ -3,7 +3,7 @@ import Layout from "../../../../components/layout";
 import Image from "next/image";
 import { MdWork } from "react-icons/md";
 import { GiProgression } from "react-icons/gi";
-import { IoCaretBackOutline } from "react-icons/io5";
+import { IoCaretBackOutline, IoHome } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { GetAllAssignment } from "../../../../service/student/assignment";
@@ -54,13 +54,12 @@ function Index() {
               },
             })
           }
-          className="w-28 h-10 bg-transparent border-2 border-solid border-white rounded-lg absolute top-2 left-2
+          className="w-10 h-10 bg-transparent border-2 border-solid border-white rounded-lg absolute top-2 left-2
         flex items-center justify-center active:bg-orange-500 hover:scale-110 transition duration-150"
         >
           <div className="text-2xl text-white flex items-center justify-center ">
-            <IoCaretBackOutline />
+            <IoHome />
           </div>
-          <span className="font-Poppins font-semibold text-white">go back</span>
         </div>
         {student?.picture && (
           <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
