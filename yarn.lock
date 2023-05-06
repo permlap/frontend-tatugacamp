@@ -756,9 +756,9 @@
     "@types/lodash" "*"
 
 "@types/lodash@*":
-  "integrity" "sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A=="
-  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.192.tgz"
-  "version" "4.14.192"
+  "integrity" "sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.194.tgz"
+  "version" "4.14.194"
 
 "@types/node@*", "@types/node@^17.0.5", "@types/node@>=8.1.0":
   "integrity" "sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw=="
@@ -826,9 +826,9 @@
     "csstype" "^3.0.2"
 
 "@types/react@^16.9.1":
-  "integrity" "sha512-elQj2VQHDuJ5xuEcn5Wxh/YQFNbEuPJFRKSdyG866awDm5dmtoqsMmuAJWb/l/qd2kDkZMfOTKygVfMIdBBPKg=="
-  "resolved" "https://registry.npmjs.org/@types/react/-/react-16.14.40.tgz"
-  "version" "16.14.40"
+  "integrity" "sha512-h+joCKF2r5rdECoM1U8WCEIHBp5/0TSR5Nyq8gtnnYY1n2WqGuj3indYqTjMb2/b5g2rfxJV6u4jUFq95lbT6Q=="
+  "resolved" "https://registry.npmjs.org/@types/react/-/react-16.14.41.tgz"
+  "version" "16.14.41"
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -1221,9 +1221,9 @@
     "form-data" "^4.0.0"
 
 "axios@^1.3.4":
-  "integrity" "sha512-glL/PvG/E+xCWwV8S6nCHcrfg1exGx7vxyUIivIA1iL7BIh6bePylCfVHwp6k13ao7SATxB6imau2kqY+I67kw=="
-  "resolved" "https://registry.npmjs.org/axios/-/axios-1.3.5.tgz"
-  "version" "1.3.5"
+  "integrity" "sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-1.4.0.tgz"
+  "version" "1.4.0"
   dependencies:
     "follow-redirects" "^1.15.0"
     "form-data" "^4.0.0"
@@ -2832,10 +2832,10 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
-"lightbox.js-react@^0.5.4":
-  "integrity" "sha512-Wl+IbTVXTd1AwUw81C0PJwmHTQ2herKIrKXUREBjDrLb61EfRcrqms8Tx6YM13VHOdydZCE1cMY2cDE/8Qtw1A=="
-  "resolved" "https://registry.npmjs.org/lightbox.js-react/-/lightbox.js-react-0.5.4.tgz"
-  "version" "0.5.4"
+"lightbox.js-react@^0.6.1":
+  "integrity" "sha512-TH0qNWxNIde0eMciM02VYuM3fhcc5V5zxmwhu6mZilNPyGxNbA5FCrjSjPf4y996Mu2hjo1iyQejJyl+nb+m3A=="
+  "resolved" "https://registry.npmjs.org/lightbox.js-react/-/lightbox.js-react-0.6.1.tgz"
+  "version" "0.6.1"
   dependencies:
     "@types/file-saver" "^2.0.5"
     "@types/react-key-handler" "^1.2.0"
@@ -2854,7 +2854,7 @@
     "react-portal" "^4.2.2"
     "react-swipe" "^6.0.4"
     "react-youtube" "^10.1.0"
-    "react-zoom-pan-pinch" "^3.0.7"
+    "react-zoom-pan-pinch" "^2.1.3"
     "tslib" "^2.3.1"
     "usehooks-ts" "^2.9.1"
 
@@ -3766,10 +3766,10 @@
     "prop-types" "15.8.1"
     "youtube-player" "5.5.2"
 
-"react-zoom-pan-pinch@^3.0.7":
-  "integrity" "sha512-UJkk1Z7BMPIgfY+Qu4jGTlj+UyZQhrpJeCuK1gg31x57i3p8h4ZXfYWu3dFIiR+uRgfoe/koziwgCjA//T1rKA=="
-  "resolved" "https://registry.npmjs.org/react-zoom-pan-pinch/-/react-zoom-pan-pinch-3.0.7.tgz"
-  "version" "3.0.7"
+"react-zoom-pan-pinch@^2.1.3":
+  "integrity" "sha512-4Cgdnn6OwN4DomY/E9NpAf0TyCtslEgwdYn96ZV/f5LKuw/FE3gcIBJiaKFmMGThDGV0yKN5mzO8noi34+UE4Q=="
+  "resolved" "https://registry.npmjs.org/react-zoom-pan-pinch/-/react-zoom-pan-pinch-2.6.1.tgz"
+  "version" "2.6.1"
 
 "react@*", "react@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0", "react@^16 || ^17 || ^18", "react@^16.0.0", "react@^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0", "react@^16.2.0-0", "react@^16.3 || ^17 || ^18", "react@^16.3.0 || ^17.0.1 || ^18.0.0", "react@^16.8.0  || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.1 || ^18.0.0", "react@^17 || ^18", "react@^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.0.0 || ^17.0.1 || ^16.7.0", "react@^18.2.0", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=0.14.1", "react@>=16.6.0", "react@>=16.8", "react@>=16.8 || ^17.0.0", "react@>=16.8.0", "react@>=16.8.6", "react@>=17.0.2", "react@15 - 18", "react@16 - 18", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="

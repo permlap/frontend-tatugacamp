@@ -92,7 +92,7 @@ function Index() {
             )}
 
             {classroom.data && !classroom.isError && loading === false && (
-              <div className="flex flex-col gap-2   w-5/6">
+              <div className="flex flex-col gap-2 max-w-xl   w-5/6">
                 <div className="w-full flex flex-col ">
                   <div className="w-full flex gap-2 flex-col items-center justify-center mb-5">
                     <div className="w-20 h-20 relative rounded-full overflow-hidden ring-4 ring-white bg-white">
