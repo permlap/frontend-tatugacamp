@@ -261,7 +261,7 @@ function Index() {
               )}
           </div>
         </div>
-        <div className="h-max w-11/12 bg-gray-200 lg:text-lg rounded-md max-w-4xl overflow-hidden">
+        <div className="h-max w-11/12 bg-gray-200 lg:text-lg rounded-md max-w-4xl overflow-x-auto">
           <div
             className=" p-5  text-black font-Kanit"
             dangerouslySetInnerHTML={{
