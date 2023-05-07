@@ -3,7 +3,7 @@ import Layout from "../../../../components/layout";
 import Image from "next/image";
 import { MdWork } from "react-icons/md";
 import { GiProgression } from "react-icons/gi";
-import { IoCaretBackOutline } from "react-icons/io5";
+import { IoCaretBackOutline, IoHome } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { GetAllAssignment } from "../../../../service/student/assignment";
@@ -41,7 +41,7 @@ function Index() {
     assignments.refetch();
   }, [student]);
   return (
-    <div className="bg-[#2C7CD1] w-full h-full pb-96">
+    <div className="bg-[#2C7CD1] w-full h-full pb-96 md:h-screen md:pb-40 lg:pb-96 lg:h-full">
       <main className="w-full h-full flex items-center justify-start flex-col pt-20 gap-3 relative">
         <div
           role="button"
@@ -54,13 +54,12 @@ function Index() {
               },
             })
           }
-          className="w-28 h-10 bg-transparent border-2 border-solid border-white rounded-lg absolute top-2 left-2
+          className="w-10 h-10 bg-transparent border-2 border-solid border-white cursor-pointer rounded-lg absolute top-2 left-2
         flex items-center justify-center active:bg-orange-500 hover:scale-110 transition duration-150"
         >
           <div className="text-2xl text-white flex items-center justify-center ">
-            <IoCaretBackOutline />
+            <IoHome />
           </div>
-          <span className="font-Poppins font-semibold text-white">go back</span>
         </div>
         {student?.picture && (
           <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
@@ -99,7 +98,7 @@ function Index() {
             ไม่พบผู้เรียนโปรดกลับสู่หน้าหลัก
           </div>
         )}
-        <div className="grid grid-cols-1 gap-4 place-items-center w-full pb-40	">
+        <div className="grid grid-cols-1 gap-4 place-items-center w-full pb-40 max-w-xl	">
           {assignments?.data?.data?.map((assignment) => {
             return (
               <div
@@ -118,18 +117,18 @@ function Index() {
                rounded-lg flex items-start justify-between  gap-2 border-2 border-solid`}
               >
                 <div className={`flex gap-2 w-full font-Poppins text-black `}>
-                  <div>
+                  <div className="w-full">
                     <div className=" overflow-hidden w-52 h-8 ">
                       <span className=" font text-xl font-bold w-max ml-2">
                         {assignment?.assignment?.title}
                       </span>
                     </div>
 
-                    <div className="relative">
-                      <div className="w-40  h-[0.5px] mt-1 ml-2  mb-2 bg-blue-800 rounded-full "></div>
+                    <div className="relative w-full">
+                      <div className="w-full  h-[0.5px] mt-1 ml-2  mb-2 bg-blue-800 rounded-full "></div>
 
                       <div
-                        className="h-20 w-44 overflow-hidden  fade-mask ml-2"
+                        className="h-20 w-40 overflow-hidden  fade-mask ml-2"
                         dangerouslySetInnerHTML={{
                           __html: assignment?.assignment?.description,
                         }}
@@ -137,7 +136,7 @@ function Index() {
                     </div>
                   </div>
                 </div>
-                <div className="w-full  h-full flex items-center justify-center">
+                <div className="w-40  h-full flex items-center justify-center">
                   <div className=" font-Kanit flex-col font-semibold flex justify-center items-center">
                     {assignment?.student.status === "no-work" && (
                       <div className="w-20 h-20 bg-red-600 rounded-2xl text-white font-Kanit font-semibold flex justify-center items-center">

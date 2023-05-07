@@ -39,7 +39,7 @@ function Index({ cardData }) {
           จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>TaTuga class</title>
+        <title>Tatuga class</title>
       </Head>
       <Layout>
         <header className="w-full max-w-9xl   h-max  flex justify-between items-center gap-12 font-sans">
@@ -51,7 +51,7 @@ function Index({ cardData }) {
             </div>
             <div className="flex flex-col w-full gap-0 md:gap-1 lg:gap-1 xl:gap-5 ">
               <span className="font-Poppins font-bold  text-[#2C7CD1] text-3xl md:text-4xl lg:text-6xl xl:text-7xl w-max">
-                TaTuga Class
+                Tatuga Class
               </span>
               <span className="text-[#2C7CD1] md:text-2xl lg:text-2xl font-bold font-Poppins relative z-10 ">
                 Classroom Management for Everyone

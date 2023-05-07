@@ -82,13 +82,7 @@ export default function Home({ post, blurData }) {
       <Facebook />
       <Layout>
         <Head>
-          <title>TaTuga camp</title>
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/TaTuga camp.png"
-          />
+          <title>Tatuga camp</title>
           <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
           <meta name="google" content="notranslate" key="notranslate" />
           <meta name="description" content={DataDescriptionMeta} />
@@ -165,7 +159,7 @@ export default function Home({ post, blurData }) {
               <div className="w-10/12 md:w-full text-center mt-5 md:mt-0 justify-center  flex flex-col gap-y-0 md:gap-y-0">
                 <div className="square xyz-in">
                   <span className="text-[2rem] md:text-[3rem] MoreSugar text-[#2C7CD1]">
-                    TaTuga camp
+                    Tatuga camp
                   </span>
                 </div>
 

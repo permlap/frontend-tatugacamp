@@ -73,6 +73,7 @@ function Index() {
 
   // refetch studentOnAssinment when  there is new assignment?.data?.data?
   useEffect(() => {
+    students.refetch();
     assignment.refetch();
     studentOnAssignments.refetch();
     setClassroomId(() => router.query.classroomId);
@@ -146,18 +147,21 @@ function Index() {
   const handleSelectWork = (student) => {
     if (student.studentWork) {
       setImages(() => {
-        let pictures = [];
+        // let pictures = [];
         if (!student?.studentWork?.picture) {
           pictures.push({ src: "", alt: "student's work" });
         } else if (student.studentWork.picture) {
           const arrayPictures = student.studentWork.picture.split(", ");
-          for (const arrayPicture of arrayPictures) {
-            pictures.push({ src: arrayPicture, alt: "student's work" });
-          }
-          return pictures;
+          // console.log(arrayPictures);
+          // for (const arrayPicture of arrayPictures) {
+          //   pictures.push({ src: arrayPicture, alt: "student's work" });
+          // }
+
+          return arrayPictures;
         }
       });
     } else if (!student.studentWork) {
+      console.log("run");
       setImages(null);
     }
 
@@ -172,7 +176,6 @@ function Index() {
       };
     });
   };
-
   const handleReviewWork = async (e) => {
     try {
       e.preventDefault();
@@ -483,7 +486,7 @@ function Index() {
                   </div>
 
                   <div className="">
-                    {currentStudentWork && images && images[0].src !== "" ? (
+                    {currentStudentWork && images && !images !== null ? (
                       <SlideshowLightbox
                         downloadImages={true}
                         lightboxIdentifier="lightbox1"
@@ -492,19 +495,20 @@ function Index() {
                         images={images}
                         theme="day"
                         className={`container grid ${
-                          images.length === 1 ? "grid-cols-1" : "grid-cols-2"
-                        } w-[40rem] mx-auto h-full items-center place-items-center
-                         max-h-60 overflow-auto  `}
+                          images.length === 1 ? "grid-cols-1" : "grid-cols-3"
+                        } w-[40rem] mx-auto h-full items-center gap-2 place-items-center
+                         `}
                       >
                         {images.map((image, index) => {
+                          console.log(image);
                           return (
                             <Image
                               key={index}
-                              src={image?.src}
-                              alt={image?.alt}
+                              src={image}
+                              alt="student's work"
                               width={240}
                               height={160}
-                              className="object-contain "
+                              className="object-cover"
                               data-lightboxjs="lightbox1"
                               quality={80}
                             />
@@ -529,16 +533,8 @@ function Index() {
                       <div className="w-6 left-[5.2rem] top-1 overflow-hidden  inline-block absolute ">
                         <div className=" h-10  bg-blue-100 -rotate-45 transform origin-top-right"></div>
                       </div>
-                      <div className="flex justify-center items-center ml-5">
-                        <div className="w-16 h-16 relative rounded-full overflow-hidden bg-blue-100 ">
-                          <Image
-                            src={currentStudentWork?.picture}
-                            layout="fill"
-                          />
-                        </div>
-                      </div>
 
-                      <div className="w-[28rem] ml-5 bg-blue-100 rounded-lg h-maxrelative overflow-auto p-2">
+                      <div className="w-max max-w-2xl ml-5 bg-blue-100 rounded-lg h-max relative overflow-auto p-2">
                         <div className="text-md ml-4 font-bold">
                           {currentStudentWork?.firstName}
                         </div>
@@ -552,6 +548,21 @@ function Index() {
                       </div>
                     </div>
                   )}
+                  {teacherReview.comment && (
+                    <div className=" w-full  h-max mt-5 flex items-start justify-end   relative ">
+                      <div className="w-max max-w-xl pr-10 mr-5 bg-blue-100 rounded-lg h-max relative overflow-auto p-2">
+                        <div className="text-md ml-4 font-bold">teacher</div>
+
+                        <div
+                          className="pl-4"
+                          dangerouslySetInnerHTML={{
+                            __html: teacherReview.comment,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   <form
                     onSubmit={handleReviewWork}
                     className="w-full flex justify-center gap-5 mt-10 mb-5"

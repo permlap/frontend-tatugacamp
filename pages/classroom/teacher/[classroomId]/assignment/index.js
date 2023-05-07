@@ -166,7 +166,7 @@ text-black transition duration-150 cursor-pointer"
                           <div className="w-96  h-[0.5px]  mb-2 bg-blue-800 rounded-full "></div>
 
                           <div
-                            className="h-24 overflow-hidden fade-mask"
+                            className="h-24 w-60 overflow-hidden fade-mask"
                             dangerouslySetInnerHTML={{
                               __html: assignment?.description,
                             }}
