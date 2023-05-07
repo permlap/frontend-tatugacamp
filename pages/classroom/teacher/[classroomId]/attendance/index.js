@@ -15,6 +15,8 @@ import Swal from "sweetalert2";
 import UpdateAttendance from "../../../../../components/form/updateAttendance";
 import { Popover } from "@headlessui/react";
 import { BiMessageAltError } from "react-icons/bi";
+import { DownloadExcelAttendance } from "../../../../../service/dowloadFile";
+import { SiMicrosoftexcel } from "react-icons/si";
 
 function Index() {
   const router = useRouter();
@@ -84,10 +86,37 @@ function Index() {
     });
   };
 
+  const handleDownloadFile = async () => {
+    try {
+      await DownloadExcelAttendance({ classroomId: router.query.classroomId });
+      Swal.fire(
+        "ดาวโหลดสำเร็จ",
+        "ดาวโหลดไฟล์รายงานผลเข้าเรียนเรียบร้อย",
+        "success"
+      );
+    } catch (err) {
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+      console.log(err);
+    }
+  };
+
   return (
     <div className="bg-blue-50">
       <Layout sideMenus={sideMenus}>
         <div className="w-full h-full mt-10 flex flex-col justify-center items-center pb-10">
+          <button
+            className="w-max px-5 flex gap-1 mb-2 hover:scale-105 transition duration-150 active:bg-blue-800 bg-blue-500 font-Poppins font-semibold text-white rounded-lg py-2"
+            onClick={handleDownloadFile}
+          >
+            dowload
+            <div>
+              <SiMicrosoftexcel />
+            </div>
+          </button>
           <div className=" h-[40rem]  flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-auto">
             <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">
