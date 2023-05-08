@@ -238,9 +238,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                   </Popover.Button>
                   <Popover.Panel>
                     {({ close }) => (
-                      <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10">
-                        <CreateStudent students={students} close={close} />
-                      </div>
+                      <CreateStudent students={students} close={close} />
                     )}
                   </Popover.Panel>
                 </>

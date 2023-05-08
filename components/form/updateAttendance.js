@@ -55,7 +55,7 @@ function UpdateAttendance({ close, student, attendanceData, attendances }) {
         holiday: reCheck.holiday,
       });
       attendances.refetch();
-      Swal.fire("success", "assignment has been createed", "success");
+      Swal.fire("success", "attendance has been updated", "success");
       document.body.style.overflow = "auto";
     } catch (err) {
       console.log(err);

@@ -134,7 +134,7 @@ function Index() {
                         key={index}
                         className="col-span-9 flex w-full gap-5 "
                       >
-                        {item.data.map((status) => {
+                        {item.dateTimes.map((status) => {
                           const date = new Date(status.date);
                           const formattedDate = date.toLocaleDateString(
                             "th-TH",
@@ -220,73 +220,75 @@ function Index() {
               </div>
             ) : (
               attendances?.data?.data.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="grid grid-cols-12 place-items-center mt-2 w-max "
-                  >
-                    <div className="col-span-1 w-20 flex items-center justify-center mr-5">
-                      {item.student.number}
-                    </div>
-                    <div className="col-span-2 w-60 text-left flex ">
-                      <span className="text-left">
-                        {item.student.firstName} {item.student.lastName}
-                      </span>
-                    </div>
-                    <div className="col-span-9 flex w-full gap-5 ">
-                      {item.data.map((status) => {
-                        return (
-                          <Popover key={status.id}>
-                            {({ open }) => (
-                              <div>
-                                <Popover.Button
-                                  onClick={() => {
-                                    document.body.style.overflow = "hidden";
-                                  }}
-                                >
-                                  <div className="w-20 flex items-center justify-center ">
-                                    {status.present && (
-                                      <div className="bg-green-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                        มาเรียน
-                                      </div>
-                                    )}
-                                    {status.absent && (
-                                      <div className="bg-red-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                        ขาด
-                                      </div>
-                                    )}
-                                    {status.holiday && (
-                                      <div className="bg-yellow-500 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                        ลา
-                                      </div>
-                                    )}
-                                    {!status.holiday &&
-                                      !status.absent &&
-                                      !status.present && (
-                                        <div className="bg-gray-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                          ไม่มีข้อมูล
+                if (index !== 0) {
+                  return (
+                    <div
+                      key={index}
+                      className="grid grid-cols-12 place-items-center mt-2 w-max "
+                    >
+                      <div className="col-span-1 w-20 flex items-center justify-center mr-5">
+                        {item.student.number}
+                      </div>
+                      <div className="col-span-2 w-60 text-left flex ">
+                        <span className="text-left">
+                          {item.student.firstName} {item.student.lastName}
+                        </span>
+                      </div>
+                      <div className="col-span-9 flex w-full gap-5 ">
+                        {item.data.map((status) => {
+                          return (
+                            <Popover key={status.id}>
+                              {({ open }) => (
+                                <div>
+                                  <Popover.Button
+                                    onClick={() => {
+                                      document.body.style.overflow = "hidden";
+                                    }}
+                                  >
+                                    <div className="w-20 flex items-center justify-center ">
+                                      {status.present && (
+                                        <div className="bg-green-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                          มาเรียน
                                         </div>
                                       )}
-                                  </div>
-                                </Popover.Button>
-                                <Popover.Panel>
-                                  {({ close }) => (
-                                    <UpdateAttendance
-                                      attendances={attendances}
-                                      close={close}
-                                      student={item.student}
-                                      attendanceData={status}
-                                    />
-                                  )}
-                                </Popover.Panel>
-                              </div>
-                            )}
-                          </Popover>
-                        );
-                      })}
+                                      {status.absent && (
+                                        <div className="bg-red-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                          ขาด
+                                        </div>
+                                      )}
+                                      {status.holiday && (
+                                        <div className="bg-yellow-500 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                          ลา
+                                        </div>
+                                      )}
+                                      {!status.holiday &&
+                                        !status.absent &&
+                                        !status.present && (
+                                          <div className="bg-gray-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                            ไม่มีข้อมูล
+                                          </div>
+                                        )}
+                                    </div>
+                                  </Popover.Button>
+                                  <Popover.Panel>
+                                    {({ close }) => (
+                                      <UpdateAttendance
+                                        attendances={attendances}
+                                        close={close}
+                                        student={item.student}
+                                        attendanceData={status}
+                                      />
+                                    )}
+                                  </Popover.Panel>
+                                </div>
+                              )}
+                            </Popover>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               })
             )}
 
