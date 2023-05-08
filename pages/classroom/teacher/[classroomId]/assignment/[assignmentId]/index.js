@@ -128,9 +128,11 @@ function Index() {
     });
   };
 
-  console.log(assignment.data);
   //handle trigger menu
   const handleMenuTrigger = (index) => {
+    if (index === 1) {
+      studentOnAssignments.refetch();
+    }
     setActiveMenu(index);
   };
 

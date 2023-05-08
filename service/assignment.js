@@ -85,7 +85,6 @@ export async function GetAllAssignments({ classroomId }) {
 
 export async function GetAssignment({ assignmentId }) {
   try {
-    console.log("assignmentId", assignmentId);
     if (!assignmentId) {
       return null;
     }
@@ -171,6 +170,8 @@ export async function AssignWorkToSTudent({ isChecked, assignmentCreated }) {
 
 export async function ViewAllAssignOnStudent({ classroomId, assignmentId }) {
   try {
+    console.log("classroomId", classroomId);
+    console.log("assignmentId", assignmentId);
     const access_token = localStorage.getItem("access_token");
     const studentWorks = await axios.get(
       `${process.env.Server_Url}/user/assignment/view-all-assign-on-student`,
