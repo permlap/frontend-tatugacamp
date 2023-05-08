@@ -11,6 +11,7 @@ import CreateAssignment from "../../../../../components/form/createAssignment";
 import { GetAllAssignments } from "../../../../../service/assignment";
 import { GetAllStudents } from "../../../../../service/students";
 import Layout from "../../../../../layouts/classroomLayout";
+import { Skeleton } from "@mui/material";
 function Assignment() {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
@@ -36,7 +37,6 @@ function Assignment() {
       enabled: false,
     }
   );
-
   //check whether there is authorrized acccess or not
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
@@ -133,85 +133,95 @@ text-black transition duration-150 cursor-pointer"
 
           {/* assignments are here */}
           <div className=" w-full max-w-7xl mt-5 gap-5 grid items-center justify-center ">
-            {assignments?.data?.map((assignment, index) => {
-              //covert date
-              const date = new Date(assignment.deadline);
-              const formattedDate = date.toLocaleDateString("en-US", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              });
+            {assignments.isLoading ? (
+              <div className="flex flex-col gap-5">
+                <Skeleton variant="rounded" width={650} height={144} />
+                <Skeleton variant="rounded" width={650} height={144} />
+                <Skeleton variant="rounded" width={650} height={144} />
+                <Skeleton variant="rounded" width={650} height={144} />
+                <Skeleton variant="rounded" width={650} height={144} />
+              </div>
+            ) : (
+              assignments?.data?.map((assignment, index) => {
+                //covert date
+                const date = new Date(assignment.deadline);
+                const formattedDate = date.toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                });
 
-              return (
-                <div
-                  onClick={() => {
-                    router.push({
-                      pathname: `/classroom/teacher/${router.query.classroomId}/assignment/${assignment.id}`,
-                    });
-                  }}
-                  key={index}
-                  className={`w-[35rem] h-36 px-10 py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
+                return (
+                  <div
+                    onClick={() => {
+                      router.push({
+                        pathname: `/classroom/teacher/${router.query.classroomId}/assignment/${assignment.id}`,
+                      });
+                    }}
+                    key={index}
+                    className={`w-[35rem] h-36 px-10 py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
                  duration-150 transition relative
                rounded-lg flex flex-col gap-10 border-2 border-solid`}
-                >
-                  <div className="flex ">
-                    <div className="flex">
-                      <div
-                        className={`flex flex-col gap-2 w-3/4 font-Poppins text-black `}
-                      >
-                        <span className=" font text-xl font-bold w-max">
-                          {assignment.title}
-                        </span>
-                        <div className="relative">
-                          <div className="w-96  h-[0.5px]  mb-2 bg-blue-800 rounded-full "></div>
+                  >
+                    <div className="flex ">
+                      <div className="flex">
+                        <div
+                          className={`flex flex-col gap-2 w-3/4 font-Poppins text-black `}
+                        >
+                          <span className=" font text-xl font-bold w-max">
+                            {assignment.title}
+                          </span>
+                          <div className="relative">
+                            <div className="w-96  h-[0.5px]  mb-2 bg-blue-800 rounded-full "></div>
 
-                          <div
-                            className="h-24 w-60 overflow-hidden fade-mask"
-                            dangerouslySetInnerHTML={{
-                              __html: assignment?.description,
-                            }}
-                          />
-                          <div className="w-96 bg-gray-200 h-2 rounded-full overflow-hidden">
                             <div
-                              style={{ width: assignment.progress.progress }}
-                              className={` bg-blue-800 h-2 `}
-                            ></div>
+                              className="h-24 w-60 overflow-hidden fade-mask"
+                              dangerouslySetInnerHTML={{
+                                __html: assignment?.description,
+                              }}
+                            />
+                            <div className="w-96 bg-gray-200 h-2 rounded-full overflow-hidden">
+                              <div
+                                style={{ width: assignment.progress.progress }}
+                                className={` bg-blue-800 h-2 `}
+                              ></div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <div
-                        className="w-20 h-20 rounded-xl bg-white flex items-center font-semibold leading-4
+                      <div>
+                        <div
+                          className="w-20 h-20 rounded-xl bg-white flex items-center font-semibold leading-4
                     justify-center font-Poppins flex-col text-xs"
-                      >
-                        <span className="text-3xl">{assignment?.day}</span>
-                        <span>{assignment?.month}</span>
-                      </div>
-                    </div>
-                    <div className="relative">
-                      {assignment.maxScore && (
-                        <div className="flex items-center justify-center flex-col">
-                          <div
-                            className="w-20 h-20 bg-[#EDBA02] rounded-full text-white text-4xl
-                        font-Poppins font-bold flex items-center justify-center"
-                          >
-                            {assignment.maxScore}
-                          </div>
-                          <div className="font-Poppins font-semibold">
-                            score
-                          </div>
+                        >
+                          <span className="text-3xl">{assignment?.day}</span>
+                          <span>{assignment?.month}</span>
                         </div>
-                      )}
-                      <div className="font-Poppins gap-1 text-sm flex w-max absolute bottom-0 -left-12">
-                        <span>กำหนดส่ง</span>
-                        <span>{formattedDate}</span>
+                      </div>
+                      <div className="relative">
+                        {assignment.maxScore && (
+                          <div className="flex items-center justify-center flex-col">
+                            <div
+                              className="w-20 h-20 bg-[#EDBA02] rounded-full text-white text-4xl
+                        font-Poppins font-bold flex items-center justify-center"
+                            >
+                              {assignment.maxScore}
+                            </div>
+                            <div className="font-Poppins font-semibold">
+                              score
+                            </div>
+                          </div>
+                        )}
+                        <div className="font-Poppins gap-1 text-sm flex w-max absolute bottom-0 -left-12">
+                          <span>กำหนดส่ง</span>
+                          <span>{formattedDate}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </main>
       </div>

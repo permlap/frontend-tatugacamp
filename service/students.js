@@ -3,6 +3,9 @@ import Error from "next/error";
 
 export async function GetAllStudents(data) {
   try {
+    if (!data.classroomId) {
+      return null;
+    }
     const access_token = localStorage.getItem("access_token");
     const student = await axios.get(
       `${process.env.Server_Url}/user/student/get-all-student?classroomId=${data.classroomId}`,

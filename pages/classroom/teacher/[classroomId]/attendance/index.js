@@ -17,6 +17,7 @@ import { Popover } from "@headlessui/react";
 import { BiMessageAltError } from "react-icons/bi";
 import { DownloadExcelAttendance } from "../../../../../service/dowloadFile";
 import { SiMicrosoftexcel } from "react-icons/si";
+import { Skeleton } from "@mui/material";
 
 function Index() {
   const router = useRouter();
@@ -117,8 +118,8 @@ function Index() {
               <SiMicrosoftexcel />
             </div>
           </button>
-          <div className=" h-[40rem]  flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-auto">
-            <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky  top-0 drop-shadow-md ">
+          <div className=" h-[40rem]  flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-auto relative">
+            <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky z-10  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">
                 เลขที่
               </div>
@@ -152,7 +153,7 @@ function Index() {
                                 })
                               }
                               key={status.groupId}
-                              className="w-20  h-8 flex items-center justify-center group cursor-pointer "
+                              className="w-20 ring-2 ring-black rounded-lg ring-offset-2  h-8 flex items-center justify-center group cursor-pointer "
                             >
                               <div className="w-20 text-sm flex items-center justify-center py-1 rounded-lg text-black">
                                 <span className="block group-hover:hidden">
@@ -174,6 +175,121 @@ function Index() {
                 })}
               </div>
             </div>
+            {attendances.isLoading ? (
+              <div className="flex flex-col gap-5 items-center">
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+                <div className="w-full flex justify-center items-center gap-5">
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="text" width="80%" height={40} />
+                </div>
+              </div>
+            ) : (
+              attendances?.data?.data.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="grid grid-cols-12 place-items-center mt-2 w-max "
+                  >
+                    <div className="col-span-1 w-20 flex items-center justify-center mr-5">
+                      {item.student.number}
+                    </div>
+                    <div className="col-span-2 w-60 text-left flex ">
+                      <span className="text-left">
+                        {item.student.firstName} {item.student.lastName}
+                      </span>
+                    </div>
+                    <div className="col-span-9 flex w-full gap-5 ">
+                      {item.data.map((status) => {
+                        return (
+                          <Popover key={status.id}>
+                            {({ open }) => (
+                              <div>
+                                <Popover.Button
+                                  onClick={() => {
+                                    document.body.style.overflow = "hidden";
+                                  }}
+                                >
+                                  <div className="w-20 flex items-center justify-center ">
+                                    {status.present && (
+                                      <div className="bg-green-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                        มาเรียน
+                                      </div>
+                                    )}
+                                    {status.absent && (
+                                      <div className="bg-red-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                        ขาด
+                                      </div>
+                                    )}
+                                    {status.holiday && (
+                                      <div className="bg-yellow-500 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                        ลา
+                                      </div>
+                                    )}
+                                    {!status.holiday &&
+                                      !status.absent &&
+                                      !status.present && (
+                                        <div className="bg-gray-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
+                                          ไม่มีข้อมูล
+                                        </div>
+                                      )}
+                                  </div>
+                                </Popover.Button>
+                                <Popover.Panel>
+                                  {({ close }) => (
+                                    <UpdateAttendance
+                                      attendances={attendances}
+                                      close={close}
+                                      student={item.student}
+                                      attendanceData={status}
+                                    />
+                                  )}
+                                </Popover.Panel>
+                              </div>
+                            )}
+                          </Popover>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+
             {attendances?.data?.data?.length === 0 && (
               <div className="w-full flex items-center justify-center h-full text-8xl">
                 <span>ไม่มีข้อมูล</span>
@@ -182,75 +298,6 @@ function Index() {
                 </div>
               </div>
             )}
-            {attendances?.data?.data.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="grid grid-cols-12 place-items-center mt-2 w-max "
-                >
-                  <div className="col-span-1 w-20 flex items-center justify-center mr-5">
-                    {item.student.number}
-                  </div>
-                  <div className="col-span-2 w-60 text-left flex ">
-                    <span className="text-left">
-                      {item.student.firstName} {item.student.lastName}
-                    </span>
-                  </div>
-                  <div className="col-span-9 flex w-full gap-5 ">
-                    {item.data.map((status) => {
-                      return (
-                        <Popover key={status.id}>
-                          {({ open }) => (
-                            <div>
-                              <Popover.Button
-                                onClick={() => {
-                                  document.body.style.overflow = "hidden";
-                                }}
-                              >
-                                <div className="w-20 flex items-center justify-center ">
-                                  {status.present && (
-                                    <div className="bg-green-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                      มาเรียน
-                                    </div>
-                                  )}
-                                  {status.absent && (
-                                    <div className="bg-red-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                      ขาด
-                                    </div>
-                                  )}
-                                  {status.holiday && (
-                                    <div className="bg-yellow-500 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                      ลา
-                                    </div>
-                                  )}
-                                  {!status.holiday &&
-                                    !status.absent &&
-                                    !status.present && (
-                                      <div className="bg-gray-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                        ไม่มีข้อมูล
-                                      </div>
-                                    )}
-                                </div>
-                              </Popover.Button>
-                              <Popover.Panel>
-                                {({ close }) => (
-                                  <UpdateAttendance
-                                    attendances={attendances}
-                                    close={close}
-                                    student={item.student}
-                                    attendanceData={status}
-                                  />
-                                )}
-                              </Popover.Panel>
-                            </div>
-                          )}
-                        </Popover>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </Layout>

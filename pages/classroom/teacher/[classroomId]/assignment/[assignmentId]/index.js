@@ -11,7 +11,6 @@ import { FiSettings } from "react-icons/fi";
 import { Box, Skeleton, TextField } from "@mui/material";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
-import { GrFormView, GrFormViewHide } from "react-icons/gr";
 import Image from "next/image";
 import "lightbox.js-react/dist/index.css";
 import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
@@ -23,7 +22,6 @@ import Unauthorized from "../../../../../../components/error/unauthorized.js";
 import { GetUser } from "../../../../../../service/user.js";
 function Index() {
   const router = useRouter();
-  const [classroomId, setClassroomId] = useState();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
   const user = useQuery(["user"], () => GetUser());
   const assignment = useQuery(
@@ -33,11 +31,18 @@ function Index() {
       enabled: false,
     }
   );
-  const students = useQuery(
-    ["students"],
-    () => GetAllStudents({ classroomId }),
+  const students = useQuery(["students"], () => {
+    GetAllStudents({ classroomId: router.query.classroomId });
+  });
+  const studentOnAssignments = useQuery(
+    ["studentOnAssignments"],
+    () =>
+      ViewAllAssignOnStudent({
+        assignmentId: assignment.data.data.id,
+        classroomId: router.query.classroomId,
+      }),
     {
-      enabled: false,
+      enabled: assignment.isSuccess,
     }
   );
   const [activeMenu, setActiveMenu] = useState(0);
@@ -56,17 +61,6 @@ function Index() {
     },
   ];
 
-  const studentOnAssignments = useQuery(
-    ["studentOnAssignments"],
-    () =>
-      ViewAllAssignOnStudent({
-        assignmentId: assignment.data.data.id,
-        classroomId: classroomId,
-      }),
-    {
-      enabled: false,
-    }
-  );
   useEffect(() => {
     initLightboxJS(process.env.NEXT_PUBLIC_LIGHTBOX_KEY, "individual");
   }, []);
@@ -75,9 +69,7 @@ function Index() {
   useEffect(() => {
     students.refetch();
     assignment.refetch();
-    studentOnAssignments.refetch();
-    setClassroomId(() => router.query.classroomId);
-  }, [router.isReady, assignment?.data?.data?.id, classroomId]);
+  }, [router.isReady]);
 
   // convert date format
   const date = new Date(assignment?.data?.data?.deadline);
@@ -101,8 +93,6 @@ function Index() {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
-      console.log("assignmentId", assignment?.data?.data?.id);
-      console.log("studentId", currentStudentWork.id);
       if (result.isConfirmed) {
         const deleteStudentWork = await DeleteStudentWork({
           assignmentId: assignment?.data?.data?.id,
@@ -132,12 +122,13 @@ function Index() {
 
         Swal.fire("Deleted!", deleteAssignment?.data, "success");
         router.push({
-          pathname: `/classroom/teacher/${classroomId}/assignment`,
+          pathname: `/classroom/teacher/${router.query.classroomId}/assignment`,
         });
       }
     });
   };
 
+  console.log(assignment.data);
   //handle trigger menu
   const handleMenuTrigger = (index) => {
     setActiveMenu(index);
@@ -147,21 +138,19 @@ function Index() {
   const handleSelectWork = (student) => {
     if (student.studentWork) {
       setImages(() => {
-        // let pictures = [];
+        let pictures = [];
         if (!student?.studentWork?.picture) {
           pictures.push({ src: "", alt: "student's work" });
         } else if (student.studentWork.picture) {
           const arrayPictures = student.studentWork.picture.split(", ");
-          // console.log(arrayPictures);
-          // for (const arrayPicture of arrayPictures) {
-          //   pictures.push({ src: arrayPicture, alt: "student's work" });
-          // }
+          for (const arrayPicture of arrayPictures) {
+            pictures.push({ src: arrayPicture, alt: "student's work" });
+          }
 
-          return arrayPictures;
+          return pictures;
         }
       });
     } else if (!student.studentWork) {
-      console.log("run");
       setImages(null);
     }
 
@@ -264,7 +253,7 @@ function Index() {
             <button
               onClick={() =>
                 router.push({
-                  pathname: `/classroom/teacher/${classroomId}/assignment/`,
+                  pathname: `/classroom/teacher/${router.query.classroomId}/assignment/`,
                 })
               }
               className="font-Poppins z-20 hover:scale-110 transition duration-150 absolute top-2 left-2 text-white bg-blue-500 px-5 py-3 rounded-xl "
@@ -276,14 +265,22 @@ function Index() {
               <div className="w-full px-10 flex flex-col justify-around  h-full ">
                 <div className="flex justify-between mt-20">
                   <span className="lg:text-4xl">
-                    {assignment?.data?.data?.title}
+                    {assignment.isLoading ? (
+                      <Skeleton variant="text" />
+                    ) : (
+                      assignment?.data?.data?.title
+                    )}
                   </span>
                   <div className="flex items-center justify-center flex-col">
                     <div
                       className="w-20 h-10 rounded-xl flex items-center justify-center
               bg-orange-400 font-Poppins font-bold text-xl text-white"
                     >
-                      {assignment?.data?.data?.maxScore}
+                      {assignment.isLoading ? (
+                        <Skeleton variant="text" />
+                      ) : (
+                        assignment?.data?.data?.maxScore
+                      )}
                     </div>
                     <span>คะแนนเต็ม</span>
                   </div>
@@ -291,11 +288,21 @@ function Index() {
 
                 <div className="w-full h-[2px] bg-blue-900 rounded-full"></div>
                 <div className="mt-5 font-Kanit text-xl w-full h-[25rem] overflow-auto">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: assignment?.data?.data?.description,
-                    }}
-                  />
+                  {assignment.isLoading ? (
+                    <div>
+                      <Skeleton variant="text" width="50%" />
+                      <Skeleton variant="text" width="50%" />
+                      <Skeleton variant="text" width="55%" />
+                      <Skeleton variant="text" width="55%" />
+                      <Skeleton variant="text" width="55%" />
+                    </div>
+                  ) : (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: assignment?.data?.data?.description,
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="flex pb-5 gap-2 items-end mt-5 justify-between">
                   <div>
@@ -486,7 +493,7 @@ function Index() {
                   </div>
 
                   <div className="">
-                    {currentStudentWork && images && !images !== null ? (
+                    {currentStudentWork && images && images !== null ? (
                       <SlideshowLightbox
                         downloadImages={true}
                         lightboxIdentifier="lightbox1"
@@ -500,11 +507,10 @@ function Index() {
                          `}
                       >
                         {images.map((image, index) => {
-                          console.log(image);
                           return (
                             <Image
                               key={index}
-                              src={image}
+                              src={image.src}
                               alt="student's work"
                               width={240}
                               height={160}

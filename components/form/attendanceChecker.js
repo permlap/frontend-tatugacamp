@@ -147,7 +147,6 @@ function AttendanceChecker({ close, students }) {
         attendanceDate: attendanceDate,
         classroomId: router.query.classroomId,
       });
-      console.log(createAttendace);
       setLoading(false);
       Swal.fire("success", "check attendacne completed", "success");
       document.body.style.overflow = "auto";

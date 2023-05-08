@@ -106,7 +106,6 @@ function UpdateScore({
       const deletedStudent = await DelteStudent({ studentId: data.studentId });
       Swal.fire("success", deletedStudent.data.message, "success");
       students.refetch();
-      console.log(deletedStudent);
     } catch (err) {
       Swal.fire(
         "error",

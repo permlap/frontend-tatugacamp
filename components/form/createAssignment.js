@@ -132,7 +132,6 @@ export default function CreateAssignment({
       );
     }
   };
-  console.log(isChecked);
 
   return (
     <div>

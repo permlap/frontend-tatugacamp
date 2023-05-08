@@ -85,9 +85,12 @@ export async function GetAllAssignments({ classroomId }) {
 
 export async function GetAssignment({ assignmentId }) {
   try {
-    console.log(assignmentId);
+    console.log("assignmentId", assignmentId);
+    if (!assignmentId) {
+      return null;
+    }
     const access_token = localStorage.getItem("access_token");
-    const progress = await axios.get(
+    const assignment = await axios.get(
       `${process.env.Server_Url}/user/assignment/get-a-assignment`,
       {
         params: {
@@ -99,7 +102,7 @@ export async function GetAssignment({ assignmentId }) {
         },
       }
     );
-    return progress;
+    return assignment;
   } catch (err) {
     console.log(err);
     throw new Error(err);

@@ -2832,10 +2832,10 @@
     "prelude-ls" "^1.2.1"
     "type-check" "~0.4.0"
 
-"lightbox.js-react@^0.6.1":
-  "integrity" "sha512-TH0qNWxNIde0eMciM02VYuM3fhcc5V5zxmwhu6mZilNPyGxNbA5FCrjSjPf4y996Mu2hjo1iyQejJyl+nb+m3A=="
-  "resolved" "https://registry.npmjs.org/lightbox.js-react/-/lightbox.js-react-0.6.1.tgz"
-  "version" "0.6.1"
+"lightbox.js-react@^0.6.3":
+  "integrity" "sha512-URrvhNKhtJGlfiQylLF3/gZ75doCWz0sbepLDAS+g+0/cH1xJ21ZAI+nivc8x0TrPK5ILrxNtVRvJZ2f0Kq0Ww=="
+  "resolved" "https://registry.npmjs.org/lightbox.js-react/-/lightbox.js-react-0.6.3.tgz"
+  "version" "0.6.3"
   dependencies:
     "@types/file-saver" "^2.0.5"
     "@types/react-key-handler" "^1.2.0"
