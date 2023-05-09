@@ -10,37 +10,34 @@ export async function CreateAttendance({
   try {
     const access_token = localStorage.getItem("access_token");
     const formatDate = new Date(attendanceDate).toISOString();
-    let attendacnes = [];
+
     const uniqueId = uuidv4();
-    for (const student of isChecks) {
-      try {
-        const attendacne = await axios.post(
-          `${process.env.Server_Url}/user/attendance/create`,
-          {
-            date: formatDate,
-            present: student[student.id].present,
-            absent: student[student.id].absent,
-            holiday: student[student.id].holiday,
-            groupId: uniqueId,
-          },
-          {
-            params: {
-              classroomId: classroomId,
-              studentId: student.id,
-            },
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${access_token}`,
-            },
-          }
-        );
-        attendacnes.push({ success: { ...student } });
-      } catch (err) {
-        attendacnes.push({ fail: { ...student } });
-        throw new Error(err);
+    const students = isChecks.map((student) => {
+      return {
+        id: student.id,
+        attendance: student[student.id],
+      };
+    });
+    console.log(students);
+    const attendacne = await axios.post(
+      `${process.env.Server_Url}/user/attendance/create`,
+      {
+        date: formatDate,
+        groupId: uniqueId,
+        students: students,
+      },
+      {
+        params: {
+          classroomId: classroomId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
       }
-    }
-    return attendacnes;
+    );
+
+    return attendacne;
   } catch (err) {
     console.log(err);
     throw new Error(err);
