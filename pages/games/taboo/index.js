@@ -48,24 +48,15 @@ function Index() {
   //set new category to taboo api
   function handleTabooCatergory(category) {
     if (category === "country" || category === "sport") {
-      if (status === "authenticated" || status === "unauthenticated") {
-        tabooCategory.current = category;
-        setNextCard((prev) => {
-          prev = Math.floor(Math.random() * 15);
-          return prev;
-        });
-        setScores(0);
-        setIndexRandom(0);
-        setRandom(GenerateRandom(length));
-        refetch();
-      } else if (status === "unauthenticated") {
-        setLoginFirst((prev) => (prev = !prev));
-        Swal.fire({
-          icon: "error",
-          title: "อุ๊บ...",
-          text: "กรุณาเข้าสู่ระบบด้วย ก่อนเข้าใช้งาน💤",
-        });
-      }
+      tabooCategory.current = category;
+      setNextCard((prev) => {
+        prev = Math.floor(Math.random() * 15);
+        return prev;
+      });
+      setScores(0);
+      setIndexRandom(0);
+      setRandom(GenerateRandom(length));
+      refetch();
     } else {
       tabooCategory.current = category;
       setNextCard((prev) => {
@@ -209,13 +200,13 @@ function Index() {
                   <div className="flex gap-12 mt-5">
                     <button
                       onClick={YesConfirm}
-                      className="border-0 font-Kanit font-bold bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
+                      className="border-0 font-Kanit font-bold px-2 bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
                     >
                       Yes
                     </button>
                     <button
                       onClick={NoConfirm}
-                      className="border-0 font-Kanit font-bold bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
+                      className="border-0 px-2 font-Kanit font-bold bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
                     >
                       No
                     </button>
@@ -356,9 +347,6 @@ function Index() {
                     onClick={() => handleTabooCatergory("country")}
                   >
                     <span>หมวดประเทศ</span>
-                    <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
-                      <FcUnlock />
-                    </div>
                   </button>
                 </li>
                 <li>
@@ -368,9 +356,6 @@ function Index() {
                     onClick={() => handleTabooCatergory("sport")}
                   >
                     <span>หมวดกีฬา</span>
-                    <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
-                      <FcUnlock />
-                    </div>
                   </button>
                 </li>
               </ul>
