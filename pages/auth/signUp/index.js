@@ -165,7 +165,7 @@ function Index() {
   return (
     <Layout>
       <Head>
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <meta
           name="description"
           content="Login tatuga camp - เข้าสู่ระบบเว็บ tatuga camp"

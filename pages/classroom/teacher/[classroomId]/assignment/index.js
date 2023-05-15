@@ -80,6 +80,11 @@ function Assignment() {
       icon: "🙌",
       url: `/classroom/teacher/${router.query.classroomId}/attendance`,
     },
+    {
+      title: "คะแนนรวม",
+      icon: "🥇",
+      url: `/classroom/teacher/${router.query.classroomId}/scores`,
+    },
 
     {
       title: "หน้าหลัก",

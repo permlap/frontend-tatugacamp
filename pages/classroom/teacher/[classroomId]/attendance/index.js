@@ -18,6 +18,7 @@ import { BiMessageAltError } from "react-icons/bi";
 import { DownloadExcelAttendance } from "../../../../../service/dowloadFile";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { Skeleton } from "@mui/material";
+import Head from "next/head";
 
 function Index() {
   const router = useRouter();
@@ -52,6 +53,11 @@ function Index() {
       title: "ข้อมูลการเข้าเรียน",
       icon: "🙌",
       url: `#`,
+    },
+    {
+      title: "คะแนนรวม",
+      icon: "🥇",
+      url: `/classroom/teacher/${router.query.classroomId}/scores`,
     },
 
     {
@@ -106,9 +112,12 @@ function Index() {
   };
 
   return (
-    <div className="bg-blue-50">
+    <div className="bg-blue-50 pb-40">
+      <Head>
+        <title>attendance</title>
+      </Head>
       <Layout sideMenus={sideMenus}>
-        <div className="w-full h-full mt-10 flex flex-col justify-center items-center pb-10">
+        <div className="w-full h-full mt-10 flex flex-col justify-center items-center pb-10 ">
           <button
             className="w-max px-5 flex gap-1 mb-2 hover:scale-105 transition duration-150 active:bg-blue-800 bg-blue-500 font-Poppins font-semibold text-white rounded-lg py-2"
             onClick={handleDownloadFile}
@@ -118,7 +127,7 @@ function Index() {
               <SiMicrosoftexcel />
             </div>
           </button>
-          <div className=" h-[40rem]  flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-auto relative">
+          <div className=" h-full max-h-[40rem] flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
             <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky z-10  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">
                 เลขที่
@@ -292,8 +301,8 @@ function Index() {
               })
             )}
 
-            {attendances?.data?.data?.length === 0 && (
-              <div className="w-full flex items-center justify-center h-full text-8xl">
+            {attendances?.data?.data[0].dateTimes.length === 0 && (
+              <div className="w-full flex items-center justify-center h-96 text-8xl">
                 <span>ไม่มีข้อมูล</span>
                 <div className="text-red-400">
                   <BiMessageAltError />

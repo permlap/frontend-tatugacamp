@@ -22,6 +22,30 @@ export async function GetAllStudents(data) {
     throw new Error(err);
   }
 }
+export async function GetAllStudentScores({ classroomId }) {
+  try {
+    if (!classroomId) {
+      return null;
+    }
+    const access_token = localStorage.getItem("access_token");
+    const students = await axios.get(
+      `${process.env.Server_Url}/user/assignment/get-allStudentScores`,
+      {
+        params: {
+          classroomId: classroomId,
+        },
+        headers: {
+          Authorization: "Bearer " + access_token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return students;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
 
 export async function CreateStudentApi({
   number,
