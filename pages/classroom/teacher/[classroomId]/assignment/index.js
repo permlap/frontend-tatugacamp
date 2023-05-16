@@ -168,12 +168,12 @@ text-black transition duration-150 cursor-pointer"
                  duration-150 transition relative
                rounded-lg flex flex-col gap-10 border-2 border-solid`}
                   >
-                    <div className="flex ">
+                    <div className="flex justify-between">
                       <div className="flex">
                         <div
-                          className={`flex flex-col gap-2 w-3/4 font-Poppins text-black `}
+                          className={`flex flex-col gap-2 w-3/4 max-w-lg  font-Poppins text-black `}
                         >
-                          <span className=" font text-xl font-bold w-max">
+                          <span className=" font text-xl font-bold w-full h-max max-h-8 overflow-auto scrollbar-hide ">
                             {assignment.title}
                           </span>
                           <div className="relative">
@@ -194,16 +194,8 @@ text-black transition duration-150 cursor-pointer"
                           </div>
                         </div>
                       </div>
-                      <div>
-                        <div
-                          className="w-20 h-20 rounded-xl bg-white flex items-center font-semibold leading-4
-                    justify-center font-Poppins flex-col text-xs"
-                        >
-                          <span className="text-3xl">{assignment?.day}</span>
-                          <span>{assignment?.month}</span>
-                        </div>
-                      </div>
-                      <div className="relative">
+
+                      <div className="relative ">
                         {assignment.maxScore && (
                           <div className="flex items-center justify-center flex-col">
                             <div

@@ -169,8 +169,8 @@ function Index() {
       </div>
       <div className="w-full flex flex-col items-center justify-start pt-16 gap-2">
         <div className="w-full flex gap-2 items-center justify-center">
-          <div className="w-full h-10 text-left max-w-4xl overflow-auto">
-            <span className="font-Kanit text-3xl ml-5 font-bold text-black tracking-wide">
+          <div className="w-full ml-5 md:ml-0 h-max text-left max-w-3xl ">
+            <span className="font-Kanit text-2xl ml-5 font-bold text-black tracking-wide">
               {assignment?.title}
             </span>
           </div>

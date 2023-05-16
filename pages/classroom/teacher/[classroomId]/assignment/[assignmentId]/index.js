@@ -20,6 +20,7 @@ import { GetAllStudents } from "../../../../../../service/students";
 import UpdateAssignment from "../../../../../../components/form/updateAssignment.js";
 import Unauthorized from "../../../../../../components/error/unauthorized.js";
 import { GetUser } from "../../../../../../service/user.js";
+import { BiRefresh } from "react-icons/bi";
 function Index() {
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
@@ -339,9 +340,18 @@ function Index() {
             {activeMenu === 1 && (
               <div className="flex items-center justify-start w-full h-full gap-5   ">
                 <div className="w-[60rem] sticky flex flex-col h-full items-center justify-center ">
-                  <span className="text-xl font-Kanit font-semibold">
-                    สถานะการส่งงานของผู้เรียน
-                  </span>
+                  <div className="text-xl font-Kanit font-semibold flex justify-center items-center gap-2">
+                    <span>สถานะการส่งงานของผู้เรียน</span>
+
+                    <button
+                      onClick={() => studentOnAssignments.refetch()}
+                      className="flex cursor-pointer items-center justify-center hover:scale-110 transition duration-150
+                      active:bg-orange-800
+                     text-4xl bg-orange-500 w-8 h-8 rounded-full text-white"
+                    >
+                      <BiRefresh />
+                    </button>
+                  </div>
                   <ul className="w-full list-none pl-0">
                     <li className="grid grid-cols-4 mt-4 gap-2 text-xl ">
                       <div className="flex justify-center">เลขที่</div>
@@ -356,106 +366,112 @@ function Index() {
                       </div>
                     </li>
                     <div className="h-[32rem] w-full overflow-auto">
-                      {studentOnAssignments.isLoading && (
-                        <div className="flex flex-col items-center justify-start mt-5 gap-5">
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                          <Skeleton
-                            variant="rounded"
-                            animation="wave"
-                            width="80%"
-                          />
-                        </div>
-                      )}
-
-                      {studentOnAssignments?.data?.data?.map(
-                        (student, index) => {
-                          return (
-                            <li
-                              key={index}
-                              className="grid grid-cols-4 gap-2 py-2  "
-                            >
-                              <div className="flex justify-center">
-                                {student.number}
-                              </div>
-                              <div className="flex items-center justify-center">
-                                {student.firstName}
-                              </div>
-                              {student?.studentWork?.score ? (
-                                <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
-                                  {student.studentWork.score}
-                                </div>
-                              ) : (
-                                <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
-                                  0
-                                </div>
-                              )}
-                              {student.status === "no-work" && (
-                                <div
-                                  onClick={() => handleSelectWork(student)}
-                                  className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
-                                  hover:scale-105 transition duration-150"
+                      {studentOnAssignments.isLoading ||
+                        (studentOnAssignments.isFetching ? (
+                          <div className="flex flex-col items-center justify-start mt-5 gap-5">
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                            <Skeleton
+                              variant="rounded"
+                              animation="wave"
+                              width="80%"
+                            />
+                          </div>
+                        ) : (
+                          studentOnAssignments?.data?.data?.map(
+                            (student, index) => {
+                              return (
+                                <li
+                                  key={index}
+                                  className="grid grid-cols-4 gap-2 py-2  "
                                 >
-                                  ไม่ส่งงาน
-                                </div>
-                              )}
-                              {student.status === "have-work" &&
-                                student.studentWork.score === 0 &&
-                                student.studentWork.isSummited === false && (
-                                  <div
-                                    onClick={() => handleSelectWork(student)}
-                                    className=" w-max cursor-pointer hover:scale-105 transition duration-150
-                                     bg-yellow-500 py-1 px-2 rounded-lg text-white"
-                                  >
-                                    รอการตรวจ
+                                  <div className="flex justify-center">
+                                    {student.number}
                                   </div>
-                                )}
-                              {student.status === "no-assign" && (
-                                <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
-                                  ไม่ได้มอบหมาย
-                                </div>
-                              )}
-                              {student.status === "have-work" &&
-                                student.studentWork.isSummited === true && (
-                                  <div
-                                    onClick={() => handleSelectWork(student)}
-                                    className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
-                                  >
-                                    ตรวจแล้ว
+                                  <div className="flex items-center justify-center">
+                                    {student.firstName}
                                   </div>
-                                )}
-                            </li>
-                          );
-                        }
-                      )}
+                                  {student?.studentWork?.score ? (
+                                    <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                      {student.studentWork.score}
+                                    </div>
+                                  ) : (
+                                    <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                      0
+                                    </div>
+                                  )}
+                                  {student.status === "no-work" && (
+                                    <div
+                                      onClick={() => handleSelectWork(student)}
+                                      className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
+                                      hover:scale-105 transition duration-150"
+                                    >
+                                      ไม่ส่งงาน
+                                    </div>
+                                  )}
+                                  {student.status === "have-work" &&
+                                    student.studentWork.score === 0 &&
+                                    student.studentWork.isSummited ===
+                                      false && (
+                                      <div
+                                        onClick={() =>
+                                          handleSelectWork(student)
+                                        }
+                                        className=" w-max cursor-pointer hover:scale-105 transition duration-150
+                                         bg-yellow-500 py-1 px-2 rounded-lg text-white"
+                                      >
+                                        รอการตรวจ
+                                      </div>
+                                    )}
+                                  {student.status === "no-assign" && (
+                                    <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
+                                      ไม่ได้มอบหมาย
+                                    </div>
+                                  )}
+                                  {student.status === "have-work" &&
+                                    student.studentWork.isSummited === true && (
+                                      <div
+                                        onClick={() =>
+                                          handleSelectWork(student)
+                                        }
+                                        className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
+                                      >
+                                        ตรวจแล้ว
+                                      </div>
+                                    )}
+                                </li>
+                              );
+                            }
+                          )
+                        ))}
                     </div>
                   </ul>
                 </div>
@@ -519,6 +535,8 @@ function Index() {
                               className="object-cover"
                               data-lightboxjs="lightbox1"
                               quality={80}
+                              placeholder="blur"
+                              blurDataURL="/logo/TaTuga camp.png"
                             />
                           );
                         })}
@@ -558,11 +576,15 @@ function Index() {
                   )}
                   {teacherReview.comment && (
                     <div className=" w-full  h-max mt-5 flex items-start justify-end   relative ">
-                      <div className="w-max max-w-xl pr-10 mr-5 bg-blue-100 rounded-lg h-max relative overflow-auto p-2">
+                      <div className="w-max max-w-xl pr-10 mr-5 bg-blue-100 rounded-lg h-full relative  p-2">
                         <div className="text-md ml-4 font-bold">teacher</div>
-
                         <div
-                          className="pl-4"
+                          className="pl-4 "
+                          style={{
+                            wordWrap: "break-word",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                          }}
                           dangerouslySetInnerHTML={{
                             __html: teacherReview.comment,
                           }}

@@ -19,8 +19,23 @@ function Index() {
       enabled: false,
     }
   );
+  //check whether there is authorrized acccess or not
   useEffect(() => {
-    studentsScores.refetch();
+    const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+      router.push("/auth/signIn");
+    }
+    if (user.data === "Unauthorized") {
+      router.push("/auth/signIn");
+    }
+    if (user.isFetching === false) {
+      if (!user.data) {
+        router.push("/auth/signIn");
+      }
+    }
+    if (router.isReady) {
+      studentsScores.refetch();
+    }
   }, [router.isReady]);
   const sideMenus = [
     {
@@ -96,20 +111,25 @@ function Index() {
                       <th
                         key={assignment.id}
                         scope="col"
-                        className="px-6 py-3 w-28 "
+                        className="px-6 py-3  "
                       >
-                        <div className="flex flex-col items-center justify-center">
-                          <span> {assignment.title}</span>
-                          <span className="font-normal">
-                            {" "}
+                        <div className="flex   max-w-xs  flex-col items-center justify-center">
+                          <span className="text-sm"> {assignment.title}</span>
+                          <span className="text-sm font-normal">
+                            คะแนนเต็ม {assignment.maxScore}
+                          </span>
+                          <span className="font-normal italic">
                             ({formattedDate})
                           </span>
                         </div>
                       </th>
                     );
                   })}
-                  <th scope="col" className="px-6 py-3 w-60">
+                  <th scope="col" className="px-6 py-3 w-28">
                     คะแนนความประพฤติ
+                  </th>
+                  <th scope="col" className="px-6 py-3 w-20">
+                    รวม
                   </th>
                 </tr>
               </thead>
