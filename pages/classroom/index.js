@@ -6,13 +6,24 @@ import * as teacherAnimation from "../../components/98349-teacher-in-classroom.j
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { returnProps } from "../../utils/imageMetadata";
-
+import { useQuery } from "react-query";
+import { GetNumberStudent, GetNumberUsers } from "../../service/overview/users";
+import { useInView } from "react-intersection-observer";
+import NumberAnimated from "../../components/overview/numberAnimated";
 function Index({ cardData }) {
   const router = useRouter();
+  const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
+  const studentNumber = useQuery(["studentNumber"], () => GetNumberStudent());
+
   const [classroomCode, setClassroomCode] = useState();
   const style = {
     height: "100%",
   };
+
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
 
   return (
     <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-full  bg-cover pb-20">
@@ -42,7 +53,7 @@ function Index({ cardData }) {
         <title>Tatuga class</title>
       </Head>
       <Layout>
-        <header className="w-full max-w-9xl   h-max  flex justify-between items-center gap-12 font-sans">
+        <header className="w-full max-w-9xl   h-max  flex justify-center items-center gap-12 font-sans">
           <div className="lg:w-max lg:max-w-4xl bg-transparent lg:ml-5 xl:pl-10 p-10 gap-2 flex flex-col items-start justify-center ">
             <div className="md:mt-5 mt-10">
               <span className="font-medium text-gray-400 md:text-lg lg:text-xl ">
@@ -117,7 +128,7 @@ function Index({ cardData }) {
             </div>
           </div>
 
-          <div className="md:w-full lg:w-full xl:w-2/4 md:h-96 w-40 h-40 hidden md:flex items-center justify-center relative ">
+          <div className="md:w-full lg:w-full xl:w-4/12 md:h-96 w-40 h-40 hidden md:flex items-center justify-center relative ">
             <div className="absolute -left-60 md:-left-52 lg:-left-16  md:w-96 lg:w-full ">
               <Lottie animationData={teacherAnimation} style={style} />
             </div>
@@ -164,6 +175,50 @@ function Index({ cardData }) {
                 </div>
               );
             })}
+          </div>
+          <div
+            ref={ref}
+            className={`w-full   mt-10 h-full flex gap-10 font-Poppins 
+             items-center justify-center item-group square   `}
+            xyz="fade-100% up-1"
+          >
+            <div
+              className={`flex flex-col justify-center w-80  items-center gap-5 text-right ${
+                inView ? "xyz-in" : "xyz-out"
+              } `}
+            >
+              <div className="">
+                <span className="font-Poppins text-right font-semibold text-8xl text-white">
+                  {inView && (
+                    <NumberAnimated n={usersNumber?.data?.data?.userNumber} />
+                  )}
+                </span>
+              </div>
+
+              <span className="font-Poppins text-right font-semibold text-xl text-white">
+                Teachers
+              </span>
+            </div>
+            <div className="h-80 w-[2px] bg-white"></div>
+            <div
+              className={`flex flex-col jjustify-center w-80  items-center gap-5 text-right ${
+                inView ? "xyz-in" : "xyz-out"
+              } `}
+            >
+              <div className="">
+                <span className="font-Poppins text-right font-semibold text-8xl text-white">
+                  {inView && (
+                    <NumberAnimated
+                      n={studentNumber?.data?.data?.studentNumber}
+                    />
+                  )}
+                </span>
+              </div>
+
+              <span className="font-Poppins text-right font-semibold text-xl text-white">
+                Students
+              </span>
+            </div>
           </div>
         </main>
         <footer></footer>
