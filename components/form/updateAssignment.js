@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import Image from "next/image";
 import Loading from "../loading/loading";
-import { MdError } from "react-icons/md";
+import { MdError, MdOutlineCancel } from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { GrRevert, GrScorecard } from "react-icons/gr";
 import {
@@ -133,6 +133,7 @@ function UpdateAssignment({
         deadline: assignmentData.deadline,
       });
       Swal.fire("success", "assignment has been updated", "success");
+      setTriggerUpdateAssignment(false);
       assignment.refetch();
     } catch (err) {
       console.log(err);
@@ -151,9 +152,9 @@ function UpdateAssignment({
     >
       <div
         onClick={() => setTriggerUpdateAssignment(false)}
-        className="absolute z-20 top-5 left-5 text-xl hover:scale-110 transition duration-150 cursor-pointer"
+        className="absolute z-20 top-5 right-5 text-3xl hover:scale-110 hover:text-red-400 transition duration-150 cursor-pointer"
       >
-        <GrRevert />
+        <MdOutlineCancel />
       </div>
 
       <div className="w-full flex mt-2 items-center justify-center ">
@@ -254,6 +255,7 @@ function UpdateAssignment({
             <div className="flex flex-col w-max relative  h-max ">
               <label>คะแนนของงาน</label>
               <input
+                min="1"
                 value={assignmentData.maxScore}
                 required
                 onChange={handleChange}

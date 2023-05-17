@@ -183,12 +183,12 @@ function Index({ cardData }) {
             xyz="fade-100% up-1"
           >
             <div
-              className={`flex flex-col justify-center w-80  items-center gap-5 text-right ${
+              className={`flex flex-col justify-center w-20 md:w-80  items-center gap-5 text-right ${
                 inView ? "xyz-in" : "xyz-out"
               } `}
             >
               <div className="">
-                <span className="font-Poppins text-right font-semibold text-8xl text-white">
+                <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
                   {inView && (
                     <NumberAnimated n={usersNumber?.data?.data?.userNumber} />
                   )}
@@ -201,12 +201,12 @@ function Index({ cardData }) {
             </div>
             <div className="h-80 w-[2px] bg-white"></div>
             <div
-              className={`flex flex-col jjustify-center w-80  items-center gap-5 text-right ${
+              className={`flex flex-col jjustify-center w-20 md:w-80  items-center gap-5 text-right ${
                 inView ? "xyz-in" : "xyz-out"
               } `}
             >
               <div className="">
-                <span className="font-Poppins text-right font-semibold text-8xl text-white">
+                <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
                   {inView && (
                     <NumberAnimated
                       n={studentNumber?.data?.data?.studentNumber}

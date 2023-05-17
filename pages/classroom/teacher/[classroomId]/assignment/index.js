@@ -171,7 +171,7 @@ text-black transition duration-150 cursor-pointer"
                     <div className="flex justify-between">
                       <div className="flex">
                         <div
-                          className={`flex flex-col gap-2 w-3/4 max-w-lg  font-Poppins text-black `}
+                          className={`flex flex-col gap-2 w-3/4 max-w-md  font-Poppins text-black `}
                         >
                           <span className=" font text-xl font-bold w-full h-max max-h-8 overflow-auto scrollbar-hide ">
                             {assignment.title}

@@ -34,6 +34,7 @@ export default function CreateAssignment({
   // handle chagne of assignment's detail
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setAssignmentData((prev) => {
       return {
         ...prev,
@@ -216,6 +217,7 @@ export default function CreateAssignment({
               <div className="flex flex-col w-max relative  h-max ">
                 <label>คะแนนของงาน</label>
                 <input
+                  min="1"
                   required
                   onChange={handleChange}
                   name="maxScore"
