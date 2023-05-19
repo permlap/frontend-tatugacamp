@@ -7,6 +7,7 @@ import aboutCard from "./aboutCard";
 import grammar from "./grammar";
 import taboo from "./taboo";
 import categoryTaboo from "./categoryTaboo";
+import members from "./members";
 export const schemaTypes = [
   post,
   author,
@@ -17,4 +18,5 @@ export const schemaTypes = [
   blockContent,
   taboo,
   categoryTaboo,
+  members,
 ];

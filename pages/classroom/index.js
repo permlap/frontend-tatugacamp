@@ -25,6 +25,8 @@ function Index({ cardData }) {
     threshold: 0.1,
   });
 
+  const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
+
   return (
     <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-full  bg-cover pb-20">
       <Head>
@@ -221,7 +223,11 @@ function Index({ cardData }) {
             </div>
           </div>
         </main>
-        <footer></footer>
+        <footer className="w-full flex items-center mt-10 justify-center relative">
+          <div className="md:w-9/12 lg:w-6/12 w-11/12 text-lg font-Kanit text-white text-center">
+            {footerData}
+          </div>
+        </footer>
       </Layout>
     </div>
   );

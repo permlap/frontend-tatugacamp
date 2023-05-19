@@ -17,6 +17,7 @@ import Unauthorized from "../../../../components/error/unauthorized";
 
 function Index() {
   const router = useRouter();
+
   const [loadedImages, setLoadedImages] = useState([]);
   const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
   const user = useQuery(["user"], () => GetUser());
@@ -137,6 +138,7 @@ function Index() {
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
       </Head>
+
       <div className="flex  items-center justify-center ">
         <div className="w-full flex flex-col items-center justify-center  bg gap-10 h-full pb-40">
           {/* header section */}
