@@ -61,8 +61,8 @@ function Index({ members }) {
           />
           <title>about us</title>
         </Head>
-        <header className="font-Poppins w-full max-w-7xl h-max flex justify-start  items-center relative md:mt-0 mt-10 ">
-          <div className="md:m-20 m-10 mt-20  w-max flex flex-col ">
+        <header className="font-Poppins w-full max-w-7xl h-max flex justify-start items-center relative md:mt-0 mt-10 ">
+          <div className="md:m-20 md:mr-0 lg:w-max   m-10 mt-20  w-max flex flex-col relative ">
             <span className="font-semibold">The team</span>
             <span className="lg:text-7xl md:w-3/4 md:text-5xl text-3xl  font-semibold text-[#2C7CD1] leading-tight">
               Introducing our exceptional team
@@ -71,6 +71,15 @@ function Index({ members }) {
               wholeheartedly devoted to crafting enchanting and
             </span>
             <span className="lg:text-xl">inspiring educational journeys.</span>
+          </div>
+          <div className=" md:absolute hidden md:block lg:right-9 xl:right-80 md:right-5">
+            <Image
+              src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp%20facebook.jpg"
+              width={200}
+              height={200}
+              quality={100}
+              className=""
+            />
           </div>
         </header>
         <main className="w-full flex items-center justify-center font-Poppins max-w-[99rem]">
@@ -81,27 +90,29 @@ function Index({ members }) {
                   key={member._id}
                   className="lg:w-96 w-full lg:h-80 md:w-60 md:h-full h-full flex items-start justify-start flex-col group "
                 >
-                  <div className="w-full h-72  relative group-hover:opacity-0 opacity-100 group-hover:w-0 group-hover:h-0 transition duration-150 ">
+                  <div className="w-full bg-white h-72  relative group-hover:opacity-0 opacity-100 group-hover:w-0 group-hover:h-0 transition duration-150 ">
                     <Image
                       src={urlFor(member.mainImage.asset._ref).url()}
                       layout="fill"
-                      className="object-cover scale-110"
+                      className="object-cover scale-110 drop-shadow-xl relative z-10"
                       placeholder="blur"
                       blurDataURL={member.imageProps.blurDataURL}
                       alt={`picture of ${member.name}`}
                     />
+                    <div className="w-full absolute md:h-28 h-40 bg-[#EDB901] bottom-0 -z-5"></div>
                   </div>
-                  <div className=" bg-slate-50 relative opacity-0 w-0 h-0 group-hover:opacity-100 group-hover:w-full group-hover:h-72  transition duration-150 ">
+                  <div className=" bg-white relative opacity-0 w-0 h-0 group-hover:opacity-100 group-hover:w-full group-hover:h-72  transition duration-150 ">
                     <Image
                       src={urlFor(member.secondImage.asset._ref).url()}
                       layout="fill"
-                      className="object-cover scale-110"
+                      className="object-cover scale-110 drop-shadow-xl relative z-10"
                       placeholder="blur"
                       blurDataURL={member.imageProps.blurDataURL}
                       alt={`picture of ${member.name}`}
                     />
+                    <div className="w-full absolute md:h-28 h-40  bg-[#2C7CD1] bottom-0 -z-5"></div>
                   </div>
-                  <span className="md:text-2xl text-md  font-semibold mt-2 text-[#2C7CD1]">
+                  <span className="md:text-2xl text-md  font-semibold mt-2 text-[#2C7CD1] group-hover:text-[#EDB901]">
                     {member.name}
                   </span>
                   <span className="md:text-md text-sm ">{member.position}</span>
