@@ -29,15 +29,15 @@ function Index({ members }) {
         <Head>
           <meta
             property="og:image"
-            // src={urlFor(props.data[1].mainImage.asset._ref).url()}
+            src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnail.jpg"
           />
           <meta
             property="og:image:secure_url"
-            // src={urlFor(props.data[1].mainImage.asset._ref).url()}
+            src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnail.jpg"
           />
           <meta
             name="twitter:image:src"
-            // src={urlFor(props.data[1].mainImage.asset._ref).url()}
+            src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnail.jpg"
           />
           <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
           <meta name="google" content="notranslate" key="notranslate" />
