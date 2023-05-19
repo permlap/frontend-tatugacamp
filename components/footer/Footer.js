@@ -73,7 +73,7 @@ function Footer(props) {
           </li>
           <li className="flex w-full justify-center items-center">
             <div className="font-Inter font-thin mt-1 pb-3 md:pb-0 md:text-sm text-[0.65rem] w-3/4">
-              {`Copyright © ${date} TaTuga camp. All rights reserved`}
+              {`Copyright © ${date} Tatuga camp Limited Partnership. All rights reserved`}
             </div>
           </li>
         </ul>
