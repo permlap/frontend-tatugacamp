@@ -27,9 +27,10 @@ function Index({ members }) {
     <Layout>
       <div className="flex flex-col items-center justify-center">
         <Head>
+          <meta charSet="UTF-8" />
           <meta
             property="og:image"
-            src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnailNew.jpg"
+            content="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnailNew.jpg"
           />
           <meta property="og:type" content="website" />
           <meta property="og:title" content="about us - tatuga camp" />
@@ -41,11 +42,11 @@ function Index({ members }) {
           <meta property="og:image:height" content="600" />
           <meta
             property="og:image:secure_url"
-            src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnailNew.jpg"
+            content="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnailNew.jpg"
           />
           <meta
             name="twitter:image:src"
-            src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnailNew.jpg"
+            content="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnailNew.jpg"
           />
           <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
           <meta name="google" content="notranslate" key="notranslate" />
