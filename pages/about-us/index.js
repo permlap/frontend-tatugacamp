@@ -31,6 +31,8 @@ function Index({ members }) {
             property="og:image"
             src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnail.jpg"
           />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="600" />
           <meta
             property="og:image:secure_url"
             src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnail.jpg"
