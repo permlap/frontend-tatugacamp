@@ -31,6 +31,12 @@ function Index({ members }) {
             property="og:image"
             src="https://storage.googleapis.com/tatugacamp.com/Members/memberThumnail.jpg"
           />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="about us - tatuga camp" />
+          <meta
+            property="og:description"
+            content="Introducing our exceptional team, wholeheartedly devoted to crafting enchanting and inspiring educational journeys."
+          />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="600" />
           <meta
