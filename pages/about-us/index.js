@@ -96,6 +96,9 @@ function Index({ members }) {
                       src={urlFor(member.secondImage.asset._ref).url()}
                       layout="fill"
                       className="object-cover scale-110"
+                      placeholder="blur"
+                      blurDataURL={member.imageProps.blurDataURL}
+                      alt={`picture of ${member.name}`}
                     />
                   </div>
                   <span className="md:text-2xl text-md  font-semibold mt-2 text-[#2C7CD1]">
