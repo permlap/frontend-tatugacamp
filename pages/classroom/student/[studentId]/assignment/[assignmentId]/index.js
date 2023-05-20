@@ -57,6 +57,9 @@ function Index() {
   });
 
   const [selectedFiles, setSelectedFiles] = useState([]);
+
+  console.log("selectedFiles.length === 0", selectedFiles.length === 0);
+  console.log("!studentSummit.body", !studentSummit.body);
   const handleSummitWork = async (e) => {
     e.preventDefault();
     Swal.fire({
@@ -176,6 +179,19 @@ function Index() {
           </div>
         </div>
         <div className="w-11/12 grid gap-2  max-w-5xl">
+          <div className="w-full grid grid-cols-3 place-items-start items-center">
+            <div>student</div>
+            {fetchStudentWork.isLoading || loading ? (
+              <Skeleton variant="rounded" width="100%" height={20} />
+            ) : (
+              <div className="col-span-2 font-semibold">
+                <span>
+                  เลขที่ {student?.number} {student?.firstName}{" "}
+                  {student?.lastName}
+                </span>
+              </div>
+            )}
+          </div>
           <div className="w-full  grid grid-cols-3 place-items-start items-center ">
             <div>Assign by</div>
             <div className="flex gap-2 justify-center items-center col-span-2">
@@ -356,12 +372,23 @@ function Index() {
               </div>
             )}
 
-            <button
-              className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
+            {!studentSummit.body && selectedFiles.length === 0 ? (
+              <button
+                type="button"
+                className="w-40 h-10 mt-5  bg-gray-500 drop-shadow-md text-white rounded-xl
            flex items-center justify-center"
-            >
-              ส่งงาน
-            </button>
+              >
+                ยังไม่มีงานให้ส่ง
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
+           flex items-center justify-center"
+              >
+                ส่งงาน
+              </button>
+            )}
           </form>
         )}
 
@@ -389,8 +416,8 @@ function Index() {
                     framework="next"
                     images={studentWork.picture}
                     theme="day"
-                    className={`container grid  w-full mx-auto h-full items-center place-items-center
-                         max-h-40 gap-2 grid-cols-2 md:grid-cols-3  `}
+                    className={`container grid w-full  h-max items-center place-items-center
+                         gap-2 grid-cols-2 md:grid-cols-3  `}
                   >
                     {studentWork?.picture?.map((image, index) => {
                       return (

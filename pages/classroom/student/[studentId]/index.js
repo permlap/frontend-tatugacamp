@@ -72,9 +72,13 @@ function Index() {
           </div>
         )}
         <div className="text-white font-Kanit font-normal flex gap-2">
+          <span>เลขที่ {student?.number}</span>
+        </div>
+        <div className="text-white font-Kanit font-normal flex gap-2">
           <span>{student?.firstName}</span>
           <span>{student?.lastName}</span>
         </div>
+
         <div className="flex gap-2">
           <div className="w-32 h-10 rounded-md bg-yellow-500 items-center flex justify-evenly">
             <div className="w-8 h-8 bg-white/50 backdrop-blur-md rounded-md flex items-center justify-center text-white">

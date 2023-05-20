@@ -43,7 +43,7 @@ function Layout({ children, sideMenus }) {
   const [triggersidebar, setTriggerSidebar] = useState(true);
   const classroomCode =
     classroom?.data?.data?.classroomCode.slice(0, 3) +
-    "-" +
+    " " +
     classroom?.data?.data?.classroomCode.slice(3);
   //covert date
   const date = new Date(classroom?.data?.data?.createAt);
