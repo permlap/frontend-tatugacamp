@@ -3,6 +3,9 @@ import Error from "next/error";
 
 export async function GetAllAssignment({ studentId, classroomId }) {
   try {
+    if (!studentId || !classroomId) {
+      return null;
+    }
     const assignments = await axios.get(
       `${process.env.Server_Url}/student/student-assignment/get-all`,
       {

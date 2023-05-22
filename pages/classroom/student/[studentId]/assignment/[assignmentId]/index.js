@@ -58,8 +58,6 @@ function Index() {
 
   const [selectedFiles, setSelectedFiles] = useState([]);
 
-  console.log("selectedFiles.length === 0", selectedFiles.length === 0);
-  console.log("!studentSummit.body", !studentSummit.body);
   const handleSummitWork = async (e) => {
     e.preventDefault();
     Swal.fire({

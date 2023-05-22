@@ -16,7 +16,7 @@ function Index() {
     ["assignments-student"],
     () =>
       GetAllAssignment({
-        studentId: student?.id,
+        studentId: student.id,
         classroomId: student.classroomId,
       }),
     {
@@ -38,7 +38,9 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    assignments.refetch();
+    if (student) {
+      assignments.refetch();
+    }
   }, [student]);
   return (
     <div className="bg-[#2C7CD1] w-full h-full pb-96 md:h-screen md:pb-40 lg:pb-96 lg:h-full">
