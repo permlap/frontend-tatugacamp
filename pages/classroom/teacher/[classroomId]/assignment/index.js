@@ -142,7 +142,7 @@ text-black transition duration-150 cursor-pointer"
 
           {/* assignments are here */}
           <div className=" w-full max-w-7xl mt-5 gap-5 grid items-center justify-center ">
-            {assignments.isLoading ? (
+            {assignments.isLoading || assignments.isFetching ? (
               <div className="flex flex-col gap-5">
                 <Skeleton variant="rounded" width={650} height={144} />
                 <Skeleton variant="rounded" width={650} height={144} />

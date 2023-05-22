@@ -216,14 +216,15 @@ function Index() {
             lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-5 gap-5 mt-14 
             ${classroomState?.[0] ? "flex" : "hidden"} `}
             >
-              {classrooms.isLoading && (
-                <div className=" gap-10 grid grid-cols-4 ">
-                  <Skeleton variant="rectangular" width={320} height={210} />
-                  <Skeleton variant="rectangular" width={320} height={210} />
-                  <Skeleton variant="rectangular" width={320} height={210} />
-                  <Skeleton variant="rectangular" width={320} height={210} />
-                </div>
-              )}
+              {classrooms.isLoading ||
+                (classrooms.isFetching && (
+                  <div className=" gap-10 grid grid-cols-4 ">
+                    <Skeleton variant="rectangular" width={320} height={210} />
+                    <Skeleton variant="rectangular" width={320} height={210} />
+                    <Skeleton variant="rectangular" width={320} height={210} />
+                    <Skeleton variant="rectangular" width={320} height={210} />
+                  </div>
+                ))}
               {classroomState?.map((classroom, index) => {
                 return (
                   <div

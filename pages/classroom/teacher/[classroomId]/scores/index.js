@@ -110,7 +110,7 @@ function Index() {
             <SiMicrosoftexcel />
           </div>
         </button>
-        {studentsScores.isLoading ? (
+        {studentsScores.isLoading || studentsScores.isFetching ? (
           <div className="flex flex-col gap-5 mt-5">
             <Skeleton variant="rectangular" width={700} height={40} />
             <Skeleton variant="rectangular" width={600} height={40} />

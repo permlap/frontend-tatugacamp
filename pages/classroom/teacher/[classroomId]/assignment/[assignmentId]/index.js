@@ -272,8 +272,8 @@ function Index() {
               <div className="w-full px-10 flex flex-col justify-around  h-full ">
                 <div className="flex justify-between mt-20">
                   <span className="lg:text-4xl">
-                    {assignment.isLoading ? (
-                      <Skeleton variant="text" />
+                    {assignment.isLoading || assignment.isFetching ? (
+                      <Skeleton variant="text" width={200} />
                     ) : (
                       assignment?.data?.data?.title
                     )}
@@ -283,7 +283,7 @@ function Index() {
                       className="w-20 h-10 rounded-xl flex items-center justify-center
               bg-orange-400 font-Poppins font-bold text-xl text-white"
                     >
-                      {assignment.isLoading ? (
+                      {assignment.isLoading || assignment.isFetching ? (
                         <Skeleton variant="text" />
                       ) : (
                         assignment?.data?.data?.maxScore
@@ -294,8 +294,8 @@ function Index() {
                 </div>
 
                 <div className="w-full h-[2px] bg-blue-900 rounded-full"></div>
-                <div className="mt-5 font-Kanit text-xl w-full h-[25rem] overflow-auto">
-                  {assignment.isLoading ? (
+                <div className="mt-5 font-Kanit text-xl w-full max-w-7xl h-[25rem] overflow-auto">
+                  {assignment.isLoading || assignment.isFetching ? (
                     <div>
                       <Skeleton variant="text" width="50%" />
                       <Skeleton variant="text" width="50%" />
