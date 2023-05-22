@@ -12,6 +12,7 @@ import Loading from "../loading/loading";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { MdError } from "react-icons/md";
 import { Box, TextField } from "@mui/material";
+import { UploadProfilePicture } from "../../service/user";
 
 export default function CreateAssignment({
   close,
@@ -30,7 +31,6 @@ export default function CreateAssignment({
   const [isChecked, setIsChecked] = useState();
   const [isAssignStudent, setIsAssignmentStdent] = useState(false);
   const [loading, setLoading] = useState(false);
-
   // handle chagne of assignment's detail
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -134,6 +134,29 @@ export default function CreateAssignment({
     }
   };
 
+  const handleImageUpload = (cb) => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+
+    input.onchange = function () {
+      const file = this.files[0];
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const id = "blobid" + new Date().getTime();
+        const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+        const base64 = reader.result.split(",")[1];
+        const blobInfo = blobCache.create(id, file, base64);
+        blobCache.add(blobInfo);
+        console.log(blobInfo);
+        cb(blobInfo.blobUri(), { title: file.name });
+      };
+      reader.readAsDataURL(file);
+    };
+
+    input.click();
+  };
   return (
     <div>
       <form
@@ -160,21 +183,29 @@ export default function CreateAssignment({
                 textareaName="description"
                 initialValue={assignmentData?.description}
                 init={{
+                  selector: "textarea",
                   link_context_toolbar: true,
                   height: "100%",
                   width: "100%",
                   menubar: false,
+                  image_title: true,
+                  automatic_uploads: true,
+                  file_picker_types: "image",
+                  file_picker_callback: function (cb, value, meta) {
+                    handleImageUpload(cb);
+                  },
                   plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
                     "insertdatetime media table paste code help wordcount",
                     "link",
+                    "image",
                   ],
                   toolbar:
                     "undo redo | formatselect | " +
                     "bold italic backcolor | alignleft aligncenter " +
                     "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help | link",
+                    "removeformat | help | link | image",
                   content_style:
                     "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}

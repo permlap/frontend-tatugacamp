@@ -84,6 +84,7 @@ function Setting() {
 
       const formData = new FormData();
       formData.append("file", file);
+      console.log(formData);
       setLoading((prev) => (prev = true));
       const updateProfile = await UploadProfilePicture({ formData });
 

@@ -21,6 +21,7 @@ import UpdateAssignment from "../../../../../../components/form/updateAssignment
 import Unauthorized from "../../../../../../components/error/unauthorized.js";
 import { GetUser } from "../../../../../../service/user.js";
 import { BiRefresh } from "react-icons/bi";
+import Head from "next/head.js";
 function Index() {
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
@@ -220,6 +221,9 @@ function Index() {
 
   return (
     <div className="bg-white w-full font-Kanit relative">
+      <Head>
+        <title>assignment - {assignment?.data?.data?.title}</title>
+      </Head>
       {triggerUpdateAssignment ? (
         <UpdateAssignment
           students={students}

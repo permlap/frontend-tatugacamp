@@ -147,7 +147,7 @@ function UpdateAssignment({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-2 justify-center items-center bg-slate-200 h-screen font-Kanit 
+      className="flex flex-col  justify-center items-center bg-white h-screen font-Kanit 
       "
     >
       <div
@@ -236,7 +236,7 @@ function UpdateAssignment({
             </button>
           </div>
           <div
-            className="w-[30%]   border-solid border-gray-200 rounded-xl 
+            className="w-[30%]   
       flex flex-col items-center justify-start gap-5"
           >
             <div className=" flex flex-col">

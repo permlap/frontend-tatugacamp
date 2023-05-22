@@ -12,6 +12,7 @@ import { GetAllAssignments } from "../../../../../service/assignment";
 import { GetAllStudents } from "../../../../../service/students";
 import Layout from "../../../../../layouts/classroomLayout";
 import { Skeleton } from "@mui/material";
+import Head from "next/head";
 function Assignment() {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
@@ -102,6 +103,9 @@ function Assignment() {
   }
   return (
     <div className="w-full pb-96 bg-blue-50 ">
+      <Head>
+        <title>assignments</title>
+      </Head>
       <Layout sideMenus={sideMenus} />
       <div className="">
         <main className="w-full  py-5  mt-10 flex flex-col items-center justify-center relative">
