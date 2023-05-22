@@ -82,7 +82,7 @@ function Index() {
       await DownloadExcelScore({ classroomId: router.query.classroomId });
       Swal.fire(
         "ดาวโหลดสำเร็จ",
-        "ดาวโหลดไฟล์รายงานผลเข้าเรียนเรียบร้อย",
+        "ดาวโหลดไฟล์รายงานผลคะแนนเรียบร้อย",
         "success"
       );
     } catch (err) {
@@ -111,7 +111,7 @@ function Index() {
           </div>
         </button>
         {studentsScores.isLoading ? (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 mt-5">
             <Skeleton variant="rectangular" width={700} height={40} />
             <Skeleton variant="rectangular" width={600} height={40} />
             <Skeleton variant="rectangular" width={800} height={40} />
@@ -127,8 +127,8 @@ function Index() {
       `}
           >
             {studentsScores?.data?.data?.assignments.length === 0 ? (
-              <div className="w-full  flex items-center justify-center h-full text-8xl">
-                <span>ไม่มีข้อมูล</span>
+              <div className="w-full  flex items-center justify-center h-full text-3xl mt-5">
+                <span>ไม่มีข้อมูลเนื่องจากไม่ได้มอบหมายงานให้ผู้เรียน</span>
                 <div className="text-red-400">
                   <BiMessageAltError />
                 </div>
