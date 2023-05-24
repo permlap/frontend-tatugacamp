@@ -17,9 +17,6 @@ import Unauthorized from "../../../../components/error/unauthorized";
 import { parseCookies } from "nookies";
 
 function Index({ user, error }) {
-  if (error?.statusCode === 401) {
-    return <Unauthorized />;
-  }
   const router = useRouter();
   const [loadedImages, setLoadedImages] = useState([]);
   const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
@@ -110,7 +107,9 @@ function Index({ user, error }) {
   const handleLoadingComplete = (id) => {
     setLoadedImages((prevImages) => [...prevImages, id]);
   };
-
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   return (
     <div className="bg-blue-50">
       <Layout sideMenus={sideMenus} />

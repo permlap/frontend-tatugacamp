@@ -17,9 +17,6 @@ import Layout from "../../../layouts/schoolLayout";
 import { parseCookies } from "nookies";
 
 function Index({ error, user }) {
-  if (error?.statusCode === 401) {
-    return <Unauthorized />;
-  }
   const router = useRouter();
   const [classroomState, setClassroomState] = useState();
   // const user = useQuery(["user"], () => GetUser());
@@ -81,7 +78,9 @@ function Index({ error, user }) {
   const style = {
     height: 500,
   };
-
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   return (
     <div className="bg-white w-full h-full font-Kanit">
       <Head>

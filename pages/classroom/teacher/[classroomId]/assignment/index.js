@@ -15,9 +15,6 @@ import { Skeleton } from "@mui/material";
 import Head from "next/head";
 import { parseCookies } from "nookies";
 function Assignment({ error, user }) {
-  if (error?.statusCode === 401) {
-    return <Unauthorized />;
-  }
   const router = useRouter();
   const [triggerAssignment, setTriggerAssignment] = useState(false);
   const classroom = useQuery(
@@ -85,7 +82,9 @@ function Assignment({ error, user }) {
   if (!router.isReady) {
     return <FullScreenLoading />;
   }
-
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   return (
     <div className="w-full pb-96 bg-blue-50 ">
       <Head>

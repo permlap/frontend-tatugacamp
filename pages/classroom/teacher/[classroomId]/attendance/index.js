@@ -22,9 +22,6 @@ import { GetUserCookie } from "../../../../../service/user";
 import { parseCookies } from "nookies";
 
 function Index({ error, user }) {
-  if (error?.statusCode === 401) {
-    return <Unauthorized />;
-  }
   const router = useRouter();
   const attendances = useQuery(
     ["attendance"],
@@ -110,6 +107,9 @@ function Index({ error, user }) {
       console.log(err);
     }
   };
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
 
   return (
     <div className="bg-blue-50 pb-40">

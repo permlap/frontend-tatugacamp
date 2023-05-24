@@ -15,9 +15,6 @@ import Swal from "sweetalert2";
 import { parseCookies } from "nookies";
 
 function Index({ user, error }) {
-  if (error?.statusCode === 401) {
-    return <Unauthorized />;
-  }
   const router = useRouter();
   const studentsScores = useQuery(
     ["studentsScores"],
@@ -81,6 +78,9 @@ function Index({ user, error }) {
       console.log(err);
     }
   };
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   return (
     <div className="w-full font-Kanit bg-blue-50 pb-40">
       <Head>

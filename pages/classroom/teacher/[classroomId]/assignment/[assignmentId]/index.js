@@ -26,9 +26,6 @@ import { GetComments, PostComment } from "../../../../../../service/comment.js";
 import SendIcon from "@mui/icons-material/Send";
 import { parseCookies } from "nookies";
 function Index({ error, user }) {
-  if (error?.statusCode === 401) {
-    return <Unauthorized />;
-  }
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
   const [loadingComment, setLoadingComment] = useState(false);
@@ -262,7 +259,9 @@ function Index({ error, user }) {
       };
     });
   };
-
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   return (
     <div className="bg-white w-full font-Kanit relative">
       <Head>
