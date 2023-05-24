@@ -2,10 +2,12 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { CreateStudentApi } from "../../service/students";
 import { v4 as uuidv4 } from "uuid";
+import Loading from "../loading/loading";
 
 function ExcelTable({ getExcelData, students }) {
   const [excelData, setExcelData] = useState("");
   const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleExcelDataChange = (e) => {
     setExcelData(e.target.value);
@@ -13,6 +15,7 @@ function ExcelTable({ getExcelData, students }) {
 
   const handleCreateMany = async (e) => {
     const updatedTableData = [];
+    setLoading(true);
     for (const student of tableData) {
       try {
         const updatedStudentLoading = {
@@ -42,11 +45,12 @@ function ExcelTable({ getExcelData, students }) {
           ...student,
           status: 400,
           Notloading: true,
+          error: err.props.response.data.message.toString(),
         };
         updatedTableData.splice(index, 1, updatedStudentSuccess); // Replace the current student with the updatedStudentSuccess object at the same index
       }
     }
-
+    setLoading(false);
     getExcelData(updatedTableData);
   };
 
@@ -63,8 +67,8 @@ function ExcelTable({ getExcelData, students }) {
   };
 
   return (
-    <div className="container mx-auto my-4">
-      <div className="mb-4">
+    <div className="container mx-auto my-4 ">
+      <div className="mb-4 relative ">
         <label htmlFor="excel_data" className="block font-bold mb-2">
           คัดลอคข้อมูลจาก Excel ลงที่นี่
         </label>
@@ -75,6 +79,11 @@ function ExcelTable({ getExcelData, students }) {
           value={excelData}
           onChange={handleExcelDataChange}
         />
+        {loading && (
+          <div className="inset-center w-full h-full bg-white/25 backdrop-blur-sm flex items-center justify-center">
+            <Loading />
+          </div>
+        )}
       </div>
       <div className="grid grid-cols-2 gap-4 w-full">
         <button
