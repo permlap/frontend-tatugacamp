@@ -11,18 +11,39 @@ import {
 import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
 import Image from "next/image";
 import "lightbox.js-react/dist/index.css";
-import { AiFillQuestionCircle } from "react-icons/ai";
 import { CiFaceFrown } from "react-icons/ci";
 import Swal from "sweetalert2";
+import SendIcon from "@mui/icons-material/Send";
+import {
+  GetComments,
+  PostComment,
+} from "../../../../../../service/student/comment";
 
 function Index() {
   const router = useRouter();
   const menus = [
-    { title: "Summition", translate: "translate-x-7" },
-    { title: "Your work", translate: "translate-x-40" },
+    { title: "ส่งงาน", translate: "translate-x-1" },
+    { title: "งานของคุณ", translate: "translate-x-28" },
+    { title: "คอมเมนต์", translate: "translate-x-52" },
   ];
   const [teacher, setTeacher] = useState();
   const [loading, setLoading] = useState(false);
+
+  const [activeMenu, setActiveMenu] = useState(0);
+  const [student, setStudent] = useState();
+  const [studentWork, setStudnetWork] = useState();
+  const [assignment, setAssignment] = useState();
+  const [deadline, setDeadline] = useState();
+  const [studentSummit, setStudentSummit] = useState({
+    body: "",
+  });
+  const comments = useQuery(
+    ["comments"],
+    () => GetComments({ assignmentId: assignment.id, studentId: student.id }),
+    {
+      enabled: false,
+    }
+  );
   const fetchStudentWork = useQuery(["student-work"], () =>
     GetMyWork({ studentId: student.id, assignmentId: assignment.id }).then(
       (res) => {
@@ -47,62 +68,97 @@ function Index() {
       }
     )
   );
-  const [activeMenu, setActiveMenu] = useState(0);
-  const [student, setStudent] = useState();
-  const [studentWork, setStudnetWork] = useState();
-  const [assignment, setAssignment] = useState();
-  const [deadline, setDeadline] = useState();
-  const [studentSummit, setStudentSummit] = useState({
-    body: "",
-  });
-
   const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleSummitWork = async (e) => {
     e.preventDefault();
-    Swal.fire({
-      title: "ยืนยันการส่งงาน",
-      text: "นักเรียนแน่ใจใช่หรือไม่ที่จะส่งงาน",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const formFiles = new FormData();
-          selectedFiles.forEach((file) => {
-            formFiles.append("files", file);
-          });
-          formFiles.append("body", studentSummit.body);
-          formFiles.getAll("body");
-          const summitWork = await SummitWork({
-            formFiles,
-            studentId: student.id,
-            assignmentId: assignment.id,
-          });
+    if (selectedFiles.length === 0) {
+      Swal.fire({
+        title: "ยืนยันการส่งงาน",
+        text: "คุณยังไม่ได้แนบไฟล์งาน แน่ใจใช่ไหมว่าจะส่ง?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const formFiles = new FormData();
+            selectedFiles.forEach((file) => {
+              formFiles.append("files", file);
+            });
+            formFiles.append("body", studentSummit.body);
+            formFiles.getAll("body");
+            const summitWork = await SummitWork({
+              formFiles,
+              studentId: student.id,
+              assignmentId: assignment.id,
+            });
 
-          fetchStudentWork.refetch();
-          location.reload();
-          Swal.fire("success", "ส่งงานแล้ว", "success");
-        } catch (err) {
-          if (
-            err?.props?.response?.data?.error.message ===
-            "student's already summit their work"
-          ) {
-            Swal.fire(
-              "error",
-              "นักเรียนได้ส่งงานแล้ว ถ้าจะส่งใหม่ให้ติดต่อครูผู้สอนเพื่อลบงานเดิม",
-              "error"
-            );
-          } else {
-            Swal.fire("error", err?.props?.response?.data?.message, "error");
+            fetchStudentWork.refetch();
+            Swal.fire("success", "ส่งงานแล้ว", "success");
+          } catch (err) {
+            if (
+              err?.props?.response?.data?.error.message ===
+              "student's already summit their work"
+            ) {
+              Swal.fire(
+                "error",
+                "นักเรียนได้ส่งงานแล้ว ถ้าจะส่งใหม่ให้ติดต่อครูผู้สอนเพื่อลบงานเดิม",
+                "error"
+              );
+            } else {
+              Swal.fire("error", err?.props?.response?.data?.message, "error");
+            }
+            console.log(err);
           }
-          console.log(err);
         }
-      }
-    });
+      });
+    } else if (selectedFiles.length > 0) {
+      Swal.fire({
+        title: "ยืนยันการส่งงาน",
+        text: "นักเรียนแน่ใจหรือไม่ว่าจะส่งงาน? เนื่องจากส่งงานแล้วจะไม่สามารถลบงานได้ต้องติดต่อครูผู้สอน",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const formFiles = new FormData();
+            selectedFiles.forEach((file) => {
+              formFiles.append("files", file);
+            });
+            formFiles.append("body", studentSummit.body);
+            formFiles.getAll("body");
+            const summitWork = await SummitWork({
+              formFiles,
+              studentId: student.id,
+              assignmentId: assignment.id,
+            });
+
+            fetchStudentWork.refetch();
+            Swal.fire("success", "ส่งงานแล้ว", "success");
+          } catch (err) {
+            if (
+              err?.props?.response?.data?.error.message ===
+              "student's already summit their work"
+            ) {
+              Swal.fire(
+                "error",
+                "นักเรียนได้ส่งงานแล้ว ถ้าจะส่งใหม่ให้ติดต่อครูผู้สอนเพื่อลบงานเดิม",
+                "error"
+              );
+            } else {
+              Swal.fire("error", err?.props?.response?.data?.message, "error");
+            }
+            console.log(err);
+          }
+        }
+      });
+    }
   };
   //set files to array
   const handleFileEvent = (e) => {
@@ -144,10 +200,32 @@ function Index() {
   //check wheter studet has work
   useEffect(() => {
     if (studentWork?.status === "have-work") {
-      setActiveMenu(1);
+      setTimeout(() => {
+        setActiveMenu(1);
+      }, 2000);
     }
   }, [studentWork]);
 
+  const handleSumitComment = async (e) => {
+    try {
+      e.preventDefault();
+
+      await PostComment({
+        assignmentId: assignment.id,
+        studentId: student.id,
+        body: studentSummit.body,
+      });
+      setStudentSummit((prev) => {
+        return {
+          ...prev,
+          body: "",
+        };
+      });
+      comments.refetch();
+    } catch (err) {
+      Swal.fire("error", err?.props?.response?.data?.message, "error");
+    }
+  };
   return (
     <div className="  w-full h-full font-Kanit relative pb-96 bg-white  ">
       <div className="w-full absolute top-0 flex justify-between items-center ">
@@ -288,7 +366,12 @@ function Index() {
             return (
               <div
                 key={index}
-                onClick={() => setActiveMenu(index)}
+                onClick={() => {
+                  if (index === 2) {
+                    comments.refetch();
+                  }
+                  setActiveMenu(index);
+                }}
                 className={`${index === 0 && "ml-10"} cursor-pointer`}
               >
                 <span
@@ -310,53 +393,24 @@ function Index() {
         {activeMenu === 0 && (
           <form
             onSubmit={handleSummitWork}
-            className="w-11/12 max-w-3xl h-full mt-1 flex flex-col gap-2"
+            className="w-9/12 max-w-3xl h-full  mt-1 flex flex-col gap-2"
           >
+            <span className="text-sm text-red-500">
+              เลือกไฟล์ได้เฉพาะไฟล์รูปภาพ
+            </span>
             {fetchStudentWork.isLoading || loading ? (
               <Skeleton variant="rounded" width="100%" height={300} />
             ) : (
-              <div className="h-60 bg-slate-400 relative overflow-hidden rounded-xl drop-shadow-md">
-                <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
-                  textareaName="body"
-                  init={{
-                    link_context_toolbar: true,
-                    height: "100%",
-                    width: "100%",
-                    menubar: false,
-                    plugins: [
-                      "advlist autolink lists link image charmap print preview anchor",
-                      "searchreplace visualblocks code fullscreen",
-                      "insertdatetime media table paste code help wordcount",
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | " +
-                      "bold italic backcolor | alignleft aligncenter " +
-                      "alignright alignjustify | bullist numlist outdent indent | " +
-                      "removeformat | ",
-                    content_style:
-                      "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
-                  }}
-                  onEditorChange={(newText) => {
-                    setStudentSummit((prevState) => {
-                      return {
-                        ...prevState,
-                        body: newText,
-                      };
-                    });
-                  }}
-                />
-                <div className="w-full flex justify-end rounded-b-xl absolute left-1 bottom-0 h-10 bg-white">
-                  <label className="w-40 ">
-                    <input
-                      onChange={handleFileEvent}
-                      name="files"
-                      aria-label="upload image"
-                      type="file"
-                      multiple="multiple"
-                      accept="image/png, image/gif, image/jpeg"
-                      className="text-sm text-grey-500 
-            file:mr-5 md:file:w-max file:w-20 w-full file:py-2
+              <label className="w-max">
+                <input
+                  onChange={handleFileEvent}
+                  name="files"
+                  aria-label="upload image"
+                  type="file"
+                  multiple="multiple"
+                  accept="image/png, image/gif, image/jpeg"
+                  className="text-sm text-grey-500 
+            file:mr-5 md:file:w-40 file:w-40 w-max file:py-2
             file:rounded-full file:border-0
             file:text-sm file:font-Kanit file:font-normal file:text-white
              bg-white rounded-full
@@ -364,29 +418,17 @@ function Index() {
             hover:file:cursor-pointer hover:file:bg-amber-50
             hover:file:text-amber-700
           "
-                    />
-                  </label>
-                </div>
-              </div>
+                />
+              </label>
             )}
 
-            {!studentSummit.body && selectedFiles.length === 0 ? (
-              <button
-                type="button"
-                className="w-40 h-10 mt-5  bg-gray-500 drop-shadow-md text-white rounded-xl
+            <button
+              type="submit"
+              className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
            flex items-center justify-center"
-              >
-                ยังไม่มีงานให้ส่ง
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
-           flex items-center justify-center"
-              >
-                ส่งงาน
-              </button>
-            )}
+            >
+              ส่งงาน
+            </button>
           </form>
         )}
 
@@ -434,11 +476,16 @@ function Index() {
                   </SlideshowLightbox>
                 )}
                 <div className="w-full flex items-center justify-center mt-2">
-                  {studentWork?.body && (
+                  {/* {studentWork?.body && (
                     <div className="w-11/12 flex justify-start">
-                      <div className="w-max max-w-5xl pr-6 h-max p-2 rounded-lg bg-blue-50 flex">
+                      <div className="w-full max-w-5xl pr-6 h-max p-2 rounded-lg bg-blue-50 flex">
                         <span className="font-semibold">นักเรียน:</span>
                         <div
+                          style={{
+                            wordWrap: "break-word",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                          }}
                           className="h-max w-full  overflow-hidden ml-2"
                           dangerouslySetInnerHTML={{
                             __html: studentWork?.body,
@@ -446,9 +493,9 @@ function Index() {
                         />
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
-                <div className="w-full flex items-center justify-center mt-2">
+                {/* <div className="w-full flex items-center justify-center mt-2">
                   {studentWork?.comment && (
                     <div className="w-11/12 flex justify-end">
                       <div className="h-max p-2 rounded-lg bg-green-200 flex flex-row-reverse w-max max-w-5xl">
@@ -459,10 +506,165 @@ function Index() {
                       </div>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
             )}
           </div>
+        )}
+        {activeMenu === 2 && (
+          <form
+            onSubmit={handleSumitComment}
+            className="w-11/12 max-w-3xl h-full mt-1 flex flex-col gap-2"
+          >
+            {studentWork?.body && (
+              <div className="w-11/12 flex justify-start">
+                <div className="w-full max-w-5xl pr-6 h-max p-2 rounded-lg bg-blue-50 flex">
+                  <span className="font-semibold">นักเรียน:</span>
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                    }}
+                    className="h-max w-full  overflow-hidden ml-2"
+                    dangerouslySetInnerHTML={{
+                      __html: studentWork?.body,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            {comments?.data?.data?.map((comment) => {
+              if (comment.user) {
+                return (
+                  <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                    <div className="flex gap-2 ml-2">
+                      {comment.user.picture ? (
+                        <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                          <Image
+                            src={comment.user.picture}
+                            alt="profile"
+                            layout="fill"
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                          <span className="uppercase font-sans font-black text-3xl text-white">
+                            {comment.user.firstName.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                      <div className="w-full max-w-[15rem] md:max-w-md h-max pr-10  bg-green-100 rounded-3xl relative  p-2">
+                        <div className="text-md ml-4 font-bold first-letter:uppercase">
+                          {comment.user.firstName}
+                          {comment.user?.lastName}
+                        </div>
+                        <div
+                          className="pl-4 "
+                          style={{
+                            wordWrap: "break-word",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: comment.body,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              } else if (comment.student) {
+                return (
+                  <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                    <div className="flex gap-2 ml-2">
+                      {comment.student.picture ? (
+                        <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                          <Image
+                            src={comment.student.picture}
+                            alt="profile"
+                            layout="fill"
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                          <span className="uppercase font-sans font-black text-3xl text-white">
+                            {comment.student.firstName.charAt(0)}
+                          </span>
+                        </div>
+                      )}
+                      <div className="w-full max-w-[15rem] md:max-w-md pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                        <div className="text-md ml-4 font-bold first-letter:uppercase">
+                          {comment.student.firstName}
+                          {comment.student?.lastName}
+                        </div>
+                        <div
+                          className="pl-4 "
+                          style={{
+                            wordWrap: "break-word",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: comment.body,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
+            {fetchStudentWork.isLoading || loading ? (
+              <Skeleton variant="rounded" width="100%" height={300} />
+            ) : (
+              <div className="h-60 w-full bg-slate-400 mt-5 relative overflow-hidden rounded-xl drop-shadow-md">
+                <Editor
+                  apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
+                  textareaName="body"
+                  init={{
+                    link_context_toolbar: true,
+                    height: "100%",
+                    width: "100%",
+                    menubar: false,
+                    plugins: [
+                      "advlist autolink lists link image charmap print preview anchor",
+                      "searchreplace visualblocks code fullscreen",
+                      "insertdatetime media table paste code help wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | " +
+                      "bold italic backcolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | ",
+                    content_style:
+                      "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
+                  }}
+                  initialValue=""
+                  value={studentSummit.body}
+                  onEditorChange={(newText) => {
+                    setStudentSummit((prevState) => {
+                      return {
+                        ...prevState,
+                        body: newText,
+                      };
+                    });
+                  }}
+                />
+              </div>
+            )}
+            <div className="w-full flex justify-end">
+              <button
+                type="submit"
+                className="w-20 h-10 bg-green-500 drop-shadow-md text-white rounded-xl
+           flex items-center justify-center"
+              >
+                <SendIcon />
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </div>

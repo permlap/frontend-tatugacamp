@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import Error from "next/error";
 export async function GetAllScoresClassroom({ classroomId }) {
   try {
     const access_token = localStorage.getItem("access_token");

@@ -22,10 +22,14 @@ import Unauthorized from "../../../../../../components/error/unauthorized.js";
 import { GetUser } from "../../../../../../service/user.js";
 import { BiRefresh } from "react-icons/bi";
 import Head from "next/head.js";
+import { GetComments, PostComment } from "../../../../../../service/comment.js";
+import SendIcon from "@mui/icons-material/Send";
 function Index() {
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
   const user = useQuery(["user"], () => GetUser());
+  const [loadingComment, setLoadingComment] = useState(false);
+  const [comment, setComment] = useState();
   const assignment = useQuery(
     ["assignment"],
     () => GetAssignment({ assignmentId: router.query.assignmentId }),
@@ -36,6 +40,7 @@ function Index() {
   const students = useQuery(["students"], () => {
     GetAllStudents({ classroomId: router.query.classroomId });
   });
+
   const studentOnAssignments = useQuery(
     ["studentOnAssignments"],
     () =>
@@ -139,35 +144,48 @@ function Index() {
   };
 
   //handle select student's work
-  const handleSelectWork = (student) => {
-    if (student.studentWork) {
-      setImages(() => {
-        let pictures = [];
-        if (!student?.studentWork?.picture) {
-          pictures.push({ src: "", alt: "student's work" });
-        } else if (student.studentWork.picture) {
-          const arrayPictures = student.studentWork.picture.split(", ");
-          for (const arrayPicture of arrayPictures) {
-            pictures.push({ src: arrayPicture, alt: "student's work" });
+  const handleSelectWork = async (student) => {
+    try {
+      if (student.studentWork) {
+        setImages(() => {
+          let pictures = [];
+          if (!student?.studentWork?.picture) {
+            pictures.push({ src: "", alt: "student's work" });
+          } else if (student.studentWork.picture) {
+            const arrayPictures = student.studentWork.picture.split(", ");
+            for (const arrayPicture of arrayPictures) {
+              pictures.push({ src: arrayPicture, alt: "student's work" });
+            }
+
+            return pictures;
           }
-
-          return pictures;
-        }
+        });
+      } else if (!student.studentWork) {
+        setImages(null);
+      }
+      setCurrentStudentWork(student);
+      setTeacherReview((prev) => {
+        return {
+          ...prev,
+          comment: !student?.studentWork?.comment
+            ? ""
+            : student?.studentWork?.comment,
+          score: !student?.studentWork?.score
+            ? ""
+            : student?.studentWork?.score,
+        };
       });
-    } else if (!student.studentWork) {
-      setImages(null);
+      setLoadingComment(true);
+      const comment = await GetComments({
+        assignmentId: router.query.assignmentId,
+        studentId: student.id,
+      });
+      setComment(() => comment.data);
+      setLoadingComment(false);
+    } catch (err) {
+      setLoadingComment(false);
+      console.log(err);
     }
-
-    setCurrentStudentWork(student);
-    setTeacherReview((prev) => {
-      return {
-        ...prev,
-        comment: !student?.studentWork?.comment
-          ? ""
-          : student?.studentWork?.comment,
-        score: !student?.studentWork?.score ? "" : student?.studentWork?.score,
-      };
-    });
   };
   const handleReviewWork = async (e) => {
     try {
@@ -205,6 +223,33 @@ function Index() {
     }
   };
 
+  //handle post comment for user
+  const handlePostComment = async (e) => {
+    try {
+      e.preventDefault();
+      setLoadingComment(true);
+      await PostComment({
+        assignmentId: assignment?.data?.data?.id,
+        studentId: currentStudentWork.id,
+        body: teacherReview.comment,
+      });
+      const comment = await GetComments({
+        assignmentId: assignment?.data?.data?.id,
+        studentId: currentStudentWork.id,
+      });
+      setComment(() => comment.data);
+      setLoadingComment(false);
+    } catch (err) {
+      setLoadingComment(false);
+      console.log(err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.error?.message?.toString(),
+        "error"
+      );
+    }
+  };
+
   const handleOnChangeReviewWork = (e) => {
     const { name, value } = e.target;
     setTeacherReview((prev) => {
@@ -232,10 +277,21 @@ function Index() {
           studentOnAssignments={studentOnAssignments}
         />
       ) : (
-        <div className="h-screen ">
+        <div className="h-full ">
           {/* menu bars */}
 
-          <div className=" w-full  absolute top-4 right-0 left-0 m-auto  rounded-xl flex  justify-center gap-9">
+          <div className=" w-full h-20 drop-shadow-md bg-white z-10 flex sticky top-0  justify-center gap-9">
+            <button
+              onClick={() =>
+                router.push({
+                  pathname: `/classroom/teacher/${router.query.classroomId}/assignment/`,
+                })
+              }
+              className="font-Poppins z-20 hover:scale-110 transition 
+              duration-150 absolute top-3 left-2 text-white bg-blue-500 px-5 py-3 rounded-xl "
+            >
+              back
+            </button>
             {menus.map((menu, index) => {
               return (
                 <div
@@ -256,84 +312,78 @@ function Index() {
             })}
           </div>
 
-          <div className="flex items-center justify-center w-full h-full">
-            <button
-              onClick={() =>
-                router.push({
-                  pathname: `/classroom/teacher/${router.query.classroomId}/assignment/`,
-                })
-              }
-              className="font-Poppins z-20 hover:scale-110 transition duration-150 absolute top-2 left-2 text-white bg-blue-500 px-5 py-3 rounded-xl "
-            >
-              back
-            </button>
+          <div className="flex items-center justify-center w-full h-full ">
             {/* assignment detail */}
             {activeMenu === 0 && (
-              <div className="w-full px-10 flex flex-col justify-around  h-full ">
-                <div className="flex justify-between mt-20">
-                  <span className="lg:text-4xl">
-                    {assignment.isLoading || assignment.isFetching ? (
-                      <Skeleton variant="text" width={200} />
-                    ) : (
-                      assignment?.data?.data?.title
-                    )}
-                  </span>
-                  <div className="flex items-center justify-center flex-col">
-                    <div
-                      className="w-20 h-10 rounded-xl flex items-center justify-center
-              bg-orange-400 font-Poppins font-bold text-xl text-white"
-                    >
+              <div className="w-full flex flex-col mt-5 items-center justify-start h-full ">
+                <div className="w-11/12">
+                  <div className="flex justify-between ">
+                    <span className="lg:text-4xl">
                       {assignment.isLoading || assignment.isFetching ? (
-                        <Skeleton variant="text" />
+                        <Skeleton variant="text" width={200} />
                       ) : (
-                        assignment?.data?.data?.maxScore
+                        assignment?.data?.data?.title
                       )}
-                    </div>
-                    <span>คะแนนเต็ม</span>
-                  </div>
-                </div>
-
-                <div className="w-full h-[2px] bg-blue-900 rounded-full"></div>
-                <div className="mt-5 font-Kanit text-xl w-full max-w-7xl h-[25rem] overflow-auto">
-                  {assignment.isLoading || assignment.isFetching ? (
-                    <div>
-                      <Skeleton variant="text" width="50%" />
-                      <Skeleton variant="text" width="50%" />
-                      <Skeleton variant="text" width="55%" />
-                      <Skeleton variant="text" width="55%" />
-                      <Skeleton variant="text" width="55%" />
-                    </div>
-                  ) : (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: assignment?.data?.data?.description,
-                      }}
-                    />
-                  )}
-                </div>
-                <div className="flex pb-5 gap-2 items-end mt-5 justify-between">
-                  <div>
-                    <span>กำหนดส่ง</span>
-                    <span className="text-xl ml-2 font-semibold text-red-500">
-                      {formattedDate}
                     </span>
-                  </div>
-                  <div className="flex gap-6">
-                    <div
-                      onClick={handleDeleteAssignment}
-                      className="text-xl text-red-600 flex items-center justify-center flex-col hover:scale-110 
-                  transition duration-150 ease-in-out cursor-pointer"
-                    >
-                      <MdDelete />
-                      <span className="text-sm">ลบงาน</span>
+                    <div className="flex items-center justify-center flex-col">
+                      <div
+                        className="w-20 h-10 rounded-xl flex items-center justify-center
+              bg-orange-400 font-Poppins font-bold text-xl text-white"
+                      >
+                        {assignment.isLoading || assignment.isFetching ? (
+                          <Skeleton variant="text" />
+                        ) : (
+                          assignment?.data?.data?.maxScore
+                        )}
+                      </div>
+                      <span>คะแนนเต็ม</span>
                     </div>
-                    <div
-                      onClick={handleClickUpdateAssignment}
-                      className="text-xl flex flex-col items-center justify-center hover:scale-110 transition duration-150 cursor-pointer
+                  </div>
+
+                  <div className="w-full h-[2px] bg-blue-900 rounded-full"></div>
+                  <div className="mt-5 font-Kanit text-xl w-full  h-full">
+                    {assignment.isLoading || assignment.isFetching ? (
+                      <div>
+                        <Skeleton variant="text" width="50%" />
+                        <Skeleton variant="text" width="50%" />
+                        <Skeleton variant="text" width="55%" />
+                        <Skeleton variant="text" width="55%" />
+                        <Skeleton variant="text" width="55%" />
+                      </div>
+                    ) : (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: assignment?.data?.data?.description,
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+                <div className="w-full  gap-2 mt-8 bg-blue-500 ">
+                  <div className="p-6 flex  items-end justify-between text-white">
+                    <div>
+                      <span>กำหนดส่ง</span>
+                      <span className="text-xl ml-2 font-semibold text-white hover:text-red-500">
+                        {formattedDate}
+                      </span>
+                    </div>
+                    <div className="flex gap-6">
+                      <div
+                        onClick={handleDeleteAssignment}
+                        className="text-xl text-white hover:text-red-600 flex items-center justify-center flex-col hover:scale-110 
+                  transition duration-150 ease-in-out cursor-pointer"
+                      >
+                        <MdDelete />
+                        <span className="text-sm">ลบงาน</span>
+                      </div>
+                      <div
+                        onClick={handleClickUpdateAssignment}
+                        className="text-xl flex flex-col items-center justify-center hover:scale-110 transition duration-150 cursor-pointer
             "
-                    >
-                      <FiSettings />
-                      <span className="text-sm">แก้ไข</span>
+                      >
+                        <FiSettings />
+                        <span className="text-sm">แก้ไข</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -342,8 +392,8 @@ function Index() {
 
             {/* student's assignment */}
             {activeMenu === 1 && (
-              <div className="flex items-center justify-start w-full h-full gap-5   ">
-                <div className="w-[60rem] sticky flex flex-col h-full items-center justify-center ">
+              <div className="flex items-start justify-start w-full h-full gap-5  mt-5  ">
+                <div className="w-[60rem]  top-10 sticky flex flex-col h-full items-center justify-center ">
                   <div className="text-xl font-Kanit font-semibold flex justify-center items-center gap-2">
                     <span>สถานะการส่งงานของผู้เรียน</span>
 
@@ -372,7 +422,7 @@ function Index() {
                     <div className="h-[32rem] w-full overflow-auto">
                       {studentOnAssignments.isLoading ||
                         (studentOnAssignments.isFetching ? (
-                          <div className="flex flex-col items-center justify-start mt-5 gap-5">
+                          <div className="flex flex-col  items-center justify-start mt-5 gap-5">
                             <Skeleton
                               variant="rounded"
                               animation="wave"
@@ -481,15 +531,15 @@ function Index() {
                 </div>
 
                 {/* review student work section */}
-                <div className="flex flex-col w-full items-center justify-between h-full">
-                  <div className="flex w-full justify-between mt-10 ">
-                    <div className="flex items-center justify-center relative">
-                      <div className="text-3xl font-Kanit flex">
+                <div className="flex flex-col w-full items-center justify-between h-full ">
+                  <div className="flex w-full justify-between mt-10">
+                    <div className="flex items-center justify-center relative ">
+                      <div className="text-3xl w-max font-Kanit flex">
                         <span>งานของผู้เรียน</span>
                         {currentStudentWork?.status === "have-work" && (
                           <div
                             onClick={handleDelteStudentWork}
-                            className="flex items-center justify-center text-red-500 cursor-pointer
+                            className="flex items-center ml-5 justify-center text-red-500 cursor-pointer
                         hover:text-red-800 transition duration-150"
                           >
                             <MdDelete />
@@ -498,22 +548,50 @@ function Index() {
                       </div>
                       <div className="w-96 h-[2px] bg-blue-700 absolute left-0 bottom-2"></div>
                     </div>
-                    <div className="flex justify-center items-center gap-4">
-                      <div className="text-2xl">
-                        {currentStudentWork?.number}
-                      </div>
-                      <div className="text-2xl">
-                        {currentStudentWork?.firstName}
-                      </div>
-                      <div className="w-16 h-16 relative rounded-full overflow-hidden bg-blue-100 mr-4">
+
+                    <form
+                      onSubmit={handleReviewWork}
+                      className="w-max flex justify-center gap-5 "
+                    >
+                      <Box width="40%" className="relative ">
+                        <TextField
+                          fullWidth
+                          label="คะแนน"
+                          type="number"
+                          name="score"
+                          value={teacherReview.score}
+                          onChange={handleOnChangeReviewWork}
+                        />
+                        <span className="font-Poppins absolute top-4 right-5">
+                          /{assignment?.data?.data?.maxScore}
+                        </span>
+                      </Box>
+                      <button
+                        className="w-20  h-9 mt-2 rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
+                       text-white font-sans font-bold
+              text-md cursor-pointer hover: active:border-2  active:border-gray-300
+               active:border-solid  focus:border-2 
+              focus:border-solid"
+                      >
+                        ส่ง
+                      </button>
+                    </form>
+                  </div>
+                  <div className="w-full flex justify-start items-center gap-2 mb-10">
+                    <span>
+                      {currentStudentWork?.firstName}
+                      {currentStudentWork?.lastName}
+                    </span>
+                    {currentStudentWork?.picture && (
+                      <div className="w-10 h-10 bg-orange-500 rounded-full overflow-hidden relative">
                         <Image
                           src={currentStudentWork?.picture}
                           layout="fill"
+                          className="object-cover"
                         />
                       </div>
-                    </div>
+                    )}
                   </div>
-
                   <div className="">
                     {currentStudentWork && images && images !== null ? (
                       <SlideshowLightbox
@@ -558,48 +636,92 @@ function Index() {
                       </div>
                     )}
                   </div>
-                  {currentStudentWork?.studentWork?.body && (
-                    <div className="w-full  h-max mt-5 flex items-start  relative ">
-                      <div className="w-6 left-[5.2rem] top-1 overflow-hidden  inline-block absolute ">
-                        <div className=" h-10  bg-blue-100 -rotate-45 transform origin-top-right"></div>
-                      </div>
-
-                      <div className="w-max max-w-2xl ml-5 bg-blue-100 rounded-lg h-max relative overflow-auto p-2">
-                        <div className="text-md ml-4 font-bold">
-                          {currentStudentWork?.firstName}
+                  {comment?.map((comment) => {
+                    if (comment.user) {
+                      return (
+                        <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                          <div className="flex gap-2 ml-20">
+                            {comment.user.picture ? (
+                              <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                                <Image
+                                  src={comment.user.picture}
+                                  alt="profile"
+                                  layout="fill"
+                                  className="object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                                <span className="uppercase font-sans font-black text-3xl text-white">
+                                  {comment.user.firstName.charAt(0)}
+                                </span>
+                              </div>
+                            )}
+                            <div className="w-max max-w-xl pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
+                              <div className="text-md ml-4 font-bold first-letter:uppercase">
+                                {comment.user.firstName}
+                                {comment.user?.lastName}
+                              </div>
+                              <div
+                                className="pl-4 "
+                                style={{
+                                  wordWrap: "break-word",
+                                  maxHeight: "200px",
+                                  overflowY: "auto",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                  __html: comment.body,
+                                }}
+                              />
+                            </div>
+                          </div>
                         </div>
-
-                        <div
-                          className="pl-4"
-                          dangerouslySetInnerHTML={{
-                            __html: currentStudentWork?.studentWork?.body,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {teacherReview.comment && (
-                    <div className=" w-full  h-max mt-5 flex items-start justify-end   relative ">
-                      <div className="w-max max-w-xl pr-10 mr-5 bg-blue-100 rounded-lg h-full relative  p-2">
-                        <div className="text-md ml-4 font-bold">teacher</div>
-                        <div
-                          className="pl-4 "
-                          style={{
-                            wordWrap: "break-word",
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                          }}
-                          dangerouslySetInnerHTML={{
-                            __html: teacherReview.comment,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
+                      );
+                    } else if (comment.student) {
+                      return (
+                        <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                          <div className="flex gap-2 ml-20">
+                            {comment.student.picture ? (
+                              <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                                <Image
+                                  src={comment.student.picture}
+                                  alt="profile"
+                                  layout="fill"
+                                  className="object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                                <span className="uppercase font-sans font-black text-3xl text-white">
+                                  {comment.student.firstName.charAt(0)}
+                                </span>
+                              </div>
+                            )}
+                            <div className="w-max max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                              <div className="text-md ml-4 font-bold first-letter:uppercase">
+                                {comment.student.firstName}
+                                {comment.student?.lastName}
+                              </div>
+                              <div
+                                className="pl-4 "
+                                style={{
+                                  wordWrap: "break-word",
+                                  maxHeight: "200px",
+                                  overflowY: "auto",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                  __html: comment.body,
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
                   <form
-                    onSubmit={handleReviewWork}
-                    className="w-full flex justify-center gap-5 mt-10 pb-10"
+                    onSubmit={handlePostComment}
+                    className="w-full flex items-center justify-center gap-5 mt-10 pb-10"
                   >
                     <Box width="50%">
                       <TextField
@@ -610,27 +732,14 @@ function Index() {
                         label="comment"
                       />
                     </Box>
-                    <Box width="20%" className="relative ">
-                      <TextField
-                        fullWidth
-                        label="คะแนน"
-                        type="number"
-                        name="score"
-                        value={teacherReview.score}
-                        onChange={handleOnChangeReviewWork}
-                      />
-                      <span className="font-Poppins absolute top-4 right-5">
-                        /{assignment?.data?.data?.maxScore}
-                      </span>
-                    </Box>
                     <button
-                      className="w-20  h-9 mt-2 rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
+                      className="w-max px-5 py-2 h-max  rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
                        text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
-               active:border-solid  focus:border-2 
+               active:border-solid flex items-center justify-center  focus:border-2 
               focus:border-solid"
                     >
-                      ส่ง
+                      <SendIcon />
                     </button>
                   </form>
                 </div>

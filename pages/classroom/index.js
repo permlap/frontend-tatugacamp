@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import Image from "next/image";
 import Lottie from "lottie-react";
@@ -10,22 +10,30 @@ import { useQuery } from "react-query";
 import { GetNumberStudent, GetNumberUsers } from "../../service/overview/users";
 import { useInView } from "react-intersection-observer";
 import NumberAnimated from "../../components/overview/numberAnimated";
+import ReactPlayer from "react-player";
+import { Skeleton } from "@mui/material";
+
 function Index({ cardData }) {
   const router = useRouter();
   const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
   const studentNumber = useQuery(["studentNumber"], () => GetNumberStudent());
-
+  const [loading, setLoading] = useState(true);
+  const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
+  const [domLoaded, setDomLoaded] = useState(false);
   const [classroomCode, setClassroomCode] = useState();
   const style = {
     height: "100%",
   };
-
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
   const [ref, inView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
   });
-
-  const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
+  function handleVideoReady() {
+    setLoading(false);
+  }
 
   return (
     <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-full  bg-cover pb-20">
@@ -136,6 +144,29 @@ function Index({ cardData }) {
             </div>
           </div>
         </header>
+        {loading && (
+          <div className=" flex justify-center items-center flex-col">
+            <div className="md:w-[35rem] md:h-[20rem] w-72 h-40">
+              <Skeleton variant="rectangular" width="100%" height="100%" />
+            </div>
+            <div className="font-Kanit lg:text-lg text-base">📹กำลำโหลด..</div>
+          </div>
+        )}
+        {domLoaded && (
+          <div className=" flex justify-center items-center flex-col">
+            <div className=" md:w-[35rem] md:h-[20rem] w-72 h-40 rounded-md overflow-hidden ">
+              <ReactPlayer
+                onReady={handleVideoReady}
+                loop={true}
+                playsinline
+                controls
+                width="100%"
+                height="100%"
+                url="https://player.vimeo.com/video/829310227?h=47849a81e3"
+              />
+            </div>
+          </div>
+        )}
 
         <main className=" w-full h-max flex flex-col justify-start items-center  pt-12 gap-12">
           <div className="flex flex-col items-center justify-center font-Poppins">
@@ -190,11 +221,17 @@ function Index({ cardData }) {
               } `}
             >
               <div className="">
-                <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
-                  {inView && (
-                    <NumberAnimated n={usersNumber?.data?.data?.userNumber} />
-                  )}
-                </span>
+                {usersNumber.isLoading ? (
+                  <div>
+                    <Skeleton variant="rectangular" width={80} height={100} />
+                  </div>
+                ) : (
+                  <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
+                    {inView && (
+                      <NumberAnimated n={usersNumber?.data?.data?.userNumber} />
+                    )}
+                  </span>
+                )}
               </div>
 
               <span className="font-Poppins text-right font-semibold text-xl text-white">
@@ -208,13 +245,19 @@ function Index({ cardData }) {
               } `}
             >
               <div className="">
-                <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
-                  {inView && (
-                    <NumberAnimated
-                      n={studentNumber?.data?.data?.studentNumber}
-                    />
-                  )}
-                </span>
+                {studentNumber.isLoading ? (
+                  <div>
+                    <Skeleton variant="rectangular" width={80} height={100} />
+                  </div>
+                ) : (
+                  <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
+                    {inView && (
+                      <NumberAnimated
+                        n={studentNumber?.data?.data?.studentNumber}
+                      />
+                    )}
+                  </span>
+                )}
               </div>
 
               <span className="font-Poppins text-right font-semibold text-xl text-white">
