@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { GetUser } from "../../../../../service/user";
+import { GetUser, GetUserCookie } from "../../../../../service/user";
 import { FiArrowLeftCircle, FiSettings } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Unauthorized from "../../../../../components/error/unauthorized";
@@ -13,9 +13,12 @@ import { GetAllStudents } from "../../../../../service/students";
 import Layout from "../../../../../layouts/classroomLayout";
 import { Skeleton } from "@mui/material";
 import Head from "next/head";
-function Assignment() {
+import { parseCookies } from "nookies";
+function Assignment({ error, user }) {
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   const router = useRouter();
-  const user = useQuery(["user"], () => GetUser());
   const [triggerAssignment, setTriggerAssignment] = useState(false);
   const classroom = useQuery(
     ["classroom"],
@@ -40,25 +43,10 @@ function Assignment() {
   );
   //check whether there is authorrized acccess or not
   useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    if (!access_token) {
-      router.push("/auth/signIn");
-    }
-    if (user.data === "Unauthorized") {
-      router.push("/auth/signIn");
-    }
-    if (user.isFetching === false) {
-      if (!user.data) {
-        router.push("/auth/signIn");
-      }
-    }
-    if (router.isReady) {
-      classroom.refetch();
-      user.refetch();
-      assignments.refetch();
-      students.refetch();
-    }
-  }, [router.isReady, user.data === "Unauthorized"]);
+    classroom.refetch();
+    assignments.refetch();
+    students.refetch();
+  }, [router.isReady]);
 
   const sideMenus = [
     {
@@ -97,10 +85,7 @@ function Assignment() {
   if (!router.isReady) {
     return <FullScreenLoading />;
   }
-  //if no user data return unauthorization page
-  if (!user.data || user.isError) {
-    return <Unauthorized user={user} />;
-  }
+
   return (
     <div className="w-full pb-96 bg-blue-50 ">
       <Head>
@@ -231,3 +216,62 @@ text-black transition duration-150 cursor-pointer"
 }
 
 export default Assignment;
+export async function getServerSideProps(context) {
+  const { req, res, query } = context;
+  const cookies = parseCookies(context);
+  const accessToken = cookies.access_token;
+
+  if (!accessToken && !query.access_token) {
+    return {
+      props: {
+        error: {
+          statusCode: 401,
+          message: "unauthorized",
+        },
+      },
+    };
+  } else if (query.access_token) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: query.access_token,
+      });
+      const user = userData.data;
+
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  } else if (accessToken) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: accessToken,
+      });
+      const user = userData.data;
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  }
+}

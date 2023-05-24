@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "react-query";
 import { BsChevronCompactDown, BsChevronDoubleDown } from "react-icons/bs";
 import { GetUser } from "../../service/user";
+import { setCookie, destroyCookie } from "nookies";
 
 function AuthButton() {
   const [dropDown, setDropDown] = useState(false);
@@ -16,15 +17,22 @@ function AuthButton() {
 
   const { isLoading, data, refetch, isFetching, isError } = useQuery(
     ["user"],
-    () => GetUser()
+    () => GetUser(),
+    {
+      enabled: false,
+    }
   );
 
   //set accestoken to localstore
   useEffect(() => {
     if (router.query.access_token) {
-      localStorage.setItem("access_token", router.query.access_token);
+      setCookie(null, "access_token", router.query.access_token, {
+        maxAge: 30 * 24 * 60 * 60, // Cookie expiration time in seconds (e.g., 30 days)
+        path: "/", // Cookie path (can be adjusted based on your needs)
+      });
       refetch();
     }
+    refetch();
   }, [router.query?.access_token, router.isReady]);
   if (isFetching) {
     return <Loading />;
@@ -51,7 +59,7 @@ function AuthButton() {
   };
 
   const signOut = () => {
-    localStorage.removeItem("access_token");
+    destroyCookie(null, "access_token", { path: "/" });
     queryClient.removeQueries("user");
     refetch();
     router.push({

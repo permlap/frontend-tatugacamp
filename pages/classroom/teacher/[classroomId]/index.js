@@ -11,16 +11,18 @@ import { GetAllStudents } from "../../../../service/students";
 import Image from "next/image";
 import { GetAllScoresClassroom } from "../../../../service/scores";
 import UpdateScore from "../../../../components/form/updateScore";
-import { GetUser } from "../../../../service/user";
+import { GetUser, GetUserCookie } from "../../../../service/user";
 import { Skeleton } from "@mui/material";
 import Unauthorized from "../../../../components/error/unauthorized";
+import { parseCookies } from "nookies";
 
-function Index() {
+function Index({ user, error }) {
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   const router = useRouter();
-
   const [loadedImages, setLoadedImages] = useState([]);
   const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
-  const user = useQuery(["user"], () => GetUser());
   const students = useQuery(
     ["students"],
     () => GetAllStudents({ classroomId: router.query.classroomId }),
@@ -41,24 +43,10 @@ function Index() {
   );
   //check whether there is authorrized acccess or not
   useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    if (!access_token) {
-      router.push("/auth/signIn");
-    }
-    if (user.data === "Unauthorized") {
-      router.push("/auth/signIn");
-    }
-    if (user.isFetching === false) {
-      if (!user.data) {
-        router.push("/auth/signIn");
-      }
-    }
-    if (router.isReady) {
-      classroom.refetch();
-      students.refetch();
-      scores.refetch();
-    }
-  }, [router.isReady, user.data === "Unauthorized"]);
+    classroom.refetch();
+    students.refetch();
+    scores.refetch();
+  }, [router.isReady]);
 
   useEffect(() => {
     setStudentRearrange(() => {
@@ -68,11 +56,6 @@ function Index() {
     });
   }, [students?.data?.data]);
 
-  useEffect(() => {
-    if (classroom?.data?.response?.data.statusCode === 401) {
-      router.push("/auth/signIn");
-    }
-  }, []);
   // for passing data to sidebar
   const sideMenus = [
     {
@@ -117,10 +100,6 @@ function Index() {
         <h1>404 - Page Not Found😢</h1>
       </div>
     );
-  }
-
-  if (!user.data || user.isError) {
-    return <Unauthorized user={user} />;
   }
 
   //style animationLottie
@@ -299,3 +278,62 @@ function Index() {
 }
 
 export default Index;
+export async function getServerSideProps(context) {
+  const { req, res, query } = context;
+  const cookies = parseCookies(context);
+  const accessToken = cookies.access_token;
+
+  if (!accessToken && !query.access_token) {
+    return {
+      props: {
+        error: {
+          statusCode: 401,
+          message: "unauthorized",
+        },
+      },
+    };
+  } else if (query.access_token) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: query.access_token,
+      });
+      const user = userData.data;
+
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  } else if (accessToken) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: accessToken,
+      });
+      const user = userData.data;
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  }
+}

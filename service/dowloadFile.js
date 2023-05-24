@@ -1,9 +1,11 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 
 export async function DownloadExcelAttendance({ classroomId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     axios
       .get(`${process.env.Server_Url}/excel/download/attendance`, {
         params: {
@@ -30,7 +32,8 @@ export async function DownloadExcelAttendance({ classroomId }) {
 
 export async function DownloadExcelScore({ classroomId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     axios
       .get(`${process.env.Server_Url}/excel/download/scores`, {
         params: {

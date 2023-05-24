@@ -1,13 +1,9 @@
 import { Popover, Transition } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
-import { FiChevronsLeft, FiChevronsRight, FiSidebar } from "react-icons/fi";
+import React, { useState } from "react";
+import { FiSidebar } from "react-icons/fi";
 import AuthButton from "../components/auth/button";
-import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
+
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
-import Image from "next/image";
-import { BsPeopleFill } from "react-icons/bs";
-import { AiTwotoneStar } from "react-icons/ai";
-import CreateStudent from "../components/form/createStudent";
 
 function Layout({ children, user, sideMenus, trigger, classroom, students }) {
   const [triggersidebar, setTriggerSidebar] = useState(true);

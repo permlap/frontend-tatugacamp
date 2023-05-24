@@ -9,7 +9,6 @@ import {
   GetAllAttendance,
 } from "../../../../../service/attendance";
 import Unauthorized from "../../../../../components/error/unauthorized";
-import { DeleteForever } from "@mui/icons-material";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 import UpdateAttendance from "../../../../../components/form/updateAttendance";
@@ -19,10 +18,14 @@ import { DownloadExcelAttendance } from "../../../../../service/dowloadFile";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { Skeleton } from "@mui/material";
 import Head from "next/head";
+import { GetUserCookie } from "../../../../../service/user";
+import { parseCookies } from "nookies";
 
-function Index() {
+function Index({ error, user }) {
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   const router = useRouter();
-  const user = useQuery(["user"], () => GetUser());
   const attendances = useQuery(
     ["attendance"],
     () => GetAllAttendance({ classroomId: router.query.classroomId }),
@@ -66,9 +69,6 @@ function Index() {
       url: `/`,
     },
   ];
-  if (!user.data || user.isError) {
-    return <Unauthorized user={user} />;
-  }
 
   const handleDeleteAttendance = async ({ groupId }) => {
     Swal.fire({
@@ -317,3 +317,62 @@ function Index() {
 }
 
 export default Index;
+export async function getServerSideProps(context) {
+  const { req, res, query } = context;
+  const cookies = parseCookies(context);
+  const accessToken = cookies.access_token;
+
+  if (!accessToken && !query.access_token) {
+    return {
+      props: {
+        error: {
+          statusCode: 401,
+          message: "unauthorized",
+        },
+      },
+    };
+  } else if (query.access_token) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: query.access_token,
+      });
+      const user = userData.data;
+
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  } else if (accessToken) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: accessToken,
+      });
+      const user = userData.data;
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  }
+}

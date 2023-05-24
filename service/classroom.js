@@ -1,9 +1,11 @@
 import axios from "axios";
 import Error from "next/error";
-import { FcUndo } from "react-icons/fc";
+import { parseCookies } from "nookies";
 
-export async function CreateClassroom(inputObject, access_token) {
+export async function CreateClassroom(inputObject) {
   try {
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const classroom = await axios.post(
       `${process.env.Server_Url}/user/classroom/create`,
       {
@@ -25,10 +27,8 @@ export async function CreateClassroom(inputObject, access_token) {
 }
 
 export async function DeleteClassroom(classroomId) {
-  const access_token = localStorage.getItem("access_token");
-  if (!access_token) {
-    throw new Error("Unauthorized");
-  }
+  const cookies = parseCookies();
+  const access_token = cookies.access_token;
   try {
     const deleteClassroom = await axios.delete(
       `${process.env.Server_Url}/user/classroom/delete`,
@@ -50,7 +50,8 @@ export async function DeleteClassroom(classroomId) {
 
 export async function GetAllClassrooms() {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const classrooms = await axios.get(
       `${process.env.Server_Url}/user/classroom/get-all-classroom`,
       {
@@ -71,7 +72,8 @@ export async function GetOneClassroom({ params }) {
     if (!params) {
       return null;
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const classroom = await axios.get(
       `${process.env.Server_Url}/user/classroom/get-a-classroom/${params}`,
       {
@@ -90,7 +92,8 @@ export async function GetOneClassroom({ params }) {
 
 export async function UpdateClassroom({ classroomState }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const classroom = await axios.put(
       `${process.env.Server_Url}/user/classroom/update`,
       {

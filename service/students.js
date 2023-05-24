@@ -1,12 +1,14 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 
 export async function GetAllStudents(data) {
   try {
     if (!data.classroomId) {
       return null;
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const student = await axios.get(
       `${process.env.Server_Url}/user/student/get-all-student?classroomId=${data.classroomId}`,
       {
@@ -27,7 +29,8 @@ export async function GetAllStudentScores({ classroomId }) {
     if (!classroomId) {
       return null;
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const students = await axios.get(
       `${process.env.Server_Url}/user/assignment/get-allStudentScores`,
       {
@@ -67,7 +70,8 @@ export async function CreateStudentApi({
   try {
     const converNumber = Number(number);
     const StringNumber = converNumber.toString();
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const student = await axios.post(
       `${process.env.Server_Url}/user/student/create?classroomId=${classroomId}`,
       {
@@ -98,7 +102,8 @@ export async function UpdateStudent({
   chooseAvatar,
 }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const converNumber = Number(number);
     const StringNumber = converNumber.toString();
     const updateStudent = await axios.put(
@@ -129,7 +134,8 @@ export async function UpdateStudent({
 
 export async function DelteStudent({ studentId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
 
     const deleteStudent = await axios.delete(
       `${process.env.Server_Url}/user/student/delete`,

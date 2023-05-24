@@ -1,12 +1,14 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 
 export async function GetComments({ assignmentId, studentId }) {
   try {
     if (!assignmentId || !studentId) {
       return null;
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const comments = await axios.get(
       `${process.env.Server_Url}/user/comment/get-comment`,
       {
@@ -33,7 +35,8 @@ export async function PostComment({ assignmentId, studentId, body }) {
     if (!assignmentId || !studentId) {
       return null;
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const comments = await axios.post(
       `${process.env.Server_Url}/user/comment/post-comment`,
       {
