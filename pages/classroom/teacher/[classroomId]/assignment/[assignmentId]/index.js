@@ -315,8 +315,8 @@ function Index() {
           <div className="flex items-center justify-center w-full h-full ">
             {/* assignment detail */}
             {activeMenu === 0 && (
-              <div className="w-full flex flex-col mt-5 items-center justify-start h-full ">
-                <div className="w-11/12">
+              <div className="w-full flex flex-col mt-5 items-center justify-start h-full  ">
+                <div className="w-11/12   max-h-full">
                   <div className="flex justify-between ">
                     <span className="lg:text-4xl">
                       {assignment.isLoading || assignment.isFetching ? (
@@ -341,9 +341,14 @@ function Index() {
                   </div>
 
                   <div className="w-full h-[2px] bg-blue-900 rounded-full"></div>
-                  <div className="mt-5 font-Kanit text-xl w-full  h-full">
+                  <div className="mt-5 font-Kanit text-xl w-full max-w-screen-2xl mb-28 max-h-full overflow-y-hidden  overflow-x-auto">
                     {assignment.isLoading || assignment.isFetching ? (
                       <div>
+                        <Skeleton variant="text" width="50%" />
+                        <Skeleton variant="text" width="50%" />
+                        <Skeleton variant="text" width="55%" />
+                        <Skeleton variant="text" width="55%" />
+                        <Skeleton variant="text" width="55%" />
                         <Skeleton variant="text" width="50%" />
                         <Skeleton variant="text" width="50%" />
                         <Skeleton variant="text" width="55%" />
@@ -359,7 +364,7 @@ function Index() {
                     )}
                   </div>
                 </div>
-                <div className="w-full  gap-2 mt-8 bg-blue-500 ">
+                <div className="w-full  gap-2 mt-8 bg-blue-500 fixed bottom-0 ">
                   <div className="p-6 flex  items-end justify-between text-white">
                     <div>
                       <span>กำหนดส่ง</span>
