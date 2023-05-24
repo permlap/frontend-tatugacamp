@@ -1,9 +1,11 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 
 export async function GetUser() {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     if (!access_token) {
       throw new Error("Unauthorized");
     }
@@ -22,11 +24,24 @@ export async function GetUser() {
     }
   }
 }
+export async function GetUserCookie({ access_token }) {
+  try {
+    const user = await axios.get(`${process.env.Server_Url}/users/me`, {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    });
+
+    return user;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
 
 export async function UploadProfilePicture({ formData }) {
   try {
-    console.log(formData);
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     if (!access_token) {
       throw new Error("Unauthorized");
     }
@@ -50,7 +65,8 @@ export async function UploadProfilePicture({ formData }) {
 
 export async function UpdateUserData(updateddata) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
 
     const updateData = await axios.put(
       `${process.env.Server_Url}/users/update-user`,

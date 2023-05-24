@@ -1,5 +1,6 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 import { v4 as uuidv4 } from "uuid";
 
 export async function CreateAttendance({
@@ -8,7 +9,8 @@ export async function CreateAttendance({
   isChecks,
 }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const formatDate = new Date(attendanceDate).toISOString();
 
     const uniqueId = uuidv4();
@@ -46,7 +48,8 @@ export async function CreateAttendance({
 
 export async function GetAllAttendance({ classroomId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const GetAllAttendacne = await axios.get(
       `${process.env.Server_Url}/user/attendance/get-all`,
       {
@@ -68,7 +71,8 @@ export async function GetAllAttendance({ classroomId }) {
 
 export async function DeleteAttendance({ groupId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const deleteAttendance = await axios.delete(
       `${process.env.Server_Url}/user/attendance/delete`,
       {
@@ -94,7 +98,8 @@ export async function UpdateAttendnaceAPI({
   holiday,
 }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const update = await axios.put(
       `${process.env.Server_Url}/user/attendance/update`,
       { absent, present, holiday },

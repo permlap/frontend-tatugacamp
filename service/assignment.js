@@ -1,5 +1,6 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 
 export async function CreateAssignmentApi({
   classroomId,
@@ -12,7 +13,8 @@ export async function CreateAssignmentApi({
     const maxScoreNum = Number(maxScore);
     const dateFormat = new Date(deadline);
 
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const assignment = await axios.post(
       `${process.env.Server_Url}/user/assignment/create`,
       {
@@ -39,7 +41,8 @@ export async function CreateAssignmentApi({
 
 export async function GetAllAssignments({ classroomId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const assignments = await axios.get(
       `${process.env.Server_Url}/user/assignment/get-all-assignment`,
 
@@ -56,7 +59,8 @@ export async function GetAllAssignments({ classroomId }) {
     let progresses = [];
     for (const assignment of assignments.data) {
       try {
-        const access_token = localStorage.getItem("access_token");
+        const cookies = parseCookies();
+        const access_token = cookies.access_token;
 
         const progress = await axios.get(
           `${process.env.Server_Url}/user/assignment/progress-assignment`,
@@ -88,7 +92,8 @@ export async function GetAssignment({ assignmentId }) {
     if (!assignmentId) {
       return null;
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const assignment = await axios.get(
       `${process.env.Server_Url}/user/assignment/get-a-assignment`,
       {
@@ -112,7 +117,8 @@ export async function GetAssignmentProgress({ assignments }) {
   let progresses = [];
   for (const assignment of assignments) {
     try {
-      const access_token = localStorage.getItem("access_token");
+      const cookies = parseCookies();
+      const access_token = cookies.access_token;
 
       const progress = await axios.get(
         `${process.env.Server_Url}/user/assignment/progress-assignment`,
@@ -141,7 +147,8 @@ export async function AssignWorkToSTudent({ isChecked, assignmentCreated }) {
   for (const student of isChecked) {
     if (student[student.id] === true) {
       try {
-        const access_token = localStorage.getItem("access_token");
+        const cookies = parseCookies();
+        const access_token = cookies.access_token;
         const assign = await axios.post(
           `${process.env.Server_Url}/user/assignment/assign-work-to-student`,
           {},
@@ -170,7 +177,8 @@ export async function AssignWorkToSTudent({ isChecked, assignmentCreated }) {
 
 export async function ViewAllAssignOnStudent({ classroomId, assignmentId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const studentWorks = await axios.get(
       `${process.env.Server_Url}/user/assignment/view-all-assign-on-student`,
       {
@@ -193,7 +201,8 @@ export async function ViewAllAssignOnStudent({ classroomId, assignmentId }) {
 
 export async function DeleteAssignment({ assignmentId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const deleteAssignment = await axios.delete(
       `${process.env.Server_Url}/user/assignment/delete`,
       {
@@ -224,7 +233,8 @@ export async function UpdateAssignmentApi({
     const maxScoreNum = Number(maxScore);
     const dateFormat = new Date(deadline);
     console.log(dateFormat);
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const updatedAssignment = await axios.put(
       `${process.env.Server_Url}/user/assignment/update`,
       {
@@ -257,7 +267,8 @@ export async function ReviewStudentWork({
 }) {
   try {
     const scoreNum = Number(score);
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const review = await axios.put(
       `${process.env.Server_Url}/user/assignment/review-student-work`,
       {
@@ -290,7 +301,8 @@ export async function ReviewStudentWorkNoWork({
 }) {
   try {
     const scoreNum = Number(score);
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const review = await axios.post(
       `${process.env.Server_Url}/user/assignment/review-student-no-work`,
       {
@@ -317,7 +329,8 @@ export async function ReviewStudentWorkNoWork({
 
 export async function DeleteStudentWork({ assignmentId, studentId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
     const deleteStudent = await axios.delete(
       `${process.env.Server_Url}/user/assignment/student-work/delete`,
       {

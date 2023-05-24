@@ -19,15 +19,18 @@ import { useRouter } from "next/router";
 import { GetAllStudents } from "../../../../../../service/students";
 import UpdateAssignment from "../../../../../../components/form/updateAssignment.js";
 import Unauthorized from "../../../../../../components/error/unauthorized.js";
-import { GetUser } from "../../../../../../service/user.js";
+import { GetUser, GetUserCookie } from "../../../../../../service/user.js";
 import { BiRefresh } from "react-icons/bi";
 import Head from "next/head.js";
 import { GetComments, PostComment } from "../../../../../../service/comment.js";
 import SendIcon from "@mui/icons-material/Send";
-function Index() {
+import { parseCookies } from "nookies";
+function Index({ error, user }) {
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
-  const user = useQuery(["user"], () => GetUser());
   const [loadingComment, setLoadingComment] = useState(false);
   const [comment, setComment] = useState();
   const assignment = useQuery(
@@ -259,10 +262,6 @@ function Index() {
       };
     });
   };
-
-  if (!user.data || user.isError) {
-    return <Unauthorized user={user} />;
-  }
 
   return (
     <div className="bg-white w-full font-Kanit relative">
@@ -758,3 +757,62 @@ function Index() {
 }
 
 export default Index;
+export async function getServerSideProps(context) {
+  const { req, res, query } = context;
+  const cookies = parseCookies(context);
+  const accessToken = cookies.access_token;
+
+  if (!accessToken && !query.access_token) {
+    return {
+      props: {
+        error: {
+          statusCode: 401,
+          message: "unauthorized",
+        },
+      },
+    };
+  } else if (query.access_token) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: query.access_token,
+      });
+      const user = userData.data;
+
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  } else if (accessToken) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: accessToken,
+      });
+      const user = userData.data;
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  }
+}

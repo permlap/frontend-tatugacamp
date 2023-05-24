@@ -8,11 +8,10 @@ function CreateClass({ close, refetch }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const access_token = localStorage.getItem("access_token");
 
       const formData = new FormData(e.target);
       const inputObject = Object.fromEntries(formData);
-      const classroom = await CreateClassroom(inputObject, access_token);
+      const classroom = await CreateClassroom(inputObject);
       refetch();
       close();
     } catch (err) {

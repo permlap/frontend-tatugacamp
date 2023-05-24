@@ -1,8 +1,11 @@
 import axios from "axios";
 import Error from "next/error";
+import { parseCookies } from "nookies";
 export async function GetAllScoresClassroom({ classroomId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
+
     const allScore = await axios.get(
       `${process.env.Server_Url}/user/score/get-class-all-score`,
       {
@@ -32,7 +35,9 @@ export async function UpdateScoreOnStudent(
     } else if (inputValues) {
       points = Number(inputValues);
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
+
     const updateScore = await axios.put(
       `${process.env.Server_Url}/user/score/individual/update`,
       {
@@ -67,7 +72,9 @@ export async function UpdateScoreOnWholeClass(
     } else if (inputValues) {
       points = Number(inputValues);
     }
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
+
     const updateScore = await axios.put(
       `${process.env.Server_Url}/user/score/update/score/students`,
       {
@@ -91,7 +98,9 @@ export async function UpdateScoreOnWholeClass(
 
 export async function CreateScoreOnClass({ title, emoji, classroomId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
+
     const score = await axios.post(
       `${process.env.Server_Url}/user/score/create`,
       {
@@ -116,7 +125,9 @@ export async function CreateScoreOnClass({ title, emoji, classroomId }) {
 
 export async function HideScore({ scoreId }) {
   try {
-    const access_token = localStorage.getItem("access_token");
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
+
     const score = await axios.put(
       `${process.env.Server_Url}/user/score/hide-score`,
       {},

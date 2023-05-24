@@ -10,51 +10,24 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import * as teacherAnimation from "../../../components/98349-teacher-in-classroom.json";
-import { GetUser } from "../../../service/user";
+import { GetUser, GetUserCookie } from "../../../service/user";
 import Unauthorized from "../../../components/error/unauthorized";
 import { Skeleton } from "@mui/material";
 import Layout from "../../../layouts/schoolLayout";
+import { parseCookies } from "nookies";
 
-function Index() {
+function Index({ error, user }) {
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
+  }
   const router = useRouter();
-  const [access_token, setAccessToken] = useState();
-  const [runFetchClassroom, setRunFetchClassroom] = useState(false);
   const [classroomState, setClassroomState] = useState();
-
-  const user = useQuery(["user"], () => GetUser());
-
-  const classrooms = useQuery(
-    ["classrooms"],
-    () =>
-      GetAllClassrooms().then((res) => {
-        setClassroomState((prev) => (prev = res?.data));
-      }),
-    {
-      enabled: runFetchClassroom,
-    }
+  // const user = useQuery(["user"], () => GetUser());
+  const classrooms = useQuery(["classrooms"], () =>
+    GetAllClassrooms().then((res) => {
+      setClassroomState((prev) => (prev = res?.data));
+    })
   );
-  useEffect(() => {
-    if (router.query.access_token) {
-      localStorage.setItem("access_token", router.query.access_token);
-      const access_token = localStorage.getItem("access_token");
-      if (user.error && !access_token) {
-        console.log("redirect");
-        router.push({
-          pathname: "/auth/signIn",
-        });
-      }
-    } else if (user.error && !access_token) {
-      console.log("redirect");
-      router.push({
-        pathname: "/auth/signIn",
-      });
-    }
-  }, [user.data?.status]);
-  useEffect(() => {
-    if (user.data !== "Unauthorized" && user.data !== undefined) {
-      setRunFetchClassroom(true);
-    }
-  }, [user.data]);
 
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
@@ -109,9 +82,6 @@ function Index() {
     height: 500,
   };
 
-  if (!user.data || user.isError) {
-    return <Unauthorized user={user} />;
-  }
   return (
     <div className="bg-white w-full h-full font-Kanit">
       <Head>
@@ -305,3 +275,63 @@ function Index() {
 }
 
 export default Index;
+
+export async function getServerSideProps(context) {
+  const { req, res, query } = context;
+  const cookies = parseCookies(context);
+  const accessToken = cookies.access_token;
+
+  if (!accessToken && !query.access_token) {
+    return {
+      props: {
+        error: {
+          statusCode: 401,
+          message: "unauthorized",
+        },
+      },
+    };
+  } else if (query.access_token) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: query.access_token,
+      });
+      const user = userData.data;
+
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  } else if (accessToken) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: accessToken,
+      });
+      const user = userData.data;
+      return {
+        props: {
+          user,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  }
+}
