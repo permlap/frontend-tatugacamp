@@ -232,7 +232,7 @@ function UpdateScore({
 
   return (
     <div
-      className=" md:w-full h-full font-Kanit md:p-5 z-20 
+      className=" md:w-full h-full font-Kanit  z-30 
 top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
       key={student?.id}
     >

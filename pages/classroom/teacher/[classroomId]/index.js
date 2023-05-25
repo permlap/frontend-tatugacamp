@@ -111,7 +111,7 @@ function Index({ user, error }) {
     return <Unauthorized />;
   }
   return (
-    <div className="bg-blue-50">
+    <div className="bg-blue-50 w-full pb-96 ">
       <Layout sideMenus={sideMenus} />
       <Head>
         <title>classroom - {classroom.data?.data?.title}</title>
@@ -122,11 +122,11 @@ function Index({ user, error }) {
           {/* header section */}
 
           {/* main part */}
-          <main className="w-full max-w-6xl h-full flex flex-col  ">
+          <main className="w-full max-w-6xl h-full flex flex-col items-center justify-start  ">
             {/* 
             students' avatar are here */}
             <div
-              className="lg:w-full md:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
+              className=" md:w-11/12 lg:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
             md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 place-items-center	"
             >
               <Popover>

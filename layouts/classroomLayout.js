@@ -100,7 +100,7 @@ function Layout({ children, sideMenus }) {
       </Popover>
       {!user.isError && user?.data?.status === 200 && (
         <header
-          className="w-full max-w-6xl rounded-3xl  mt-32  flex  flex-col-reverse md:flex-row md:gap-x-4 z-10
+          className="w-full md:w-11/12 max-w-6xl rounded-3xl  mt-32  flex  flex-col-reverse md:flex-row md:gap-x-4 z-10
              bg-blue-200 md:h-52 lg:h-40 
           items-center justify-start relative  "
         >
@@ -176,10 +176,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
 
           {/* text in header */}
           <div className="font-Kanit text-2xl font-light md:ml-10 m-2 md:w-80 lg:w-full  md:h-max md:block flex flex-col items-center justify-center">
-            <div className="flex md:block items-center justify-center w-full flex-col">
+            <div className="flex md:block  items-center justify-center w-full  md:w-60  lg:w-full flex-col">
               <span className="mr-2 md:block hidden">Welcome to</span>
               <div className="mr-2 md:hidden block">Welcome to</div>
-              <span className="text-4xl font-semibold text-center md:text-left uppercase">
+              <span className="md:text-xl lg:text-4xl break-words	 font-semibold text-center md:text-left uppercase">
                 {classroom?.data?.data?.title}
               </span>
             </div>
@@ -212,7 +212,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
       )}
 
       {!user.isError && user?.data?.status === 200 && (
-        <div className="flex flex-col gap-3 md:pl-5 lg:pl-0 w-3/4 mt-5  items-center justify-center md:items-start">
+        <div className="flex flex-col gap-3 md:pl-5 lg:pl-0 lg:w-3/4 md:w-11/12 mt-5  items-center justify-center md:items-start">
           <div className="font-sans font-normal tracking-wide flex items-center gap-5 pl-5 md:pl-0 text-gray-400">
             <span>Overview</span>
             <Popover className="relative ">
@@ -287,7 +287,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             </Popover>
           </div>
 
-          <div className="grid md:grid-cols-3 grid-cols-2 w-[95%] md:w-full gap-2 md:gap-0 ">
+          <div className="grid md:grid-cols-3 grid-cols-2 w-[95%]  md:w-full gap-2 md:gap-0 ">
             <div
               className="md:w-5/6 w-full  py-1 h-16 bg-[#F2CC5B] flex items-center 
                 justify-start gap-2  rounded-lg text-white"
@@ -314,14 +314,14 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
               </div>
             </div>
             <div
-              className="md:w-5/6 w-full col-span-2 md:col-span-1
+              className=" md:w-full lg:w-full w-full col-span-2 md:col-span-1
                   py-1 h-16 bg-[#EB6297] flex items-center md:justify-start justify-center gap-5  rounded-lg text-white"
             >
               <div className="bg-white/40 backdrop-blur-sm p-3 rounded-lg ml-5">
                 🥇
               </div>
               <div className="flex items-start justify-center flex-col font-sans">
-                <span className="font-bold text-2xl">
+                <span className="font-bold text-md md:text-md lg:text-2xl">
                   {highestScorePlayer?.firstName}
                 </span>
                 <span className="text-sm font-medium">the highest score</span>

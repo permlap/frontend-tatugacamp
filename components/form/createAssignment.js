@@ -127,7 +127,7 @@ export default function CreateAssignment({
     <div>
       <form
         onSubmit={handleSubmit}
-        className="flex w-5/6  h-5/6  font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-40 
+        className="flex lg:w-5/6 md:h-max md:max-h-[50%] lg:max-h-fit md:w-11/12  lg:h-5/6  font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-40 
     top-0 right-0 left-0 bottom-0 m-auto fixed items-center justify-center"
       >
         {isAssignStudent === false ? (
@@ -269,7 +269,7 @@ export default function CreateAssignment({
               เลือกผู้เรียนเพื่อมอบหมายงาน
             </div>
 
-            <div className="w-2/4 h-3/4 flex relative items-center justify-start overflow-auto scrollbar  flex-col gap-2">
+            <div className="lg:w-2/4 lg:h-3/4 md:w-10/12 md:h-80  flex relative items-center justify-start overflow-auto scrollbar  flex-col gap-2">
               {loading ? (
                 <div className="absolute w-full  h-full flex items-center justify-center">
                   <Loading />

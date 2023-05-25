@@ -67,7 +67,7 @@ function ExcelTable({ getExcelData, students }) {
   };
 
   return (
-    <div className="container mx-auto my-4 ">
+    <div className=" md:w-80 lg:w-full lg:mx-auto ">
       <div className="mb-4 relative ">
         <label htmlFor="excel_data" className="block font-bold mb-2">
           คัดลอคข้อมูลจาก Excel ลงที่นี่
@@ -75,7 +75,7 @@ function ExcelTable({ getExcelData, students }) {
         <textarea
           id="excel_data"
           name="excel_data"
-          className="w-96 h-96 p-2 border border-gray-300 rounded-md"
+          className="lg:w-96 md:w-full h-96 border border-gray-300 rounded-md"
           value={excelData}
           onChange={handleExcelDataChange}
         />

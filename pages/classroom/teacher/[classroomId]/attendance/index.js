@@ -127,7 +127,7 @@ function Index({ error, user }) {
               <SiMicrosoftexcel />
             </div>
           </button>
-          <div className=" h-full max-h-[40rem] flex flex-col  w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
+          <div className=" h-full max-h-[40rem] flex flex-col md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
             <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky z-10  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">
                 เลขที่

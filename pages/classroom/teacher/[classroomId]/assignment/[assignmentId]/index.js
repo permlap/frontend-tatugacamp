@@ -395,8 +395,8 @@ function Index({ error, user }) {
 
             {/* student's assignment */}
             {activeMenu === 1 && (
-              <div className="flex items-start justify-start w-full h-full gap-5  mt-5  ">
-                <div className="w-[60rem]  top-10 sticky flex flex-col h-full items-center justify-center ">
+              <div className="flex items-start justify-start w-full h-full  gap-5   mt-5  ">
+                <div className="lg:w-[60rem] md:w-3/4  top-10 sticky flex flex-col h-full items-center justify-center ">
                   <div className="text-xl font-Kanit font-semibold flex justify-center items-center gap-2">
                     <span>สถานะการส่งงานของผู้เรียน</span>
 
@@ -422,7 +422,7 @@ function Index({ error, user }) {
                         สถานะ
                       </div>
                     </li>
-                    <div className="h-[32rem] w-full overflow-auto">
+                    <div className=" md:h-screen w-full overflow-auto">
                       {studentOnAssignments.isLoading ||
                         (studentOnAssignments.isFetching ? (
                           <div className="flex flex-col  items-center justify-start mt-5 gap-5">
@@ -502,8 +502,8 @@ function Index({ error, user }) {
                                         onClick={() =>
                                           handleSelectWork(student)
                                         }
-                                        className=" w-max cursor-pointer hover:scale-105 transition duration-150
-                                         bg-yellow-500 py-1 px-2 rounded-lg text-white"
+                                        className=" lg:w-max md:w-16 cursor-pointer hover:scale-105 transition duration-150
+                                         bg-yellow-500 py-1 px-2 rounded-lg text-white md:text-xs lg:text-base text-center flex items-center justify-center"
                                       >
                                         รอการตรวจ
                                       </div>
@@ -534,27 +534,27 @@ function Index({ error, user }) {
                 </div>
 
                 {/* review student work section */}
-                <div className="flex flex-col w-full items-center justify-between h-full ">
-                  <div className="flex w-full justify-between mt-10">
-                    <div className="flex items-center justify-center relative ">
-                      <div className="text-3xl w-max font-Kanit flex">
+                <div className="flex flex-col lg:w-full md:w-2/4 items-center justify-between h-full ">
+                  <div className="flex w-full  lg:justify-between  mt-10">
+                    <div className="flex items-center md:w-5/12 lg:w-max justify-center relative ">
+                      <div className="lg:text-3xl md:text-xl w-max font-Kanit flex">
                         <span>งานของผู้เรียน</span>
                         {currentStudentWork?.status === "have-work" && (
                           <div
                             onClick={handleDelteStudentWork}
-                            className="flex items-center ml-5 justify-center text-red-500 cursor-pointer
+                            className="flex items-center md:ml-1 lg:ml-5 justify-center text-red-500 cursor-pointer
                         hover:text-red-800 transition duration-150"
                           >
                             <MdDelete />
                           </div>
                         )}
                       </div>
-                      <div className="w-96 h-[2px] bg-blue-700 absolute left-0 bottom-2"></div>
+                      <div className="w-96 h-[2px] bg-blue-700 absolute left-0 md:hidden lg:block lg:bottom-2"></div>
                     </div>
 
                     <form
                       onSubmit={handleReviewWork}
-                      className="w-max flex justify-center gap-5 "
+                      className="lg:w-max md:w-80  flex md:justify-end lg:justify-center gap-5 "
                     >
                       <Box width="40%" className="relative ">
                         <TextField
@@ -565,7 +565,7 @@ function Index({ error, user }) {
                           value={teacherReview.score}
                           onChange={handleOnChangeReviewWork}
                         />
-                        <span className="font-Poppins absolute top-4 right-5">
+                        <span className="font-Poppins absolute lg:top-4 md:top-5  md:text-sm lg:text-base md:right-2 lg:right-5">
                           /{assignment?.data?.data?.maxScore}
                         </span>
                       </Box>
@@ -581,12 +581,15 @@ function Index({ error, user }) {
                     </form>
                   </div>
                   <div className="w-full flex justify-start items-center gap-2 mb-10">
-                    <span>
+                    <span
+                      className="md:text-sm lg:text-base
+                    "
+                    >
                       {currentStudentWork?.firstName}
                       {currentStudentWork?.lastName}
                     </span>
                     {currentStudentWork?.picture && (
-                      <div className="w-10 h-10 bg-orange-500 rounded-full overflow-hidden relative">
+                      <div className="lg:w-10 lg:h-10 md:w-8 md:h-8 bg-orange-500 rounded-full overflow-hidden relative">
                         <Image
                           src={currentStudentWork?.picture}
                           layout="fill"
@@ -606,7 +609,7 @@ function Index({ error, user }) {
                         theme="day"
                         className={`container grid ${
                           images.length === 1 ? "grid-cols-1" : "grid-cols-3"
-                        } w-[40rem] mx-auto h-full items-center gap-2 place-items-center
+                        } lg:w-[40rem] md:w-60 mx-auto h-full items-center gap-2 place-items-center
                          `}
                       >
                         {images.map((image, index) => {
@@ -643,7 +646,7 @@ function Index({ error, user }) {
                     if (comment.user) {
                       return (
                         <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
-                          <div className="flex gap-2 ml-20">
+                          <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
                             {comment.user.picture ? (
                               <div className="w-12 h-12 rounded-full overflow-hidden relative">
                                 <Image
@@ -660,18 +663,13 @@ function Index({ error, user }) {
                                 </span>
                               </div>
                             )}
-                            <div className="w-max max-w-xl pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
+                            <div className="w-max md:max-w-[15rem] lg:max-w-xl  pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
                               <div className="text-md ml-4 font-bold first-letter:uppercase">
                                 {comment.user.firstName}
                                 {comment.user?.lastName}
                               </div>
                               <div
-                                className="pl-4 "
-                                style={{
-                                  wordWrap: "break-word",
-                                  maxHeight: "200px",
-                                  overflowY: "auto",
-                                }}
+                                className="pl-4 break-words "
                                 dangerouslySetInnerHTML={{
                                   __html: comment.body,
                                 }}
@@ -683,7 +681,7 @@ function Index({ error, user }) {
                     } else if (comment.student) {
                       return (
                         <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
-                          <div className="flex gap-2 ml-20">
+                          <div className="flex gap-2 md:ml-2 lg:ml-20">
                             {comment.student.picture ? (
                               <div className="w-12 h-12 rounded-full overflow-hidden relative">
                                 <Image
@@ -700,18 +698,13 @@ function Index({ error, user }) {
                                 </span>
                               </div>
                             )}
-                            <div className="w-max max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                            <div className="w-max max-w-[10rem] lg:max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
                               <div className="text-md ml-4 font-bold first-letter:uppercase">
                                 {comment.student.firstName}
                                 {comment.student?.lastName}
                               </div>
                               <div
-                                className="pl-4 "
-                                style={{
-                                  wordWrap: "break-word",
-                                  maxHeight: "200px",
-                                  overflowY: "auto",
-                                }}
+                                className="pl-4 break-words "
                                 dangerouslySetInnerHTML={{
                                   __html: comment.body,
                                 }}

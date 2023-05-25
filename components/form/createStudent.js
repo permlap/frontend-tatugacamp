@@ -79,7 +79,7 @@ function CreateStudent({ close }) {
       <div className="w-max p-3 h-max fixed right-0 left-0 top-0 bottom-0 m-auto z-40  ">
         <div className="flex items-center justify-center gap-x-5  bg-transparent h-[0.05rem] w-max">
           <div
-            className="w-[40rem] max-w-[40rem] h-[30rem] bg-white border-2 border-solid  flex-col justify-start items-center 
+            className="lg:w-[40rem] md:w-80 lg:max-w-[40rem] h-[30rem] bg-white border-2 border-solid  flex-col justify-start items-center 
           rounded-xl font-Kanit md:flex hidden"
           >
             <div className=" font-Kanit font-bold text-xl mt-2">

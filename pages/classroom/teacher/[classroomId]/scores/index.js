@@ -105,7 +105,7 @@ function Index({ user, error }) {
           </div>
         ) : (
           <div
-            className={`relative max-w-6xl w-max  h-max max-h-[30rem]
+            className={`relative lg:max-w-6xl md:w-[40rem] lg:w-max  h-max max-h-[30rem]
          ${
            studentsScores?.data?.data?.assignments.length === 0
              ? "border-0 bg-transparent"
