@@ -38,27 +38,25 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
             <div className="flex flex-col items-center justify-center ">
               <div
                 className={`w-20 h-20 ${
-                  user?.data?.data?.picture ? "bg-transparent" : "bg-blue-500"
+                  user?.picture ? "bg-transparent" : "bg-blue-500"
                 } rounded-full relative flex justify-center items-center overflow-hidden `}
               >
-                {user?.data?.data?.picture ? (
+                {user?.picture ? (
                   <Image
-                    src={user?.data?.data?.picture}
+                    src={user?.picture}
                     layout="fill"
                     className="object-cover"
-                    alt={`profile of ${user?.data?.data?.firstName}`}
+                    alt={`profile of ${user?.firstName}`}
                   />
                 ) : (
                   <span className="text-3xl font-Kanit font-semibold text-white">
-                    {user?.data?.data?.firstName.charAt(0)}
+                    {user?.firstName?.charAt(0)}
                   </span>
                 )}
               </div>
               <div className="mt-2 flex flex-col items-center justify-center">
-                <span>Hi, {user?.data?.data?.firstName}</span>
-                <span className="text-md font-light">
-                  {user?.data?.data?.email}
-                </span>
+                <span>Hi, {user?.firstName}</span>
+                <span className="text-md font-light">{user?.email}</span>
               </div>
             </div>
           </li>

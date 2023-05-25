@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import {
   GetUser,
+  GetUserCookie,
   UpdateUserData,
   UploadProfilePicture,
 } from "../../service/user";
@@ -12,18 +13,21 @@ import Loading from "../../components/loading/loading";
 import { useRouter } from "next/router";
 import Unauthorized from "../../components/error/unauthorized";
 import Layout from "../../layouts/schoolLayout";
-function Setting() {
+import { parseCookies } from "nookies";
+function Setting({ userServerSide, error }) {
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
     phone: "",
     school: "",
+    picture: "",
+    email: "",
   });
+  const user = useQuery(["user"], () => GetUser());
   const [triggersidebar, setTriggerSidebar] = useState(false);
   const router = useRouter();
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
-  const user = useQuery(["user"], () => GetUser());
   const handleFileInputChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -54,22 +58,16 @@ function Setting() {
 
   //check auth wheter the sesstion is expire or not
   useEffect(() => {
-    if (user.data === "Unauthorized") {
-      router.push("/auth/signIn");
-    }
-    if (user.isFetching === false) {
-      if (!user.data) {
-        router.push("/auth/signIn");
-      }
-    }
     setUserData((prevState) => ({
       ...prevState,
       firstName: user?.data?.data?.firstName,
       lastName: user?.data?.data?.lastName,
       school: user?.data?.data?.school,
       phone: user?.data?.data?.phone,
+      email: user?.data?.data?.email,
+      picture: user?.data?.data?.picture,
     }));
-  }, []);
+  }, [user.isSuccess]);
   //handle summit file
   const handleSubmit = async (e) => {
     try {
@@ -141,13 +139,13 @@ function Setting() {
       Swal.fire("error", err.props.response.data.message.toString(), "error");
     }
   };
-  if (!user.data) {
-    return <Unauthorized user={user} />;
+  if (error?.statusCode === 401) {
+    return <Unauthorized />;
   }
 
   return (
     <div className="flex font-sans   ">
-      <Layout sideMenus={sideMenus} user={user} trigger={chooseMessage} />
+      <Layout sideMenus={sideMenus} user={userData} trigger={chooseMessage} />
       <div
         className={`w-full h-screen mt-10 md:mt-0  flex flex-col items-center md:justify-center
          bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
@@ -329,3 +327,62 @@ function Setting() {
 }
 
 export default Setting;
+export async function getServerSideProps(context) {
+  const { req, res, query } = context;
+  const cookies = parseCookies(context);
+  const accessToken = cookies.access_token;
+
+  if (!accessToken && !query.access_token) {
+    return {
+      props: {
+        error: {
+          statusCode: 401,
+          message: "unauthorized",
+        },
+      },
+    };
+  } else if (query.access_token) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: query.access_token,
+      });
+      const userServerSide = userData.data;
+
+      return {
+        props: {
+          userServerSide,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  } else if (accessToken) {
+    try {
+      const userData = await GetUserCookie({
+        access_token: accessToken,
+      });
+      const userServerSide = userData.data;
+      return {
+        props: {
+          userServerSide,
+        },
+      };
+    } catch (err) {
+      return {
+        props: {
+          error: {
+            statusCode: 401,
+            message: "unauthorized",
+          },
+        },
+      };
+    }
+  }
+}

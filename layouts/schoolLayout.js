@@ -19,7 +19,7 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
       <Popover className="absolute top-0 left-0 mr-5 mt-5 ">
         {({ open }) => (
           <>
-            {!user.isError && user?.data?.status === 200 && (
+            {user && (
               <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
                 <div
                   aria-label="Show sidebar"
