@@ -88,7 +88,7 @@ function Layout({ children, sideMenus }) {
                 {({ close }) => (
                   <SidebarClassroom
                     sideMenus={sideMenus}
-                    user={user}
+                    user={user?.data?.data}
                     triggersidebar={triggersidebar}
                     close={close}
                   />

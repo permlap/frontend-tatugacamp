@@ -3,6 +3,9 @@ import Error from "next/error";
 
 export async function JoinClassroom({ classroomCode }) {
   try {
+    if (!classroomCode) {
+      return null;
+    }
     const classrooms = await axios.get(
       `${process.env.Server_Url}/student/classroom/get-a-classroom`,
       {

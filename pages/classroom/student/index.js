@@ -30,7 +30,6 @@ function Index() {
       enabled: false,
     }
   );
-
   // set people
   useEffect(() => {
     if (classroom.isError) {
@@ -95,13 +94,21 @@ function Index() {
               <div className="flex flex-col gap-2 max-w-xl   w-5/6">
                 <div className="w-full flex flex-col ">
                   <div className="w-full flex gap-2 flex-col items-center justify-center mb-5">
-                    <div className="w-20 h-20 relative rounded-full overflow-hidden ring-4 ring-white bg-white">
-                      <Image
-                        src={classroom?.data?.data?.teacher?.picture}
-                        layout="fill"
-                        className="object-contain"
-                      />
-                    </div>
+                    {classroom?.data?.data?.teacher?.picture ? (
+                      <div className="w-20 h-20 relative rounded-full overflow-hidden ring-4 ring-white bg-white">
+                        <Image
+                          src={classroom?.data?.data?.teacher?.picture}
+                          layout="fill"
+                          className="object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-20 h-20 relative rounded-full overflow-hidden flex items-center justify-center ring-4 ring-white bg-white">
+                        <span className="text-4xl uppercase font-Kanit font-semibold text-blue-500">
+                          {classroom?.data?.data?.teacher?.firstName?.charAt(0)}
+                        </span>
+                      </div>
+                    )}
                     <span className="flex gap-1 font-Kanit font-normal text-white">
                       <span>ครู</span>
                       <span className="uppercase">
