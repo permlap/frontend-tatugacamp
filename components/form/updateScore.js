@@ -550,7 +550,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
 
               <div className="w-full flex items-center justify-center flex-col mt-5 ">
                 <input
-                  placeholder="1"
+                  placeholder=""
                   onChange={handleChangeScore}
                   className="w-20 text-lg font-sans font-semibold rounded-md border-0 ring-blue-500 ring-2 active:border-0 focus:border-0 text-center placeholder:text-black"
                   value={pointsValue}

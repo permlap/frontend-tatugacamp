@@ -15,6 +15,7 @@ import Unauthorized from "../../../components/error/unauthorized";
 import { Skeleton } from "@mui/material";
 import Layout from "../../../layouts/schoolLayout";
 import { parseCookies } from "nookies";
+import Swal from "sweetalert2";
 
 function Index({ error, user }) {
   const router = useRouter();
@@ -218,7 +219,25 @@ function Index({ error, user }) {
                             <div
                               role="button"
                               onClick={() => {
-                                deleteClassroom.mutate(classroom.id);
+                                Swal.fire({
+                                  title: "Are you sure?",
+                                  text: "You won't be able to revert this!",
+                                  icon: "warning",
+                                  showCancelButton: true,
+                                  confirmButtonColor: "#3085d6",
+                                  cancelButtonColor: "#d33",
+                                  confirmButtonText: "Yes, delete it!",
+                                }).then((result) => {
+                                  if (result.isConfirmed) {
+                                    deleteClassroom.mutate(classroom.id);
+                                    Swal.fire(
+                                      "Deleted!",
+                                      "Your classroom has been deleted.",
+                                      "success"
+                                    );
+                                  }
+                                  handleCloseClasssDeleted(index);
+                                });
                               }}
                               className="hover:scale-110  transition duration-150 ease-in-out cursor-pointer "
                             >
