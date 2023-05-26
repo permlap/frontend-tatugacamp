@@ -18,7 +18,7 @@ function Index({ cardData }) {
   const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
   const studentNumber = useQuery(["studentNumber"], () => GetNumberStudent());
   const [loading, setLoading] = useState(true);
-  const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
+  const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคลาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
   const [domLoaded, setDomLoaded] = useState(false);
   const [classroomCode, setClassroomCode] = useState();
   const style = {
