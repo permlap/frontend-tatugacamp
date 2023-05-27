@@ -16,6 +16,7 @@ import { Skeleton } from "@mui/material";
 import Layout from "../../../layouts/schoolLayout";
 import { parseCookies } from "nookies";
 import Swal from "sweetalert2";
+import FeedbackSankbar from "../../../components/feedback/snackbar";
 
 function Index({ error, user }) {
   const router = useRouter();
@@ -105,7 +106,7 @@ function Index({ error, user }) {
           content="ห้องเรียนจาก Tatuga camp ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Teacher class</title>
+        <title>{`Teacher class`}</title>
       </Head>
 
       <div
@@ -114,7 +115,7 @@ function Index({ error, user }) {
         } `}
       >
         <Layout user={user} sideMenus={sideMenus} />
-
+        <FeedbackSankbar />
         <div
           className={`flex justify-center items-center md:items-start    lg:items-center  w-full h-full`}
         >

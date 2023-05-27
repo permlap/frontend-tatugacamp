@@ -114,7 +114,7 @@ function Index({ user, error }) {
     <div className="bg-blue-50 w-full pb-96 ">
       <Layout sideMenus={sideMenus} />
       <Head>
-        <title>classroom - {classroom.data?.data?.title}</title>
+        <title>{`classroom - ${classroom.data?.data?.title}`}</title>
       </Head>
 
       <div className="flex  items-center justify-center ">
