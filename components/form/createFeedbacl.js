@@ -50,7 +50,7 @@ function CreateFeedback({ handleCloseFeedback }) {
       icon: <MdOutlineMoodBad />,
     },
     {
-      title: "ให้กำลังใจ   ",
+      title: "ให้กำลังใจ",
       icon: <BiHappyBeaming />,
     },
   ];
