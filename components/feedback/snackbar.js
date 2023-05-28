@@ -33,6 +33,7 @@ function FeedbackSankbar() {
       )}
       <Snackbar
         onClick={handleOpenFeedback}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         className="
         bg-green-400 text-black p-3 px-3 hover:bg-green-500 hover:scale-105
         transition duration-200 rounded-xl cursor-pointer  active:bg-green-600"
