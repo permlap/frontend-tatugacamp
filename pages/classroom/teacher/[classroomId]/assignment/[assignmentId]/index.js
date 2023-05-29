@@ -190,7 +190,6 @@ function Index({ error, user }) {
   const handleReviewWork = async (e) => {
     try {
       e.preventDefault();
-
       if (currentStudentWork.status === "have-work") {
         const reviewWork = await ReviewStudentWork({
           studentId: currentStudentWork.id,
@@ -198,9 +197,19 @@ function Index({ error, user }) {
           comment: teacherReview.comment,
           score: teacherReview.score,
         });
-
-        studentOnAssignments.refetch();
         Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
+        studentOnAssignments.refetch();
+        const nextStudentNumber = parseInt(currentStudentWork.number) + 1;
+        // Check if the current student is the last student
+        if (nextStudentNumber > studentOnAssignments.data.data.length) {
+          // Set nextStudentNumber to the first student's number
+          nextStudentNumber = 1;
+        }
+        const nextStudent = studentOnAssignments.data.data.find(
+          (student) => parseInt(student.number) === nextStudentNumber
+        );
+
+        handleSelectWork(nextStudent);
       } else if (currentStudentWork.status === "no-work") {
         const reviewWork = await ReviewStudentWorkNoWork({
           studentId: currentStudentWork.id,
@@ -208,10 +217,20 @@ function Index({ error, user }) {
           comment: teacherReview.comment,
           score: teacherReview.score,
         });
-        studentOnAssignments.refetch();
-        setCurrentStudentWork(reviewWork.data);
-
         Swal.fire("success", "ตรวจงานเรียบร้อย", "success");
+        studentOnAssignments.refetch();
+
+        const nextStudentNumber = parseInt(currentStudentWork.number) + 1;
+        // Check if the current student is the last student
+        if (nextStudentNumber > studentOnAssignments.data.data.length) {
+          // Set nextStudentNumber to the first student's number
+          nextStudentNumber = 1;
+        }
+        const nextStudent = studentOnAssignments.data.data.find(
+          (student) => parseInt(student.number) === nextStudentNumber
+        );
+
+        handleSelectWork(nextStudent);
       }
     } catch (err) {
       console.log(err);
@@ -423,112 +442,106 @@ function Index({ error, user }) {
                       </div>
                     </li>
                     <div className=" md:h-screen w-full overflow-auto">
-                      {studentOnAssignments.isLoading ||
-                        (studentOnAssignments.isFetching ? (
-                          <div className="flex flex-col  items-center justify-start mt-5 gap-5">
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                            <Skeleton
-                              variant="rounded"
-                              animation="wave"
-                              width="80%"
-                            />
-                          </div>
-                        ) : (
-                          studentOnAssignments?.data?.data?.map(
-                            (student, index) => {
-                              return (
-                                <li
-                                  key={index}
-                                  className="grid grid-cols-4 gap-2 py-2  "
-                                >
-                                  <div className="flex justify-center">
-                                    {student.number}
+                      {studentOnAssignments.isLoading ? (
+                        <div className="flex flex-col  items-center justify-start mt-5 gap-5">
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                          <Skeleton
+                            variant="rounded"
+                            animation="wave"
+                            width="80%"
+                          />
+                        </div>
+                      ) : (
+                        studentOnAssignments?.data?.data?.map(
+                          (student, index) => {
+                            return (
+                              <li
+                                key={index}
+                                className="grid grid-cols-4 gap-2 py-2  "
+                              >
+                                <div className="flex justify-center">
+                                  {student.number}
+                                </div>
+                                <div className="flex items-center justify-center">
+                                  {student.firstName}
+                                </div>
+                                {student?.studentWork?.score ? (
+                                  <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                    {student.studentWork.score}
                                   </div>
-                                  <div className="flex items-center justify-center">
-                                    {student.firstName}
+                                ) : (
+                                  <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                    0
                                   </div>
-                                  {student?.studentWork?.score ? (
-                                    <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
-                                      {student.studentWork.score}
-                                    </div>
-                                  ) : (
-                                    <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
-                                      0
-                                    </div>
-                                  )}
-                                  {student.status === "no-work" && (
+                                )}
+                                {student.status === "no-work" && (
+                                  <div
+                                    onClick={() => handleSelectWork(student)}
+                                    className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
+                                      hover:scale-105 transition duration-150"
+                                  >
+                                    ไม่ส่งงาน
+                                  </div>
+                                )}
+                                {student.status === "have-work" &&
+                                  student.studentWork.score === 0 &&
+                                  student.studentWork.isSummited === false && (
                                     <div
                                       onClick={() => handleSelectWork(student)}
-                                      className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
-                                      hover:scale-105 transition duration-150"
-                                    >
-                                      ไม่ส่งงาน
-                                    </div>
-                                  )}
-                                  {student.status === "have-work" &&
-                                    student.studentWork.score === 0 &&
-                                    student.studentWork.isSummited ===
-                                      false && (
-                                      <div
-                                        onClick={() =>
-                                          handleSelectWork(student)
-                                        }
-                                        className=" lg:w-max md:w-16 cursor-pointer hover:scale-105 transition duration-150
+                                      className=" lg:w-max md:w-16 cursor-pointer hover:scale-105 transition duration-150
                                          bg-yellow-500 py-1 px-2 rounded-lg text-white md:text-xs lg:text-base text-center flex items-center justify-center"
-                                      >
-                                        รอการตรวจ
-                                      </div>
-                                    )}
-                                  {student.status === "no-assign" && (
-                                    <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
-                                      ไม่ได้มอบหมาย
+                                    >
+                                      รอการตรวจ
                                     </div>
                                   )}
-                                  {student.status === "have-work" &&
-                                    student.studentWork.isSummited === true && (
-                                      <div
-                                        onClick={() =>
-                                          handleSelectWork(student)
-                                        }
-                                        className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
-                                      >
-                                        ตรวจแล้ว
-                                      </div>
-                                    )}
-                                </li>
-                              );
-                            }
-                          )
-                        ))}
+                                {student.status === "no-assign" && (
+                                  <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
+                                    ไม่ได้มอบหมาย
+                                  </div>
+                                )}
+                                {student.status === "have-work" &&
+                                  student.studentWork.isSummited === true && (
+                                    <div
+                                      onClick={() => handleSelectWork(student)}
+                                      className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
+                                    >
+                                      ตรวจแล้ว
+                                    </div>
+                                  )}
+                              </li>
+                            );
+                          }
+                        )
+                      )}
                     </div>
                   </ul>
                 </div>
@@ -581,6 +594,7 @@ function Index({ error, user }) {
                     </form>
                   </div>
                   <div className="w-full flex justify-start items-center gap-2 mb-10">
+                    <span>เลขที่ {currentStudentWork?.number}</span>
                     <span
                       className="md:text-sm lg:text-base
                     "
