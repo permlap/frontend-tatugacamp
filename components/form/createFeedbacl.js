@@ -42,7 +42,7 @@ function CreateFeedback({ handleCloseFeedback }) {
       icon: <AiFillWarning />,
     },
     {
-      title: "ขอฟังชั่นเพิ่ม",
+      title: "ขอฟังก์ชั่นเพิ่ม",
       icon: <RiFunctionLine />,
     },
     {
@@ -116,8 +116,8 @@ function CreateFeedback({ handleCloseFeedback }) {
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
                 textareaName="description"
-                initialValue="ความคิดเห็นของท่านคือความหวังของเรา...."
                 init={{
+                  placeholder: "ความคิดเห็นของท่านคือความหวังของเรา...",
                   selector: "textarea",
                   link_context_toolbar: true,
                   height: "100%",
