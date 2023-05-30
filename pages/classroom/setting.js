@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
+
 import {
   GetUser,
   GetUserCookie,
@@ -14,7 +14,17 @@ import { useRouter } from "next/router";
 import Unauthorized from "../../components/error/unauthorized";
 import Layout from "../../layouts/schoolLayout";
 import { parseCookies } from "nookies";
+import { HiLanguage } from "react-icons/hi2";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { sideMenusEng, sideMenusThai } from "../../data/menubarsSetting";
+
+const options = ["Thai", "English"];
+
 function Setting({ userServerSide, error }) {
+  const [languageValue, setLanguageValue] = React.useState(options[0]);
+  const [sideMenus, setSideMenus] = useState();
+  const [inputLanguageValue, setInputLanguageValue] = React.useState("");
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
@@ -22,6 +32,7 @@ function Setting({ userServerSide, error }) {
     school: "",
     picture: "",
     email: "",
+    language: options[0],
   });
   const user = useQuery(["user"], () => GetUser());
   const [triggersidebar, setTriggerSidebar] = useState(false);
@@ -31,25 +42,6 @@ function Setting({ userServerSide, error }) {
   const handleFileInputChange = (event) => {
     setFile(event.target.files[0]);
   };
-  // for passing data to sidebar
-  const sideMenus = [
-    {
-      title: "โรงเรียน",
-      icon: "🏫",
-      url: "/classroom/teacher",
-    },
-
-    {
-      title: "ตั้งค่า",
-      icon: <FiSettings />,
-      url: "/classroom/setting",
-    },
-    {
-      title: "หน้าหลัก",
-      icon: <FiArrowLeftCircle />,
-      url: "/",
-    },
-  ];
 
   //get trigger from child component
   const chooseMessage = (trigger) => {
@@ -67,7 +59,13 @@ function Setting({ userServerSide, error }) {
       email: user?.data?.data?.email,
       picture: user?.data?.data?.picture,
     }));
-  }, [user.isSuccess]);
+    setLanguageValue(() => user?.data?.data?.language);
+    if (user?.data?.data?.language === "Thai") {
+      setSideMenus(() => sideMenusThai);
+    } else if (user?.data?.data?.language === "English") {
+      setSideMenus(() => sideMenusEng);
+    }
+  }, [user.isSuccess, user.isRefetching]);
   //handle summit file
   const handleSubmit = async (e) => {
     try {
@@ -124,15 +122,8 @@ function Setting({ userServerSide, error }) {
       const userUpdate = await UpdateUserData(userData);
 
       if (userUpdate.status === 200) {
-        user.refetch().then(
-          setUserData((prevState) => ({
-            ...prevState,
-            firstName: userUpdate?.data?.firstName,
-            lastName: userUpdate?.data?.lastName,
-            school: userUpdate?.data?.school,
-            phone: userUpdate?.data?.phone,
-          }))
-        );
+        user.refetch();
+
         Swal.fire("success", "update your profile successfully😃", "success");
       }
     } catch (err) {
@@ -144,10 +135,10 @@ function Setting({ userServerSide, error }) {
   }
 
   return (
-    <div className="flex font-sans   ">
+    <div className="flex font-sans    ">
       <Layout sideMenus={sideMenus} user={userData} trigger={chooseMessage} />
       <div
-        className={`w-full h-screen mt-10 md:mt-0  flex flex-col items-center md:justify-center
+        className={`w-full h-full py-10  mt-10 md:mt-0  flex flex-col items-center md:justify-center
          bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover `}
       >
         <div
@@ -198,7 +189,10 @@ function Setting({ userServerSide, error }) {
                   onSubmit={handleSubmit}
                   className="flex md:w-max w-full  flex-col  gap-2 justify-start items-start "
                 >
-                  <label className="w-3/4 ">
+                  <label className="w-3/4 flex flex-col gap-1 ">
+                    {user?.data?.data?.language === "Thai" && "เลือกรูปภาพ"}
+                    {user?.data?.data?.language === "English" &&
+                      "pick your image"}
                     <input
                       aria-label="upload profile picture"
                       onChange={handleFileInputChange}
@@ -226,9 +220,10 @@ function Setting({ userServerSide, error }) {
               </div>
             </div>
           </div>
+
           <form
             onSubmit={handleSubmitData}
-            className=" mt-10 max-w-3xl flex items-center justify-center md:block "
+            className=" mt-10 max-w-3xl flex flex-col items-center justify-center md:block "
           >
             <div className="grid grid-cols-1 md:grid-cols-2 md:gap-10 lg:gap-x-20 gap-2">
               <div>
@@ -309,16 +304,51 @@ function Setting({ userServerSide, error }) {
                   placeholder="update your school name here"
                 />
               </div>
-              <button
-                aria-label="update user button"
-                className=" w-28  h-max px-6 py-2 text-sm mb-5 rounded-xl border-none  bg-[#2C7CD1] text-white font-sans font-bold
+            </div>
+
+            <div className="w-full h-[1px] bg-black mt-10"></div>
+            <div className="mt-5 w-full flex flex-col justify-center items-center">
+              <div className="w-full flex flex-col justify-center items-center md:items-start  pb-10">
+                <div className="flex h-max  items-center justify-start gap-2">
+                  <span className="md:text-xl text-md">Language setting</span>
+                  <div className="flex text-xl items-center justify-center text-center h-5 w-5 bg-[#EDBA02] p-1 rounded-full text-white">
+                    <HiLanguage />
+                  </div>
+                </div>
+                <Autocomplete
+                  className="mt-10"
+                  value={languageValue}
+                  onChange={(event, newValue) => {
+                    setUserData((prev) => {
+                      return {
+                        ...prev,
+                        language: newValue,
+                      };
+                    });
+                    setLanguageValue(newValue);
+                  }}
+                  inputValue={inputLanguageValue}
+                  onInputChange={(event, newInputValue) => {
+                    setInputLanguageValue(newInputValue);
+                  }}
+                  id="controllable-states-demo"
+                  options={options}
+                  sx={{ width: 250 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="language" />
+                  )}
+                />
+              </div>
+            </div>
+            <button
+              aria-label="update user button"
+              className=" w-28  h-max px-6 py-2 text-sm mb-5 rounded-xl border-none  bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 focus:border-solid hover:scale-110 transition duration-200
                hover:bg-red-700"
-              >
-                update
-              </button>
-            </div>
+            >
+              update
+            </button>
           </form>
         </div>
       </div>

@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-
-import { CreateClassroom } from "../../service/classroom";
-import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Editor } from "@tinymce/tinymce-react";
-import { AiFillWarning } from "react-icons/ai";
-import { RiFunctionLine } from "react-icons/ri";
-import { MdOutlineMoodBad } from "react-icons/md";
-import { BiHappyBeaming } from "react-icons/bi";
 import { CreateFeedbackApi } from "../../service/feedback";
+import { tagsEnglish, tagsThai } from "../../data/tagsFeedback";
 
-function CreateFeedback({ handleCloseFeedback }) {
+function CreateFeedback({ handleCloseFeedback, language }) {
+  const [tags, setTag] = useState(() => {
+    if (language === "Thai") {
+      return tagsThai;
+    } else if (language === "English") {
+      return tagsEnglish;
+    }
+  });
   const [feedbackData, setFeedbackData] = useState({
     body: "",
     tag: "",
@@ -36,24 +37,7 @@ function CreateFeedback({ handleCloseFeedback }) {
       }
     });
   };
-  const tags = [
-    {
-      title: "ข้อผิดพลาด",
-      icon: <AiFillWarning />,
-    },
-    {
-      title: "ขอฟังก์ชั่นเพิ่ม",
-      icon: <RiFunctionLine />,
-    },
-    {
-      title: "ร้องเรียน",
-      icon: <MdOutlineMoodBad />,
-    },
-    {
-      title: "ให้กำลังใจ",
-      icon: <BiHappyBeaming />,
-    },
-  ];
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -87,13 +71,20 @@ function CreateFeedback({ handleCloseFeedback }) {
             onSubmit={handleSubmit}
           >
             <span className="text-xl mb-6 font-semibold text-[#2C7CD1]">
-              ท่านคิดเห็นอย่างไรกับ Tatuga class
+              {language === "Thai" && "ท่านคิดเห็นอย่างไรกับ Tatuga class"}
+              {language === "English" && "What do you think of tatuga class?"}
             </span>
             <div className="text-md  mb-6 font-normal text-black flex md:gap-6 gap-3 flex-col md:flex-row">
-              <span>ท่านต้องการระบุตัวตนหรือไม่</span>
+              <span>
+                {language === "Thai" && "ท่านต้องการระบุตัวตนหรือไม่"}
+                {language === "English" && "Do you want to identify yourself?"}
+              </span>
               <div className="flex gap-6">
                 <div className="flex items-center justify-center gap-1">
-                  <span className="font-medium">ไม่ต้องการ</span>
+                  <span className="font-medium">
+                    {language === "Thai" && "ไม่ต้องการ"}
+                    {language === "English" && "NO"}
+                  </span>
                   <input
                     type="checkbox"
                     name="unAuth"
@@ -102,7 +93,10 @@ function CreateFeedback({ handleCloseFeedback }) {
                   />
                 </div>
                 <div className="flex items-center justify-center gap-1">
-                  <span className="font-medium">ต้องการ</span>
+                  <span className="font-medium">
+                    {language === "Thai" && "ต้องการ"}
+                    {language === "English" && "YES"}
+                  </span>
                   <input
                     type="checkbox"
                     name="auth"
@@ -112,12 +106,15 @@ function CreateFeedback({ handleCloseFeedback }) {
                 </div>
               </div>
             </div>
-            <div className="w-80 md:w-[40rem] h-80">
+            <div className="w-80 md:w-full h-80">
               <Editor
                 apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
                 textareaName="description"
                 init={{
-                  placeholder: "ความคิดเห็นของท่านคือความหวังของเรา...",
+                  placeholder:
+                    language === "Thai"
+                      ? "ความคิดเห็นของท่านคือความหวังของเรา..."
+                      : language === "English" && "type your feedback here",
                   selector: "textarea",
                   link_context_toolbar: true,
                   height: "100%",
@@ -217,7 +214,8 @@ function CreateFeedback({ handleCloseFeedback }) {
                active:border-solid  focus:border-2 
               focus:border-solid"
             >
-              ส่ง
+              {language === "Thai" && "ส่ง"}
+              {language === "English" && "summit"}
             </button>
           </form>
         </div>

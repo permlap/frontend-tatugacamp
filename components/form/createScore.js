@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { CreateScoreOnClass } from "../../service/scores";
 
-function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
+function CreateScore({
+  setTriggerCreateNewScore,
+  classroomId,
+  refetchScores,
+  language,
+}) {
   const [activeEmoji, setActiveEmoji] = useState();
   const [scoreForm, setScoreForm] = useState({
     title: "",
@@ -102,7 +107,8 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
        active:border-solid  focus:border-2 
       focus:border-solid"
         >
-          สร้างคะแนน
+          {language === "Thai" && "สร้าง"}
+          {language === "English" && "save"}
         </button>
         <button
           type="button"
@@ -112,7 +118,8 @@ function CreateScore({ setTriggerCreateNewScore, classroomId, refetchScores }) {
        active:border-solid  focus:border-2 
       focus:border-solid"
         >
-          ยกเลิก
+          {language === "Thai" && "ยกเลิก"}
+          {language === "English" && "cancel"}
         </button>
       </div>
     </form>

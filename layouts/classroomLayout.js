@@ -18,7 +18,7 @@ import { GetUser } from "../service/user";
 import { GetAllStudents } from "../service/students";
 import { useQuery } from "react-query";
 import Unauthorized from "../components/error/unauthorized";
-function Layout({ children, sideMenus }) {
+function Layout({ children, sideMenus, language }) {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
   const classroom = useQuery(
@@ -133,7 +133,8 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
             p-2 "
           >
             <span className="font-Kanit font-semibold text-2xl bg-transparent md:bg-white rounded-md px-4 drop-shadow-md  text-gray-800">
-              Code รหัสห้องเรียน
+              {language === "Thai" && "Code รหัสห้องเรียน"}
+              {language === "English" && "Classroom's code"}
             </span>
 
             <Popover className="relative flex items-center justify-center">
@@ -232,7 +233,8 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                         <BsFillPeopleFill />
                       </div>
                       <span className="font-sans font-bold text-sm text-white">
-                        สร้างผู้เรียน
+                        {language === "Thai" && "สร้างนักเรียน"}
+                        {language === "English" && "Create students"}
                       </span>
                     </div>
                   </Popover.Button>
@@ -257,7 +259,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
               <div>
                 <RxLapTimer />
               </div>
-              <span>จับเวลา</span>
+              <span>
+                {language === "Thai" && "จับเวลา"}
+                {language === "English" && "Timmer"}
+              </span>
             </div>
             <Popover>
               {({ open }) => (
@@ -274,7 +279,10 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                       <div>
                         <MdEmojiPeople />
                       </div>
-                      <span>เช็คชื่อ</span>
+                      <span>
+                        {language === "Thai" && "เช็คชื่อ"}
+                        {language === "English" && "Attendance check"}
+                      </span>
                     </div>
                   </Popover.Button>
                   <Popover.Panel>
