@@ -28,7 +28,6 @@ import { parseCookies } from "nookies";
 function Index({ error, user }) {
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
-  const [loadingComment, setLoadingComment] = useState(false);
   const [comment, setComment] = useState();
   const assignment = useQuery(
     ["assignment"],
@@ -61,10 +60,12 @@ function Index({ error, user }) {
   const [images, setImages] = useState([]);
   const menus = [
     {
-      title: "assignment",
+      titleThai: "งาน",
+      titleEnglish: "assignment",
     },
     {
-      title: "ตรวจงาน",
+      titleThai: "ตรวจงาน",
+      titleEnglish: "check assignment",
     },
   ];
 
@@ -80,11 +81,18 @@ function Index({ error, user }) {
 
   // convert date format
   const date = new Date(assignment?.data?.data?.deadline);
-  const formattedDate = date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+  const formattedDate = date.toLocaleDateString(
+    `${
+      user.language === "Thai"
+        ? "th-TH"
+        : user.language === "English" && "en-US"
+    }`,
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }
+  );
 
   //handle show update assignmnet compponent
   const handleClickUpdateAssignment = () => {
@@ -181,9 +189,7 @@ function Index({ error, user }) {
         studentId: student.id,
       });
       setComment(() => comment.data);
-      setLoadingComment(false);
     } catch (err) {
-      setLoadingComment(false);
       console.log(err);
     }
   };
@@ -257,9 +263,7 @@ function Index({ error, user }) {
         studentId: currentStudentWork.id,
       });
       setComment(() => comment.data);
-      setLoadingComment(false);
     } catch (err) {
-      setLoadingComment(false);
       console.log(err);
       Swal.fire(
         "error",
@@ -288,6 +292,7 @@ function Index({ error, user }) {
       </Head>
       {triggerUpdateAssignment ? (
         <UpdateAssignment
+          language={user.language}
           students={students}
           assignment={assignment}
           setTriggerUpdateAssignment={setTriggerUpdateAssignment}
@@ -307,7 +312,8 @@ function Index({ error, user }) {
               className="font-Poppins z-20 hover:scale-110 transition 
               duration-150 absolute top-3 left-2 text-white bg-blue-500 px-5 py-3 rounded-xl "
             >
-              back
+              {user.language === "Thai" && "กลับ"}
+              {user.language === "English" && "back"}
             </button>
             {menus.map((menu, index) => {
               return (
@@ -322,7 +328,8 @@ function Index({ error, user }) {
                       activeMenu === index ? "font-bold" : "font-normal"
                     }`}
                   >
-                    {menu.title}
+                    {user.language === "Thai" && menu.titleThai}
+                    {user.language === "English" && menu.titleEnglish}
                   </span>
                 </div>
               );
@@ -353,7 +360,10 @@ function Index({ error, user }) {
                           assignment?.data?.data?.maxScore
                         )}
                       </div>
-                      <span>คะแนนเต็ม</span>
+                      <span>
+                        {user.language === "Thai" && "คะแนนเต็ม"}
+                        {user.language === "English" && "score"}
+                      </span>
                     </div>
                   </div>
 
@@ -384,7 +394,10 @@ function Index({ error, user }) {
                 <div className="w-full  gap-2 mt-8 bg-blue-500 fixed bottom-0 ">
                   <div className="p-6 flex  items-end justify-between text-white">
                     <div>
-                      <span>กำหนดส่ง</span>
+                      <span>
+                        {user.language === "Thai" && "กำหนดส่ง"}
+                        {user.language === "English" && "due by"}
+                      </span>
                       <span className="text-xl ml-2 font-semibold text-white hover:text-red-500">
                         {formattedDate}
                       </span>
@@ -396,7 +409,10 @@ function Index({ error, user }) {
                   transition duration-150 ease-in-out cursor-pointer"
                       >
                         <MdDelete />
-                        <span className="text-sm">ลบงาน</span>
+                        <span className="text-sm">
+                          {user.language === "Thai" && "ลบงาน"}
+                          {user.language === "English" && "delete assignment"}
+                        </span>
                       </div>
                       <div
                         onClick={handleClickUpdateAssignment}
@@ -404,7 +420,10 @@ function Index({ error, user }) {
             "
                       >
                         <FiSettings />
-                        <span className="text-sm">แก้ไข</span>
+                        <span className="text-sm">
+                          {user.language === "Thai" && "แก้ไข"}
+                          {user.language === "English" && "setting"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -417,7 +436,11 @@ function Index({ error, user }) {
               <div className="flex items-start justify-start w-full h-full  gap-5   mt-5  ">
                 <div className="lg:w-[60rem] md:w-3/4  top-10 sticky flex flex-col h-full items-center justify-center ">
                   <div className="text-xl font-Kanit font-semibold flex justify-center items-center gap-2">
-                    <span>สถานะการส่งงานของผู้เรียน</span>
+                    <span>
+                      {user.language === "Thai" && "สถานะการส่งงานของผู้เรียน"}
+                      {user.language === "English" &&
+                        "student's status on assignment"}
+                    </span>
 
                     <button
                       onClick={() => studentOnAssignments.refetch()}
@@ -430,15 +453,21 @@ function Index({ error, user }) {
                   </div>
                   <ul className="w-full list-none pl-0">
                     <li className="grid grid-cols-4 mt-4 gap-2 text-xl ">
-                      <div className="flex justify-center">เลขที่</div>
-                      <div className="flex items-center justify-center">
-                        ชื่อ
+                      <div className="flex justify-center">
+                        {user.language === "Thai" && "เลขที่"}
+                        {user.language === "English" && "number"}
                       </div>
                       <div className="flex items-center justify-center">
-                        คะแนน
+                        {user.language === "Thai" && "ชื่อ"}
+                        {user.language === "English" && "student's name"}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {user.language === "Thai" && "คะแนน"}
+                        {user.language === "English" && "score"}
                       </div>
                       <div className="flex items-center justify-start">
-                        สถานะ
+                        {user.language === "Thai" && "สถานะ"}
+                        {user.language === "English" && "status"}
                       </div>
                     </li>
                     <div className=" md:h-screen w-full overflow-auto">
@@ -509,7 +538,8 @@ function Index({ error, user }) {
                                     className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
                                       hover:scale-105 transition duration-150"
                                   >
-                                    ไม่ส่งงาน
+                                    {user.language === "Thai" && "ไม่ส่งงาน"}
+                                    {user.language === "English" && "NO WORK"}
                                   </div>
                                 )}
                                 {student.status === "have-work" &&
@@ -520,12 +550,17 @@ function Index({ error, user }) {
                                       className=" lg:w-max md:w-16 cursor-pointer hover:scale-105 transition duration-150
                                          bg-yellow-500 py-1 px-2 rounded-lg text-white md:text-xs lg:text-base text-center flex items-center justify-center"
                                     >
-                                      รอการตรวจ
+                                      {user.language === "Thai" && "รอการตรวจ"}
+                                      {user.language === "English" &&
+                                        "WAIT CHECK"}
                                     </div>
                                   )}
                                 {student.status === "no-assign" && (
                                   <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
-                                    ไม่ได้มอบหมาย
+                                    {user.language === "Thai" &&
+                                      "ไม่ได้มอบหมาย"}
+                                    {user.language === "English" &&
+                                      "NOT ASSIGN"}
                                   </div>
                                 )}
                                 {student.status === "have-work" &&
@@ -534,7 +569,9 @@ function Index({ error, user }) {
                                       onClick={() => handleSelectWork(student)}
                                       className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
                                     >
-                                      ตรวจแล้ว
+                                      {user.language === "Thai" && "ตรวจแล้ว"}
+                                      {user.language === "English" &&
+                                        "FINISH CHECK"}
                                     </div>
                                   )}
                               </li>
@@ -551,7 +588,10 @@ function Index({ error, user }) {
                   <div className="flex w-full  lg:justify-between  mt-10">
                     <div className="flex items-center md:w-5/12 lg:w-max justify-center relative ">
                       <div className="lg:text-3xl md:text-xl w-max font-Kanit flex">
-                        <span>งานของผู้เรียน</span>
+                        <span>
+                          {user.language === "Thai" && "งานของผู้เรียน"}
+                          {user.language === "English" && "student's work"}
+                        </span>
                         {currentStudentWork?.status === "have-work" && (
                           <div
                             onClick={handleDelteStudentWork}
@@ -572,7 +612,11 @@ function Index({ error, user }) {
                       <Box width="40%" className="relative ">
                         <TextField
                           fullWidth
-                          label="คะแนน"
+                          label={
+                            user.language === "Thai"
+                              ? "คะแนน"
+                              : user.language === "English" && "score"
+                          }
                           type="number"
                           name="score"
                           value={teacherReview.score}
@@ -589,12 +633,17 @@ function Index({ error, user }) {
                active:border-solid  focus:border-2 
               focus:border-solid"
                       >
-                        ส่ง
+                        {user.language === "Thai" && "ส่ง"}
+                        {user.language === "English" && "summit"}
                       </button>
                     </form>
                   </div>
                   <div className="w-full flex justify-start items-center gap-2 mb-10">
-                    <span>เลขที่ {currentStudentWork?.number}</span>
+                    <span>
+                      {user.language === "Thai" && "เลขที่"}
+                      {user.language === "English" && "number"}{" "}
+                      {currentStudentWork?.number}
+                    </span>
                     <span
                       className="md:text-sm lg:text-base
                     "
@@ -645,14 +694,27 @@ function Index({ error, user }) {
                       </SlideshowLightbox>
                     ) : (
                       <div
-                        className="w-full h-72 flex items-center justify-center font-Kanit
-                      font-bold text-5xl text-gray-300"
+                        className="w-80 h-72 text-center flex items-center justify-center font-Kanit
+                      font-bold text-2xl text-gray-300"
                       >
                         {currentStudentWork?.status === "no-work" &&
+                          user.language === "Thai" &&
                           "ผู้เรียนยังไม่ส่งงาน"}
                         {currentStudentWork?.status === "have-work" &&
-                          "ผู้เรียนยังไม่ส่งงาน"}
-                        {!currentStudentWork && "โปรดเลือกงาน"}
+                          user.language === "Thai" &&
+                          "ตรวจงานโดยผู้เรียนไม่ส่งงาน"}
+                        {!currentStudentWork &&
+                          user.language === "Thai" &&
+                          "โปรดเลือกงาน"}
+                        {currentStudentWork?.status === "no-work" &&
+                          user.language === "English" &&
+                          "NO student's work"}
+                        {currentStudentWork?.status === "have-work" &&
+                          user.language === "English" &&
+                          "Finish checking without student's work"}
+                        {!currentStudentWork &&
+                          user.language === "English" &&
+                          "Please select some student"}
                       </div>
                     )}
                   </div>

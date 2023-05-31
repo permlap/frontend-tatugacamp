@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../../../layouts/classroomLayout";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
@@ -20,9 +20,20 @@ import { Skeleton } from "@mui/material";
 import Head from "next/head";
 import { GetUserCookie } from "../../../../../service/user";
 import { parseCookies } from "nookies";
+import {
+  sideMenusEnglish,
+  sideMenusThai,
+} from "../../../../../data/menuBarsAttendance";
 
 function Index({ error, user }) {
   const router = useRouter();
+  const [sideMenus, setSideMenus] = useState(() => {
+    if (user.language === "Thai") {
+      return sideMenusThai();
+    } else if (user.language === "English") {
+      return sideMenusEnglish();
+    }
+  });
   const attendances = useQuery(
     ["attendance"],
     () => GetAllAttendance({ classroomId: router.query.classroomId }),
@@ -33,39 +44,6 @@ function Index({ error, user }) {
   useEffect(() => {
     attendances.refetch();
   }, [router.isReady]);
-  const sideMenus = [
-    {
-      title: "โรงเรียน",
-      icon: "🏫",
-      url: `/classroom/teacher`,
-    },
-    {
-      title: "ห้องเรียน",
-      icon: "👨‍🏫",
-      url: `/classroom/teacher/${router.query.classroomId}`,
-    },
-    {
-      title: "มอบหมายงาน",
-      icon: "🎒",
-      url: `/classroom/teacher/${router.query.classroomId}/assignment`,
-    },
-    {
-      title: "ข้อมูลการเข้าเรียน",
-      icon: "🙌",
-      url: `#`,
-    },
-    {
-      title: "คะแนนรวม",
-      icon: "🥇",
-      url: `/classroom/teacher/${router.query.classroomId}/scores`,
-    },
-
-    {
-      title: "หน้าหลัก",
-      icon: <FiArrowLeftCircle />,
-      url: `/`,
-    },
-  ];
 
   const handleDeleteAttendance = async ({ groupId }) => {
     Swal.fire({
@@ -116,7 +94,7 @@ function Index({ error, user }) {
       <Head>
         <title>attendance</title>
       </Head>
-      <Layout sideMenus={sideMenus}>
+      <Layout language={user.language} sideMenus={sideMenus}>
         <div className="w-full h-full mt-10 flex flex-col justify-center items-center pb-10 ">
           <button
             className="w-max px-5 flex gap-1 mb-2 hover:scale-105 transition duration-150 active:bg-blue-800 bg-blue-500 font-Poppins font-semibold text-white rounded-lg py-2"
@@ -130,10 +108,14 @@ function Index({ error, user }) {
           <div className=" h-full max-h-[40rem] flex flex-col md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
             <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky z-10  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">
-                เลขที่
+                {user.language === "Thai" && "เลขที่"}
+                {user.language === "English" && "number"}
               </div>
               <div className="col-span-2 w-60 text-center items-center justify-center flex">
-                <span className="text-center">รายชื่อ</span>
+                <span className="text-center">
+                  {user.language === "Thai" && "รายชื่อ"}
+                  {user.language === "English" && "student's name"}
+                </span>
               </div>
               <div className="col-span-9 flex w-full gap-5 ">
                 {attendances?.data?.data.map((item, index) => {
@@ -146,7 +128,11 @@ function Index({ error, user }) {
                         {item.dateTimes.map((status) => {
                           const date = new Date(status.date);
                           const formattedDate = date.toLocaleDateString(
-                            "th-TH",
+                            `${
+                              user.language === "Thai"
+                                ? "th-TH"
+                                : user.language === "English" && "en-US"
+                            }`,
                             {
                               day: "2-digit",
                               month: "short",
@@ -162,9 +148,9 @@ function Index({ error, user }) {
                                 })
                               }
                               key={status.groupId}
-                              className="w-20 ring-2 ring-black rounded-lg ring-offset-2  h-8 flex items-center justify-center group cursor-pointer "
+                              className="w-24 ring-2 ring-black rounded-lg ring-offset-2  h-8 flex items-center justify-center group cursor-pointer "
                             >
-                              <div className="w-20 text-sm flex items-center justify-center py-1 rounded-lg text-black">
+                              <div className="w-24 text-sm flex items-center justify-center py-1 rounded-lg text-black">
                                 <span className="block group-hover:hidden">
                                   {formattedDate}
                                 </span>
@@ -254,27 +240,37 @@ function Index({ error, user }) {
                                       document.body.style.overflow = "hidden";
                                     }}
                                   >
-                                    <div className="w-20 flex items-center justify-center ">
+                                    <div className="w-24 flex items-center justify-center ">
                                       {status.present && (
-                                        <div className="bg-green-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                          มาเรียน
+                                        <div className="bg-green-600 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                          {user.language === "Thai" &&
+                                            "มาเรียน"}
+                                          {user.language === "English" &&
+                                            "Presnt"}
                                         </div>
                                       )}
                                       {status.absent && (
-                                        <div className="bg-red-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                          ขาด
+                                        <div className="bg-red-600 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                          {user.language === "Thai" && "ขาด"}
+                                          {user.language === "English" &&
+                                            "Absent"}
                                         </div>
                                       )}
                                       {status.holiday && (
-                                        <div className="bg-yellow-500 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                          ลา
+                                        <div className="bg-yellow-500 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                          {user.language === "Thai" && "ลา"}
+                                          {user.language === "English" &&
+                                            "Take a leave"}
                                         </div>
                                       )}
                                       {!status.holiday &&
                                         !status.absent &&
                                         !status.present && (
-                                          <div className="bg-gray-600 w-20 flex items-center justify-center py-1 rounded-lg text-white">
-                                            ไม่มีข้อมูล
+                                          <div className="bg-gray-600 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                            {user.language === "Thai" &&
+                                              "ไม่มีข้อมูล"}
+                                            {user.language === "English" &&
+                                              "NO DATA"}
                                           </div>
                                         )}
                                     </div>
@@ -282,6 +278,7 @@ function Index({ error, user }) {
                                   <Popover.Panel>
                                     {({ close }) => (
                                       <UpdateAttendance
+                                        language={user.language}
                                         attendances={attendances}
                                         close={close}
                                         student={item.student}

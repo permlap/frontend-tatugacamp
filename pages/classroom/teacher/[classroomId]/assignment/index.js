@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { GetUser, GetUserCookie } from "../../../../../service/user";
-import { FiArrowLeftCircle, FiSettings } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Unauthorized from "../../../../../components/error/unauthorized";
 import FullScreenLoading from "../../../../../components/loading/FullScreenLoading";
@@ -14,8 +13,19 @@ import Layout from "../../../../../layouts/classroomLayout";
 import { Skeleton } from "@mui/material";
 import Head from "next/head";
 import { parseCookies } from "nookies";
+import {
+  sideMenusEnglish,
+  sideMenusThai,
+} from "../../../../../data/menubarsAssignments";
 function Assignment({ error, user }) {
   const router = useRouter();
+  const [sideMenus, setSideMenus] = useState(() => {
+    if (user.language === "Thai") {
+      return sideMenusThai();
+    } else if (user.language === "English") {
+      return sideMenusEnglish();
+    }
+  });
   const [triggerAssignment, setTriggerAssignment] = useState(false);
   const classroom = useQuery(
     ["classroom"],
@@ -45,40 +55,6 @@ function Assignment({ error, user }) {
     students.refetch();
   }, [router.isReady]);
 
-  const sideMenus = [
-    {
-      title: "โรงเรียน",
-      icon: "🏫",
-      url: `/classroom/teacher`,
-    },
-    {
-      title: "ห้องเรียน",
-      icon: "👨‍🏫",
-      url: `/classroom/teacher/${router.query.classroomId}`,
-    },
-    {
-      title: "มอบหมายงาน",
-      icon: "🎒",
-      url: `#`,
-    },
-    {
-      title: "ข้อมูลการเข้าเรียน",
-      icon: "🙌",
-      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
-    },
-    {
-      title: "คะแนนรวม",
-      icon: "🥇",
-      url: `/classroom/teacher/${router.query.classroomId}/scores`,
-    },
-
-    {
-      title: "หน้าหลัก",
-      icon: <FiArrowLeftCircle />,
-      url: `/`,
-    },
-  ];
-
   if (!router.isReady) {
     return <FullScreenLoading />;
   }
@@ -90,7 +66,7 @@ function Assignment({ error, user }) {
       <Head>
         <title>assignments</title>
       </Head>
-      <Layout sideMenus={sideMenus} />
+      <Layout sideMenus={sideMenus} language={user.language} />
       <div className="">
         <main className="w-full  py-5  mt-10 flex flex-col items-center justify-center relative">
           <div
@@ -108,7 +84,10 @@ function Assignment({ error, user }) {
               className="w-80 border-none py-2 rounded-full bg-blue-100 text-center font-Poppins text-sm hover:bg-[#2C7CD1] hover:text-white
 text-black transition duration-150 cursor-pointer"
             >
-              <div>create your assignment</div>
+              <div>
+                {user.language === "Thai" && "สร้างชิ้นงาน"}
+                {user.language === "English" && "create your assignment"}
+              </div>
             </button>
           </div>
 
@@ -118,6 +97,7 @@ text-black transition duration-150 cursor-pointer"
             }`}
           >
             <CreateAssignment
+              language={user.language}
               assignments={assignments}
               setTriggerAssignment={setTriggerAssignment}
               students={students}
@@ -138,11 +118,19 @@ text-black transition duration-150 cursor-pointer"
               assignments?.data?.map((assignment, index) => {
                 //covert date
                 const date = new Date(assignment.deadline);
-                const formattedDate = date.toLocaleDateString("en-US", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                });
+
+                const formattedDate = date.toLocaleDateString(
+                  `${
+                    user.language === "Thai"
+                      ? "th-TH"
+                      : user.language === "English" && "en-US"
+                  }`,
+                  {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }
+                );
 
                 return (
                   <div
@@ -184,21 +172,24 @@ text-black transition duration-150 cursor-pointer"
                       </div>
 
                       <div className="relative ">
-                        {assignment.maxScore && (
-                          <div className="flex items-center justify-center flex-col">
-                            <div
-                              className="w-20 h-20 bg-[#EDBA02] rounded-full text-white text-4xl
+                        <div className="flex items-center justify-center flex-col">
+                          <div
+                            className="w-20 h-20 bg-[#EDBA02] rounded-full text-white text-4xl
                         font-Poppins font-bold flex items-center justify-center"
-                            >
-                              {assignment.maxScore}
-                            </div>
-                            <div className="font-Poppins font-semibold">
-                              score
-                            </div>
+                          >
+                            {assignment.maxScore}
                           </div>
-                        )}
+                          <div className="font-Poppins font-semibold">
+                            {user.language === "Thai" && "คะแนน"}
+                            {user.language === "English" && "score"}
+                          </div>
+                        </div>
+
                         <div className="font-Poppins gap-1 text-sm flex w-max absolute bottom-0 -left-12">
-                          <span>กำหนดส่ง</span>
+                          <span>
+                            {user.language === "Thai" && "กำหนดส่ง"}
+                            {user.language === "English" && "due by"}
+                          </span>
                           <span>{formattedDate}</span>
                         </div>
                       </div>

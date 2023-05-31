@@ -4,7 +4,7 @@ import { UpdateClassroom } from "../../service/classroom";
 import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
 import Swal from "sweetalert2";
 
-function UpdateClass({ close, classroom, refetch }) {
+function UpdateClass({ close, classroom, refetch, language }) {
   const [classroomState, setClassroomState] = useState(classroom);
   const handleSubmit = async (e) => {
     try {
@@ -36,7 +36,7 @@ function UpdateClass({ close, classroom, refetch }) {
   return (
     <div className="relative z-20">
       <div
-        className="flex w-max h-max font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-20 
+        className="flex w-max h-max font-Kanit p-5 bg-white border-2 border-solid rounded-lg drop-shadow-xl  z-20 
         top-0 right-0 left-0 bottom-0 m-auto fixed"
       >
         <form
@@ -44,17 +44,25 @@ function UpdateClass({ close, classroom, refetch }) {
           onSubmit={handleSubmit}
         >
           <span className="text-xl font-semibold text-[#2C7CD1]">
-            แก้ไขห้องเรียนของคุณ
+            {language === "Thai" && "แก้ไขห้องเรียนของคุณ"}
+            {language === "English" && "Classroom setting"}
           </span>
           <div className="flex flex-col relative">
-            <label className="font-sans font-normal">รายชื่อวิชา</label>
+            <label className="font-sans font-normal">
+              {language === "Thai" && "รายชื่อวิชา"}
+              {language === "English" && "title"}
+            </label>
             <input
               onChange={handleChange}
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
               type="text"
               name="title"
-              placeholder="เช่น วิชาภาษาไทย"
+              placeholder={
+                language === "Thai"
+                  ? "เช่น วิชาภาษาไทย"
+                  : language === "English" && "Ex. mathematics"
+              }
               maxLength="30"
               value={classroomState.title}
             />
@@ -67,14 +75,21 @@ function UpdateClass({ close, classroom, refetch }) {
           </div>
 
           <div className="flex flex-col relative mt-2">
-            <label className="font-sans font-normal">ระดับชั้น</label>
+            <label className="font-sans font-normal">
+              {language === "Thai" && "ระดับชั้น"}
+              {language === "English" && "level"}
+            </label>
             <input
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
               type="text"
               onChange={handleChange}
               name="level"
-              placeholder="เช่น ม.6/5"
+              placeholder={
+                language === "Thai"
+                  ? "เช่น ม.6/5"
+                  : language === "English" && "grade 6 / 4"
+              }
               maxLength="20"
               value={classroomState.level}
             />
@@ -86,14 +101,21 @@ function UpdateClass({ close, classroom, refetch }) {
             </div>
           </div>
           <div className="flex flex-col relative mt-2">
-            <label className="font-sans font-normal">คำอธิบาย (optional)</label>
+            <label className="font-sans font-normal">
+              {language === "Thai" && "คำอธิบาย (optional) "}
+              {language === "English" && "description (optional)"}
+            </label>
             <input
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
               onChange={handleChange}
               type="text"
               name="description"
-              placeholder="เช่น รหัสวิชา ท51153"
+              placeholder={
+                language === "Thai"
+                  ? "เช่น ท55435"
+                  : language === "English" && "Ex. MATH445"
+              }
               maxLength="20"
               value={classroomState.description}
             />
@@ -111,7 +133,8 @@ function UpdateClass({ close, classroom, refetch }) {
                active:border-solid  focus:border-2 
               focus:border-solid"
           >
-            แก้ไข
+            {language === "Thai" && "แก้ไข"}
+            {language === "English" && "enter"}
           </button>
         </form>
       </div>

@@ -98,7 +98,7 @@ function Index({ error, user }) {
 
       <div
         className={`flex  w-full  bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
-          classroomState?.[0] ? "h-full pb-60 md:pb-[30rem] " : "h-screen"
+          classroomState?.[0] ? "h-full pb-60 md:pb-80 lg:pb-0" : "h-screen"
         } `}
       >
         <Layout user={user} sideMenus={sideMenus} />
@@ -164,6 +164,7 @@ function Index({ error, user }) {
                         {({ close }) => (
                           <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-20">
                             <CreateClass
+                              language={user.language}
                               close={close}
                               refetch={classrooms.refetch}
                             />

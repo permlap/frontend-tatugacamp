@@ -118,6 +118,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                 <Popover.Panel>
                   {({ close }) => (
                     <UpdateClass
+                      language={language}
                       close={close}
                       classroom={classroom?.data?.data}
                       refetch={classroom.refetch}
@@ -240,7 +241,11 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                   </Popover.Button>
                   <Popover.Panel>
                     {({ close }) => (
-                      <CreateStudent students={students} close={close} />
+                      <CreateStudent
+                        language={language}
+                        students={students}
+                        close={close}
+                      />
                     )}
                   </Popover.Panel>
                 </>
@@ -287,7 +292,11 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                   </Popover.Button>
                   <Popover.Panel>
                     {({ close }) => (
-                      <AttendanceChecker close={close} students={students} />
+                      <AttendanceChecker
+                        language={language}
+                        close={close}
+                        students={students}
+                      />
                     )}
                   </Popover.Panel>
                 </div>

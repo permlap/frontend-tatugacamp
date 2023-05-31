@@ -144,29 +144,33 @@ function Index({ cardData }) {
             </div>
           </div>
         </header>
-        {loading && (
-          <div className=" flex justify-center items-center flex-col">
-            <div className="md:w-[35rem] md:h-[20rem] w-72 h-40">
-              <Skeleton variant="rectangular" width="100%" height="100%" />
+        <div className="relative">
+          {loading && (
+            <div className=" flex absolute top-0 right-0 left-0 bottom-0 m-auto justify-center items-center flex-col">
+              <div className="md:w-[35rem] md:h-[20rem] w-72 h-40">
+                <Skeleton variant="rectangular" width="100%" height="100%" />
+              </div>
+              <div className="font-Kanit lg:text-lg text-base">
+                📹กำลำโหลด..
+              </div>
             </div>
-            <div className="font-Kanit lg:text-lg text-base">📹กำลำโหลด..</div>
-          </div>
-        )}
-        {domLoaded && (
-          <div className=" flex justify-center items-center flex-col">
-            <div className=" md:w-[35rem] md:h-[20rem] w-72 h-40 rounded-md overflow-hidden ">
-              <ReactPlayer
-                onReady={handleVideoReady}
-                loop={true}
-                playsinline
-                controls
-                width="100%"
-                height="100%"
-                url="https://player.vimeo.com/video/829310227?h=47849a81e3"
-              />
+          )}
+          {domLoaded && (
+            <div className=" flex justify-center items-center flex-col">
+              <div className=" md:w-[35rem] md:h-[20rem] w-72 h-40 rounded-md overflow-hidden ">
+                <ReactPlayer
+                  onReady={handleVideoReady}
+                  loop={true}
+                  playsinline
+                  controls
+                  width="100%"
+                  height="100%"
+                  url="https://player.vimeo.com/video/829310227?h=47849a81e3"
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         <main className=" w-full h-max flex flex-col justify-start items-center  pt-12 gap-12">
           <div className="flex flex-col items-center justify-center font-Poppins">

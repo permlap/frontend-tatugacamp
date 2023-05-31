@@ -126,7 +126,8 @@ function Index({ user, error }) {
                           className="font-Kanit font-semibold text-lg group-hover:scale-100 scale-0 bg-white px-3 rounded-lg
                  transition duration-150 absolute"
                         >
-                          ให้คะแนนห้อง
+                          {user.language === "Thai" && "ให้คะแนนห้อง"}
+                          {user.language === "English" && "give a class score"}
                         </span>
                       </div>
                     </Popover.Button>

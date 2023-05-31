@@ -4,7 +4,7 @@ import { CreateClassroom } from "../../service/classroom";
 import { FcBusinessContact, FcLineChart, FcViewDetails } from "react-icons/fc";
 import Swal from "sweetalert2";
 
-function CreateClass({ close, refetch }) {
+function CreateClass({ close, refetch, language }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -35,16 +35,24 @@ function CreateClass({ close, refetch }) {
           onSubmit={handleSubmit}
         >
           <span className="text-xl font-semibold text-[#2C7CD1]">
-            สร้างห้องเรียน
+            {language === "Thai" && "สร้างห้องเรียน"}
+            {language === "English" && "Create a classroom"}
           </span>
           <div className="flex flex-col relative">
-            <label className="font-sans font-normal">รายชื่อวิชา</label>
+            <label className="font-sans font-normal">
+              {language === "Thai" && "รายชื่อวิชา"}
+              {language === "English" && "Title"}
+            </label>
             <input
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
               type="text"
               name="title"
-              placeholder="เช่น วิชาภาษาไทย"
+              placeholder={
+                language === "Thai"
+                  ? "เช่น วิชาภาษาไทย"
+                  : language === "English" && "Ex. mathematics"
+              }
               maxLength="30"
             />
             <div
@@ -56,13 +64,20 @@ function CreateClass({ close, refetch }) {
           </div>
 
           <div className="flex flex-col relative mt-2">
-            <label className="font-sans font-normal">ระดับชั้น</label>
+            <label className="font-sans font-normal">
+              {language === "Thai" && "ระดับชั้น"}
+              {language === "English" && "level"}
+            </label>
             <input
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
               type="text"
               name="level"
-              placeholder="เช่น ม.6/5"
+              placeholder={
+                language === "Thai"
+                  ? "เช่น ม.6/5"
+                  : language === "English" && "Ex. grade 10 / 5"
+              }
               maxLength="20"
             />
             <div
@@ -73,13 +88,20 @@ function CreateClass({ close, refetch }) {
             </div>
           </div>
           <div className="flex flex-col relative mt-2">
-            <label className="font-sans font-normal">คำอธิบาย (optional)</label>
+            <label className="font-sans font-normal">
+              {language === "Thai" && "คำอธิบาย (optional) "}
+              {language === "English" && "description (optional)"}
+            </label>
             <input
               className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
               type="text"
               name="description"
-              placeholder="เช่น รหัสวิชา ท51153"
+              placeholder={
+                language === "Thai"
+                  ? "เช่น ท55435"
+                  : language === "English" && "Ex. MATH445"
+              }
               maxLength="20"
             />
             <div
@@ -91,12 +113,14 @@ function CreateClass({ close, refetch }) {
           </div>
 
           <button
+            aria-label="create classroom button"
             className="w-full  h-9 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"
           >
-            สร้าง
+            {language === "Thai" && "สร้าง"}
+            {language === "English" && "create"}
           </button>
         </form>
       </div>
