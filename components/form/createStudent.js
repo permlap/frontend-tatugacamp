@@ -16,7 +16,7 @@ import ExcelTable from "./createManyStudent";
 import { MdError } from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 
-function CreateStudent({ close }) {
+function CreateStudent({ close, language }) {
   const router = useRouter();
   const [succesful, setSuccesful] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -84,9 +84,16 @@ function CreateStudent({ close }) {
           >
             <div className=" font-Kanit font-bold text-xl mt-2">
               <span className="text-black">
-                {isExcelData
-                  ? "รายชื่อนักเรียนในห้อง"
-                  : "รายชื่อนักเรียนที่จะถูกสร้าง"}
+                {isExcelData && language === "Thai" && "รายชื่อนักเรียนในห้อง"}
+                {!isExcelData &&
+                  language === "Thai" &&
+                  "รายชื่อนักเรียนที่จะถูกสร้าง"}
+                {isExcelData &&
+                  language === "English" &&
+                  "list of current students"}
+                {!isExcelData &&
+                  language === "English" &&
+                  "list of students whom will be created"}
               </span>
             </div>
             <div className="w-full  flex flex-col items-center justify-start mt-5">
@@ -95,12 +102,22 @@ function CreateStudent({ close }) {
                   isExcelData === false ? "grid-cols-5" : "grid-cols-3"
                 } pl-0 list-none w-full`}
               >
-                <li className="flex justify-center items-cente">เลขที่</li>
-                <li className="flex justify-center items-cente">ชื่อจริง</li>
-                <li className="flex justify-center items-cente">นามสกุล</li>
+                <li className="flex justify-center items-cente">
+                  {language === "Thai" && "เลขที่"}
+                  {language === "English" && "number"}
+                </li>
+                <li className="flex justify-center items-cente">
+                  {language === "Thai" && "ชื่อจริง"}
+                  {language === "English" && "first name"}
+                </li>
+                <li className="flex justify-center items-cente">
+                  {language === "Thai" && "นามสกุล"}
+                  {language === "English" && "last name"}
+                </li>
                 {isExcelData === false && (
                   <li className="flex justify-center items-cente col-span-2">
-                    สถานะ
+                    {language === "Thai" && "สถานะ"}
+                    {language === "English" && "status"}
                   </li>
                 )}
               </ul>
@@ -179,7 +196,7 @@ function CreateStudent({ close }) {
             </div>
           </div>
           <div
-            className="flex w-max relative h-max font-Kanit pt-10 bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5  
+            className="flex w-max relative h-max font-Kanit pt-10 p-10 bg-white border-2 border-solid rounded-lg drop-shadow-xl  
         z-20"
           >
             {isExcelData ? (
@@ -187,12 +204,13 @@ function CreateStudent({ close }) {
                 onClick={() => setIsExcelData(false)}
                 role="button"
                 aria-label="click to import data from excel to create student"
-                className="text-green-600 text-2xl flex items-center  absolute top-2 right-1
-              justify-center flex-col w-16 text-left cursor-pointer hover:text-green-800 transition duration-150"
+                className="text-green-600 w-max text-2xl flex items-center  absolute top-2 right-1
+              justify-center flex-col max-w-[6rem] text-left cursor-pointer hover:text-green-800 transition duration-150"
               >
                 <SiMicrosoftexcel />
                 <span className="text-xs text-center">
-                  นำเข้าข้อมูลจาก Excel
+                  {language === "Thai" && "นำเข้าข้อมูลจาก Excel"}
+                  {language === "English" && "import students from Excel"}
                 </span>
               </div>
             ) : (
@@ -204,7 +222,10 @@ function CreateStudent({ close }) {
               justify-center flex-col w-16 text-left cursor-pointer transition duration-150"
               >
                 <FcUndo />
-                <span className="text-xs text-center">กลับ</span>
+                <span className="text-xs text-center">
+                  {language === "Thai" && "กลับ"}
+                  {language === "English" && "return"}
+                </span>
               </div>
             )}
             {isExcelData ? (
@@ -214,10 +235,14 @@ function CreateStudent({ close }) {
                 onSubmit={handleSubmit}
               >
                 <span className="text-xl font-semibold text-[#2C7CD1]">
-                  ลงทะเบียนนักเรียน
+                  {language === "Thai" && "ลงทะเบียนนักเรียน"}
+                  {language === "English" && "create student"}
                 </span>
                 <div className="flex flex-col relative">
-                  <label className="font-sans font-normal">ชื่อจริง</label>
+                  <label className="font-sans font-normal">
+                    {language === "Thai" && "ชื่อจริง"}
+                    {language === "English" && "first name"}
+                  </label>
                   <input
                     className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
@@ -236,7 +261,8 @@ function CreateStudent({ close }) {
 
                 <div className="flex flex-col relative mt-2">
                   <label className="font-sans font-normal">
-                    นามสกุล (optional)
+                    {language === "Thai" && "นามสกุล (optional)"}
+                    {language === "English" && "last name (optional)"}
                   </label>
                   <input
                     className="w-60 h-7 rounded-md   pl-10 
@@ -254,7 +280,10 @@ function CreateStudent({ close }) {
                   </div>
                 </div>
                 <div className="flex flex-col relative mt-2">
-                  <label className="font-sans font-normal">เลขที่</label>
+                  <label className="font-sans font-normal">
+                    {language === "Thai" && "เลขที่"}
+                    {language === "English" && "number"}
+                  </label>
                   <input
                     className="w-60 h-7 rounded-md   pl-10 
                 placeholder:italic placeholder:font-light"
@@ -274,7 +303,7 @@ function CreateStudent({ close }) {
                 </div>
 
                 <button
-                  className="w-full  h-9 mt-2 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
+                  className="w-full  h-9 mt-5 rounded-full bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid flex items-center justify-center"
@@ -283,7 +312,12 @@ function CreateStudent({ close }) {
                     <Lottie animationData={SuccesfulAnimation} style={style} />
                   )}
                   {loading && <Loading />}
-                  {!loading && !succesful && <span>สร้าง</span>}
+                  {!loading && !succesful && (
+                    <span>
+                      {language === "Thai" && "สร้าง"}
+                      {language === "English" && "create"}
+                    </span>
+                  )}
                 </button>
                 <div>
                   {error && <span className="text-red-500 ">{error}</span>}
@@ -291,7 +325,11 @@ function CreateStudent({ close }) {
               </form>
             ) : (
               <div>
-                <ExcelTable getExcelData={getExcelData} students={students} />
+                <ExcelTable
+                  getExcelData={getExcelData}
+                  language={language}
+                  students={students}
+                />
               </div>
             )}
           </div>

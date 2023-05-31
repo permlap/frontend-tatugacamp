@@ -3,7 +3,13 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { UpdateAttendnaceAPI } from "../../service/attendance";
 
-function UpdateAttendance({ close, student, attendanceData, attendances }) {
+function UpdateAttendance({
+  close,
+  student,
+  attendanceData,
+  attendances,
+  language,
+}) {
   const [activeAttendance, setActiveAttendance] = useState();
   const [reCheck, setReCheck] = useState();
   const date = new Date(attendanceData.date);
@@ -33,15 +39,18 @@ function UpdateAttendance({ close, student, attendanceData, attendances }) {
 
   const checkList = [
     {
-      title: "เข้าเรียน",
+      titleThai: "เข้าเรียน",
+      titleEnglish: "Present",
       bgColor: "bg-green-500",
     },
     {
-      title: "ลา",
+      titleThai: "ลา",
+      titleEnglish: "Take a leave",
       bgColor: "bg-yellow-500",
     },
     {
-      title: "ขาด",
+      titleThai: "ขาด",
+      titleEnglish: "Absent",
       bgColor: "bg-red-500",
     },
   ];
@@ -70,7 +79,7 @@ function UpdateAttendance({ close, student, attendanceData, attendances }) {
   return (
     <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10 font-Kanit">
       <div
-        className="md:w-80 md:h-72 fixed z-40 top-0 bottom-0 right-0
+        className="md:w-96 md:h-72 fixed z-40 top-0 bottom-0 right-0
        left-0 m-auto flex flex-col  items-center justify-start gap-2 bg-white p-5 rounded-lg  "
       >
         <div
@@ -120,14 +129,15 @@ function UpdateAttendance({ close, student, attendanceData, attendances }) {
                   key={index}
                   className={`
                   ${attendance.bgColor}
-                  w-20 h-8 text-center flex items-center justify-center text-white rounded-lg cursor-pointer 
+                  w-24 h-8 text-center flex items-center justify-center text-white rounded-lg cursor-pointer 
                   border-2 border-solid hover:scale-105 transition duration-150 ${
                     activeAttendance === index ? "border-black" : "border-white"
                   }
                   
                   `}
                 >
-                  {attendance.title}
+                  {language === "Thai" && attendance.titleThai}
+                  {language === "English" && attendance.titleEnglish}
                 </div>
               );
             })}
@@ -138,7 +148,8 @@ function UpdateAttendance({ close, student, attendanceData, attendances }) {
               className="bg-blue-400 w-28 h-10 flex items-center cursor-pointer text-white
           justify-center hover:scale-110 transition duration-150 rounded-xl drop-shadow-lg"
             >
-              แก้ไข
+              {language === "Thai" && "แก้ไข"}
+              {language === "English" && "Update"}
             </div>
           </div>
         </div>

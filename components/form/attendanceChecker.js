@@ -6,7 +6,7 @@ import { CreateAttendance, GetAllAttendance } from "../../service/attendance";
 import Loading from "../loading/loading";
 import { useQuery } from "react-query";
 
-function AttendanceChecker({ close, students }) {
+function AttendanceChecker({ close, students, language }) {
   const router = useRouter();
   const [isCheckStudent, setIsCheckStudent] = useState();
   const currentDate = new Date().toISOString().slice(0, 10); // get current date in "yyyy-mm-dd" format
@@ -173,7 +173,8 @@ function AttendanceChecker({ close, students }) {
           <div className="w-full flex items-center justify-between ">
             <div className="flex">
               <span className="font-Kanit text-xl font-semibold text-black">
-                เช็คชื่อผู้เรียน
+                {language === "Thai" && "เช็คชื่อผู้เรียน"}
+                {language === "English" && "attendance check"}
               </span>
               <div className="text-3xl text-blue-600">
                 <MdEmojiPeople />
@@ -181,7 +182,10 @@ function AttendanceChecker({ close, students }) {
             </div>
             <div className="flex gap-10 items-end justify-center">
               <div className="mt-2 flex flex-col text-black font-Kanit">
-                <label>เลือกวันที่</label>
+                <label>
+                  {language === "Thai" && "เลือกวันที่"}
+                  {language === "English" && "pick date"}
+                </label>
                 <input
                   onChange={(e) =>
                     setAttendanceDate(() => {
@@ -220,10 +224,19 @@ function AttendanceChecker({ close, students }) {
 
           <div className="w-full flex justify-center items-center flex-col ">
             <ul className="list-none pl-0 grid grid-cols-7 w-full place-items-center text-black font-Kanit ">
-              <li className="">เลขที่</li>
-              <li className="col-span-2">ชื่อจริง</li>
-              <li className="">นามสกุล</li>
-              <div className="grid-cols-3 col-span-3  grid w-full gap-5 place-items-center ">
+              <li className="">
+                {language === "Thai" && "เลขที่"}
+                {language === "English" && "number"}
+              </li>
+              <li className="col-span-2">
+                {language === "Thai" && "ชื่อจริง"}
+                {language === "English" && "first name"}
+              </li>
+              <li className="">
+                {language === "Thai" && "นามสกุล"}
+                {language === "English" && "last name"}
+              </li>
+              <div className="grid-cols-3 col-span-3  grid w-96 gap-5 place-items-center ">
                 <button
                   onClick={handleCheckAllstudent}
                   name="present"
@@ -232,9 +245,13 @@ function AttendanceChecker({ close, students }) {
                   className="w-full bg-green-500 rounded-2xl text-white text-center 
                   hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  <span className="block group-hover:hidden">เข้าเรียน</span>
+                  <span className="block group-hover:hidden">
+                    {language === "Thai" && "เข้าเรียน"}
+                    {language === "English" && "present"}
+                  </span>
                   <span className="hidden group-hover:block text-base">
-                    เลือกทั้งหมด
+                    {language === "Thai" && "เลือกทั้งหมด"}
+                    {language === "English" && "pick all"}
                   </span>
                 </button>
                 <button
@@ -242,12 +259,16 @@ function AttendanceChecker({ close, students }) {
                   name="holiday"
                   role="button"
                   aria-label="check all"
-                  className="w-full bg-yellow-500 rounded-2xl text-white text-center 
+                  className="w-full  bg-yellow-500 rounded-2xl text-white text-center 
                   hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  <span className="block group-hover:hidden">ลา</span>
+                  <span className="block group-hover:hidden">
+                    {language === "Thai" && "ลา"}
+                    {language === "English" && "take a leave"}
+                  </span>
                   <span className="hidden group-hover:block text-base">
-                    เลือกทั้งหมด
+                    {language === "Thai" && "เลือกทั้งหมด"}
+                    {language === "English" && "pick all"}
                   </span>
                 </button>
                 <button
@@ -258,14 +279,18 @@ function AttendanceChecker({ close, students }) {
                   className="w-full bg-red-500 rounded-2xl text-white text-center
                   hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  <span className="block group-hover:hidden">ขาด</span>
+                  <span className="block group-hover:hidden">
+                    {language === "Thai" && "ขาด"}
+                    {language === "English" && "absent"}
+                  </span>
                   <span className="hidden group-hover:block text-base">
-                    เลือกทั้งหมด
+                    {language === "Thai" && "เลือกทั้งหมด"}
+                    {language === "English" && "pick all"}
                   </span>
                 </button>
               </div>
             </ul>
-            <div className="w-full h-full items-center justify-start max-h-96 mt-2 overflow-auto lg:scrollbar-hide fade-mask-short flex flex-col gap-2">
+            <div className="w-full scrollbar-hide  h-full items-center justify-start max-h-96 mt-2 overflow-auto lg:scrollbar-hide fade-mask-short flex flex-col gap-2">
               {isCheckStudent?.map((student) => {
                 return (
                   <ul
@@ -275,10 +300,10 @@ function AttendanceChecker({ close, students }) {
                     <li className="">{student.number}</li>
                     <li className="col-span-2">{student.firstName}</li>
                     <li className="">{student?.lastName}</li>
-                    <div className="grid-cols-3 col-span-3  grid w-full   place-items-center  ">
+                    <div className="grid-cols-3 col-span-3  grid w-96 place-items-center  ">
                       <div
                         className=" bg-green-500 rounded text-white text-center
-                       p-1  w-6 h-6 flex items-center justify-center"
+                       p-1  w-6 h-6 flex items-center  justify-center"
                       >
                         <input
                           name="present"

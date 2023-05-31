@@ -75,6 +75,7 @@ export async function UpdateUserData(updateddata) {
         lastName: updateddata.lastName,
         school: updateddata.school,
         phone: updateddata.phone,
+        language: updateddata.language,
       },
       {
         headers: {

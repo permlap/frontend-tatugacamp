@@ -30,6 +30,7 @@ function UpdateScore({
   students,
   refetchScores,
   classroomScore,
+  language,
 }) {
   const router = useRouter();
   const [classroomId, setClassroomId] = useState();
@@ -105,6 +106,7 @@ function UpdateScore({
     try {
       const deletedStudent = await DelteStudent({ studentId: data.studentId });
       Swal.fire("success", deletedStudent.data.message, "success");
+      document.body.style.overflow = "auto";
       students.refetch();
     } catch (err) {
       Swal.fire(
@@ -112,6 +114,7 @@ function UpdateScore({
         err?.props?.response?.data?.message.toString(),
         "error"
       );
+      document.body.style.overflow = "auto";
       students.refetch();
     }
   };
@@ -229,7 +232,6 @@ function UpdateScore({
   const style = {
     height: 300,
   };
-
   return (
     <div
       className=" md:w-full h-full font-Kanit  z-30 
@@ -251,7 +253,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                 onClick={() => setIsDeleteStudent(true)}
               >
                 <MdDelete size={25} />
-                <span className="text-sm">ลบผู้เรียน</span>
+                <span className="text-sm">
+                  {language === "Thai" && "ลบนักเรียน"}
+                  {language === "English" && "delete"}
+                </span>
               </div>
             )}
 
@@ -315,7 +320,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                     <span className="mr-2">{student?.firstName}</span>
                     <span>{student?.lastName}</span>
                   </div>
-                  <div className="font-light">เลขที่ {student?.number}</div>
+                  <div className="font-light">
+                    {language === "Thai" && "เลขที่"}
+                    {language === "English" && "number"} {student?.number}
+                  </div>
                   <div
                     role="button"
                     onClick={() => setTriggerSetting((prev) => (prev = true))}
@@ -323,7 +331,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                     className="w-max h-max  bg-slate-500 mt-2  text-lg cursor-pointer hover:text-red-500 hover:bg-white
                   text-white p-1 rounded-md flex gap-2 px-6 transition duration-150 ease-in-out z-20 group hover:ring-2  bottom-0 ring-black"
                   >
-                    <span>ตั้งค่า</span>
+                    <span>
+                      {language === "Thai" && "ตั้งค่า"}
+                      {language === "English" && "setting"}
+                    </span>
                     <div className="text-white group-hover:text-red-500 flex items-center justify-center ">
                       <FiSettings />
                     </div>
@@ -338,7 +349,8 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                   <div className="flex items-center justify-center flex-col">
                     <div className="flex flex-col relative">
                       <label className="font-sans font-normal">
-                        แก้ไขชื่อจริง
+                        {language === "Thai" && "แก้ไขชื่อจริง"}
+                        {language === "English" && "first name"}
                       </label>
                       <input
                         onChange={handleOnChange}
@@ -360,7 +372,8 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
 
                     <div className="flex flex-col relative mt-2">
                       <label className="font-sans font-normal">
-                        แก้ไขนาสกุล
+                        {language === "Thai" && "แก้ไขนาสกุล"}
+                        {language === "English" && "last name"}
                       </label>
                       <input
                         onChange={handleOnChange}
@@ -381,7 +394,8 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                     </div>
                     <div className="flex flex-col relative mt-2 mb-2">
                       <label className="font-sans font-normal">
-                        แก้ไขเลขที่
+                        {language === "Thai" && "แก้ไขเลขที่"}
+                        {language === "English" && "number"}
                       </label>
                       <input
                         onChange={handleOnChange}
@@ -411,14 +425,20 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
               text-white p-1 rounded-md flex items-center justify-center gap-2 px-6 
               transition duration-150 ease-in-out"
                     >
-                      <span>บันทึก</span>
+                      <span>
+                        {language === "Thai" && "บันทึก"}
+                        {language === "English" && "save"}
+                      </span>
                       <div className="text-white flex items-center justify-center ">
                         <FiSave />
                       </div>
                     </button>
                   </div>
                   <div className="flex flex-col items-center justify-center ">
-                    <div className="mb-10 text-xl">เลือก Avatar ผู้เรียน</div>
+                    <div className="mb-10 text-xl">
+                      {language === "Thai" && "เลือก Avatar ผู้เรียน"}
+                      {language === "English" && "choose student a avatar"}
+                    </div>
                     <div className="grid grid-cols-5 gap-4">
                       {avartars.map((avartar, index) => {
                         return (
@@ -451,12 +471,22 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
           </div>
         )}
         {/* score part */}
+
         {triggerSetting === false && (
           <div className=" flex-col  w-full md:w-max px-5   ">
             <div className="flex items-center justify-center h-5 mt-2 text-lg w-full mb-2 ">
-              {classroomScore === true
-                ? "ให้คะแนนทั้งห้องเรียน"
-                : "คะแนนความประพฤติ"}
+              {classroomScore === true && language === "Thai" && (
+                <p>ให้คะแนนทั้งห้องเรียน</p>
+              )}
+              {classroomScore === true && language === "English" && (
+                <p>give a class score</p>
+              )}
+              {language === "Thai" && !classroomScore && (
+                <p>คะแนนความประพฤติ</p>
+              )}
+              {language === "English" && !classroomScore && (
+                <p>give student a motivative score</p>
+              )}
             </div>
 
             <div className="">
@@ -527,6 +557,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                       refetchScores={refetchScores}
                       setTriggerCreateNewScore={setTriggerCreateNewScore}
                       classroomId={student?.classroomId}
+                      language={language}
                     />
                   </div>
                 )}
@@ -542,7 +573,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
            hover:bg-yellow-200 transition duration-150 ease-in-out"
                     >
                       <FiPlus />
-                      <span className="text-sm">สร้างคะแนน</span>
+                      <span className="text-sm">
+                        {language === "Thai" && "สร้างคะแนน"}
+                        {language === "English" && "Create score"}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -559,8 +593,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                 />
                 <div className="w-max h-max text-sm mt-2 text-red-600">
                   <span>
-                    **หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น
-                    -5
+                    {language === "Thai" &&
+                      "**หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น -5"}
+                    {language === "English" &&
+                      "Note: you can minus student's score by putting a minus symbol like -5 "}
                   </span>
                 </div>
               </div>

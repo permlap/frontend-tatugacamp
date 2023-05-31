@@ -19,6 +19,7 @@ export default function CreateAssignment({
   setTriggerAssignment,
   students,
   assignments,
+  language,
 }) {
   const rounter = useRouter();
   const [assignmentCreated, setAssignmentCreated] = useState();
@@ -219,7 +220,8 @@ export default function CreateAssignment({
                active:border-solid  focus:border-2 hover:bg-red-500 transition duration-150
               focus:border-solid"
               >
-                สร้าง
+                {language === "Thai" && "สร้าง"}
+                {language === "English" && "CREATE"}
               </button>
             </div>
             <div
@@ -227,7 +229,10 @@ export default function CreateAssignment({
           flex flex-col items-center justify-start gap-5"
             >
               <div className="mt-5 flex flex-col">
-                <label>กำหนดส่ง</label>
+                <label>
+                  {language === "Thai" && "กำหนดส่ง"}
+                  {language === "English" && "Due by"}
+                </label>
                 <input
                   onChange={handleChange}
                   name="deadline"
@@ -239,7 +244,10 @@ export default function CreateAssignment({
                 />
               </div>
               <div className="flex flex-col w-max relative  h-max ">
-                <label>คะแนนของงาน</label>
+                <label>
+                  {language === "Thai" && "คะแนนของงาน"}
+                  {language === "English" && "socres"}
+                </label>
                 <input
                   min="1"
                   required
@@ -248,7 +256,11 @@ export default function CreateAssignment({
                   className="w-40 appearance-none outline-none border-none ring-2 rounded-md px-5 
                 py-2 text-lg ring-gray-200 focus:ring-black placeholder:text-sm"
                   type="number"
-                  placeholder="ใส่คะแนนของงาน"
+                  placeholder={
+                    language === "Thai"
+                      ? "ใส่คะแนนของงาน"
+                      : language === "English" && "put scores"
+                  }
                 />
                 <div className="text-lg absolute top-8 right-5">
                   <GrScorecard />
@@ -266,7 +278,8 @@ export default function CreateAssignment({
         ) : (
           <form className="w-full h-full flex items-center justify-start flex-col gap-10">
             <div className="text-2xl font-Kanit font-semibold">
-              เลือกผู้เรียนเพื่อมอบหมายงาน
+              {language === "Thai" && "เลือกผู้เรียนเพื่อมอบหมายงาน"}
+              {language === "English" && "Choose students to assign work to"}
             </div>
 
             <div className="lg:w-2/4 lg:h-3/4 md:w-10/12 md:h-80  flex relative items-center justify-start overflow-auto scrollbar  flex-col gap-2">
@@ -328,14 +341,16 @@ export default function CreateAssignment({
                 onClick={onClickIsCheck}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
-                เลือกผู้เรียนทั้งหมด
+                {language === "Thai" && "เลือกผู้เรียนทั้งหมด"}
+                {language === "English" && "Choose all students"}
               </button>
               <button
                 type="button"
                 onClick={onClickAssignWork}
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
               >
-                มอบหมายงาน
+                {language === "Thai" && "มอบหมายงาน"}
+                {language === "English" && "Assign"}
               </button>
             </div>
           </form>

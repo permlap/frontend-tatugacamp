@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../../../layouts/classroomLayout";
 import Unauthorized from "../../../../../components/error/unauthorized";
 import { useRouter } from "next/router";
@@ -13,9 +13,20 @@ import { SiMicrosoftexcel } from "react-icons/si";
 import { DownloadExcelScore } from "../../../../../service/dowloadFile";
 import Swal from "sweetalert2";
 import { parseCookies } from "nookies";
+import {
+  sideMenusEnglish,
+  sideMenusThai,
+} from "../../../../../data/menubarsScores";
 
 function Index({ user, error }) {
   const router = useRouter();
+  const [sideMenus, setSideMenus] = useState(() => {
+    if (user.language === "Thai") {
+      return sideMenusThai();
+    } else if (user.language === "English") {
+      return sideMenusEnglish();
+    }
+  });
   const studentsScores = useQuery(
     ["studentsScores"],
     () => GetAllStudentScores({ classroomId: router.query.classroomId }),
@@ -27,39 +38,6 @@ function Index({ user, error }) {
   useEffect(() => {
     studentsScores.refetch();
   }, [router.isReady]);
-  const sideMenus = [
-    {
-      title: "โรงเรียน",
-      icon: "🏫",
-      url: `/classroom/teacher`,
-    },
-    {
-      title: "ห้องเรียน",
-      icon: "👨‍🏫",
-      url: `/classroom/teacher/${router.query.classroomId}`,
-    },
-    {
-      title: "มอบหมายงาน",
-      icon: "🎒",
-      url: `/classroom/teacher/${router.query.classroomId}/assignment`,
-    },
-    {
-      title: "ข้อมูลการเข้าเรียน",
-      icon: "🙌",
-      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
-    },
-    {
-      title: "คะแนนรวม",
-      icon: "🥇",
-      url: `/classroom/teacher/${router.query.classroomId}/scores`,
-    },
-
-    {
-      title: "หน้าหลัก",
-      icon: <FiArrowLeftCircle />,
-      url: `/`,
-    },
-  ];
 
   const handleDownloadFile = async () => {
     try {
@@ -86,7 +64,7 @@ function Index({ user, error }) {
       <Head>
         <title>overall score</title>
       </Head>
-      <Layout sideMenus={sideMenus} />
+      <Layout language={user.language} sideMenus={sideMenus} />
       <div className=" w-full flex flex-col items-center justify-start mt-10">
         <button
           className="w-max px-5 flex gap-1 mb-2 hover:scale-105 transition duration-150 active:bg-blue-800 bg-blue-500 font-Poppins font-semibold text-white rounded-lg py-2"
@@ -115,7 +93,12 @@ function Index({ user, error }) {
           >
             {studentsScores?.data?.data?.assignments.length === 0 ? (
               <div className="w-full  flex items-center justify-center h-full text-3xl mt-5">
-                <span>ไม่มีข้อมูลเนื่องจากไม่ได้มอบหมายงานให้ผู้เรียน</span>
+                <span>
+                  {user.language === "Thai" &&
+                    "ไม่มีข้อมูลเนื่องจากไม่ได้มอบหมายงานให้ผู้เรียน"}
+                  {user.language === "English" &&
+                    "No data due to no assignments"}
+                </span>
                 <div className="text-red-400">
                   <BiMessageAltError />
                 </div>
@@ -125,20 +108,29 @@ function Index({ user, error }) {
                 <thead className="sticky top-0 bg-white drop-shadow-lg">
                   <tr className="border-b border-0 border-solid border-slate-700">
                     <th scope="col" className="px-6 py-3 w-20">
-                      เลขที่
+                      {user.language === "Thai" && "เลขที่"}
+                      {user.language === "English" && "number"}
                     </th>
                     <th scope="col" className="px-6 py-3 w-60">
-                      รายชื่อ
+                      {user.language === "Thai" && "รายชื่อ"}
+                      {user.language === "English" && "student's name"}
                     </th>
 
                     {studentsScores?.data?.data?.assignments.map(
                       (assignment) => {
                         const date = new Date(assignment.createAt);
-                        const formattedDate = date.toLocaleDateString("th-TH", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        });
+                        const formattedDate = date.toLocaleDateString(
+                          `${
+                            user.language === "Thai"
+                              ? "th-TH"
+                              : user.language === "English" && "en-US"
+                          }`,
+                          {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          }
+                        );
                         return (
                           <th
                             key={assignment.id}
@@ -147,11 +139,12 @@ function Index({ user, error }) {
                           >
                             <div className="flex   max-w-xs  flex-col items-center justify-center">
                               <span className="text-sm">
-                                {" "}
                                 {assignment.title}
                               </span>
                               <span className="text-sm font-normal">
-                                คะแนนเต็ม {assignment.maxScore}
+                                {user.language === "Thai" && "คะแนนเต็ม"}
+                                {user.language === "English" && "scores"} {` `}
+                                {assignment.maxScore}
                               </span>
                               <span className="font-normal italic">
                                 ({formattedDate})
@@ -162,10 +155,12 @@ function Index({ user, error }) {
                       }
                     )}
                     <th scope="col" className="px-6 py-3 w-28">
-                      คะแนนความประพฤติ
+                      {user.language === "Thai" && "คะแนนความประพฤติ"}
+                      {user.language === "English" && "motivative scores"}
                     </th>
                     <th scope="col" className="px-6 py-3 w-20">
-                      รวม
+                      {user.language === "Thai" && "รวม"}
+                      {user.language === "English" && "sum"}
                     </th>
                   </tr>
                 </thead>

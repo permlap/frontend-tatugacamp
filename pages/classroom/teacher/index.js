@@ -17,11 +17,18 @@ import Layout from "../../../layouts/schoolLayout";
 import { parseCookies } from "nookies";
 import Swal from "sweetalert2";
 import FeedbackSankbar from "../../../components/feedback/snackbar";
+import { sideMenusEnglish, sideMenusThai } from "../../../data/menubarsSchool";
 
 function Index({ error, user }) {
+  const [sideMenus, setSideMenus] = useState(() => {
+    if (user.language === "Thai") {
+      return sideMenusThai;
+    } else if (user.language === "English") {
+      return sideMenusEnglish;
+    }
+  });
   const router = useRouter();
   const [classroomState, setClassroomState] = useState();
-  // const user = useQuery(["user"], () => GetUser());
   const classrooms = useQuery(["classrooms"], () =>
     GetAllClassrooms().then((res) => {
       setClassroomState((prev) => (prev = res?.data));
@@ -57,26 +64,6 @@ function Index({ error, user }) {
     setClassroomState(newItems);
   };
 
-  // for passing data to sidebar
-  const sideMenus = [
-    {
-      title: "โรงเรียน",
-      icon: "🏫",
-      url: "/classroom/teacher",
-    },
-
-    {
-      title: "ตั้งค่า",
-      icon: <FiSettings />,
-      url: "/classroom/setting",
-    },
-    {
-      title: "หน้าหลัก",
-      icon: <FiArrowLeftCircle />,
-      url: "/",
-    },
-  ];
-
   const style = {
     height: 500,
   };
@@ -111,11 +98,11 @@ function Index({ error, user }) {
 
       <div
         className={`flex  w-full  bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-fixed bg-cover ${
-          classroomState?.[0] ? "h-full pb-60 md:pb-[30rem] " : "h-screen"
+          classroomState?.[0] ? "h-full pb-60 md:pb-80 lg:pb-0" : "h-screen"
         } `}
       >
         <Layout user={user} sideMenus={sideMenus} />
-        <FeedbackSankbar />
+        <FeedbackSankbar language={user.language} />
         <div
           className={`flex justify-center items-center md:items-start    lg:items-center  w-full h-full`}
         >
@@ -132,9 +119,13 @@ function Index({ error, user }) {
                   font-Kanit tracking-wider  "
                   >
                     <span className="md:text-8xl text-5xl hover:text-[#2C7CD1] text-black duration-150 transition">
-                      สร้าง
+                      {user.language === "Thai" && "สร้าง"}
+                      {user.language === "English" && "Create"}
                     </span>
-                    <span>ห้องเรียนของคุณได้ที่นี่</span>
+                    <span>
+                      {user.language === "Thai" && "ห้องเรียนของคุณได้ที่นี่"}
+                      {user.language === "English" && " your classroom here!"}
+                    </span>
                   </div>
                 </div>
                 <div className="absolute md:-top-20 lg:-top-20 lg:-left-36 ">
@@ -148,7 +139,8 @@ function Index({ error, user }) {
                       <div className="lg:mt-20 md:mt-5 mt-20 w-full flex justify-center items-center  font-Kanit ">
                         <div className="flex gap-x-2 justify-center items-center ">
                           <span className="text-xl md:text-2xl font-bold text-[#2C7CD1] ">
-                            กดเพื่อ
+                            {user.language === "Thai" && "กดเพื่อ"}
+                            {user.language === "English" && "click to"}
                           </span>
                           <Popover.Button
                             className={`
@@ -157,10 +149,14 @@ function Index({ error, user }) {
                 font-bold font-Kanit text-white cursor-pointer
               active:border-black hover:scale-110 transition md:text-2xl duration-150 ease-in-out"`}
                           >
-                            <span> สร้าง</span>
+                            <span>
+                              {user.language === "Thai" && "สร้าง"}
+                              {user.language === "English" && "CREATE"}
+                            </span>
                           </Popover.Button>
                           <span className="text-xl  md:text-2xl  font-bold text-[#2C7CD1]">
-                            ห้องเรียน
+                            {user.language === "Thai" && "ห้องเรียน"}
+                            {user.language === "English" && "classroom"}
                           </span>
                         </div>
                       </div>
@@ -168,6 +164,7 @@ function Index({ error, user }) {
                         {({ close }) => (
                           <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-20">
                             <CreateClass
+                              language={user.language}
                               close={close}
                               refetch={classrooms.refetch}
                             />
@@ -279,7 +276,10 @@ function Index({ error, user }) {
                active:border-solid  focus:border-2 
               focus:border-solid"
                       >
-                        <span>🚪เข้าชั้นเรียน</span>
+                        <span>
+                          {user.language === "Thai" && "🚪เข้าชั้นเรียน"}
+                          {user.language === "English" && "Join"}
+                        </span>
                       </button>
                     </div>
                   </div>

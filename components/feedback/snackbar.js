@@ -10,7 +10,7 @@ import { MdFeedback } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
 import CreateFeedback from "../form/createFeedbacl";
 
-function FeedbackSankbar() {
+function FeedbackSankbar({ language }) {
   const [open, setOpen] = useState(true);
   const [isFeedback, setIsfeedback] = useState(false);
   const handleClose = () => {
@@ -29,7 +29,10 @@ function FeedbackSankbar() {
   return (
     <div>
       {isFeedback && (
-        <CreateFeedback handleCloseFeedback={handleCloseFeedback} />
+        <CreateFeedback
+          language={language}
+          handleCloseFeedback={handleCloseFeedback}
+        />
       )}
       <Snackbar
         onClick={handleOpenFeedback}
@@ -48,7 +51,10 @@ function FeedbackSankbar() {
               <FcFeedback />
             </div>
             <div className="flex">
-              <span>Feedback ของท่านคือความหวังของเรา</span>
+              <span>
+                {language === "Thai" && "Feedback ของท่านคือความหวังของเรา"}
+                {language === "English" && "Your feedback is our light of hope"}
+              </span>
             </div>
           </div>
         </div>

@@ -19,6 +19,7 @@ function UpdateAssignment({
   studentOnAssignments,
   setShowAssignment,
   assignments,
+  language,
 }) {
   const rounter = useRouter();
   const [assignmentData, setAssignmentData] = useState(assignment?.data?.data);
@@ -28,10 +29,12 @@ function UpdateAssignment({
   const [activeTab, setActivetab] = useState(0);
   const [tabs, setTabs] = useState([
     {
-      title: "assignment",
+      titleEnglish: "assignment",
+      titleThai: "งาน",
     },
     {
-      title: "students",
+      titleEnglish: "students",
+      titleThai: "นักเรียน",
     },
   ]);
 
@@ -171,7 +174,8 @@ function UpdateAssignment({
                     : "text-black bg-transparent"
                 }`}
               >
-                {tab.title}
+                {language === "Thai" && tab.titleThai}
+                {language === "English" && tab.titleEnglish}
               </div>
             );
           })}
@@ -267,7 +271,8 @@ function UpdateAssignment({
            active:border-solid  focus:border-2 hover:bg-red-500 transition duration-150
           focus:border-solid"
             >
-              update
+              {language === "Thai" && "อัพเดท"}
+              {language === "English" && "update"}
             </button>
           </div>
           <div
@@ -275,7 +280,10 @@ function UpdateAssignment({
       flex flex-col items-center justify-start gap-5"
           >
             <div className=" flex flex-col">
-              <label>กำหนดส่ง</label>
+              <label>
+                {language === "Thai" && "กำหนดส่ง"}
+                {language === "English" && "due by"}
+              </label>
               <input
                 value={formattedDate}
                 onChange={handleChange}
@@ -288,7 +296,10 @@ function UpdateAssignment({
               />
             </div>
             <div className="flex flex-col w-max relative  h-max ">
-              <label>คะแนนของงาน</label>
+              <label>
+                {language === "Thai" && "คะแนนของงาน"}
+                {language === "English" && "score"}
+              </label>
               <input
                 min="1"
                 value={assignmentData.maxScore}
@@ -298,7 +309,6 @@ function UpdateAssignment({
                 className="w-40 appearance-none outline-none border-none ring-2 rounded-md px-5 
             py-2 text-lg ring-gray-200 focus:ring-black placeholder:text-sm"
                 type="number"
-                placeholder="ใส่คะแนนของงาน"
               />
               <div className="text-lg absolute top-8 right-5">
                 <GrScorecard />
@@ -316,7 +326,8 @@ function UpdateAssignment({
       ) : (
         <form className="w-full h-full flex items-center justify-center flex-col gap-1">
           <div className="text-2xl font-Kanit font-semibold">
-            เลือกผู้เรียนเพื่อมอบหมายงาน
+            {language === "Thai" && "เลือกผู้เรียนเพื่อมอบหมายงาน"}
+            {language === "English" && "Choose students to assign work"}
           </div>
 
           <div
@@ -375,7 +386,8 @@ function UpdateAssignment({
                         className="w-full text-sm bg-green-500 py-1  rounded-lg text-white
                       flex items-center justify-center"
                       >
-                        มอบหมายแล้ว
+                        {language === "Thai" && "มอบหมายแล้ว"}
+                        {language === "English" && "Already assigned"}
                       </div>
                     )}
                   </div>
@@ -389,14 +401,16 @@ function UpdateAssignment({
               onClick={onClickIsCheck}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              เลือกผู้เรียนทั้งหมด
+              {language === "Thai" && "เลือกผู้เรียนทั้งหมด"}
+              {language === "English" && "Pick all students"}
             </button>
             <button
               type="button"
               onClick={onClickAssignWork}
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             >
-              มอบหมายงาน
+              {language === "Thai" && "มอบหมายงาน"}
+              {language === "English" && "Assign"}
             </button>
           </div>
         </form>

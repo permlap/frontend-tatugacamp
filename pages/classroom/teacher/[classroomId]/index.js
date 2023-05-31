@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { GetOneClassroom } from "../../../../service/classroom";
-import { FiArrowLeftCircle } from "react-icons/fi";
 import Head from "next/head";
 import FullScreenLoading from "../../../../components/loading/FullScreenLoading";
 import { Popover } from "@headlessui/react";
@@ -15,9 +14,20 @@ import { GetUser, GetUserCookie } from "../../../../service/user";
 import { Skeleton } from "@mui/material";
 import Unauthorized from "../../../../components/error/unauthorized";
 import { parseCookies } from "nookies";
+import {
+  SideMenusThai,
+  sideMenusEnglish,
+} from "../../../../data/menubarsClassroom";
 
 function Index({ user, error }) {
   const router = useRouter();
+  const [sideMenus, setSideMenus] = useState(() => {
+    if (user.language === "Thai") {
+      return SideMenusThai();
+    } else if (user.language === "English") {
+      return sideMenusEnglish();
+    }
+  });
   const [loadedImages, setLoadedImages] = useState([]);
   const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
   const students = useQuery(
@@ -53,41 +63,6 @@ function Index({ user, error }) {
     });
   }, [students?.data?.data]);
 
-  // for passing data to sidebar
-  const sideMenus = [
-    {
-      title: "โรงเรียน",
-      icon: "🏫",
-      url: `/classroom/teacher`,
-    },
-    {
-      title: "ห้องเรียน",
-      icon: "👨‍🏫",
-      url: `#`,
-    },
-    {
-      title: "มอบหมายงาน",
-      icon: "🎒",
-      url: `/classroom/teacher/${router.query.classroomId}/assignment`,
-    },
-    {
-      title: "ข้อมูลการเข้าเรียน",
-      icon: "🙌",
-      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
-    },
-    {
-      title: "คะแนนรวม",
-      icon: "🥇",
-      url: `/classroom/teacher/${router.query.classroomId}/scores`,
-    },
-
-    {
-      title: "หน้าหลัก",
-      icon: <FiArrowLeftCircle />,
-      url: `/`,
-    },
-  ];
-
   if (!router.isReady) {
     return <FullScreenLoading />;
   }
@@ -112,7 +87,7 @@ function Index({ user, error }) {
   }
   return (
     <div className="bg-blue-50 w-full pb-96 ">
-      <Layout sideMenus={sideMenus} />
+      <Layout language={user.language} sideMenus={sideMenus} />
       <Head>
         <title>{`classroom - ${classroom.data?.data?.title}`}</title>
       </Head>
@@ -151,7 +126,8 @@ function Index({ user, error }) {
                           className="font-Kanit font-semibold text-lg group-hover:scale-100 scale-0 bg-white px-3 rounded-lg
                  transition duration-150 absolute"
                         >
-                          ให้คะแนนห้อง
+                          {user.language === "Thai" && "ให้คะแนนห้อง"}
+                          {user.language === "English" && "give a class score"}
                         </span>
                       </div>
                     </Popover.Button>
@@ -159,6 +135,7 @@ function Index({ user, error }) {
                       {({ close }) => (
                         <UpdateScore
                           close={close}
+                          language={user.language}
                           classroomScore={true}
                           scores={scores.data}
                           students={students}
@@ -255,6 +232,7 @@ function Index({ user, error }) {
                             <Popover.Panel>
                               {({ close }) => (
                                 <UpdateScore
+                                  language={user.language}
                                   close={close}
                                   student={student}
                                   scores={scores.data}
