@@ -12,8 +12,11 @@ import { useInView } from "react-intersection-observer";
 import NumberAnimated from "../../components/overview/numberAnimated";
 import ReactPlayer from "react-player";
 import { Skeleton } from "@mui/material";
-
-function Index({ cardData }) {
+import { Disclosure } from "@headlessui/react";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { sanityClient } from "../../sanity";
+import { PortableText } from "@portabletext/react";
+function Index({ cardData, commonQuestions }) {
   const router = useRouter();
   const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
   const studentNumber = useQuery(["studentNumber"], () => GetNumberStudent());
@@ -34,9 +37,9 @@ function Index({ cardData }) {
   function handleVideoReady() {
     setLoading(false);
   }
-
+  console.log(commonQuestions);
   return (
-    <div className="bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-bottom md:h-full  bg-cover pb-20">
+    <div className="md:h-full bg-gradient-to-b  from-white  to-blue-500 to-50%  bg-cover pb-20">
       <Head>
         <meta property="og:title" content={`TaTuga class`} />
         <meta
@@ -269,6 +272,36 @@ function Index({ cardData }) {
               </span>
             </div>
           </div>
+          <section className="w-full text-center flex flex-col items-center justify-center gap-5">
+            <span className=" text-white font-Kanit font-normal text-4xl">
+              คำถามที่พบบ่อย
+            </span>
+            <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-10">
+              {commonQuestions?.map((commonQuestion) => {
+                return (
+                  <Disclosure>
+                    {({ open }) => (
+                      <>
+                        <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                          <span>{commonQuestion.questionThai}</span>
+                          <RiArrowDropDownLine
+                            className={`${
+                              open ? "rotate-180 transform" : ""
+                            } h-5 w-5 text-purple-500`}
+                          />
+                        </Disclosure.Button>
+                        <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500 text-left">
+                          <span>
+                            <PortableText value={commonQuestion.answerThai} />
+                          </span>
+                        </Disclosure.Panel>
+                      </>
+                    )}
+                  </Disclosure>
+                );
+              })}
+            </div>
+          </section>
         </main>
         <footer className="w-full flex items-center mt-10 justify-center relative">
           <div className="md:w-9/12 lg:w-6/12 w-11/12 text-lg font-Kanit text-white text-center">
@@ -283,6 +316,7 @@ function Index({ cardData }) {
 export default Index;
 
 export async function getStaticProps(ctx) {
+  const query = `*[_type == "commonQuestions"]`;
   const cardData = [
     {
       title: "No login required for student",
@@ -305,7 +339,6 @@ export async function getStaticProps(ctx) {
         "With our platform, you can easily export your data to Excel",
     },
   ];
-
   const blurData = await Promise.all(
     cardData.map(async (item) => {
       const imageProps = await returnProps(item.picture);
@@ -315,9 +348,11 @@ export async function getStaticProps(ctx) {
       return { ...item, imageProps };
     })
   );
+  const commonQuestions = await sanityClient.fetch(query);
   return {
     props: {
       cardData: blurData,
+      commonQuestions,
     },
   };
 }

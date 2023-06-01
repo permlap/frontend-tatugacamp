@@ -8,6 +8,7 @@ import grammar from "./grammar";
 import taboo from "./taboo";
 import categoryTaboo from "./categoryTaboo";
 import members from "./members";
+import commonQuestions from "./commonQuestions";
 export const schemaTypes = [
   post,
   author,
@@ -19,4 +20,5 @@ export const schemaTypes = [
   taboo,
   categoryTaboo,
   members,
+  commonQuestions,
 ];
