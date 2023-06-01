@@ -8,7 +8,7 @@ import { Alert } from "@mui/material";
 import { FcFeedback } from "react-icons/fc";
 import { MdFeedback } from "react-icons/md";
 import { AiFillCloseCircle } from "react-icons/ai";
-import CreateFeedback from "../form/createFeedbacl";
+import CreateFeedback from "../form/createFeedback";
 
 function FeedbackSankbar({ language }) {
   const [open, setOpen] = useState(true);

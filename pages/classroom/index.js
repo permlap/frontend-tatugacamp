@@ -37,9 +37,8 @@ function Index({ cardData, commonQuestions }) {
   function handleVideoReady() {
     setLoading(false);
   }
-  console.log(commonQuestions);
   return (
-    <div className="md:h-full bg-gradient-to-b  from-white  to-blue-500 to-50%  bg-cover pb-20">
+    <div className="md:h-full bg-gradient-to-b  from-white from-20% to-80%   to-blue-500   bg-cover pb-20">
       <Head>
         <meta property="og:title" content={`TaTuga class`} />
         <meta
@@ -276,13 +275,17 @@ function Index({ cardData, commonQuestions }) {
             <span className=" text-white font-Kanit font-normal text-4xl">
               คำถามที่พบบ่อย
             </span>
-            <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-10">
+            <div className="mx-auto w-full gap-2 flex flex-col max-w-xs md:max-w-md lg:max-w-xl  rounded-2xl bg-white p-3  md:p-10 font-Kanit ">
               {commonQuestions?.map((commonQuestion) => {
                 return (
                   <Disclosure>
                     {({ open }) => (
                       <>
-                        <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                        <Disclosure.Button
+                          className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2
+                         text-left text-sm md:text-md lg:text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none 
+                         focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+                        >
                           <span>{commonQuestion.questionThai}</span>
                           <RiArrowDropDownLine
                             className={`${
@@ -290,7 +293,7 @@ function Index({ cardData, commonQuestions }) {
                             } h-5 w-5 text-purple-500`}
                           />
                         </Disclosure.Button>
-                        <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500 text-left">
+                        <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm md:text-lg text-gray-500 text-left">
                           <span>
                             <PortableText value={commonQuestion.answerThai} />
                           </span>

@@ -6,6 +6,8 @@ import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 import Image from "next/image";
 import { BsFillPeopleFill, BsPeopleFill } from "react-icons/bs";
+import { GiCardRandom } from "react-icons/gi";
+
 import { AiTwotoneStar } from "react-icons/ai";
 import CreateStudent from "../components/form/createStudent";
 import { RxLapTimer } from "react-icons/rx";
@@ -17,7 +19,7 @@ import { GetOneClassroom } from "../service/classroom";
 import { GetUser } from "../service/user";
 import { GetAllStudents } from "../service/students";
 import { useQuery } from "react-query";
-import Unauthorized from "../components/error/unauthorized";
+import RandomStudents from "../components/form/randomStudents";
 function Layout({ children, sideMenus, language }) {
   const router = useRouter();
   const user = useQuery(["user"], () => GetUser());
@@ -300,6 +302,36 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                     )}
                   </Popover.Panel>
                 </div>
+              )}
+            </Popover>
+            <Popover>
+              {({ open }) => (
+                <>
+                  <Popover.Button
+                    onClick={() => {
+                      document.body.style.overflow = "hidden";
+                    }}
+                  >
+                    <button
+                      role="button"
+                      className="font-Kanit flex items-center justify-center gap-2 text-white
+           bg-orange-500 w-max p-3 rounded-xl hover:scale-110 transition duration-150 cursor-pointer"
+                    >
+                      <div className="flex items-center justify-center">
+                        <GiCardRandom />
+                      </div>
+                      <span>
+                        {language === "Thai" && "สุ่มชื่อ"}
+                        {language === "English" && "random student"}
+                      </span>
+                    </button>
+                  </Popover.Button>
+                  <Popover.Panel>
+                    {({ close }) => (
+                      <RandomStudents close={close} language={language} />
+                    )}
+                  </Popover.Panel>
+                </>
               )}
             </Popover>
           </div>
