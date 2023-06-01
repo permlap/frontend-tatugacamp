@@ -21,9 +21,9 @@ import { sideMenusEnglish, sideMenusThai } from "../../../data/menubarsSchool";
 
 function Index({ error, user }) {
   const [sideMenus, setSideMenus] = useState(() => {
-    if (user.language === "Thai") {
+    if (user?.language === "Thai") {
       return sideMenusThai;
-    } else if (user.language === "English") {
+    } else if (user?.language === "English") {
       return sideMenusEnglish;
     }
   });

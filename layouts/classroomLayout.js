@@ -266,7 +266,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
               </div>
               <span>
                 {language === "Thai" && "จับเวลา"}
-                {language === "English" && "Timmer"}
+                {language === "English" && "Timer"}
               </span>
             </div>
             <Popover>

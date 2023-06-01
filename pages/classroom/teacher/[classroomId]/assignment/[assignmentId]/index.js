@@ -83,9 +83,9 @@ function Index({ error, user }) {
   const date = new Date(assignment?.data?.data?.deadline);
   const formattedDate = date.toLocaleDateString(
     `${
-      user.language === "Thai"
+      user?.language === "Thai"
         ? "th-TH"
-        : user.language === "English" && "en-US"
+        : user?.language === "English" && "en-US"
     }`,
     {
       day: "2-digit",
