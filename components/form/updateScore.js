@@ -437,7 +437,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                   <div className="flex flex-col items-center justify-center ">
                     <div className="mb-10 text-xl">
                       {language === "Thai" && "เลือก Avatar ผู้เรียน"}
-                      {language === "English" && "choose student a avatar"}
+                      {language === "English" && "choose student an avatar"}
                     </div>
                     <div className="grid grid-cols-5 gap-4">
                       {avartars.map((avartar, index) => {

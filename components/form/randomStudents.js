@@ -83,11 +83,17 @@ function RandomStudents({
     ({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
       const trigger = velocity > 0.2; // If you flick hard enough it should trigger the card to fly out
       const dir = xDir < 0 ? -1 : 1; // Direction should either point left or right
-      if (!down && trigger) {
+      const x = (0 + window.innerWidth) * dir ? mx : 0;
+
+      if (
+        (!down && trigger) ||
+        (!down && x > window.innerWidth / 10) ||
+        (!down && x < (window.innerWidth / 10) * -1)
+      ) {
         gone.add(index);
         Swal.fire({
-          title: "ยินดีด้วยย คุณคือผู้ถูกเลือก",
-          text: `เลขที่ ${shuffledArray[index].number} ${shuffledArray[index].firstName} ${shuffledArray[index]?.lastName}`,
+          title: `เลขที่ ${shuffledArray[index].number} ${shuffledArray[index].firstName} ${shuffledArray[index]?.lastName}`,
+          text: "ยินดีด้วยย คุณคือผู้ถูกเลือก",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
@@ -138,6 +144,9 @@ function RandomStudents({
       setOutCard(() => []);
       setShuffledArray(() => shuffleArray(newStudents));
       gone.clear();
+      api.start((i) => {
+        return from(i);
+      });
       api.start((i) => {
         return to(i);
       });
@@ -197,6 +206,11 @@ function RandomStudents({
                     onMouseDown={() => {
                       if (isReadyCards) {
                         setActiveCard(i);
+                      }
+                    }}
+                    onMouseUp={() => {
+                      if (isReadyCards) {
+                        setActiveCard("");
                       }
                     }}
                     style={{
