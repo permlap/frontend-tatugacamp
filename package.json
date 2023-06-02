@@ -21,7 +21,7 @@
     "@lottiefiles/react-lottie-player": "^3.5.2",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
-    "@netlify/plugin-nextjs": "^4.37.1",
+    "@netlify/plugin-nextjs": "^4.37.4",
     "@next/font": "^13.0.0",
     "@portabletext/react": "^2.0.0",
     "@prisma/client": "^4.8.1",
