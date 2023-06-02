@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "../styles/globals.css";
 import "../styles/taboo.css";
 import "../styles/auth.css";
-
+import "../styles/card.css";
 import Script from "next/script";
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 const queryClient = new QueryClient({

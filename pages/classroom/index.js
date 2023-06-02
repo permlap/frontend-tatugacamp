@@ -276,9 +276,9 @@ function Index({ cardData, commonQuestions }) {
               คำถามที่พบบ่อย
             </span>
             <div className="mx-auto w-full gap-2 flex flex-col max-w-xs md:max-w-md lg:max-w-xl  rounded-2xl bg-white p-3  md:p-10 font-Kanit ">
-              {commonQuestions?.map((commonQuestion) => {
+              {commonQuestions?.map((commonQuestion, index) => {
                 return (
-                  <Disclosure>
+                  <Disclosure key={index}>
                     {({ open }) => (
                       <>
                         <Disclosure.Button

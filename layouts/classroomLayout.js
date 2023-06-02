@@ -22,6 +22,7 @@ import { useQuery } from "react-query";
 import RandomStudents from "../components/form/randomStudents";
 function Layout({ children, sideMenus, language }) {
   const router = useRouter();
+  const [triggerRandomStudent, setTriggerRandomStudent] = useState(false);
   const user = useQuery(["user"], () => GetUser());
   const classroom = useQuery(
     ["classroom"],
@@ -304,36 +305,34 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
                 </div>
               )}
             </Popover>
-            <Popover>
-              {({ open }) => (
-                <>
-                  <Popover.Button
-                    onClick={() => {
-                      document.body.style.overflow = "hidden";
-                    }}
-                  >
-                    <button
-                      role="button"
-                      className="font-Kanit flex items-center justify-center gap-2 text-white
+            <div>
+              <button
+                onClick={() => {
+                  setTriggerRandomStudent(() => true);
+                  document.body.style.overflow = "hidden";
+                }}
+                role="button"
+                className="font-Kanit flex items-center justify-center gap-2 text-white
            bg-orange-500 w-max p-3 rounded-xl hover:scale-110 transition duration-150 cursor-pointer"
-                    >
-                      <div className="flex items-center justify-center">
-                        <GiCardRandom />
-                      </div>
-                      <span>
-                        {language === "Thai" && "สุ่มชื่อ"}
-                        {language === "English" && "random student"}
-                      </span>
-                    </button>
-                  </Popover.Button>
-                  <Popover.Panel>
-                    {({ close }) => (
-                      <RandomStudents close={close} language={language} />
-                    )}
-                  </Popover.Panel>
-                </>
+              >
+                <div className="flex items-center justify-center">
+                  <GiCardRandom />
+                </div>
+                <span>
+                  {language === "Thai" && "สุ่มชื่อ"}
+                  {language === "English" && "random student"}
+                </span>
+              </button>
+
+              {triggerRandomStudent && (
+                <RandomStudents
+                  classroomId={router?.query?.classroomId}
+                  setTriggerRandomStudent={setTriggerRandomStudent}
+                  students={students?.data?.data}
+                  language={language}
+                />
               )}
-            </Popover>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 grid-cols-2 w-[95%]  md:w-full gap-2 md:gap-0 ">

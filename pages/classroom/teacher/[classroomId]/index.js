@@ -45,23 +45,13 @@ function Index({ user, error }) {
     () => GetAllScoresClassroom({ classroomId: router.query.classroomId }),
     { enabled: false }
   );
-  const [studentsRearrange, setStudentRearrange] = useState(
-    students?.data?.data
-  );
+
   //check whether there is authorrized acccess or not
   useEffect(() => {
     classroom.refetch();
     students.refetch();
     scores.refetch();
   }, [router.isReady]);
-
-  useEffect(() => {
-    setStudentRearrange(() => {
-      return students?.data?.data.sort((a, b) => {
-        return parseInt(a.number) - parseInt(b.number);
-      });
-    });
-  }, [students?.data?.data]);
 
   if (!router.isReady) {
     return <FullScreenLoading />;
@@ -168,7 +158,7 @@ function Index({ user, error }) {
                       </Skeleton>
                     );
                   })
-                : studentsRearrange?.map((student) => {
+                : students?.data?.data.map((student) => {
                     const shortName = student.firstName.replace(
                       /^นาย|^นางสาว|^นาง|^เด็กชาย|^เด็กหญิง|^ด.ช.|^ด.ญ./,
                       ""

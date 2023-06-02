@@ -18,6 +18,7 @@ import { HiLanguage } from "react-icons/hi2";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { sideMenusEng, sideMenusThai } from "../../data/menubarsSetting";
+import Head from "next/head";
 
 const options = ["Thai", "English"];
 
@@ -135,7 +136,10 @@ function Setting({ userServerSide, error }) {
   }
 
   return (
-    <div className="flex font-sans    ">
+    <div className="flex font-sans">
+      <Head>
+        <title>setting - account</title>
+      </Head>
       <Layout sideMenus={sideMenus} user={userData} trigger={chooseMessage} />
       <div
         className={`w-full h-full py-10  mt-10 md:mt-0  flex flex-col items-center md:justify-center

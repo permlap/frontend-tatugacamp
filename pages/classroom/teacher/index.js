@@ -201,7 +201,7 @@ function Index({ error, user }) {
                     rounded-3xl overflow-hidden relative bg-white flex flex-col md:block items-start justify-center "
                   >
                     <div className="text-right mt-2 ">
-                      <dev className="text-3xl absolute right-4 top-3">
+                      <div className="text-3xl absolute right-4 top-3">
                         {!classroom.selected && (
                           <div
                             onClick={() => handleOpenClasssDeleted(index)}
@@ -252,7 +252,7 @@ function Index({ error, user }) {
                             </div>
                           </div>
                         )}
-                      </dev>
+                      </div>
                     </div>
                     <div className="flex flex-col mt-0 pl-10 md:pl-5 md:mt-2 lg:mt-5 mb-10 ">
                       <span className="text-lg text-gray-600 font-light">
