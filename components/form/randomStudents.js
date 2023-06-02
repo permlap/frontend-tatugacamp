@@ -43,9 +43,9 @@ function RandomStudents({
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
+
     return array;
   }
-
   //set random card with the first render only
   useEffect(() => {
     setShuffledArray(() => {
@@ -172,7 +172,8 @@ function RandomStudents({
         (objFirst) =>
           !outCard.some((objSecond) => objSecond.number === objFirst.number)
       );
-      setShuffledArray(() => result);
+      setShuffledArray(() => shuffleArray(result));
+
       localStorage.setItem(`${classroomId}:outCard`, JSON.stringify(outCard));
     }
   }, [outCard]);
@@ -292,7 +293,7 @@ function RandomStudents({
                   <RiShuffleLine />
                 </div>
                 <span className="group-hover:text-white transition duration-100">
-                  {language === "Thai" && "สุ่มใหม่"}
+                  {language === "Thai" && "สับการ์ดใหม่"}
                   {language === "English" && "shuffle"}
                 </span>
               </li>
