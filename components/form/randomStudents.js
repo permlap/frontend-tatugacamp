@@ -5,6 +5,8 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { MdRestartAlt } from "react-icons/md";
 import { RiShuffleLine } from "react-icons/ri";
+import { useAudio, useWindowSize } from "react-use";
+import Confetti from "react-confetti";
 
 const to = (i) => ({
   x: 0,
@@ -38,6 +40,22 @@ function RandomStudents({
   const [outCard, setOutCard] = useState([]);
   const [activeCard, setActiveCard] = useState();
   const [shuffledArray, setShuffledArray] = useState([]);
+  const { width, height } = useWindowSize();
+  const [activeCongrest, setActiveCongrest] = useState(false);
+  const [audioSheer, setAudioSheer] = useState(null);
+  const [audioCard, setAudioCard] = useState(null);
+  const [audioShuffle, setAudioShuffle] = useState(null);
+
+  const sound = {
+    cards: "https://storage.googleapis.com/tatugacamp.com/sound/card.mp3",
+    sheer: "https://storage.googleapis.com/tatugacamp.com/sound/sheer.mp3",
+    shuffle: "https://storage.googleapis.com/tatugacamp.com/sound/shuffle.aac",
+  };
+  // const [soundResorce, setSoundResorce] = useState(sound.sheer);
+  // const [audio, state, controls, ref] = useAudio({
+  //   src: soundResorce,
+  //   autoPlay: true,
+  // });
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -46,8 +64,13 @@ function RandomStudents({
 
     return array;
   }
+
   //set random card with the first render only
   useEffect(() => {
+    setAudioCard(() => new Audio(sound.cards));
+    setAudioSheer(() => new Audio(sound.sheer));
+    setAudioShuffle(() => new Audio(sound.shuffle));
+
     setShuffledArray(() => {
       const shuffledArrayObject = localStorage.getItem(
         `${classroomId}:shuffledArray`
@@ -91,15 +114,21 @@ function RandomStudents({
         (!down && x < (window.innerWidth / 10) * -1)
       ) {
         gone.add(index);
+        setActiveCongrest(() => true);
+        audioSheer.play();
         Swal.fire({
           title: `เลขที่ ${shuffledArray[index].number} ${shuffledArray[index].firstName} ${shuffledArray[index]?.lastName}`,
           text: "ยินดีด้วยย คุณคือผู้ถูกเลือก",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
+          width: "max-content",
           confirmButtonText: "remove",
         }).then((result) => {
           if (result.isConfirmed) {
+            audioSheer.currentTime = 0;
+            audioSheer.pause();
+            setActiveCongrest(() => false);
             setOutCard((prev) => {
               return [
                 ...prev,
@@ -112,6 +141,9 @@ function RandomStudents({
               ];
             });
           } else if (result.dismiss) {
+            audioSheer.currentTime = 0;
+            audioSheer.pause();
+            setActiveCongrest(() => false);
             api.start((i) => {
               if (i !== index) {
                 return null;
@@ -158,6 +190,11 @@ function RandomStudents({
         !outCard.some((objSecond) => objSecond.number === objFirst.number)
     );
     setShuffledArray(() => shuffleArray(result));
+    audioShuffle.play();
+    setTimeout(() => {
+      audioShuffle.pause();
+      audioShuffle.currentTime = 0;
+    }, 500);
     api.start((i) => {
       return from(i);
     });
@@ -189,9 +226,14 @@ function RandomStudents({
 
   return (
     <div
-      className="flex w-screen h-screen font-Kanit bg-transparent  z-40 
+      className="flex  w-screen h-screen font-Kanit bg-transparent  z-40 
     top-0 right-0 left-0 bottom-0 m-auto fixed"
     >
+      {activeCongrest && (
+        <div>
+          <Confetti width={width} height={height} />
+        </div>
+      )}
       <div>
         <div
           className="flex flex-col gap-40 w-max h-max font-Kanit z-20 
@@ -206,11 +248,14 @@ function RandomStudents({
                     {...bind(i)}
                     onMouseDown={() => {
                       if (isReadyCards) {
+                        audioCard.play();
                         setActiveCard(i);
                       }
                     }}
                     onMouseUp={() => {
                       if (isReadyCards) {
+                        audioCard.pause();
+                        audioCard.currentTime = 0;
                         setActiveCard("");
                       }
                     }}
