@@ -183,7 +183,6 @@ function Index({ error, user }) {
             : student?.studentWork?.score,
         };
       });
-      setLoadingComment(true);
       const comment = await GetComments({
         assignmentId: router.query.assignmentId,
         studentId: student.id,
@@ -252,7 +251,7 @@ function Index({ error, user }) {
   const handlePostComment = async (e) => {
     try {
       e.preventDefault();
-      setLoadingComment(true);
+
       await PostComment({
         assignmentId: assignment?.data?.data?.id,
         studentId: currentStudentWork.id,
