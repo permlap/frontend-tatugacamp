@@ -24,6 +24,7 @@ import {
   sideMenusEnglish,
   sideMenusThai,
 } from "../../../../../data/menuBarsAttendance";
+import DowloadExcelAttendacne from "../../../../../components/form/dowloadExcelAttendacne";
 
 function Index({ error, user }) {
   const router = useRouter();
@@ -68,23 +69,6 @@ function Index({ error, user }) {
     });
   };
 
-  const handleDownloadFile = async () => {
-    try {
-      await DownloadExcelAttendance({ classroomId: router.query.classroomId });
-      Swal.fire(
-        "ดาวโหลดสำเร็จ",
-        "ดาวโหลดไฟล์รายงานผลเข้าเรียนเรียบร้อย",
-        "success"
-      );
-    } catch (err) {
-      Swal.fire(
-        "error",
-        err?.props?.response?.data?.message.toString(),
-        "error"
-      );
-      console.log(err);
-    }
-  };
   if (error?.statusCode === 401) {
     return <Unauthorized />;
   }
@@ -96,15 +80,30 @@ function Index({ error, user }) {
       </Head>
       <Layout language={user.language} sideMenus={sideMenus}>
         <div className="w-full h-full mt-10 flex flex-col justify-center items-center pb-10 ">
-          <button
-            className="w-max px-5 flex gap-1 mb-2 hover:scale-105 transition duration-150 active:bg-blue-800 bg-blue-500 font-Poppins font-semibold text-white rounded-lg py-2"
-            onClick={handleDownloadFile}
-          >
-            dowload
-            <div>
-              <SiMicrosoftexcel />
-            </div>
-          </button>
+          <Popover>
+            {({ open }) => (
+              <>
+                <Popover.Button>
+                  <button className="w-max px-5 flex gap-1 mb-2 hover:scale-105 transition duration-150 active:bg-blue-800 bg-blue-500 font-Poppins font-semibold text-white rounded-lg py-2">
+                    dowload
+                    <div>
+                      <SiMicrosoftexcel />
+                    </div>
+                  </button>
+                </Popover.Button>
+
+                <Popover.Panel>
+                  {({ close }) => (
+                    <DowloadExcelAttendacne
+                      close={close}
+                      language={user.language}
+                    />
+                  )}
+                </Popover.Panel>
+              </>
+            )}
+          </Popover>
+
           <div className=" h-full max-h-[40rem] flex flex-col md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
             <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky z-10  top-0 drop-shadow-md ">
               <div className="col-span-1 w-20 flex items-center justify-center mr-5">

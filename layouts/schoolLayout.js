@@ -20,15 +20,18 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
         {({ open }) => (
           <>
             {user && (
-              <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
-                <div
-                  aria-label="Show sidebar"
-                  role="button"
-                  className="text-2xl mt-5 ml-5 fixed z-30 w-10 h-10 
+              <Popover.Button className="w-max  h-max border-none active:border-none z-30 absolute">
+                <div className="flex p-2 ml-2 flex-col justify-center items-center ">
+                  <button
+                    aria-label="Show sidebar"
+                    role="button"
+                    className="text-2xl  z-30 w-10 h-10 
         flex justify-center items-center   text-black drop-shadow cursor-pointer
         hover:scale-125 transition duration-100 ease-in-out "
-                >
-                  <FiSidebar />
+                  >
+                    <FiSidebar />
+                  </button>
+                  <span>menu</span>
                 </div>
               </Popover.Button>
             )}

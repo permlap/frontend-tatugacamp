@@ -2,20 +2,33 @@ import axios from "axios";
 import Error from "next/error";
 import { parseCookies } from "nookies";
 
-export async function DownloadExcelAttendance({ classroomId }) {
+export async function DownloadExcelAttendance({
+  classroomId,
+  absent,
+  present,
+  holiday,
+}) {
   try {
     const cookies = parseCookies();
     const access_token = cookies.access_token;
     axios
-      .get(`${process.env.Server_Url}/excel/download/attendance`, {
-        params: {
-          classroomId: classroomId,
+      .post(
+        `${process.env.Server_Url}/excel/download/attendance`,
+        {
+          absent,
+          present,
+          holiday,
         },
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-        responseType: "blob", // to receive binary data
-      })
+        {
+          params: {
+            classroomId: classroomId,
+          },
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          responseType: "blob", // to receive binary data
+        }
+      )
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
