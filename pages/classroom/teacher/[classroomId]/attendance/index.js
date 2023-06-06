@@ -193,11 +193,14 @@ function Index({ error, user }) {
                 {attendances?.data?.data.map((item, index) => {
                   if (index !== 0) {
                     return (
-                      <tr key={index} className="flex  ">
-                        <td className=" w-24 flex items-center justify-center sticky left-0 bg-white">
+                      <tr
+                        key={index}
+                        className="flex hover:ring-2 hover:bg-slate-200 group"
+                      >
+                        <td className=" w-24 flex items-center justify-center sticky left-0 bg-white group-hover:bg-slate-200">
                           {item.student.number}
                         </td>
-                        <td className=" w-60 text-left flex justify-start items-center sticky left-24 bg-white ">
+                        <td className=" w-60 text-left flex justify-start items-center sticky left-24 bg-white group-hover:bg-slate-200">
                           <span className="text-left">
                             {item.student.firstName} {item.student.lastName}
                           </span>
