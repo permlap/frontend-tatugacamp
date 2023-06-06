@@ -16,7 +16,7 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
       <div className="absolute top-0 right-0 mr-5 mt-5">
         <AuthButton />
       </div>
-      <Popover className="absolute top-0 left-0 mr-5 mt-5 ">
+      <Popover className="fixed z-40 top-0 left-0 mr-5 mt-5 ">
         {({ open }) => (
           <>
             {user && (

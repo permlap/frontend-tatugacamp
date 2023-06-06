@@ -70,7 +70,7 @@ function Layout({ children, sideMenus, language }) {
       <div className="absolute top-0 right-0 mr-5 mt-5">
         <AuthButton />
       </div>
-      <Popover className="absolute top-0 left-0 mr-5 mt-5 ">
+      <Popover className="fixed top-0 left-0 mr-5 mt-5 z-40 ">
         {({ open }) => (
           <>
             {!user.isError && user?.data?.status === 200 && (

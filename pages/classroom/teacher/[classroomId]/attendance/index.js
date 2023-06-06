@@ -104,144 +104,118 @@ function Index({ error, user }) {
             )}
           </Popover>
 
-          <div className=" h-full max-h-[40rem] flex flex-col md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
-            <div className="grid grid-cols-12 place-items-center py-3 bg-white w-max sticky z-10  top-0 drop-shadow-md ">
-              <div className="col-span-1 w-20 flex items-center justify-center mr-5">
-                {user.language === "Thai" && "เลขที่"}
-                {user.language === "English" && "number"}
-              </div>
-              <div className="col-span-2 w-60 text-center items-center justify-center flex">
-                <span className="text-center">
-                  {user.language === "Thai" && "รายชื่อ"}
-                  {user.language === "English" && "student's name"}
-                </span>
-              </div>
-              <div className="col-span-9 flex w-full gap-5 ">
-                {attendances?.data?.data.map((item, index) => {
-                  if (index === 0) {
-                    return (
-                      <div
-                        key={index}
-                        className="col-span-9 flex w-full gap-5 "
-                      >
-                        {item.dateTimes.map((status) => {
-                          const date = new Date(status.date);
-                          const formattedDate = date.toLocaleDateString(
-                            `${
-                              user.language === "Thai"
-                                ? "th-TH"
-                                : user.language === "English" && "en-US"
-                            }`,
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            }
-                          );
-
-                          return (
-                            <div
-                              onClick={() =>
-                                handleDeleteAttendance({
-                                  groupId: status.groupId,
-                                })
-                              }
-                              key={status.groupId}
-                              className="w-24 ring-2 ring-black rounded-lg ring-offset-2  h-8 flex items-center justify-center group cursor-pointer "
-                            >
-                              <div className="w-24 text-sm flex items-center justify-center py-1 rounded-lg text-black">
-                                <span className="block group-hover:hidden">
-                                  {formattedDate}
-                                </span>
-                                <div
-                                  className="group-hover:visible invisible h-0 w-0 flex items-center text-black group-hover:text-red-500 
-                                justify-center group-hover:w-5 group-hover:scale-150 transition duration-150"
-                                >
-                                  <MdDelete />
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                })}
-              </div>
+          {attendances.isLoading ? (
+            <div className="flex flex-col gap-5 mt-5">
+              <Skeleton variant="rectangular" width={700} height={40} />
+              <Skeleton variant="rectangular" width={600} height={40} />
+              <Skeleton variant="rectangular" width={800} height={40} />
             </div>
-            {attendances.isLoading ? (
-              <div className="flex flex-col gap-5 items-center">
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-                <div className="w-full flex justify-center items-center gap-5">
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="text" width="80%" height={40} />
-                </div>
-              </div>
-            ) : (
-              attendances?.data?.data.map((item, index) => {
-                if (index !== 0) {
-                  return (
-                    <div
-                      key={index}
-                      className="grid grid-cols-12 place-items-center mt-2 w-max "
-                    >
-                      <div className="col-span-1 w-20 flex items-center justify-center mr-5">
-                        {item.student.number}
-                      </div>
-                      <div className="col-span-2 w-60 text-left flex ">
-                        <span className="text-left">
-                          {item.student.firstName} {item.student.lastName}
-                        </span>
-                      </div>
-                      <div className="col-span-9 flex w-full gap-5 ">
+          ) : (
+            <table className=" h-full max-h-[40rem] flex flex-col md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
+              <thead className="w-max sticky top-0 bg-white h-max py-3 z-10">
+                <tr className="flex ">
+                  <th className="flex w-24  items-center justify-center">
+                    {user.language === "Thai" && "เลขที่"}
+                    {user.language === "English" && "number"}
+                  </th>
+                  <th className="w-60 flex items-center justify-center ">
+                    <span className="text-center">
+                      {user.language === "Thai" && "รายชื่อ"}
+                      {user.language === "English" && "student's name"}
+                    </span>
+                  </th>
+
+                  {attendances?.data?.data?.[0].dateTimes.map(
+                    (status, index) => {
+                      const date = new Date(status.date);
+                      const formattedDate = date.toLocaleDateString(
+                        `${
+                          user.language === "Thai"
+                            ? "th-TH"
+                            : user.language === "English" && "en-US"
+                        }`,
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      );
+                      return (
+                        <th
+                          onClick={() =>
+                            handleDeleteAttendance({
+                              groupId: status.groupId,
+                            })
+                          }
+                          key={status.groupId}
+                          className="w-28 font-normal  flex items-center justify-center rounded-lg  h-8  group cursor-pointer "
+                        >
+                          <span className="block group-hover:hidden">
+                            {formattedDate}
+                          </span>
+                          <div
+                            className="group-hover:visible invisible h-0 w-0 flex items-center text-black group-hover:text-red-500 
+                                justify-center group-hover:w-5 group-hover:scale-150 transition duration-150"
+                          >
+                            <MdDelete />
+                          </div>
+                        </th>
+                      );
+                    }
+                  )}
+                  <th className="w-36 flex items-center justify-center ">
+                    <span className="text-center">
+                      {user.language === "Thai" && "จำนวนเข้าเรียน"}
+                      {user.language === "English" && "Present"}
+                    </span>
+                  </th>
+                  <th className="w-36 flex items-center justify-center ">
+                    <span className="text-center">
+                      {user.language === "Thai" && "จำนวนลา"}
+                      {user.language === "English" && "take a leave"}
+                    </span>
+                  </th>
+                  <th className="w-36 flex items-center justify-center ">
+                    <span className="text-center">
+                      {user.language === "Thai" && "จำนวนขาดเรียน"}
+                      {user.language === "English" && "absent"}
+                    </span>
+                  </th>
+                  <th className="w-36 flex items-center justify-center ">
+                    <span className="text-center">
+                      {user.language === "Thai" && "เปอร์เซ็นมาเรียน"}
+                      {user.language === "English" && "Percentage of present"}
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="w-max">
+                {attendances?.data?.data.map((item, index) => {
+                  if (index !== 0) {
+                    return (
+                      <tr key={index} className="flex  ">
+                        <td className=" w-24 flex items-center justify-center sticky left-0 bg-white">
+                          {item.student.number}
+                        </td>
+                        <td className=" w-60 text-left flex justify-start items-center sticky left-24 bg-white ">
+                          <span className="text-left">
+                            {item.student.firstName} {item.student.lastName}
+                          </span>
+                        </td>
+
                         {item.data.map((status) => {
                           return (
                             <Popover key={status.id}>
                               {({ open }) => (
-                                <div>
+                                <td className="w-max flex items-center justify-center">
                                   <Popover.Button
                                     onClick={() => {
                                       document.body.style.overflow = "hidden";
                                     }}
                                   >
-                                    <div className="w-24 flex items-center justify-center ">
+                                    <div className="w-28  flex items-center justify-center ">
                                       {status.present && (
-                                        <div className="bg-green-600 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                        <div className="bg-green-600 w-full items-center justify-center py-1  text-white">
                                           {user.language === "Thai" &&
                                             "มาเรียน"}
                                           {user.language === "English" &&
@@ -249,14 +223,14 @@ function Index({ error, user }) {
                                         </div>
                                       )}
                                       {status.absent && (
-                                        <div className="bg-red-600 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                        <div className="bg-red-600 w-full flex items-center justify-center py-1  text-white">
                                           {user.language === "Thai" && "ขาด"}
                                           {user.language === "English" &&
                                             "Absent"}
                                         </div>
                                       )}
                                       {status.holiday && (
-                                        <div className="bg-yellow-500 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                        <div className="bg-yellow-500 w-full flex items-center justify-center py-1  text-white">
                                           {user.language === "Thai" && "ลา"}
                                           {user.language === "English" &&
                                             "Take a leave"}
@@ -265,7 +239,7 @@ function Index({ error, user }) {
                                       {!status.holiday &&
                                         !status.absent &&
                                         !status.present && (
-                                          <div className="bg-gray-600 w-24 flex items-center justify-center py-1 rounded-lg text-white">
+                                          <div className="bg-gray-600 w-full flex items-center justify-center py-1  text-white">
                                             {user.language === "Thai" &&
                                               "ไม่มีข้อมูล"}
                                             {user.language === "English" &&
@@ -285,27 +259,46 @@ function Index({ error, user }) {
                                       />
                                     )}
                                   </Popover.Panel>
-                                </div>
+                                </td>
                               )}
                             </Popover>
                           );
                         })}
-                      </div>
-                    </div>
-                  );
-                }
-              })
-            )}
-
-            {attendances?.data?.data[0].dateTimes.length === 0 && (
-              <div className="w-full flex items-center justify-center h-96 text-8xl">
-                <span>ไม่มีข้อมูล</span>
-                <div className="text-red-400">
-                  <BiMessageAltError />
-                </div>
+                        <td className="w-36 flex items-center justify-center ">
+                          <span className="text-center">
+                            {item.statistics.number.present}
+                          </span>
+                        </td>
+                        <td className="w-36 flex items-center justify-center ">
+                          <span className="text-center">
+                            {item.statistics.number.holiday}
+                          </span>
+                        </td>
+                        <td className="w-36 flex items-center justify-center ">
+                          <span className="text-center">
+                            {item.statistics.number.absent}
+                          </span>
+                        </td>
+                        <td className="w-36 flex items-center justify-center ">
+                          <span className="text-center">
+                            {item.statistics.percent.present.toFixed(2)}%
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  }
+                })}
+              </tbody>
+            </table>
+          )}
+          {attendances?.data?.data[0].dateTimes.length === 0 && (
+            <div className="w-full flex items-center justify-center h-96 text-8xl">
+              <span>ไม่มีข้อมูล</span>
+              <div className="text-red-400">
+                <BiMessageAltError />
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </Layout>
     </div>
