@@ -294,6 +294,12 @@ function Index({ error, user }) {
               </tbody>
             </table>
           )}
+          <span className="text-center font-Kanit text-xl font-semibold mt-2">
+            {user.language === "Thai" &&
+              `จำนวนครูสอนทั้งหมด ${attendances?.data?.data?.[0]?.sum} คาบ`}
+            {user.language === "English" &&
+              `The teacher has taught this class for ${attendances?.data?.data?.[0]?.sum} periods`}
+          </span>
           {attendances?.data?.data[0].dateTimes.length === 0 && (
             <div className="w-full flex items-center justify-center h-96 text-8xl">
               <span>ไม่มีข้อมูล</span>
