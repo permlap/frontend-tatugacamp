@@ -9,7 +9,6 @@ import Script from "next/script";
 import { sanityClient, urlFor } from "../sanity";
 import { useQuery } from "react-query";
 import axios from "axios";
-import Facebook from "../components/facebook";
 import SearchAutoComplete from "../components/search/searchAutoComplete";
 import Loading from "../components/loading/loading";
 import Layout from "../components/layout";
@@ -79,7 +78,6 @@ export default function Home({ post, blurData }) {
 
   return (
     <div>
-      <Facebook />
       <Layout>
         <Head>
           <title>Tatuga camp</title>
