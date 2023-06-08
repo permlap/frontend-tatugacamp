@@ -7,6 +7,7 @@ import { IoCaretBackOutline, IoHome } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { GetAllAssignment } from "../../../../service/student/assignment";
+import { Skeleton } from "@mui/material";
 
 function Index() {
   const [classroomCode, setClassroomCode] = useState();
@@ -105,6 +106,9 @@ function Index() {
           </div>
         )}
         <div className="grid grid-cols-1 gap-4 place-items-center w-full pb-40 max-w-xl	">
+          {assignments.isLoading && (
+            <Skeleton variant="rectangular" width={200} height={50} />
+          )}
           {assignments?.data?.data?.map((assignment) => {
             return (
               <div

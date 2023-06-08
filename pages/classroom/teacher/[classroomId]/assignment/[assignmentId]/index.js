@@ -470,7 +470,8 @@ function Index({ error, user }) {
                       </div>
                     </li>
                     <div className=" md:h-screen w-full overflow-auto">
-                      {studentOnAssignments.isLoading ? (
+                      {studentOnAssignments.isLoading ||
+                      studentOnAssignments.isFetching ? (
                         <div className="flex flex-col  items-center justify-start mt-5 gap-5">
                           <Skeleton
                             variant="rounded"
