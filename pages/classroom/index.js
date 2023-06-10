@@ -277,7 +277,7 @@ function Index({ cardData, commonQuestions }) {
               คำถามที่พบบ่อย
             </span>
             <div className="mx-auto w-full gap-2 flex flex-col max-w-xs md:max-w-md lg:max-w-xl  rounded-2xl bg-white p-3  md:p-10 font-Kanit ">
-              {/* {commonQuestions?.map((commonQuestion, index) => {
+              {commonQuestions?.map((commonQuestion, index) => {
                 return (
                   <Disclosure key={index}>
                     {({ open }) => (
@@ -306,7 +306,7 @@ function Index({ cardData, commonQuestions }) {
                     )}
                   </Disclosure>
                 );
-              })} */}
+              })}
             </div>
           </section>
         </main>
@@ -361,5 +361,6 @@ export async function getStaticProps(ctx) {
       cardData: blurData,
       commonQuestions,
     },
+    revalidate: 60,
   };
 }
