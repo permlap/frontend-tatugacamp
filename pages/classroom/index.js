@@ -16,6 +16,7 @@ import { Disclosure } from "@headlessui/react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { sanityClient } from "../../sanity";
 import { PortableText } from "@portabletext/react";
+import { myPortableTextComponents } from "../../data/portableContent";
 function Index({ cardData, commonQuestions }) {
   const router = useRouter();
   const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
@@ -295,7 +296,10 @@ function Index({ cardData, commonQuestions }) {
                         </Disclosure.Button>
                         <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm md:text-lg text-gray-500 text-left">
                           <span>
-                            <PortableText value={commonQuestion.answerThai} />
+                            <PortableText
+                              value={commonQuestion.answerThai}
+                              components={myPortableTextComponents}
+                            />
                           </span>
                         </Disclosure.Panel>
                       </>
@@ -357,5 +361,6 @@ export async function getStaticProps(ctx) {
       cardData: blurData,
       commonQuestions,
     },
+    revalidate: 10,
   };
 }
