@@ -259,7 +259,12 @@ function Index({ error, user }) {
   const handlePostComment = async (e) => {
     try {
       e.preventDefault();
-
+      setTeacherReview((prev) => {
+        return {
+          ...prev,
+          comment: "",
+        };
+      });
       await PostComment({
         assignmentId: assignment?.data?.data?.id,
         studentId: currentStudentWork.id,
@@ -283,11 +288,18 @@ function Index({ error, user }) {
   const handleOnChangeReviewWork = (e) => {
     const { name, value } = e.target;
 
-    if (value === "" || validateScore(value)) {
+    if (value === "" || (validateScore(value) && name === "score")) {
       setTeacherReview((prev) => {
         return {
           ...prev,
-          [name]: value,
+          score: value,
+        };
+      });
+    } else if (name === "comment") {
+      setTeacherReview((prev) => {
+        return {
+          ...prev,
+          comment: value,
         };
       });
     }
@@ -729,6 +741,74 @@ function Index({ error, user }) {
                       </div>
                     )}
                   </div>
+                  {currentStudentWork?.studentWork?.body && (
+                    <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                      <div className="flex gap-2 md:ml-2 lg:ml-20">
+                        {currentStudentWork?.picture ? (
+                          <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                            <Image
+                              src={currentStudentWork?.picture}
+                              alt="profile"
+                              layout="fill"
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                            <span className="uppercase font-sans font-black text-3xl text-white">
+                              {currentStudentWork?.firstName.charAt(0)}
+                            </span>
+                          </div>
+                        )}
+                        <div className="w-max max-w-[10rem] lg:max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                          <div className="text-md ml-4 font-bold first-letter:uppercase">
+                            {currentStudentWork?.firstName}
+                            {currentStudentWork?.lastName}
+                          </div>
+                          <div
+                            className="pl-4 break-words "
+                            dangerouslySetInnerHTML={{
+                              __html: currentStudentWork?.studentWork?.body,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {currentStudentWork?.studentWork?.comment && (
+                    <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                      <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
+                        {user.picture ? (
+                          <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                            <Image
+                              src={user.picture}
+                              alt="profile"
+                              layout="fill"
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                            <span className="uppercase font-sans font-black text-3xl text-white">
+                              {user.firstName.charAt(0)}
+                            </span>
+                          </div>
+                        )}
+                        <div className="w-max md:max-w-[15rem] lg:max-w-xl  pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
+                          <div className="text-md ml-4 font-bold first-letter:uppercase">
+                            {user.firstName}
+                            {user?.lastName}
+                          </div>
+                          <div
+                            className="pl-4 break-words "
+                            dangerouslySetInnerHTML={{
+                              __html: currentStudentWork?.studentWork?.comment,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   {comment?.map((comment) => {
                     if (comment.user) {
                       return (
