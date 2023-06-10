@@ -17,6 +17,8 @@ import { sanityClient } from "../../sanity";
 import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../data/portableContent";
 import axios from "axios";
+import { cardData } from "../../data/card-classroom";
+
 function Index({ commonQuestions }) {
   const router = useRouter();
   const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
@@ -25,7 +27,6 @@ function Index({ commonQuestions }) {
   const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคลาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
   const [domLoaded, setDomLoaded] = useState(false);
   const [classroomCode, setClassroomCode] = useState();
-  const [cardData, setCardData] = useState();
   const style = {
     height: "100%",
   };
@@ -39,14 +40,6 @@ function Index({ commonQuestions }) {
   function handleVideoReady() {
     setLoading(false);
   }
-
-  useEffect(() => {
-    const fetchCardData = async () => {
-      const cardData = await axios.get("/api/blueDataUrl");
-      setCardData(() => cardData.data.blurData);
-    };
-    fetchCardData();
-  }, []);
 
   return (
     <div className="md:h-full bg-gradient-to-b  from-white from-20% to-80%   to-blue-500   bg-cover pb-20">
@@ -198,7 +191,7 @@ function Index({ commonQuestions }) {
             </span>
           </div>
           <div className="lg:w-full md:w-[95%] gap-8 md:flex-row flex-col  flex md:gap-5  lg:gap-10 items-center justify-center py-4 ">
-            {cardData?.map((list, index) => {
+            {cardData.map((list, index) => {
               return (
                 <div
                   key={index}
