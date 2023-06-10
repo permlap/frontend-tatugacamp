@@ -5,7 +5,6 @@ import Lottie from "lottie-react";
 import * as teacherAnimation from "../../components/98349-teacher-in-classroom.json";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { returnProps } from "../../utils/imageMetadata";
 import { useQuery } from "react-query";
 import { GetNumberStudent, GetNumberUsers } from "../../service/overview/users";
 import { useInView } from "react-intersection-observer";
@@ -17,7 +16,8 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { sanityClient } from "../../sanity";
 import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../data/portableContent";
-function Index({ cardData, commonQuestions }) {
+import axios from "axios";
+function Index({ commonQuestions }) {
   const router = useRouter();
   const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
   const studentNumber = useQuery(["studentNumber"], () => GetNumberStudent());
@@ -25,6 +25,7 @@ function Index({ cardData, commonQuestions }) {
   const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคลาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
   const [domLoaded, setDomLoaded] = useState(false);
   const [classroomCode, setClassroomCode] = useState();
+  const [cardData, setCardData] = useState();
   const style = {
     height: "100%",
   };
@@ -38,6 +39,15 @@ function Index({ cardData, commonQuestions }) {
   function handleVideoReady() {
     setLoading(false);
   }
+
+  useEffect(() => {
+    const fetchCardData = async () => {
+      const cardData = await axios.get("/api/blueDataUrl");
+      setCardData(() => cardData.data.blurData);
+    };
+    fetchCardData();
+  }, []);
+
   return (
     <div className="md:h-full bg-gradient-to-b  from-white from-20% to-80%   to-blue-500   bg-cover pb-20">
       <Head>
@@ -322,43 +332,11 @@ function Index({ cardData, commonQuestions }) {
 
 export default Index;
 
-export async function getStaticProps(ctx) {
+export async function getServerSideProps(ctx) {
   const query = `*[_type == "commonQuestions"]`;
-  const cardData = [
-    {
-      title: "No login required for student",
-      picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3064.PNG",
-      description: " Students can submit their homework without logging in.",
-    },
-    {
-      title: "Gamification in classroom",
-      picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
-      description:
-        "Our platform incorporates gamification to make teaching a fantastic experience.",
-    },
-    {
-      title: "Export your data to Excel",
-      picture:
-        "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3062.PNG",
-      description:
-        "With our platform, you can easily export your data to Excel",
-    },
-  ];
-  const blurData = await Promise.all(
-    cardData.map(async (item) => {
-      const imageProps = await returnProps(item.picture);
-
-      // This will return the image a well as the needed plaiceholder
-      // info in the same object within the array 🤯
-      return { ...item, imageProps };
-    })
-  );
   const commonQuestions = await sanityClient.fetch(query);
   return {
     props: {
-      cardData: blurData,
       commonQuestions,
     },
   };
