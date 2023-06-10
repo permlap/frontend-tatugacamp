@@ -9,6 +9,7 @@ import taboo from "./taboo";
 import categoryTaboo from "./categoryTaboo";
 import members from "./members";
 import commonQuestions from "./commonQuestions";
+import whatsNews from "./whatsNews";
 export const schemaTypes = [
   post,
   author,
@@ -21,4 +22,5 @@ export const schemaTypes = [
   categoryTaboo,
   members,
   commonQuestions,
+  whatsNews,
 ];

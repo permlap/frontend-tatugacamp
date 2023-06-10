@@ -18,6 +18,7 @@ import {
   SideMenusThai,
   sideMenusEnglish,
 } from "../../../../data/menubarsClassroom";
+import { BiNews } from "react-icons/bi";
 
 function Index({ user, error }) {
   const router = useRouter();

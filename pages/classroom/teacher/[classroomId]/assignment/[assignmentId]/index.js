@@ -25,6 +25,14 @@ import Head from "next/head.js";
 import { GetComments, PostComment } from "../../../../../../service/comment.js";
 import SendIcon from "@mui/icons-material/Send";
 import { parseCookies } from "nookies";
+
+const MAX_DECIMAL_PLACES = 2; // Maximum number of decimal places allowed
+
+const validateScore = (value) => {
+  const regex = new RegExp(`^[0-9]+(\\.[0-9]{0,${MAX_DECIMAL_PLACES}})?$`);
+  return regex.test(value);
+};
+
 function Index({ error, user }) {
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
@@ -274,12 +282,15 @@ function Index({ error, user }) {
 
   const handleOnChangeReviewWork = (e) => {
     const { name, value } = e.target;
-    setTeacherReview((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+
+    if (value === "" || validateScore(value)) {
+      setTeacherReview((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    }
   };
   if (error?.statusCode === 401) {
     return <Unauthorized />;
@@ -617,7 +628,7 @@ function Index({ error, user }) {
                               ? "คะแนน"
                               : user.language === "English" && "score"
                           }
-                          type="number"
+                          type="text"
                           name="score"
                           value={teacherReview.score}
                           onChange={handleOnChangeReviewWork}

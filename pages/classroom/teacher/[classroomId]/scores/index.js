@@ -166,6 +166,9 @@ function Index({ user, error }) {
                 </thead>
                 <tbody>
                   {studentsScores?.data?.data?.studentsScores.map((student) => {
+                    const totalScore =
+                      student.totalPoints + student.score.totalPoints;
+
                     return (
                       <tr
                         key={student.id}
@@ -190,7 +193,7 @@ function Index({ user, error }) {
                           {student.score.totalPoints}
                         </td>
                         <td className="px-6 py-4 text-center">
-                          {student.totalPoints + student.score.totalPoints}
+                          {totalScore.toFixed(2)}
                         </td>
                       </tr>
                     );

@@ -18,8 +18,12 @@ import { parseCookies } from "nookies";
 import Swal from "sweetalert2";
 import FeedbackSankbar from "../../../components/feedback/snackbar";
 import { sideMenusEnglish, sideMenusThai } from "../../../data/menubarsSchool";
+import { BiNews } from "react-icons/bi";
+import { sanityClient } from "../../../sanity";
+import { myPortableTextComponents } from "../../../data/portableContent";
+import { PortableText } from "@portabletext/react";
 
-function Index({ error, user }) {
+function Index({ error, user, whatsNews }) {
   const [sideMenus, setSideMenus] = useState(() => {
     if (user?.language === "Thai") {
       return sideMenusThai;
@@ -29,6 +33,7 @@ function Index({ error, user }) {
   });
   const router = useRouter();
   const [classroomState, setClassroomState] = useState();
+  const [isViewNews, setIsViewNews] = useState(false);
   const classrooms = useQuery(["classrooms"], () =>
     GetAllClassrooms().then((res) => {
       setClassroomState((prev) => (prev = res?.data));
@@ -40,6 +45,15 @@ function Index({ error, user }) {
     classrooms.refetch();
   });
 
+  useEffect(() => {
+    const viewNews = localStorage.getItem("IsViewNews");
+    console.log(whatsNews[whatsNews.length - 1]);
+    if (viewNews === whatsNews[whatsNews.length - 1]._id) {
+      setIsViewNews(() => true);
+    } else {
+      setIsViewNews(() => false);
+    }
+  }, []);
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
     const newItems = classroomState.map((item, i) => {
@@ -70,8 +84,14 @@ function Index({ error, user }) {
   if (error?.statusCode === 401) {
     return <Unauthorized />;
   }
+
+  const handleReadNews = () => {
+    localStorage.setItem("IsViewNews", whatsNews[whatsNews.length - 1]._id);
+    setIsViewNews(() => true);
+  };
+
   return (
-    <div className="bg-white w-full h-full font-Kanit">
+    <div className="bg-white lg:w-full lg:h-full md:h-screen font-Kanit">
       <Head>
         <meta property="og:title" content={`TaTuga class`} />
         <meta
@@ -103,6 +123,77 @@ function Index({ error, user }) {
       >
         <Layout user={user} sideMenus={sideMenus} />
         <FeedbackSankbar language={user.language} />
+        <Popover>
+          {({ open }) => (
+            <div className="fixed bottom-20 right-7 flex justify-center z-10 items-end flex-col ">
+              <Popover.Panel>
+                {({ close }) => {
+                  return (
+                    <div
+                      className=" bg-gradient-to-r from-slate-50 to-blue-100 mb-2 p-5
+                     w-max max-w-3xl h-max max-h-96 rounded-xl overflow-y-auto"
+                    >
+                      <ul className="list-none pl-0">
+                        {whatsNews.map((news) => {
+                          const date = new Date(news._createdAt);
+                          const formattedDate = date.toLocaleDateString(
+                            `${
+                              user.language === "Thai"
+                                ? "th-TH"
+                                : user.language === "English" && "en-US"
+                            }`,
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          );
+                          return (
+                            <li
+                              key={news._id}
+                              className="w-max max-w-2xl mt-2  flex flex-col"
+                            >
+                              <h4 className="">{formattedDate}</h4>
+                              <PortableText
+                                value={
+                                  user.language === "Thai"
+                                    ? news.NewsThai
+                                    : user.language === "English" &&
+                                      news.NewsEnglish
+                                }
+                                components={myPortableTextComponents}
+                              />
+                              <div className="w-full h-[2px] mt-2 bg-orange-400"></div>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  );
+                }}
+              </Popover.Panel>
+              <Popover.Button
+                onClick={handleReadNews}
+                className="flex justify-center items-center gap-2 group hover:ring-2 active:ring-4 hover:bg-slate-200 bg-white p-3 rounded-xl drop-shadow-md"
+              >
+                <div className="relative flex items-center justify-center">
+                  {!isViewNews && (
+                    <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-sky-400 opacity-75"></span>
+                  )}
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                </div>
+
+                <span>
+                  {user.language === "Thai" && "มีอะไรใหม่?"}
+                  {user.language === "English" && "What's news?"}
+                </span>
+                <div className="text-xl flex items-center justify-center">
+                  <BiNews />
+                </div>
+              </Popover.Button>
+            </div>
+          )}
+        </Popover>
         <div
           className={`flex justify-center items-center md:items-start    lg:items-center  w-full h-full`}
         >
@@ -299,7 +390,9 @@ export async function getServerSideProps(context) {
   const { req, res, query } = context;
   const cookies = parseCookies(context);
   const accessToken = cookies.access_token;
-
+  const querySanity = `*[_type == "whatsNews"]`;
+  const whatsNews = await sanityClient.fetch(querySanity);
+  whatsNews.sort((a, b) => Date.parse(a._createAt) - Date.parse(b._createAt));
   if (!accessToken && !query.access_token) {
     return {
       props: {
@@ -319,6 +412,7 @@ export async function getServerSideProps(context) {
       return {
         props: {
           user,
+          whatsNews,
         },
       };
     } catch (err) {
@@ -340,6 +434,7 @@ export async function getServerSideProps(context) {
       return {
         props: {
           user,
+          whatsNews,
         },
       };
     } catch (err) {
