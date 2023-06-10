@@ -361,6 +361,5 @@ export async function getStaticProps(ctx) {
       cardData: blurData,
       commonQuestions,
     },
-    revalidate: 60,
   };
 }
