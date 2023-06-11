@@ -46,12 +46,13 @@ function Index({ error, user, whatsNews }) {
   });
 
   useEffect(() => {
-    const viewNews = localStorage.getItem("IsViewNews");
-    console.log(whatsNews[whatsNews.length - 1]);
-    if (viewNews === whatsNews[whatsNews.length - 1]._id) {
-      setIsViewNews(() => true);
-    } else {
-      setIsViewNews(() => false);
+    if (user) {
+      const viewNews = localStorage.getItem("IsViewNews");
+      if (viewNews === whatsNews[whatsNews.length - 1]._id) {
+        setIsViewNews(() => true);
+      } else {
+        setIsViewNews(() => false);
+      }
     }
   }, []);
   //handle open make sure to delete classroom
