@@ -18,7 +18,6 @@ import {
   SideMenusThai,
   sideMenusEnglish,
 } from "../../../../data/menubarsClassroom";
-import { BiNews } from "react-icons/bi";
 
 function Index({ user, error }) {
   const router = useRouter();
@@ -130,6 +129,7 @@ function Index({ user, error }) {
                           classroomScore={true}
                           scores={scores.data}
                           students={students}
+                          refetchScores={scores.refetch}
                         />
                       )}
                     </Popover.Panel>

@@ -33,7 +33,7 @@ function CreateScore({
         emoji: scoreForm.emoji,
         classroomId: classroomId,
       });
-      setTriggerCreateNewScore(false);
+      setTriggerCreateNewScore(() => false);
       refetchScores();
     } catch (err) {
       console.log(err);
