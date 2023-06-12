@@ -481,9 +481,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
               {classroomScore === true && language === "English" && (
                 <p>give a class score</p>
               )}
-              {language === "Thai" && !classroomScore && (
-                <p>คะแนนความประพฤติ</p>
-              )}
+              {language === "Thai" && !classroomScore && <p>คะแนนพิเศษ</p>}
               {language === "English" && !classroomScore && (
                 <p>give student a motivative score</p>
               )}

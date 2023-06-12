@@ -25,8 +25,11 @@ function UpdateAttendance({
     if (attendanceData.holiday) {
       setActiveAttendance(1);
     }
-    if (attendanceData.absent) {
+    if (attendanceData.sick) {
       setActiveAttendance(2);
+    }
+    if (attendanceData.absent) {
+      setActiveAttendance(3);
     }
     setReCheck(() => {
       return {
@@ -49,6 +52,11 @@ function UpdateAttendance({
       bgColor: "bg-yellow-500",
     },
     {
+      titleThai: "ป่วย",
+      titleEnglish: "sick",
+      bgColor: "bg-blue-500",
+    },
+    {
       titleThai: "ขาด",
       titleEnglish: "Absent",
       bgColor: "bg-red-500",
@@ -62,6 +70,7 @@ function UpdateAttendance({
         absent: reCheck.absent,
         present: reCheck.present,
         holiday: reCheck.holiday,
+        sick: reCheck.sick,
       });
       attendances.refetch();
       Swal.fire("success", "attendance has been updated", "success");
@@ -109,18 +118,28 @@ function UpdateAttendance({
                           absent: false,
                           present: true,
                           holiday: false,
+                          sick: false,
                         };
                       } else if (index === 1) {
                         return {
                           absent: false,
                           present: false,
                           holiday: true,
+                          sick: false,
                         };
                       } else if (index === 2) {
+                        return {
+                          absent: false,
+                          present: false,
+                          holiday: false,
+                          sick: true,
+                        };
+                      } else if (index === 3) {
                         return {
                           absent: true,
                           present: false,
                           holiday: false,
+                          sick: false,
                         };
                       }
                     });

@@ -105,13 +105,19 @@ function Index({ user, error }) {
               </div>
             ) : (
               <table className="border-collapse w-max ">
-                <thead className="sticky top-0 bg-white drop-shadow-lg">
+                <thead className="sticky z-10 top-0 bg-white drop-shadow-lg">
                   <tr className="border-b border-0 border-solid border-slate-700">
-                    <th scope="col" className="px-6 py-3 w-20">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 w-20 sticky left-0 bg-white"
+                    >
                       {user.language === "Thai" && "เลขที่"}
                       {user.language === "English" && "number"}
                     </th>
-                    <th scope="col" className="px-6 py-3 w-60">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 w-60 left-20 sticky bg-white"
+                    >
                       {user.language === "Thai" && "รายชื่อ"}
                       {user.language === "English" && "student's name"}
                     </th>
@@ -155,12 +161,16 @@ function Index({ user, error }) {
                       }
                     )}
                     <th scope="col" className="px-6 py-3 w-28">
-                      {user.language === "Thai" && "คะแนนความประพฤติ"}
+                      {user.language === "Thai" && "คะแนนพิเศษ"}
                       {user.language === "English" && "motivative scores"}
                     </th>
                     <th scope="col" className="px-6 py-3 w-20">
                       {user.language === "Thai" && "รวม"}
                       {user.language === "English" && "sum"}
+                    </th>
+                    <th scope="col" className="px-6 py-3 w-20">
+                      {user.language === "Thai" && "เกรด"}
+                      {user.language === "English" && "grade"}
                     </th>
                   </tr>
                 </thead>
@@ -172,12 +182,15 @@ function Index({ user, error }) {
                     return (
                       <tr
                         key={student.id}
-                        className="border-b border-0 border-solid border-slate-700"
+                        className="border-b border-0 hover:bg-slate-200 group border-solid border-slate-700"
                       >
-                        <th scope="row" className="px-6 py-4 text-center">
+                        <th
+                          scope="row"
+                          className="px-6 py-4 text-center bg-white group-hover:bg-slate-200 sticky left-0"
+                        >
                           {student.number}
                         </th>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 sticky left-20 bg-white group-hover:bg-slate-200 ">
                           {student.firstName} {student?.lastName}
                         </td>
                         {student.studentWorks.map((studentWork, index) => {
@@ -194,6 +207,9 @@ function Index({ user, error }) {
                         </td>
                         <td className="px-6 py-4 text-center">
                           {totalScore.toFixed(2)}
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          {student.grade}
                         </td>
                       </tr>
                     );

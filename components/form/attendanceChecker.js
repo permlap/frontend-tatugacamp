@@ -24,7 +24,12 @@ function AttendanceChecker({ close, students, language }) {
       students?.data?.data?.map((student) => {
         return {
           ...student,
-          [student.id]: { absent: false, present: false, holiday: false },
+          [student.id]: {
+            absent: false,
+            present: false,
+            holiday: false,
+            sick: false,
+          },
         };
       })
     );
@@ -37,7 +42,8 @@ function AttendanceChecker({ close, students, language }) {
           if (
             (prevStudent[studentId].holiday &&
               prevStudent[studentId].present) ||
-            prevStudent[studentId].absent
+            prevStudent[studentId].absent ||
+            prevStudent[studentId].sick
           ) {
             return {
               ...prevStudent,
@@ -49,7 +55,8 @@ function AttendanceChecker({ close, students, language }) {
           }
           if (
             (prevStudent[studentId].present && prevStudent[studentId].absent) ||
-            prevStudent[studentId].holiday
+            prevStudent[studentId].holiday ||
+            prevStudent[studentId].sick
           ) {
             return {
               ...prevStudent,
@@ -61,7 +68,8 @@ function AttendanceChecker({ close, students, language }) {
           }
           if (
             (prevStudent[studentId].holiday && prevStudent[studentId].absent) ||
-            prevStudent[studentId].present
+            prevStudent[studentId].present ||
+            prevStudent[studentId].sick
           ) {
             return {
               ...prevStudent,
@@ -92,7 +100,22 @@ function AttendanceChecker({ close, students, language }) {
         if (
           (prevStudent[prevStudent.id].holiday &&
             prevStudent[prevStudent.id].present) ||
-          prevStudent[prevStudent.id].absent
+          prevStudent[prevStudent.id].absent ||
+          prevStudent[prevStudent.id].sick
+        ) {
+          return {
+            ...prevStudent,
+            [prevStudent.id]: {
+              ...!prevStudent[prevStudent.id],
+              [name]: !prevStudent[prevStudent.id][name],
+            },
+          };
+        }
+        if (
+          (prevStudent[prevStudent.id].sick &&
+            prevStudent[prevStudent.id].present) ||
+          prevStudent[prevStudent.id].absent ||
+          prevStudent[prevStudent.id].holiday
         ) {
           return {
             ...prevStudent,
@@ -105,7 +128,8 @@ function AttendanceChecker({ close, students, language }) {
         if (
           (prevStudent[prevStudent.id].present &&
             prevStudent[prevStudent.id].absent) ||
-          prevStudent[prevStudent.id].holiday
+          prevStudent[prevStudent.id].holiday ||
+          prevStudent[prevStudent.id].sick
         ) {
           return {
             ...prevStudent,
@@ -118,7 +142,8 @@ function AttendanceChecker({ close, students, language }) {
         if (
           (prevStudent[prevStudent.id].holiday &&
             prevStudent[prevStudent.id].absent) ||
-          prevStudent[prevStudent.id].present
+          prevStudent[prevStudent.id].present ||
+          prevStudent[prevStudent.id].sick
         ) {
           return {
             ...prevStudent,
@@ -165,7 +190,7 @@ function AttendanceChecker({ close, students, language }) {
   return (
     <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-40">
       <div
-        className="md:w-11/12 lg:w-3/4 md:h-max fixed z-40 top-0 bottom-0 right-0
+        className="md:w-11/12 lg:w-3/4 md:h-max  fixed z-40 top-0 bottom-0 right-0
        left-0 m-auto flex  items-center justify-center gap-5 bg-white p-5 rounded-lg  "
       >
         <div className="md:w-9/12 md:h-full bg-white flex flex-col items-center justify-start gap-5 ">
@@ -223,7 +248,7 @@ function AttendanceChecker({ close, students, language }) {
           </div>
 
           <div className="w-full flex justify-center items-center flex-col ">
-            <ul className="list-none pl-0 grid grid-cols-7 w-full place-items-center text-black font-Kanit ">
+            <ul className="list-none pl-0 grid grid-cols-8 w-full place-items-center text-black font-Kanit ">
               <li className="">
                 {language === "Thai" && "เลขที่"}
                 {language === "English" && "number"}
@@ -236,7 +261,7 @@ function AttendanceChecker({ close, students, language }) {
                 {language === "Thai" && "นามสกุล"}
                 {language === "English" && "last name"}
               </li>
-              <div className="grid-cols-3 col-span-3  grid w-96 gap-5 place-items-center ">
+              <div className="grid-cols-4 col-span-4  grid w-96 gap-5 place-items-center ">
                 <button
                   onClick={handleCheckAllstudent}
                   name="present"
@@ -249,7 +274,7 @@ function AttendanceChecker({ close, students, language }) {
                     {language === "Thai" && "เข้าเรียน"}
                     {language === "English" && "present"}
                   </span>
-                  <span className="hidden group-hover:block text-base">
+                  <span className="hidden group-hover:block text-sm">
                     {language === "Thai" && "เลือกทั้งหมด"}
                     {language === "English" && "pick all"}
                   </span>
@@ -266,7 +291,24 @@ function AttendanceChecker({ close, students, language }) {
                     {language === "Thai" && "ลา"}
                     {language === "English" && "take a leave"}
                   </span>
-                  <span className="hidden group-hover:block text-base">
+                  <span className="hidden group-hover:block text-sm">
+                    {language === "Thai" && "เลือกทั้งหมด"}
+                    {language === "English" && "pick all"}
+                  </span>
+                </button>
+                <button
+                  onClick={handleCheckAllstudent}
+                  name="sick"
+                  role="button"
+                  aria-label="check all"
+                  className="w-full  bg-blue-500 rounded-2xl text-white text-center 
+                  hover:scale-110 transition duration-150 cursor-pointer group"
+                >
+                  <span className="block group-hover:hidden">
+                    {language === "Thai" && "ป่วย"}
+                    {language === "English" && "sick"}
+                  </span>
+                  <span className="hidden group-hover:block  text-sm">
                     {language === "Thai" && "เลือกทั้งหมด"}
                     {language === "English" && "pick all"}
                   </span>
@@ -283,7 +325,7 @@ function AttendanceChecker({ close, students, language }) {
                     {language === "Thai" && "ขาด"}
                     {language === "English" && "absent"}
                   </span>
-                  <span className="hidden group-hover:block text-base">
+                  <span className="hidden group-hover:block text-sm">
                     {language === "Thai" && "เลือกทั้งหมด"}
                     {language === "English" && "pick all"}
                   </span>
@@ -295,12 +337,12 @@ function AttendanceChecker({ close, students, language }) {
                 return (
                   <ul
                     key={student.id}
-                    className="list-none pl-0 grid grid-cols-7 w-full place-items-center text-black font-Kanit "
+                    className="list-none pl-0 grid grid-cols-8 w-full place-items-center text-black font-Kanit "
                   >
                     <li className="">{student.number}</li>
                     <li className="col-span-2">{student.firstName}</li>
                     <li className="">{student?.lastName}</li>
-                    <div className="grid-cols-3 col-span-3  grid w-96 place-items-center  ">
+                    <div className="grid-cols-4 col-span-4  grid w-96 place-items-center  ">
                       <div
                         className=" bg-green-500 rounded text-white text-center
                        p-1  w-6 h-6 flex items-center  justify-center"
@@ -331,6 +373,23 @@ function AttendanceChecker({ close, students, language }) {
                           }
                           checked={student?.[student.id].holiday}
                           name="holiday"
+                          className="h-5 w-5 rounded-full shadow"
+                          type="checkbox"
+                        />
+                      </div>
+                      <div
+                        className=" bg-blue-500 rounded-md text-white text-center 
+                      p-1  w-6 h-6 flex items-center justify-center"
+                      >
+                        <input
+                          onChange={(event) =>
+                            handleIsCheckStudent({
+                              studentId: student.id,
+                              event,
+                            })
+                          }
+                          checked={student?.[student.id].sick}
+                          name="sick"
                           className="h-5 w-5 rounded-full shadow"
                           type="checkbox"
                         />

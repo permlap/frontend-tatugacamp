@@ -9,6 +9,7 @@ function DowloadExcelAttendacne({ close, language }) {
   const [excelData, setExcelData] = useState({
     holiday:
       language === "Thai" ? "ลา" : language === "English" && "take a leave",
+    sick: language === "Thai" ? "ป่วย" : language === "English" && "sick",
     absent: language === "Thai" ? "ขาด" : language === "English" && "absent",
     present:
       language === "Thai" ? "มาเรียน" : language === "English" && "present",
@@ -30,6 +31,7 @@ function DowloadExcelAttendacne({ close, language }) {
         absent: excelData.absent,
         holiday: excelData.holiday,
         present: excelData.present,
+        sick: excelData.sick,
       });
       Swal.fire(
         "ดาวโหลดสำเร็จ",
@@ -80,12 +82,27 @@ function DowloadExcelAttendacne({ close, language }) {
               maxLength="10"
               required
             />
-            <div
-              className="absolute bottom-1 left-2 bg-white text-[#2C7CD1] w-5 h-5 text-xl 
-               rounded-full flex items-center justify-center "
-            >
-              <FcBusinessContact />
-            </div>
+          </div>
+          <div className="flex flex-col relative">
+            <label className="font-sans font-normal">
+              {language === "Thai" && "สถานะะป่วย"}
+              {language === "English" && "sick"}
+            </label>
+            <input
+              onChange={handleChangeExcelData}
+              className="w-60 h-7 rounded-md   pl-10 
+                placeholder:italic placeholder:font-light"
+              type="text"
+              name="sick"
+              value={excelData.sick}
+              placeholder={
+                language === "Thai"
+                  ? "กรอกอักษร เมื่อนักเรียนมีสถานะป่วย"
+                  : language === "English" && "Put any text when student's sick"
+              }
+              maxLength="10"
+              required
+            />
           </div>
 
           <div className="flex flex-col relative mt-2">
@@ -109,12 +126,6 @@ function DowloadExcelAttendacne({ close, language }) {
               maxLength="10"
               required
             />
-            <div
-              className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
-               rounded-full flex items-center justify-center "
-            >
-              <FcLineChart />
-            </div>
           </div>
           <div className="flex flex-col relative mt-2">
             <label className="font-sans font-normal">
@@ -137,12 +148,6 @@ function DowloadExcelAttendacne({ close, language }) {
               maxLength="10"
               required
             />
-            <div
-              className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 
-               rounded-full flex items-center justify-center "
-            >
-              <FcViewDetails />
-            </div>
           </div>
 
           <button

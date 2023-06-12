@@ -114,11 +114,11 @@ function Index({ error, user }) {
             <table className=" h-full max-h-[40rem] flex flex-col md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
               <thead className="w-max sticky top-0 bg-white h-max py-3 z-10">
                 <tr className="flex ">
-                  <th className="flex w-24  items-center justify-center">
+                  <th className="flex w-24  items-center justify-center sticky left-0 bg-white">
                     {user.language === "Thai" && "เลขที่"}
                     {user.language === "English" && "number"}
                   </th>
-                  <th className="w-60 flex items-center justify-center ">
+                  <th className="w-60 flex items-center justify-center sticky left-20 bg-white">
                     <span className="text-center">
                       {user.language === "Thai" && "รายชื่อ"}
                       {user.language === "English" && "student's name"}
@@ -177,6 +177,12 @@ function Index({ error, user }) {
                   </th>
                   <th className="w-36 flex items-center justify-center ">
                     <span className="text-center">
+                      {user.language === "Thai" && "จำนวนป่วย"}
+                      {user.language === "English" && "sick"}
+                    </span>
+                  </th>
+                  <th className="w-36 flex items-center justify-center ">
+                    <span className="text-center">
                       {user.language === "Thai" && "จำนวนขาดเรียน"}
                       {user.language === "English" && "absent"}
                     </span>
@@ -195,7 +201,7 @@ function Index({ error, user }) {
                     return (
                       <tr
                         key={index}
-                        className="flex hover:ring-2 hover:bg-slate-200 group"
+                        className="flex hover:ring-2 hover:bg-slate-200 group "
                       >
                         <td className=" w-24 flex items-center justify-center sticky left-0 bg-white group-hover:bg-slate-200">
                           {item.student.number}
@@ -239,9 +245,17 @@ function Index({ error, user }) {
                                             "Take a leave"}
                                         </div>
                                       )}
+                                      {status.sick && (
+                                        <div className="bg-blue-500 w-full flex items-center justify-center py-1  text-white">
+                                          {user.language === "Thai" && "ป่วย"}
+                                          {user.language === "English" &&
+                                            "sick"}
+                                        </div>
+                                      )}
                                       {!status.holiday &&
                                         !status.absent &&
-                                        !status.present && (
+                                        !status.present &&
+                                        !status.sick && (
                                           <div className="bg-gray-600 w-full flex items-center justify-center py-1  text-white">
                                             {user.language === "Thai" &&
                                               "ไม่มีข้อมูล"}
@@ -275,6 +289,11 @@ function Index({ error, user }) {
                         <td className="w-36 flex items-center justify-center ">
                           <span className="text-center">
                             {item.statistics.number.holiday}
+                          </span>
+                        </td>
+                        <td className="w-36 flex items-center justify-center ">
+                          <span className="text-center">
+                            {item.statistics.number.sick}
                           </span>
                         </td>
                         <td className="w-36 flex items-center justify-center ">

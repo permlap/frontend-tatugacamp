@@ -7,6 +7,7 @@ export async function DownloadExcelAttendance({
   absent,
   present,
   holiday,
+  sick,
 }) {
   try {
     const cookies = parseCookies();
@@ -18,6 +19,7 @@ export async function DownloadExcelAttendance({
           absent,
           present,
           holiday,
+          sick,
         },
         {
           params: {

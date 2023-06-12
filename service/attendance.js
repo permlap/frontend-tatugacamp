@@ -20,7 +20,6 @@ export async function CreateAttendance({
         attendance: student[student.id],
       };
     });
-    console.log(students);
     const attendacne = await axios.post(
       `${process.env.Server_Url}/user/attendance/create`,
       {
@@ -96,13 +95,14 @@ export async function UpdateAttendnaceAPI({
   absent,
   present,
   holiday,
+  sick,
 }) {
   try {
     const cookies = parseCookies();
     const access_token = cookies.access_token;
     const update = await axios.put(
       `${process.env.Server_Url}/user/attendance/update`,
-      { absent, present, holiday },
+      { absent, present, holiday, sick },
       {
         params: {
           attendanceId: attendanceId,
