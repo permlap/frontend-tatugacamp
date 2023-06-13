@@ -8,7 +8,6 @@ import { DeleteClassroom, GetAllClassrooms } from "../../../service/classroom";
 import Lottie from "lottie-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FiSettings, FiArrowLeftCircle } from "react-icons/fi";
 import * as teacherAnimation from "../../../components/98349-teacher-in-classroom.json";
 import { GetUser, GetUserCookie } from "../../../service/user";
 import Unauthorized from "../../../components/error/unauthorized";
@@ -48,7 +47,7 @@ function Index({ error, user, whatsNews }) {
   useEffect(() => {
     if (user) {
       const viewNews = localStorage.getItem("IsViewNews");
-      if (viewNews === whatsNews[whatsNews.length - 1]._id) {
+      if (viewNews === whatsNews[0]._id) {
         setIsViewNews(() => true);
       } else {
         setIsViewNews(() => false);
@@ -87,7 +86,7 @@ function Index({ error, user, whatsNews }) {
   }
 
   const handleReadNews = () => {
-    localStorage.setItem("IsViewNews", whatsNews[whatsNews.length - 1]._id);
+    localStorage.setItem("IsViewNews", whatsNews[0]._id);
     setIsViewNews(() => true);
   };
 
@@ -124,35 +123,41 @@ function Index({ error, user, whatsNews }) {
       >
         <Layout user={user} sideMenus={sideMenus} />
         <FeedbackSankbar language={user.language} />
+
         <Popover>
           {({ open }) => (
-            <div className="fixed bottom-20 right-7 flex justify-center z-10 items-end flex-col ">
+            <div className="fixed bottom-20 z-20 right-7 flex justify-center items-end flex-col ">
               <Popover.Panel>
                 {({ close }) => {
                   return (
                     <div
-                      className=" bg-gradient-to-r from-slate-50 to-blue-100 mb-2 p-5
-                     w-max max-w-3xl h-max max-h-96 rounded-xl overflow-y-auto"
+                      className=" bg-gradient-to-r  from-slate-50 to-blue-100 mb-2 p-5
+             w-max max-w-3xl h-max max-h-96 rounded-xl overflow-y-auto"
                     >
                       <ul className="list-none pl-0">
                         {whatsNews.map((news) => {
                           const date = new Date(news._createdAt);
+                          const options = {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          };
+
+                          if (user.language === "Thai") {
+                            options.hour12 = false;
+                            options.hourCycle = "h23";
+                          }
+
                           const formattedDate = date.toLocaleDateString(
-                            `${
-                              user.language === "Thai"
-                                ? "th-TH"
-                                : user.language === "English" && "en-US"
-                            }`,
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            }
+                            user.language === "Thai" ? "th-TH" : "en-US",
+                            options
                           );
                           return (
                             <li
                               key={news._id}
-                              className="w-max max-w-2xl mt-2  flex flex-col"
+                              className="w-full max-w-2xl mt-2 h-max  flex flex-col"
                             >
                               <h4 className="">{formattedDate}</h4>
                               <PortableText
@@ -393,7 +398,10 @@ export async function getServerSideProps(context) {
   const accessToken = cookies.access_token;
   const querySanity = `*[_type == "whatsNews"]`;
   const whatsNews = await sanityClient.fetch(querySanity);
-  whatsNews.sort((a, b) => Date.parse(a._createAt) - Date.parse(b._createAt));
+
+  const sortDateWhatsNews = whatsNews.sort(
+    (a, b) => new Date(b._createdAt) - new Date(a._createdAt)
+  );
   if (!accessToken && !query.access_token) {
     return {
       props: {
@@ -413,7 +421,7 @@ export async function getServerSideProps(context) {
       return {
         props: {
           user,
-          whatsNews,
+          whatsNews: sortDateWhatsNews,
         },
       };
     } catch (err) {
@@ -435,7 +443,7 @@ export async function getServerSideProps(context) {
       return {
         props: {
           user,
-          whatsNews,
+          whatsNews: sortDateWhatsNews,
         },
       };
     } catch (err) {

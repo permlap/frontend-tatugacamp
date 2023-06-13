@@ -373,13 +373,13 @@ function Index({ error, user }) {
                     </span>
                     <div className="flex items-center justify-center flex-col">
                       <div
-                        className="w-20 h-10 rounded-xl flex items-center justify-center
+                        className="w-max px-2 h-10 rounded-xl flex items-center justify-center
               bg-orange-400 font-Poppins font-bold text-xl text-white"
                       >
                         {assignment.isLoading || assignment.isFetching ? (
                           <Skeleton variant="text" />
                         ) : (
-                          assignment?.data?.data?.maxScore
+                          assignment?.data?.data?.maxScore.toLocaleString()
                         )}
                       </div>
                       <span>

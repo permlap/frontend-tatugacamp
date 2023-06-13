@@ -12,7 +12,6 @@ import Loading from "../loading/loading";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { MdError } from "react-icons/md";
 import { Box, TextField } from "@mui/material";
-import { UploadProfilePicture } from "../../service/user";
 
 export default function CreateAssignment({
   close,
@@ -128,7 +127,7 @@ export default function CreateAssignment({
     <div>
       <form
         onSubmit={handleSubmit}
-        className="flex lg:w-5/6 md:h-max md:max-h-[50%] lg:max-h-fit md:w-11/12  lg:h-5/6  font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-40 
+        className="flex lg:w-5/6 md:h-3/6 lg:max-h-fit md:w-11/12  lg:h-5/6  font-Kanit bg-white border-2 border-solid rounded-lg drop-shadow-xl p-5 z-40 
     top-0 right-0 left-0 bottom-0 m-auto fixed items-center justify-center"
       >
         {isAssignStudent === false ? (
@@ -256,6 +255,7 @@ export default function CreateAssignment({
                   className="w-40 appearance-none outline-none border-none ring-2 rounded-md px-5 
                 py-2 text-lg ring-gray-200 focus:ring-black placeholder:text-sm"
                   type="number"
+                  step="0.01"
                   placeholder={
                     language === "Thai"
                       ? "ใส่คะแนนของงาน"

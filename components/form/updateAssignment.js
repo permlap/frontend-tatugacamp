@@ -304,6 +304,7 @@ function UpdateAssignment({
                 min="1"
                 value={assignmentData.maxScore}
                 required
+                step="0.01"
                 onChange={handleChange}
                 name="maxScore"
                 className="w-40 appearance-none outline-none border-none ring-2 rounded-md px-5 

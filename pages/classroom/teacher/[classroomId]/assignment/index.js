@@ -174,10 +174,12 @@ text-black transition duration-150 cursor-pointer"
                       <div className="relative ">
                         <div className="flex items-center justify-center flex-col">
                           <div
-                            className="w-20 h-20 bg-[#EDBA02] rounded-full text-white text-4xl
+                            className="w-20 h-20 p-2 bg-[#EDBA02] rounded-full 
                         font-Poppins font-bold flex items-center justify-center"
                           >
-                            {assignment.maxScore}
+                            <span className="text-2xl text-white break-words truncate ">
+                              {assignment.maxScore.toLocaleString()}
+                            </span>
                           </div>
                           <div className="font-Poppins font-semibold">
                             {user.language === "Thai" && "คะแนน"}
