@@ -20,7 +20,7 @@ import { cardData } from "../../data/card-classroom";
 
 function Index({ commonQuestions }) {
   const router = useRouter();
-  const usersNumber = 19;
+  const usersNumber = 1.9;
   const studentNumber = 99;
   const [loading, setLoading] = useState(true);
   const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคลาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;

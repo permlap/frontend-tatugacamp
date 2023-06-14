@@ -9,7 +9,7 @@ function NumberAnimated({ n }) {
   });
   return (
     <animated.div>
-      {number.to((n) => Number(n.toFixed(0)).toLocaleString())}
+      {number.to((n) => Number(n.toFixed(1)).toLocaleString())}
     </animated.div>
   );
 }
