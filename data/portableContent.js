@@ -69,21 +69,6 @@ export const myPortableTextComponents = {
     color: ({ children, value }) => (
       <span style={{ color: value.hex }}>{children}</span>
     ),
-    link: ({ children, value }) => {
-      const rel = !value.href.startsWith("/")
-        ? "noreferrer noopener"
-        : undefined;
-      return (
-        <a
-          href={value.href}
-          className={`text-${value.hex}`}
-          rel={rel}
-          target="_blank"
-        >
-          {children}
-        </a>
-      );
-    },
   },
 };
 
@@ -103,14 +88,9 @@ const SanityImage = ({ asset }) => {
   }
 
   return (
-    <div className="w-full h-ful bg-transparent flex items-center justify-center">
+    <div className="w-full h-ful bg-transparent flex items-center justify-center py-2">
       <div
-        style={{
-          backgroundImage: isImage(urlFor(asset).url())
-            ? `url(/BgBlob${randomNumber.toString()}.svg)`
-            : "none",
-        }}
-        className={`lg:w-96 lg:h- h-56 w-56   transition duration-150  bg-cover bg-no-repeat relative `}
+        className={`lg:w-96 lg:h-40 h-56 w-56   transition duration-150  bg-cover bg-no-repeat relative `}
       >
         <Image
           src={urlFor(asset).url()}

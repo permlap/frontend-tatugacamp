@@ -91,27 +91,19 @@ function Index() {
               works
             </span>
           </div>
-          <div className="w-32 h-10 rounded-md bg-pink-400 items-center flex justify-evenly">
-            <div className="w-8 h-8 bg-white/50 backdrop-blur-md rounded-md flex items-center justify-center text-white">
-              <GiProgression />
-            </div>
-            <span className="text-md text-white font-Poppins font-normal">
-              progress
-            </span>
-          </div>
         </div>
         {!student && (
           <div className="text-xl text-white font-Kanit">
             ไม่พบผู้เรียนโปรดกลับสู่หน้าหลัก
           </div>
         )}
-        <div className="grid grid-cols-1 gap-4 place-items-center w-full pb-40 max-w-xl	">
+        <div className="grid grid-cols-1  gap-4 place-items-center w-full py-5 max-w-xl	">
           {assignments.isLoading && (
             <Skeleton variant="rectangular" width={200} height={50} />
           )}
           {assignments?.data?.data?.map((assignment) => {
             return (
-              <div
+              <button
                 key={assignment.assignment.id}
                 onClick={() => {
                   const serializedAssignment = JSON.stringify(assignment);
@@ -121,7 +113,6 @@ function Index() {
                   });
                 }}
                 aria-label="open assignment"
-                role="button"
                 className={`w-[85%] py-2 px-2 h-32 active:scale-105   drop-shadow-md  bg-white  hover:scale-105 cursor-pointer 
                  duration-150 transition relative 
                rounded-lg flex items-start justify-between  gap-2 border-2 border-solid`}
@@ -168,7 +159,7 @@ function Index() {
                     สถานะ
                   </div>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
