@@ -66,7 +66,7 @@ function Layout({ children, sideMenus, language }) {
   )[0];
 
   return (
-    <main className="w-full flex justify-center items-center flex-col  ">
+    <main className="w-full flex justify-center items-center flex-col md:gap-5 lg:gap-10 ">
       <div className="absolute top-0 right-0 mr-5 mt-5">
         <AuthButton />
       </div>
@@ -220,7 +220,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
       )}
 
       {!user.isError && user?.data?.status === 200 && (
-        <div className="flex flex-col gap-3 md:pl-5 lg:pl-0 lg:w-3/4 md:w-11/12 mt-5  items-center justify-center md:items-start">
+        <div className="flex flex-col gap-3 md:pl-5 lg:pl-0 lg:w-3/4 md:w-11/12 items-center justify-center md:items-start">
           <div className="font-sans font-normal tracking-wide flex items-center gap-5 pl-5 md:pl-0 text-gray-400">
             <span>Overview</span>
             <Popover className="relative ">
