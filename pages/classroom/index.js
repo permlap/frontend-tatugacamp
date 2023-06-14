@@ -16,13 +16,12 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { sanityClient } from "../../sanity";
 import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../data/portableContent";
-import axios from "axios";
 import { cardData } from "../../data/card-classroom";
 
 function Index({ commonQuestions }) {
   const router = useRouter();
-  const usersNumber = useQuery(["usersNumber"], () => GetNumberUsers());
-  const studentNumber = useQuery(["studentNumber"], () => GetNumberStudent());
+  const usersNumber = 19;
+  const studentNumber = 99;
   const [loading, setLoading] = useState(true);
   const footerData = `ห้องเรียนจาก Tatuga class หรือ ทาทูก้าคลาส ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class TaTuga Class Classroom Management for Everyone จัดการชั้นเรียนและบริหารห้องเรียนอย่างมีประสิทธิภาพ สะดวก และ รวดเร็ว - tatuga class`;
   const [domLoaded, setDomLoaded] = useState(false);
@@ -236,10 +235,8 @@ function Index({ commonQuestions }) {
                     <Skeleton variant="rectangular" width={80} height={100} />
                   </div>
                 ) : (
-                  <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
-                    {inView && (
-                      <NumberAnimated n={usersNumber?.data?.data?.userNumber} />
-                    )}
+                  <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl flex text-white">
+                    {inView && <NumberAnimated n={usersNumber} />}K
                   </span>
                 )}
               </div>
@@ -260,12 +257,8 @@ function Index({ commonQuestions }) {
                     <Skeleton variant="rectangular" width={80} height={100} />
                   </div>
                 ) : (
-                  <span className="font-Poppins text-right font-semibold text-5xl md:text-8xl text-white">
-                    {inView && (
-                      <NumberAnimated
-                        n={studentNumber?.data?.data?.studentNumber}
-                      />
-                    )}
+                  <span className="font-Poppins text-right font-semibold flex text-5xl md:text-8xl text-white">
+                    {inView && <NumberAnimated n={studentNumber} />}K
                   </span>
                 )}
               </div>
