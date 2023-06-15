@@ -56,8 +56,8 @@ function Index({ error, user, whatsNews }) {
         width: "80%",
 
         imageUrl:
-          "https://storage.googleapis.com/tatugacamp.com/donation/354668940_624077059693718_9016805650967606954_n.png",
-        imageWidth: 200,
+          "https://storage.googleapis.com/tatugacamp.com/donation/donation.png",
+        imageWidth: 300,
         imageHeight: 400,
         imageAlt: "Custom image",
       });
