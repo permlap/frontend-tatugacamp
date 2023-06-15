@@ -122,7 +122,7 @@ function Index() {
           <span>{student?.lastName}</span>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-5">
           {menus.map((menu, index) => {
             return (
               <button
@@ -225,7 +225,7 @@ function Index() {
         </div>
         {activeMenu === 1 && (
           <section className="w-full h-full flex  justify-center">
-            <ul className="grid list-none pl-0 grid-cols-1 gap-5 w-full h-full py-10 max-w-3xl rounded-t-3xl bg-white place-items-center">
+            <ul className="grid list-none pl-0 grid-cols-1 gap-5 w-full h-full py-10 max-w-3xl md:w-10/12 rounded-t-3xl lg:rounded-3xl bg-white place-items-center">
               <div className="w-full flex justify-start flex-col items-center font-Kanit ">
                 <h2 className="mb-2">สถิติ</h2>
                 <div className="grid grid-cols-2 gap-4 w-max md:w-full md:place-items-center place-items-start">
@@ -271,7 +271,7 @@ function Index() {
                   return (
                     <li
                       key={attendance.id}
-                      className="flex  items-center justify-between font-Kanit w-full rounded-md"
+                      className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md"
                     >
                       <div className="flex justify-start items-center ml-5 gap-2">
                         <div className="w-10 h-10  rounded-full bg-green-100 flex items-center justify-center">
@@ -290,7 +290,7 @@ function Index() {
                   );
                 } else if (attendance.holiday) {
                   return (
-                    <li className="flex  items-center justify-between font-Kanit w-full rounded-md">
+                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
                       <div className="flex justify-start items-center ml-5 gap-2">
                         <div className="w-10 h-10  rounded-full bg-yellow-100 flex items-center justify-center">
                           <div className="flex items-center justify-center text-yellow-400 text-3xl">
@@ -308,7 +308,7 @@ function Index() {
                   );
                 } else if (attendance.sick) {
                   return (
-                    <li className="flex  items-center justify-between font-Kanit w-full rounded-md">
+                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
                       <div className="flex justify-start items-center ml-5 gap-2">
                         <div className="w-10 h-10  rounded-full bg-blue-100 flex items-center justify-center">
                           <div className="flex items-center justify-center text-blue-400 text-3xl">
@@ -326,7 +326,7 @@ function Index() {
                   );
                 } else if (attendance.absent) {
                   return (
-                    <li className="flex  items-center justify-between font-Kanit w-full rounded-md">
+                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
                       <div className="flex justify-start items-center ml-5 gap-2">
                         <div className="w-10 h-10  rounded-full bg-red-100 flex items-center justify-center">
                           <div className="flex items-center justify-center text-red-400 text-3xl">
@@ -337,14 +337,14 @@ function Index() {
                           {formattedDate}
                         </span>
                       </div>
-                      <div className="w-14 text-center rounded-sm p-2 mr-5 bg-red-500 text-white">
+                      <div className="w-14 text-center rounded-sm p-2 mr-5 bg-red-500   text-white">
                         <span>ขาด</span>
                       </div>
                     </li>
                   );
                 } else {
                   return (
-                    <li className="flex  items-center justify-between font-Kanit w-full rounded-md">
+                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
                       <div className="flex justify-start items-center ml-5 gap-2">
                         <div className="w-10 h-10  rounded-full bg-gray-100 flex items-center justify-center">
                           <div className="flex items-center justify-center text-gray-400 text-3xl">
