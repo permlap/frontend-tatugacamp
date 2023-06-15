@@ -104,48 +104,51 @@ function Index() {
             <IoHome />
           </div>
         </div>
-        {student?.picture && (
-          <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
-            <Image
-              priority={true}
-              src={student?.picture}
-              layout="fill"
-              className="object-contain scale-125 translate-y-4"
-            />
+        <header className="flex flex-col justify-center items-center gap-5">
+          {student?.picture && (
+            <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
+              <Image
+                priority={true}
+                src={student?.picture}
+                layout="fill"
+                className="object-contain scale-125 translate-y-4"
+              />
+            </div>
+          )}
+          <div className="text-white font-Kanit font-normal flex gap-2">
+            <span>เลขที่ {student?.number}</span>
           </div>
-        )}
-        <div className="text-white font-Kanit font-normal flex gap-2">
-          <span>เลขที่ {student?.number}</span>
-        </div>
-        <div className="text-white font-Kanit font-normal flex gap-2">
-          <span>{student?.firstName}</span>
-          <span>{student?.lastName}</span>
-        </div>
+          <div className="text-white font-Kanit font-normal flex gap-2">
+            <span>{student?.firstName}</span>
+            <span>{student?.lastName}</span>
+          </div>
 
-        <div className="flex gap-5">
-          {menus.map((menu, index) => {
-            return (
-              <button
-                key={index}
-                onClick={() => setActiveMenu(() => index)}
-                className={`w-max px-2 h-10 rounded-md ${menu.color} ${
-                  activeMenu === index ? "ring-2 ring-white" : "ring-0"
-                }  items-center flex justify-center hover:scale-110 
+          <div className="flex gap-5">
+            {menus.map((menu, index) => {
+              return (
+                <button
+                  key={index}
+                  onClick={() => setActiveMenu(() => index)}
+                  className={`w-max px-2 h-10 rounded-md ${menu.color} ${
+                    activeMenu === index ? "ring-2 ring-white" : "ring-0"
+                  }  items-center flex justify-center hover:scale-110 
                  gap-2 transition duration-150 hover:ring-1 active:ring-2`}
-              >
-                <div
-                  className="w-8 h-8  bg-white/50 backdrop-blur-md rounded-md flex 
-                items-center justify-center text-black"
                 >
-                  {menu.icon}
-                </div>
-                <span className="text-md text-black  font-Poppins font-normal">
-                  {menu.title}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                  <div
+                    className="w-8 h-8  bg-white/50 backdrop-blur-md rounded-md flex 
+                items-center justify-center text-black"
+                  >
+                    {menu.icon}
+                  </div>
+                  <span className="text-md text-black  font-Poppins font-normal">
+                    {menu.title}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </header>
+
         {!student && (
           <div className="text-xl text-white font-Kanit">
             ไม่พบผู้เรียนโปรดกลับสู่หน้าหลัก
@@ -173,14 +176,14 @@ function Index() {
                     });
                   }}
                   aria-label="open assignment"
-                  className={`w-[85%] py-2 px-2 h-32 active:scale-105   drop-shadow-md  bg-white  hover:scale-105 cursor-pointer 
+                  className={`w-10/12 py-2 px-2 h-32 active:scale-105   drop-shadow-md  bg-white  hover:scale-105 cursor-pointer 
                  duration-150 transition relative 
                rounded-lg flex items-start justify-between  gap-2 border-2 border-solid`}
                 >
                   <div className={`flex gap-2 w-full font-Poppins text-black `}>
                     <div className="w-full">
-                      <div className=" overflow-hidden w-52 h-8 ">
-                        <span className=" font text-xl font-bold w-max ml-2">
+                      <div className=" overflow-hidden w-3/4 h-8 truncat  text-left">
+                        <span className=" font text-xl font-bold  ">
                           {assignment?.assignment?.title}
                         </span>
                       </div>
@@ -225,26 +228,10 @@ function Index() {
         </div>
         {activeMenu === 1 && (
           <section className="w-full h-full flex  justify-center">
-            <ul className="grid list-none pl-0 grid-cols-1 gap-5 w-full h-full py-10 max-w-3xl md:w-10/12 rounded-t-3xl lg:rounded-3xl bg-white place-items-center">
+            <ul className="grid pl-0 grid-cols-1 gap-5 w-full h-full py-10 max-w-3xl md:w-10/12 rounded-t-3xl lg:rounded-3xl bg-white place-items-center">
               <div className="w-full flex justify-start flex-col items-center font-Kanit ">
                 <h2 className="mb-2">สถิติ</h2>
                 <div className="grid grid-cols-2 gap-4 w-max md:w-full md:place-items-center place-items-start">
-                  <span>
-                    จำนวนมาเรียน{" "}
-                    {attendances?.data?.data?.statistics?.number?.present} ครั้ง
-                  </span>
-                  <span>
-                    จำนวนลา{" "}
-                    {attendances?.data?.data?.statistics?.number?.holiday} ครั้ง
-                  </span>
-                  <span>
-                    จำนวนป่วย{" "}
-                    {attendances?.data?.data?.statistics?.number?.sick} ครั้ง
-                  </span>
-                  <span>
-                    จำนวนขาดเรียน{" "}
-                    {attendances?.data?.data?.statistics?.number?.absent} ครั้ง
-                  </span>
                   <span className="col-span-2">
                     เปอเซ็นต์การเข้าเรียน{" "}
                     {attendances?.data?.data?.statistics?.percent?.present?.toFixed(
@@ -252,6 +239,34 @@ function Index() {
                     )}
                     %
                   </span>
+                  <span>
+                    จำนวนมาเรียน{" "}
+                    <span className="font-semibold text-green-500">
+                      {attendances?.data?.data?.statistics?.number?.present}{" "}
+                      ครั้ง
+                    </span>
+                  </span>
+                  <span>
+                    จำนวนลา{" "}
+                    <span className="font-semibold text-yellow-500">
+                      {attendances?.data?.data?.statistics?.number?.holiday}{" "}
+                      ครั้ง
+                    </span>
+                  </span>
+                  <span>
+                    จำนวนป่วย{" "}
+                    <span className="font-semibold text-blue-500">
+                      {attendances?.data?.data?.statistics?.number?.sick} ครั้ง
+                    </span>
+                  </span>
+                  <span>
+                    จำนวนขาดเรียน{" "}
+                    <span className="font-semibold text-red-500">
+                      {attendances?.data?.data?.statistics?.number?.absent}{" "}
+                      ครั้ง
+                    </span>
+                  </span>
+
                   <span className="col-span-2">
                     จำนวนคาบเรียนทั้งหมด{" "}
                     {attendances?.data?.data?.statistics?.sum} ครั้ง
