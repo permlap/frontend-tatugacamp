@@ -18,6 +18,7 @@ import {
   GetComments,
   PostComment,
 } from "../../../../../../service/student/comment";
+import Head from "next/head";
 
 function Index() {
   const router = useRouter();
@@ -228,6 +229,9 @@ function Index() {
   };
   return (
     <div className="  w-full h-full font-Kanit relative pb-96 bg-white  ">
+      <Head>
+        <title>students - assignment</title>
+      </Head>
       <div className="w-full absolute top-0 flex justify-between items-center ">
         <div
           role="button"

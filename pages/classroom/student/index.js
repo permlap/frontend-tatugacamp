@@ -10,6 +10,7 @@ import { BiError } from "react-icons/bi";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@mui/material";
+import Head from "next/head";
 
 function Index() {
   const [people, setPeople] = useState();
@@ -54,6 +55,9 @@ function Index() {
 
   return (
     <div className="bg-[#2C7CD1] h-screen md:h-full ">
+      <Head>
+        <title>students - classroom</title>
+      </Head>
       <Layout unLoading={true}>
         <div
           className="h-[40rem] w-full  bg-no-repeat bg-fixed bg-cover
