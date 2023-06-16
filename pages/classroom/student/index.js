@@ -56,7 +56,11 @@ function Index() {
   return (
     <div className="bg-[#2C7CD1] h-screen md:h-full ">
       <Head>
-        <title>students - classroom</title>
+        <title>{`${
+          classroom.isError
+            ? "โปรดกรอกรหัสใหม่"
+            : `ข้อตอนรับสู่ห้องเรียน คุณครู${classroom?.data?.data?.teacher?.firstName}`
+        }`}</title>
       </Head>
       <Layout unLoading={true}>
         <div
@@ -103,7 +107,7 @@ function Index() {
                         <Image
                           src={classroom?.data?.data?.teacher?.picture}
                           layout="fill"
-                          className="object-contain"
+                          className="object-cover"
                         />
                       </div>
                     ) : (

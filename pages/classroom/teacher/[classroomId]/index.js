@@ -205,7 +205,8 @@ function Index({ user, error }) {
                                     src={student.picture}
                                     layout="fill"
                                     alt="student's avatar"
-                                    className="object-cover scale-125 hover:scale-150 transition duration-150 translate-y-5"
+                                    className=" hover:scale-150 object-cover 
+                                     transition duration-150 "
                                     onLoad={() =>
                                       handleLoadingComplete(student.id)
                                     }

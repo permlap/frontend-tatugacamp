@@ -167,7 +167,7 @@ function Index() {
                   priority={true}
                   src={student?.data?.data?.picture}
                   layout="fill"
-                  className="object-contain scale-125 translate-y-4"
+                  className="object-cover  "
                 />
               </div>
             )}

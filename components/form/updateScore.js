@@ -316,7 +316,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                       src={student?.picture}
                       layout="fill"
                       alt="students avatar"
-                      className="object-cover scale-150 translate-y-10"
+                      className="object-cover "
                     />
                     <div
                       className={`absolute w-14 h-14  rounded-full ${
