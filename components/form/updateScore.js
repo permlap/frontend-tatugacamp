@@ -311,20 +311,22 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
             <div className="w-full h-max flex items-center justify-center   ">
               {triggerSetting === false ? (
                 <div className="w-full  h-full  flex items-center justify-center px-5 flex-col relative">
-                  <div className="relative w-40 h-40 bg-transparent rounded-full ">
-                    <Image
-                      src={student?.picture}
-                      layout="fill"
-                      alt="students avatar"
-                      className="object-cover "
-                    />
+                  <div className="relative">
+                    <div className="relative w-40 h-40 bg-transparent rounded-full ">
+                      <Image
+                        src={student?.picture}
+                        layout="fill"
+                        alt="students avatar"
+                        className="object-cover "
+                      />
+                    </div>
                     <div
                       className={`absolute w-14 h-14  rounded-full ${
                         student?.score?.totalPoints < 0
                           ? "bg-red-600"
                           : "bg-[#EDBA02] "
                       } ring-2 ring-white
-                    flex justify-center items-center font-sans font-bold text-3xl z-10 text-white right-0 top-5`}
+                    flex justify-center items-center font-sans font-bold text-3xl z-10 text-white -right-5 -top-5`}
                     >
                       {student?.score?.totalPoints}
                     </div>

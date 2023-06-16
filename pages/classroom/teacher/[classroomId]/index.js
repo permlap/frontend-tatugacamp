@@ -180,7 +180,7 @@ function Index({ user, error }) {
                                 key={student.id}
                               >
                                 <div
-                                  className={`absolute w-10 h-10 rounded-full   ${
+                                  className={` w-12 h-12 rounded-full absolute -top-3 -right-3  ${
                                     student.score.totalPoints < 0
                                       ? "bg-red-600"
                                       : "bg-[#EDBA02] "
