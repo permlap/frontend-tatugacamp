@@ -176,16 +176,16 @@ function Index({ user, error }) {
                             >
                               <div
                                 className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
-                       duration-200 rounded-2xl bg-white border-2 border-solid relative hover:bg-orange-100 transition drop-shadow-md"
+                       duration-200 rounded-2xl bg-white border-2 border-solid  hover:bg-orange-100 transition drop-shadow-md"
                                 key={student.id}
                               >
                                 <div
-                                  className={` w-12 h-12 rounded-full absolute -top-3 -right-3  ${
+                                  className={` w-12 h-12 rounded-full absolute top-0  ${
                                     student.score.totalPoints < 0
                                       ? "bg-red-600"
                                       : "bg-[#EDBA02] "
                                   } ring-2 ring-white
-                      flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
+                      flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-2 top-2`}
                                 >
                                   {student.score.totalPoints}
                                 </div>
