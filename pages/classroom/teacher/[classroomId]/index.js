@@ -48,9 +48,11 @@ function Index({ user, error }) {
 
   //check whether there is authorrized acccess or not
   useEffect(() => {
-    classroom.refetch();
-    students.refetch();
-    scores.refetch();
+    if (router.isReady) {
+      classroom.refetch();
+      students.refetch();
+      scores.refetch();
+    }
   }, [router.isReady]);
 
   if (!router.isReady) {
@@ -137,7 +139,7 @@ function Index({ user, error }) {
                 )}
               </Popover>
 
-              {students.isLoading
+              {students.isLoading || students.isFetching
                 ? skeletion.map((number) => {
                     return (
                       <Skeleton key={number} variant="rounded">
