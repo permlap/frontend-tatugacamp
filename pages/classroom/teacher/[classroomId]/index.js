@@ -65,7 +65,6 @@ function Index({ user, error }) {
       </div>
     );
   }
-
   //style animationLottie
   const style = {
     height: 280,
@@ -139,7 +138,7 @@ function Index({ user, error }) {
                 )}
               </Popover>
 
-              {students.isLoading || students.isFetching
+              {students.isLoading
                 ? skeletion.map((number) => {
                     return (
                       <Skeleton key={number} variant="rounded">
@@ -189,7 +188,11 @@ function Index({ user, error }) {
                                   } ring-2 ring-white
                       flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-2 top-2`}
                                 >
-                                  {student.score.totalPoints}
+                                  {students.isFetching ? (
+                                    <Skeleton variant="text" width={10} />
+                                  ) : (
+                                    student.score.totalPoints
+                                  )}
                                 </div>
 
                                 {!loadedImages.includes(student.id) && (
@@ -203,23 +206,41 @@ function Index({ user, error }) {
                                 )}
 
                                 <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 ">
-                                  <Image
-                                    src={student.picture}
-                                    layout="fill"
-                                    alt="student's avatar"
-                                    className=" hover:scale-150 object-cover 
+                                  {students.isFetching ? (
+                                    <Skeleton
+                                      variant="circular"
+                                      width={96}
+                                      height={96}
+                                    />
+                                  ) : (
+                                    <Image
+                                      src={student.picture}
+                                      layout="fill"
+                                      alt="student's avatar"
+                                      className=" hover:scale-150 object-cover 
                                      transition duration-150 "
-                                    onLoad={() =>
-                                      handleLoadingComplete(student.id)
-                                    }
-                                  />
+                                      onLoad={() =>
+                                        handleLoadingComplete(student.id)
+                                      }
+                                    />
+                                  )}
                                 </div>
 
                                 <div className="font-Kanit text-xl flex items-center w-max  justify-start gap-2">
                                   <div className=" font-semibold text-gray-700 w-5 h-5 flex items-center justify-center  rounded-md">
-                                    {student.number}
+                                    {students.isFetching ? (
+                                      <Skeleton variant="text" width={10} />
+                                    ) : (
+                                      student.number
+                                    )}
                                   </div>
-                                  <span className="text-md">{shortName}</span>
+                                  <span className="text-md">
+                                    {students.isFetching ? (
+                                      <Skeleton variant="text" width={40} />
+                                    ) : (
+                                      shortName
+                                    )}
+                                  </span>
                                 </div>
                               </div>
                             </Popover.Button>
