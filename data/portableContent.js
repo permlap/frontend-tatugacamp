@@ -78,15 +78,6 @@ function isImage(url) {
 }
 
 const SanityImage = ({ asset }) => {
-  const randomNumber = Math.floor(Math.random() * 4) + 1;
-  const [loading, setLoading] = useState(false);
-  function onLoad() {
-    setLoading((prev) => (prev = true));
-  }
-  function onLoadingComplete() {
-    setLoading((prev) => (prev = false));
-  }
-
   return (
     <div className="w-full h-ful bg-transparent flex items-center justify-center py-2">
       <div
@@ -98,9 +89,8 @@ const SanityImage = ({ asset }) => {
           className="object-contain"
           placeholder="blur"
           blurDataURL="/logo/TaTuga camp.png"
-          alt="some images about TaTuga camp teaching you English grammar"
-          onLoad={onLoad}
-          onLoadingComplete={onLoadingComplete}
+          alt="some images about  tatuga class"
+          unoptimized={true}
         />
       </div>
     </div>
