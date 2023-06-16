@@ -1,27 +1,54 @@
-import React, { useState, Fragment } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { BiLogOutCircle } from "react-icons/bi";
-import { useSession, signIn, signOut } from "next-auth/react";
+import React, { useState, Fragment, useEffect } from "react";
+import { FaUser } from "react-icons/fa";
+import { BiLogOutCircle, BiUser, BiWrench } from "react-icons/bi";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import Loading from "../loading/loading";
+import { useRouter } from "next/router";
+import { useQuery, useQueryClient } from "react-query";
+import { BsChevronCompactDown, BsChevronDoubleDown } from "react-icons/bs";
+import { GetUser } from "../../service/user";
+import { setCookie, destroyCookie } from "nookies";
+
 function AuthButton() {
   const [dropDown, setDropDown] = useState(false);
-  const { data: session, status } = useSession();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
-  if (status === "loading") {
+  const { isLoading, data, refetch, isFetching, isError } = useQuery(
+    ["user"],
+    () => GetUser(),
+    {
+      enabled: false,
+    }
+  );
+
+  //set accestoken to localstore
+  useEffect(() => {
+    if (router.query.access_token) {
+      setCookie(null, "access_token", router.query.access_token, {
+        maxAge: 30 * 24 * 60 * 60, // Cookie expiration time in seconds (e.g., 30 days)
+        path: "/", // Cookie path (can be adjusted based on your needs)
+      });
+      refetch();
+    }
+    refetch();
+  }, [router.query?.access_token, router.isReady]);
+  if (isFetching) {
     return <Loading />;
   }
 
-  if (status === "unauthenticated") {
+  if (!data?.data || data === "Unauthorized" || isError) {
     return (
       <div>
         <button
-          onClick={() => signIn()}
+          onClick={() => router.push("/auth/signIn")}
           className="flex gap-x-2 justify-center items-center focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto bg-white  text-black hover:ring-2  transition duration-150 ease-in-out cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]"
         >
           <span>Login</span>
-          <FcGoogle size={23} />
+          <div className="flex items-center justify-center text-[#FFC800]">
+            <FaUser size={23} />
+          </div>
         </button>
       </div>
     );
@@ -31,27 +58,49 @@ function AuthButton() {
     setDropDown((prev) => !prev);
   };
 
+  const signOut = () => {
+    destroyCookie(null, "access_token", { path: "/" });
+    queryClient.removeQueries("user");
+    refetch();
+    router.push({
+      pathname: "/",
+    });
+  };
+
   return (
     <Menu>
       <Menu.Button
-        className="flex bg-transparent relative border-0 cursor-pointer 
-    hover:ring-2 rounded-md p-3 ring-orange-400 active:ring-4 
-    items-center justify-center gap-x-3"
+        className="flex bg-white w-46 relative z-20    border-0 cursor-pointer 
+    rounded-md p-3   ring-orange-400 group
+    items-center justify-center gap-x-3 "
       >
-        <span className="text-black text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
-          welcome
-          <span className="first-letter:uppercase font-semibold text-white md:text-orange-400 ">
-            {session.user.name}
+        {data?.data?.picture ? (
+          <div className="relative w-10 h-10 rounded-md  overflow-hidden">
+            <Image
+              src={data?.data?.picture}
+              alt={data?.data?.firstName}
+              layout="fill"
+              className=" object-cover "
+            />
+          </div>
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+            <span className="uppercase font-sans font-black text-3xl text-white">
+              {data?.data?.firstName.charAt(0)}
+            </span>
+          </div>
+        )}
+        <span className=" text-sm h-min flex flex-col justify-center items-center gap-y-0  ">
+          <span className="first-letter:uppercase  text-orange-400 font-Kanit font-medium text-md ">
+            {data?.data?.firstName} {data?.data?.lastName}
           </span>
         </span>
-
-        <Image
-          src={session.user.image}
-          alt={session.user.name}
-          width={35}
-          height={35}
-          className="rounded-full"
-        />
+        <div className="group-hover:scale-0 transition duration-100 group-hover:opacity-0 ">
+          <BsChevronCompactDown />
+        </div>
+        <div className="group-hover:scale-110 transition opacity-0 duration-200 group-hover:opacity-100 absolute right-3">
+          <BsChevronDoubleDown />
+        </div>
       </Menu.Button>
       <Transition
         as={Fragment}
@@ -62,19 +111,37 @@ function AuthButton() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items>
+        <Menu.Items className="relative z-50">
           <Menu.Item>
             {({ active }) => (
               <ul
                 role="button"
-                onClick={() => signOut()}
-                className="list-none bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
-        md:right-10 md:top-26 w-max cursor-pointer"
+                className="list-none flex flex-col gap-y-4 bg-white rounded-md text-center drop-shadow-md p-2 md:absolute ml-10 mt-2 
+        md:right-10 md:top-26 w-24 cursor-pointe  relative  "
               >
+                <li
+                  onClick={() =>
+                    router.push({
+                      pathname: "/classroom/setting",
+                    })
+                  }
+                  className="flex justify-center items-center text-base font-light 
+                  gap-x-2 hover:font-bold cursor-pointer group  "
+                >
+                  <span>Account</span>
+                  <span className="text-center flex items-center justify-center group-hover:scale-110 transition duration-150">
+                    <BiUser />
+                  </span>
+                </li>
                 <div className="arrow-left md:arrow-top absolute -left-3 top-auto bottom-auto"></div>
-                <li className="flex justify-center items-center text-base font-light gap-x-2">
+                <li
+                  onClick={signOut}
+                  className="flex justify-center items-center group text-base font-light gap-x-2 cursor-pointer
+                   hover:font-bold
+                "
+                >
                   <span>Logout</span>
-                  <span className="text-center flex items-center justify-center">
+                  <span className="text-center flex items-center justify-center group-hover:scale-110 transition duration-150">
                     <BiLogOutCircle />
                   </span>
                 </li>

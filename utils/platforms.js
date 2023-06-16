@@ -18,7 +18,12 @@ function getOperatingSystem(window) {
 
 function getBrowser(window) {
   let currentBrowser = "Not known";
-  if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
+
+  if (window.navigator.userAgent.indexOf("Instagram") !== -1) {
+    currentBrowser = "scoial media browser";
+  } else if (window.navigator.userAgent.indexOf("FB") !== -1) {
+    currentBrowser = "scoial media browser";
+  } else if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
     currentBrowser = "Google Chrome";
   } else if (window.navigator.userAgent.indexOf("Firefox") !== -1) {
     currentBrowser = "Mozilla Firefox";
@@ -30,10 +35,12 @@ function getBrowser(window) {
     currentBrowser = "Safari";
   } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
     currentBrowser = "Opera";
-  } else if (window.navigator.userAgent.indexOf("Opera") !== -1) {
-    currentBrowser = "YaBrowser";
+  } else if (window.navigator.userAgent.indexOf("Instagram") !== -1) {
+    currentBrowser = "scoial media browser";
+  } else if (window.navigator.userAgent.indexOf("FB") !== -1) {
+    currentBrowser = "scoial media browser";
   } else {
-    console.log("Others");
+    currentBrowser = "scoial media browser";
   }
 
   return currentBrowser;

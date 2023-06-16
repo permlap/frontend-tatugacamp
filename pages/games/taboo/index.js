@@ -8,11 +8,9 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import Head from "next/head";
 import { Skeleton } from "@mui/material";
-import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import { FcLock, FcUnlock } from "react-icons/fc";
 function Index() {
-  const { data: session, status } = useSession();
   const [taboo, setTaboo] = useState();
   const [random, setRandom] = useState();
   const length = taboo?.length || 0;
@@ -27,6 +25,10 @@ function Index() {
   const [loading, setLoading] = useState(false);
   const tabooCategory = useRef("animal");
   const [loginFirst, setLoginFirst] = useState(false);
+
+  console.log("indexRandom", indexRandom);
+  console.log("nextCard", nextCard);
+  console.log("random", random);
   //fectching taboo data
   const { isLoading, isFetching, error, refetch, data } = useQuery(
     ["taboo"],
@@ -46,24 +48,15 @@ function Index() {
   //set new category to taboo api
   function handleTabooCatergory(category) {
     if (category === "country" || category === "sport") {
-      if (status === "authenticated") {
-        tabooCategory.current = category;
-        setNextCard((prev) => {
-          prev = Math.floor(Math.random() * 15);
-          return prev;
-        });
-        setScores(0);
-        setIndexRandom(0);
-        setRandom(GenerateRandom(length));
-        refetch();
-      } else if (status === "unauthenticated") {
-        setLoginFirst((prev) => (prev = !prev));
-        Swal.fire({
-          icon: "error",
-          title: "อุ๊บ...",
-          text: "กรุณาเข้าสู่ระบบด้วย ก่อนเข้าใช้งาน💤",
-        });
-      }
+      tabooCategory.current = category;
+      setNextCard((prev) => {
+        prev = Math.floor(Math.random() * 15);
+        return prev;
+      });
+      setScores(0);
+      setIndexRandom(0);
+      setRandom(GenerateRandom(length));
+      refetch();
     } else {
       tabooCategory.current = category;
       setNextCard((prev) => {
@@ -86,7 +79,7 @@ function Index() {
   }
 
   // handle skip
-  const handleSkip = () => {
+  const handleSkip = async () => {
     //check if index of random is less than the length
     if (indexRandom < length - 1) {
       // set index of random to increase 1 each click
@@ -95,6 +88,7 @@ function Index() {
         return (current = random[indexRandom]);
       });
     } else if (indexRandom >= length - 1) {
+      setRandom(GenerateRandom(length));
       setIndexRandom(0);
       setNextCard((current) => {
         return (current = random[indexRandom]);
@@ -113,6 +107,7 @@ function Index() {
 
   //generate uniqe array of random number
   function GenerateRandom(length) {
+    console.log("gererate!! random");
     const nums = new Set();
     while (nums.size !== length) {
       nums.add(Math.floor(Math.random() * length));
@@ -142,6 +137,7 @@ function Index() {
         return (current = random[indexRandom]);
       });
     } else if (indexRandom >= length - 1) {
+      setRandom(GenerateRandom(length));
       console.log("loop finish");
       setIndexRandom(0);
       setNextCard((current) => {
@@ -204,13 +200,13 @@ function Index() {
                   <div className="flex gap-12 mt-5">
                     <button
                       onClick={YesConfirm}
-                      className="border-0 font-Kanit font-bold bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
+                      className="border-0 font-Kanit font-bold px-2 bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
                     >
                       Yes
                     </button>
                     <button
                       onClick={NoConfirm}
-                      className="border-0 font-Kanit font-bold bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
+                      className="border-0 px-2 font-Kanit font-bold bg-white rounded-sm drop-shadow-sm hover:bg-red-700 hover:text-white cursor-pointer ring-2 ring-black"
                     >
                       No
                     </button>
@@ -350,12 +346,7 @@ function Index() {
                      hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
                     onClick={() => handleTabooCatergory("country")}
                   >
-                    {status === "unauthenticated" && loginFirst === true
-                      ? "กรุณา login"
-                      : "หมวดประเทศ"}
-                    <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
-                      {status === "authenticated" ? <FcUnlock /> : <FcLock />}
-                    </div>
+                    <span>หมวดประเทศ</span>
                   </button>
                 </li>
                 <li>
@@ -364,12 +355,7 @@ function Index() {
                      hover:text-white text-center font-sans border-0 flex items-center justify-center  bg-blue-800 rounded-md font-semibold cursor-pointer hover:bg-orange-500"
                     onClick={() => handleTabooCatergory("sport")}
                   >
-                    {status === "unauthenticated" && loginFirst === true
-                      ? "กรุณา login"
-                      : "หมวดกีฬา"}
-                    <div className="w-5 h-5 absolute -top-2 -right-2 bg-white rounded-full flex items-center justify-center">
-                      {status === "authenticated" ? <FcUnlock /> : <FcLock />}
-                    </div>
+                    <span>หมวดกีฬา</span>
                   </button>
                 </li>
               </ul>

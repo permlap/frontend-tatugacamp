@@ -67,7 +67,10 @@ function Index(props) {
 
   return (
     <Layout>
-      <div className="w-full md:h-full  bg-[url('/blob2.svg')] md:bg-[url('/blob3.svg')] bg-[#2C7CD1] bg-no-repeat bg-cover pt-11">
+      <div
+        className="w-full md:h-full  bg-[url('/blob2.svg')] md:bg-[url('/blob3.svg')]
+       bg-no-repeat bg-cover pt-11"
+      >
         <Head>
           <meta property="og:url" content={currentURL} />
           <meta property="og:type" content="website" />
@@ -97,7 +100,9 @@ function Index(props) {
           <meta name="description" content={props?.data[0]?.LongDescription} />
           <meta
             name="keywords"
-            content={`TaTuga camp, tatugacamp, tatuga camp, English, English camp, camp for learning English, card game, activities in classroom, กิจกรรมค่ายภาษาอังกฤษ, การ์ดเกมเพื่อการเรียนรู้, การ์ดเกม, ${props.data[0].title}}`}
+            content={`TaTuga camp, tatugacamp, tatuga camp, English, English camp, camp for 
+            learning English, card game, activities in classroom, กิจกรรมค่ายภาษาอังกฤษ,
+             การ์ดเกมเพื่อการเรียนรู้, การ์ดเกม, ${props.data[0].title}}`}
           />
           <meta
             name="viewport"
@@ -114,9 +119,15 @@ function Index(props) {
           src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
         ></Script>
         <header>
-          <ul className="list-none flex flex-col  lg:mt-2  md:flex-row justify-center items-center w-full h-full bg-transparent mt-0 md:mt-34 pl-0">
+          <ul
+            className="list-none flex flex-col  lg:mt-2  md:flex-row justify-center 
+          items-center w-full h-full bg-transparent mt-0 md:mt-34 pl-0"
+          >
             <ul xyz="fade up back-1 " className="pl-0 list-none">
-              <li className="bg-transparent w-[20rem] h-[20rem] md:w-60 md:h-60 lg:w-96 lg:h-96  relative square xyz-in">
+              <li
+                className="bg-transparent w-[20rem] h-[20rem] md:w-60 md:h-60 lg:w-96 lg:h-96 
+               relative square xyz-in"
+              >
                 <Image
                   src={urlFor(props.data[0].mainImage.asset._ref).url()}
                   layout="fill"
@@ -128,14 +139,20 @@ function Index(props) {
               </li>
             </ul>
             <li xyz="fade-100% big-100% wide-100% tall-100%">
-              <ul className="list-none pl-0 flex flex-col square xyz-in justify-center text-center pr-0 items-center bg-transparent w-full mt-10  rounded-3xl h-max md:w-[503px] md:h-[376px]">
+              <ul
+                className="list-none pl-0 flex flex-col square xyz-in justify-center
+               text-center pr-0 items-center bg-transparent w-full mt-10  rounded-3xl h-max md:w-[503px] md:h-[376px]"
+              >
                 <li className="MoreSugar text-3xl md:text-[2.8rem] text-[#EDBA02]">
                   {props.data[0].title}
                 </li>
                 <li className="MoreSugar text-white md:text-black text-xl lg:mt-2 md:mb-2 md:text-[1.5rem]">
                   {props.data[0].categories.title}
                 </li>
-                <li className=" px-4 py-2 rounded-md bg-[#2C7CD1]  md:drop-shadow-lg md:mb-2 text-white flex items-center gap-x-2 text-[20px] ">
+                <li
+                  className=" px-4 py-2 rounded-md bg-[#2C7CD1]  md:drop-shadow-lg md:mb-2
+                 text-white flex items-center gap-x-2 text-[20px] "
+                >
                   <div className="flex flex-col justify-center gap-y-0 items-center">
                     <div className="flex justify-center items-center gap-x-4">
                       <div>
@@ -196,7 +213,10 @@ function Index(props) {
                     </button>
                   )}
                 </li>
-                <li className="sm:text-white text-white md:text-black   text-sm w-3/4 bg-[#2C7CD1] sm:bg-transparent font-Kanit rounded-3xl font-normal ">
+                <li
+                  className="sm:text-white text-white md:text-black   text-sm w-3/4 bg-[#2C7CD1]
+                 sm:bg-transparent font-Kanit rounded-3xl font-normal "
+                >
                   {props.data[0]?.LongDescription}
                 </li>
                 <li>
@@ -211,7 +231,8 @@ function Index(props) {
             <div className="w-full flex items-center justify-center mt-3">
               <Link href={props.data[0].game}>
                 <div
-                  className="w-max h-max p-3 bg-[#EDBA02] font-Kanit font-semibold text-white rounded-md ring-2 ring-white
+                  className="w-max h-max p-3 bg-[#EDBA02] font-Kanit font-semibold
+                   text-white rounded-md ring-2 ring-white
                  hover:scale-110 active:scale-110 transition duration-200 cursor-pointer "
                 >
                   <span>กดเพื่อเล่น 🎮</span>
@@ -244,7 +265,10 @@ function Index(props) {
             </div>
           )}
         </header>
-        <main className="w-full h-max flex mt-5 flex-col justify-center items-center bg-[#2C7CD1] md:bg-transparent">
+        <main
+          className="w-full h-max flex mt-5 flex-col justify-center items-center 
+        bg-[#2C7CD1] md:bg-transparent"
+        >
           {props?.data[0]?.video && (
             <div className="w-full flex relative items-center justify-center mb-5">
               {loading && (
@@ -265,6 +289,7 @@ function Index(props) {
                 <div className=" md:w-[35rem] md:h-[20rem] w-72 h-40 rounded-md overflow-hidden ">
                   <ReactPlayer
                     onReady={handleVideoReady}
+                    loop={true}
                     playsinline
                     controls
                     width="100%"

@@ -9,26 +9,24 @@ import Script from "next/script";
 import { sanityClient, urlFor } from "../sanity";
 import { useQuery } from "react-query";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import Facebook from "../components/facebook";
-import AuthButton from "../components/auth/button";
 import SearchAutoComplete from "../components/search/searchAutoComplete";
 import Loading from "../components/loading/loading";
 import Layout from "../components/layout";
+import { returnProps } from "../utils/imageMetadata";
 
-/** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-export default function Home(props) {
+export default function Home({ post, blurData }) {
+  const router = useRouter();
   const [dataSearchOptios, setDataSearchOptions] = useState();
   const [DataDescriptionMeta, SetDataDescriptionMeta] = useState();
   const [current, setCurrent] = useState(0);
-  const length = props.mainImages.length;
-  const [postsData, setPostsData] = useState(props.data);
+  const length = blurData.length;
+  const [postsData, setPostsData] = useState(post);
 
   const [activeMenu, setActiveMenu] = useState(0);
   const Menus = [{ name: "ล้างการค้นหา" }];
 
   // fetch data to next list
-  const { isLoading, isFetching, error, refetch, data } = useQuery({
+  const { isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: () =>
       axios.post("/api/handle-posts", { index: activeMenu }).then((res) => {
@@ -48,14 +46,14 @@ export default function Home(props) {
 
   // automatic move image silder to the next one
   useEffect(() => {
-    if (!Array.isArray(props.mainImages) || props.mainImages.length <= 0) {
+    if (!Array.isArray(blurData) || blurData.length <= 0) {
       return null;
     }
     const intervalId = setInterval(() => {
       setCurrent(current === length - 1 ? 0 : current + 1);
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [length, props.mainImages, current]);
+  }, [length, blurData, current]);
 
   // set image silder to the next one
   const nextSlide = () => {
@@ -79,17 +77,10 @@ export default function Home(props) {
   };
 
   return (
-    <div className=" bg-[url('/blob-scene-haikei.svg')] bg-no-repeat bg-cover">
-      <Facebook />
+    <div>
       <Layout>
         <Head>
-          <title>TaTuga camp</title>
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/TaTuga camp.png"
-          />
+          <title>Tatuga camp</title>
           <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
           <meta name="google" content="notranslate" key="notranslate" />
           <meta name="description" content={DataDescriptionMeta} />
@@ -130,7 +121,7 @@ export default function Home(props) {
                   <ion-icon name="arrow-forward-circle"></ion-icon>
                 </button>
               </div>
-              {props.mainImages.map((silder, index) => {
+              {blurData.map((silder, index) => {
                 return (
                   <div
                     className={
@@ -149,7 +140,7 @@ export default function Home(props) {
                         alt={silder.title}
                         placeholder="blur"
                         quality={50}
-                        blurDataURL="data:image/jpeg;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                        blurDataURL={silder.imageProps.blurDataURL}
                       />
                     )}
                   </div>
@@ -163,78 +154,78 @@ export default function Home(props) {
              md:mt-14 flex-col md:flex-row  flex justify-start items-center"
               id="header"
             >
-              <div className="w-full text-center mt-5 md:mt-0 justify-center  flex flex-col gap-y-0 md:gap-y-0">
+              <div className="w-10/12 md:w-full text-center mt-5 md:mt-0 justify-center  flex flex-col gap-y-0 md:gap-y-0">
                 <div className="square xyz-in">
                   <span className="text-[2rem] md:text-[3rem] MoreSugar text-[#2C7CD1]">
-                    TaTuga camp
+                    Tatuga camp
                   </span>
                 </div>
 
-                <span className="LessSugar text-[0.9rem] md:text-lg">
-                  Enjoy fun Brush up Playground
-                </span>
-
-                <span className="LessSugar text-[0.9rem]  md:text-lg text-[#2C7CD1]">
-                  learn through play with us
+                <span className="LessSugar text-[0.9rem] md:text-lg ">
+                  Where learning becomes an adventure
                 </span>
               </div>
-              <Hands />
+              <div className="w-40 md:w-80">
+                <Hands />
+              </div>
             </div>
           </div>
         </header>
-
-        <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-no-repeat bg-cover ">
-          <div className="w-max h-max font-Kanit  z-30 font-medium text-[1.5rem] md:text-[1.7rem]  px-5 py-3 text-white rounded-xl bg-[#2C7CD1]">
-            <span>แหล่งรวบรวมความรู้ สำหรับครู👩🏼‍🏫</span>
-          </div>
-
-          <ul className="list-none pl-0 w-full  h-24 flex mt-10 flex-col-reverse  md:flex-row items-center justify-center md:items-end  md:gap-x-12 font-Kanit font-light text-lg">
-            <li className="z-30   ">
-              <SearchAutoComplete
-                activityPosts={postsData}
-                handleSelectedActivity={handleSelectedActivity}
-              />
-            </li>
-            {Menus.map((list, index) => {
-              return (
-                <li
-                  onClick={() => handleFectchMenu(index)}
-                  key={index}
-                  className={` ${
-                    activeMenu === index
-                      ? "border-[#EDBA02] text-[#EDBA02] font-semibold"
-                      : "border-transparent"
-                  } underLineHover cursor-pointer `}
-                >
-                  <span className="active:text-[#EDBA02]">{list.name}</span>
-                </li>
-              );
-            })}
-          </ul>
-          <div></div>
-
-          {isFetching ? (
-            <div className="mt-10">
-              <Loading />
+        <div className="  ">
+          <main className="mt-40 mb-0 md:mb-0 pb-5 md:mt-80 lg:mt-0 lg:pt-80 lg:pb-[6rem] lg:mb-0 flex flex-col justify-center items-center   bg-no-repeat bg-cover ">
+            <div className="w-max h-max font-Kanit  z-30 font-medium text-[1.5rem] md:text-[1.7rem]  px-5 py-3 text-white rounded-xl bg-[#2C7CD1]">
+              <span>แหล่งรวบรวมความรู้ สำหรับครู👩🏼‍🏫</span>
             </div>
-          ) : (
-            <ListActivity
-              activityPosts={postsData}
-              dataSearchOptios={dataSearchOptios}
-              likes={props.likes}
-            />
-          )}
-        </main>
 
-        <footer>
-          <Footer descriptionMeta={descriptionMeta} />
-        </footer>
+            <ul className="list-none pl-0 w-full  h-24 flex mt-10 flex-col-reverse  md:flex-row items-center justify-center md:items-end  md:gap-x-12 font-Kanit font-light text-lg">
+              <li className="z-30   ">
+                <SearchAutoComplete
+                  searchFor={"ค้นหากิจกรรม"}
+                  activityPosts={postsData}
+                  handleSelectedActivity={handleSelectedActivity}
+                />
+              </li>
+              {Menus.map((list, index) => {
+                return (
+                  <li
+                    onClick={() => handleFectchMenu(index)}
+                    key={index}
+                    className={` ${
+                      activeMenu === index
+                        ? "border-[#EDBA02] text-[#EDBA02] font-semibold"
+                        : "border-transparent"
+                    } underLineHover cursor-pointer `}
+                  >
+                    <span className="active:text-[#EDBA02]">{list.name}</span>
+                  </li>
+                );
+              })}
+            </ul>
+            <div></div>
+
+            {isFetching ? (
+              <div className="mt-10">
+                <Loading />
+              </div>
+            ) : (
+              <ListActivity
+                activityPosts={postsData}
+                dataSearchOptios={dataSearchOptios}
+                likes={post.likes}
+              />
+            )}
+          </main>
+
+          <footer>
+            <Footer descriptionMeta={descriptionMeta} />
+          </footer>
+        </div>
       </Layout>
     </div>
   );
 }
 
-export const getServerSideProps = async (ctx) => {
+export async function getStaticProps(ctx) {
   const quary = `*[_type == "post"]{
     _id,
     slug,
@@ -251,10 +242,21 @@ export const getServerSideProps = async (ctx) => {
   const post = await sanityClient.fetch(quary);
   const mainImages = await sanityClient.fetch(quaryImages);
 
+  const blurData = await Promise.all(
+    mainImages.map(async (item) => {
+      const imageProps = await returnProps(
+        urlFor(item.mainImage.asset._ref).url()
+      );
+
+      // This will return the image a well as the needed plaiceholder
+      // info in the same object within the array 🤯
+      return { ...item, imageProps };
+    })
+  );
   return {
     props: {
-      data: post,
-      mainImages: mainImages,
+      post,
+      blurData,
     },
   };
-};
+}

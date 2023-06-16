@@ -11,10 +11,13 @@ import { useEffect } from "react";
 import useScrollDirection from "../hooks/useScrollDirection";
 import { currentBrowser } from "../utils/platforms";
 import AuthButton from "./auth/button";
+import { useRouter } from "next/router";
 
 function Navbar() {
   const [brower, setBrower] = useState();
+  const router = useRouter();
   const scrollDirection = useScrollDirection();
+  const [classroomCode, setClassroomCode] = useState("");
   const [trigger, setTrigger] = useState(false);
   const onClick = () => {
     setTrigger((preTrigger) => !preTrigger);
@@ -24,7 +27,8 @@ function Navbar() {
   isBrowser();
   useEffect(() => {
     setBrower(currentBrowser(window));
-  }, []);
+    setClassroomCode(router.query.classroomCode);
+  }, [router.isReady]);
   return (
     <nav
       className={`w-full bg-transparent fixed md:sticky  h-max top-0 z-50 font-Inter transition duration-200 ease-in-out ${
@@ -48,39 +52,40 @@ function Navbar() {
               <Listmenu />
             </li>
           </Button>
-          <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center gap-x-2 text-[20px] ">
-            <div>
-              <a
-                className="no-underline text-white"
-                href={`${
-                  brower === "Safari"
-                    ? "fb://page/?id=107002408742438"
-                    : "fb://page/107002408742438"
-                }`}
-              >
-                <ion-icon name="logo-facebook"></ion-icon>
-              </a>
-            </div>
-
-            <div>
-              <a
-                className="no-underline text-white"
-                href="http://instagram.com/_u/tatugacamp/"
-              >
-                <ion-icon name="logo-instagram"></ion-icon>
-              </a>
-            </div>
-            <div className="w-[35px] h-[35px] rounded-full overflow-hidden">
-              <Link href="/">
-                <Image
-                  src={TaTugaLogo}
-                  width={35}
-                  height={35}
-                  alt="TaTuga camp logo"
-                />
-              </Link>
-            </div>
-          </li>
+          <div className="lg:w-[25rem] md:hiden flex   gap-2 items-center justify-center  ">
+            <input
+              value={classroomCode || ""}
+              onChange={(e) => setClassroomCode(e.target.value)}
+              className="bg-blue-200  appearance-none border-none border-gray-200 rounded w-full py-2 px-4  
+              leading-tight focus:outline-none focus:bg-blue-400 focus:border-2 focus:right-4 placeholder:text-md placeholder:font-Kanit
+              placeholder:text-black placeholder:font-medium focus:placeholder:text-white text-black focus:text-white font-sans font-semibold "
+              type="number"
+              name="classroomCode"
+              placeholder="รหัสห้องเรียน"
+              maxLength="6"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (!classroomCode) {
+                  return null;
+                } else if (classroomCode) {
+                  router.push({
+                    pathname: "/classroom/student",
+                    query: {
+                      classroomCode: classroomCode,
+                    },
+                  });
+                }
+              }}
+              className="w-40 mr-2  h-9  rounded-full bg-[#EDBA02] text-white font-sans font-bold
+              text-md cursor-pointer hover: active:border-2  active:border-gray-300
+               active:border-solid  focus:border-2 
+              focus:border-solid"
+            >
+              เข้าร่วม
+            </button>
+          </div>
         </ul>
 
         <div
@@ -102,6 +107,14 @@ function Navbar() {
                 Home page
               </li>
             </Link>
+            <Link href="/classroom">
+              <li
+                onClick={onClick}
+                className="w-max bg-white rounded-md py-4 px-10 active:bg-[#2C7CD1] active:text-white"
+              >
+                tatuga class 🧑‍🎓
+              </li>
+            </Link>
             <Link href="/about-us">
               <li
                 onClick={onClick}
@@ -110,11 +123,31 @@ function Navbar() {
                 About us
               </li>
             </Link>
-            <Link href="/grammar/basic-grammar">
-              <li className="w-max bg-white rounded-md py-4 px-10 active:bg-[#2C7CD1] active:text-white">
-                Grammar
+            <div>
+              <li className="mr-2 px-4 py-2 rounded-md bg-[#2C7CD1] flex items-center justify-center gap-x-5 text-[30px] ">
+                <div>
+                  <a
+                    className="no-underline text-white"
+                    href={`${
+                      brower === "Safari"
+                        ? "fb://page/?id=107002408742438"
+                        : "fb://page/107002408742438"
+                    }`}
+                  >
+                    <ion-icon name="logo-facebook"></ion-icon>
+                  </a>
+                </div>
+
+                <div>
+                  <a
+                    className="no-underline text-white"
+                    href="http://instagram.com/_u/tatugacamp/"
+                  >
+                    <ion-icon name="logo-instagram"></ion-icon>
+                  </a>
+                </div>
               </li>
-            </Link>
+            </div>
           </ul>
         </div>
 
@@ -126,22 +159,15 @@ function Navbar() {
             scrollDirection === "up" ? "translate-y-0 " : "-translate-y-28 "
           }`}
         >
-          <li className="mr-auto">
+          <li className="mr-auto ml-5">
             <Link href="/">
-              <Button className="flex items-center pt-4 pr-4">
-                <Logo />
+              <Button className="flex items-center pt-4 pr-4 ">
+                <div className="w-max">
+                  <span className="MoreSugar normal-case text-4xl">
+                    Tatuga camp
+                  </span>
+                </div>
               </Button>
-            </Link>
-          </li>
-          <li>
-            <Link href="/teacher-tools">
-              <button
-                className="focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto
-             bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out 
-             cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]"
-              >
-                <span>Timer 🕛</span>
-              </button>
             </Link>
           </li>
 
@@ -152,17 +178,14 @@ function Navbar() {
               </button>
             </Link>
           </li>
-          <li>
-            <Link href="/grammar/basic-grammar">
-              <button
-                className="focus:outline-none text-base font-Inter font-normal border-0 w-max h-auto
-             bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out 
-             cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]"
-              >
-                <span>Grammar</span>
+          <li className="">
+            <Link href="/classroom">
+              <button className="focus:outline-none text-base font-Inter font-normal  border-0 w-max h-auto bg-white hover:text-white hover:bg-[#2C7CD1] transition duration-150 ease-in-out cursor-pointer px-2 py-4 rounded-md active:bg-[#EDBA02]">
+                <span>tatuga class 🧑‍🎓</span>
               </button>
             </Link>
           </li>
+
           <li className="mr-5">
             <AuthButton />
           </li>

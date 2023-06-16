@@ -19,11 +19,11 @@ function FooterActivities() {
       <div className="w-full h-full  md:py-5 pt-5 justify-center flex flex-col md:flex-row  md:pt-2   text-center text-white items-center bg-[#2C7CD1] md:bg-transparent  ">
         <div className="md:w-max md:ml-16 ml-0 w-[10rem] h-[10rem]  md:h-max rounded-full overflow-hidden bg-white">
           <Image
-            className="object-center rounded-full"
+            className="object-center rounded-full "
             width={200}
             height={200}
-            alt="logo tatuga camp"
-            src="/logo/TaTuga camp.png"
+            alt="tatuga logo"
+            src="https://storage.googleapis.com/tatugacamp.com/logo%20/tatugacamp%20facebook.jpg"
             priority
           />
         </div>
@@ -73,7 +73,7 @@ function FooterActivities() {
           </li>
           <li className="flex w-full justify-center items-center">
             <div className="font-Inter font-thin mt-1 pb-3 md:pb-0 md:text-sm text-[0.65rem] w-3/4">
-              {`Copyright © ${date} TaTuga camp. All rights reserved`}
+              {`Copyright © ${date} Tatuga camp Limited Partnership. All rights reserved`}
             </div>
           </li>
         </ul>

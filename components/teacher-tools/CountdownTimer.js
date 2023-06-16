@@ -2,7 +2,7 @@ import { useCountdown } from "../../hooks/useCountdown";
 import DateTimeDisplay from "./DateTimeDisplay";
 const CountdownTimer = ({ targetDate }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
-  console.log(seconds);
+
   if (days + hours + minutes + seconds <= 0) {
     return <ExpiredNotice />;
   } else {
