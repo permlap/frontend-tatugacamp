@@ -94,33 +94,21 @@ export async function CreateStudentApi({
   }
 }
 
-export async function UpdateStudent({
-  firstName,
-  lastName,
-  number,
-  studentId,
-  chooseAvatar,
-}) {
+export async function UpdateStudent({ formData, studentId }) {
   try {
+    console.log("server", formData);
     const cookies = parseCookies();
     const access_token = cookies.access_token;
-    const converNumber = Number(number);
-    const StringNumber = converNumber.toString();
     const updateStudent = await axios.put(
       `${process.env.Server_Url}/user/student/update`,
-      {
-        firstName,
-        lastName,
-        number,
-        picture: chooseAvatar,
-      },
+      formData,
       {
         params: {
           studentId: studentId,
         },
         headers: {
           Authorization: "Bearer " + access_token,
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       }
     );

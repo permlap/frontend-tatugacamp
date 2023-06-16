@@ -14,7 +14,30 @@ export async function GetStudent({ studentId }) {
         },
       }
     );
+    console.log(student);
     return student;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
+
+export async function UpdateStudent({ formData, studentId }) {
+  try {
+    const updateStudent = await axios.put(
+      `${process.env.Server_Url}/student/update`,
+      formData,
+      {
+        params: {
+          studentId: studentId,
+        },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(updateStudent);
+    return updateStudent;
   } catch (err) {
     console.log(err);
     throw new Error(err);

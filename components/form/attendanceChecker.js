@@ -284,10 +284,10 @@ function AttendanceChecker({ close, students, language }) {
                   name="holiday"
                   role="button"
                   aria-label="check all"
-                  className="w-full  bg-yellow-500 rounded-2xl text-white text-center 
+                  className="w-max px-2  bg-yellow-500 rounded-2xl text-white text-center 
                   hover:scale-110 transition duration-150 cursor-pointer group"
                 >
-                  <span className="block group-hover:hidden">
+                  <span className="block group-hover:hidden text-md">
                     {language === "Thai" && "ลา"}
                     {language === "English" && "take a leave"}
                   </span>

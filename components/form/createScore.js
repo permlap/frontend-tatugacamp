@@ -72,18 +72,6 @@ function CreateScore({
             </div>
           );
         })}
-        {/* <label className="font-sans font-normal">emoji</label>
-        <input
-          onChange={handleChange}
-          className="w-18 h-7 rounded-md   pl-2 
-        placeholder:italic placeholder:font-light"
-          type="text"
-          name="emoji"
-          placeholder="เช่น 🙂"
-          maxLength="30"
-          value={scoreForm.emoji}
-          required
-        /> */}
       </div>
 
       <div className="flex flex-col relative mt-2">

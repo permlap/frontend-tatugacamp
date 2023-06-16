@@ -15,10 +15,16 @@ import { GetAttendances } from "../../../../service/student/attendance";
 import { HiOutlineHandRaised } from "react-icons/hi2";
 import { BiErrorCircle, BiHappyBeaming } from "react-icons/bi";
 import Head from "next/head";
+import { BsImage, BsImageFill } from "react-icons/bs";
+import { GetStudent, UpdateStudent } from "../../../../service/student/student";
+import Swal from "sweetalert2";
 
 function Index() {
   const [classroomCode, setClassroomCode] = useState();
   const [activeMenu, setActiveMenu] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState();
+  const [selectedImage, setSelectedImage] = useState(null);
   const menus = [
     {
       title: "ชิ้นงาน",
@@ -31,38 +37,39 @@ function Index() {
       color: "bg-gray-400",
     },
   ];
-
   const router = useRouter();
-  const [student, setStudnet] = useState();
+  const student = useQuery(
+    ["student"],
+    () => GetStudent({ studentId: router.query.studentId }),
+    {
+      enabled: false,
+    }
+  );
+
   const assignments = useQuery(
     ["assignments-student"],
     () =>
       GetAllAssignment({
-        studentId: student.id,
-        classroomId: student.classroomId,
+        studentId: student?.data?.data?.id,
+        classroomId: student?.data?.data?.classroomId,
       }),
     {
-      enabled: false,
+      enabled: student.isSuccess,
     }
   );
   const attendances = useQuery(
     ["attendances"],
     () =>
       GetAttendances({
-        studentId: student.id,
-        classroomId: student.classroomId,
+        studentId: student?.data?.data?.id,
+        classroomId: student?.data?.data?.classroomId,
       }),
     {
-      enabled: false,
+      enabled: student.isSuccess,
     }
   );
 
   useEffect(() => {
-    setStudnet(() => {
-      const student = localStorage.getItem("student");
-      const studentObject = JSON.parse(student);
-      return studentObject;
-    });
     setClassroomCode(() => {
       const rawClassroomCode = localStorage.getItem("classroomCode");
       const classroomCode = JSON.parse(rawClassroomCode);
@@ -71,11 +78,59 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    if (student) {
-      assignments.refetch();
-      attendances.refetch();
+    if (router.isReady) {
+      student.refetch();
     }
-  }, [student]);
+  }, [router.isReady]);
+
+  //handle sumit to update student data
+  const handleSummitEditStudentData = async (e) => {
+    e.preventDefault();
+    if (!file) {
+      return Swal.fire(
+        "No file chosen❗",
+        "please select one image to be your avatar",
+        "error"
+      );
+    }
+    try {
+      setLoading(() => true);
+      const formData = new FormData();
+      formData.append("file", file);
+      await UpdateStudent({
+        formData,
+        studentId: student?.data?.data?.id,
+      });
+      student.refetch();
+      Swal.fire("success", "เปลี่ยนรูปโปรไฟล์สำเร็จ", "success");
+      document.body.style.overflow = "auto";
+      setSelectedImage(() => null);
+    } catch (err) {
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+      document.body.style.overflow = "auto";
+      setSelectedImage(() => null);
+    }
+  };
+
+  //handle profile update
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    setFile(() => event.target.files[0]);
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      document.body.style.overflow = "hidden";
+      setSelectedImage(() => e.target.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div
       className={`bg-[#2C7CD1] w-full  ${
@@ -105,22 +160,79 @@ function Index() {
           </div>
         </div>
         <header className="flex flex-col justify-center items-center gap-5">
-          {student?.picture && (
-            <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
-              <Image
-                priority={true}
-                src={student?.picture}
-                layout="fill"
-                className="object-contain scale-125 translate-y-4"
+          <div className="w-32 h-32 flex items-center justify-center relative">
+            {student?.data?.data?.picture && (
+              <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
+                <Image
+                  priority={true}
+                  src={student?.data?.data?.picture}
+                  layout="fill"
+                  className="object-contain scale-125 translate-y-4"
+                />
+              </div>
+            )}
+            <label
+              htmlFor="dropzone-file"
+              className="absolute w-8 h-8 bg-white text-xl flex items-center justify-center rounded-md bottom-0 right-0"
+            >
+              <BsImageFill />
+              <input
+                id="dropzone-file"
+                onChange={handleFileInputChange}
+                type="file"
+                accept="image/png, image/gif, image/jpeg"
+                className="hidden"
               />
+            </label>
+          </div>
+          {selectedImage && (
+            <div className="">
+              <div className="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-40 flex flex-col justify-center items-center gap-5">
+                <div className="w-28 h-28 relative">
+                  <Image
+                    layout="fill"
+                    src={selectedImage}
+                    alt="Selected Image"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex gap-5">
+                  <button
+                    onClick={handleSummitEditStudentData}
+                    className="w-40 bg-green-500  font-Kanit py-2 rounded-lg hover:scale-105 transition
+                  active:ring-2 text-white"
+                  >
+                    ยืนยัน
+                  </button>
+                  <button
+                    onClick={() => {
+                      document.body.style.overflow = "auto";
+                      setSelectedImage(() => null);
+                    }}
+                    className="w-40 bg-red-700  font-Kanit py-2 rounded-lg hover:scale-105 transition
+                  active:ring-2 text-white"
+                  >
+                    ยกเลิก
+                  </button>
+                </div>
+              </div>
+
+              <div
+                onClick={() => {
+                  setSelectedImage(() => null);
+                  document.body.style.overflow = "auto";
+                }}
+                className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto z-10 bg-black/80 "
+              ></div>
             </div>
           )}
+
           <div className="text-white font-Kanit font-normal flex gap-2">
-            <span>เลขที่ {student?.number}</span>
+            <span>เลขที่ {student?.data?.data?.number}</span>
           </div>
           <div className="text-white font-Kanit font-normal flex gap-2">
-            <span>{student?.firstName}</span>
-            <span>{student?.lastName}</span>
+            <span>{student?.data?.data?.firstName}</span>
+            <span>{student?.data?.data?.lastName}</span>
           </div>
 
           <div className="flex gap-5">

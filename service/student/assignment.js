@@ -46,7 +46,7 @@ export async function GetMyWork({ studentId, assignmentId }) {
   }
 }
 
-export async function SummitWork({ formFiles, body, assignmentId, studentId }) {
+export async function SummitWork({ formFiles, assignmentId, studentId }) {
   try {
     console.log("server", formFiles);
     const sumiit = await axios.post(

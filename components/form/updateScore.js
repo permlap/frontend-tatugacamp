@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 import CreateScore from "./createScore";
 import { avartars } from "../../data/students";
 import { useRouter } from "next/router";
+import Loading from "../loading/loading";
 function UpdateScore({
   close,
   student,
@@ -46,6 +47,8 @@ function UpdateScore({
   const [isDeleteStudent, setIsDeleteStudent] = useState(false);
   const [triggerSetting, setTriggerSetting] = useState(false);
   const [triggerCreateNewScore, setTriggerCreateNewScore] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState();
   const [studentData, setStdentData] = useState({
     firstName: "",
     lastName: "",
@@ -122,16 +125,22 @@ function UpdateScore({
   const handleSummitEditStudentData = async (e) => {
     e.preventDefault();
     try {
-      const updateData = await UpdateStudent({
-        firstName: studentData.firstName,
-        lastName: studentData.lastName,
-        number: studentData.number,
+      setLoading(() => true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("firstName", studentData.firstName);
+      formData.append("lastName", studentData.lastName);
+      formData.append("number", studentData.number);
+      formData.append("picture", studentData.picture);
+      await UpdateStudent({
+        formData,
         studentId: student.id,
-        chooseAvatar: studentData.picture,
       });
       students.refetch();
+      setLoading(() => false);
       setTriggerSetting((prev) => (prev = false));
     } catch (err) {
+      setLoading(() => false);
       setError((prev) => (prev = err?.props?.response?.data?.message));
       setTimeout(() => {
         setError("");
@@ -232,6 +241,11 @@ function UpdateScore({
   const style = {
     height: 300,
   };
+
+  //handle profile update
+  const handleFileInputChange = (event) => {
+    setFile(event.target.files[0]);
+  };
   return (
     <div
       className=" md:w-full h-full font-Kanit  z-40 
@@ -297,7 +311,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
             <div className="w-full h-max flex items-center justify-center   ">
               {triggerSetting === false ? (
                 <div className="w-full  h-full  flex items-center justify-center px-5 flex-col relative">
-                  <div className="relative w-40 h-40 bg-transparent rounded-full overflow-hidden">
+                  <div className="relative w-40 h-40 bg-transparent rounded-full ">
                     <Image
                       src={student?.picture}
                       layout="fill"
@@ -310,7 +324,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                           ? "bg-red-600"
                           : "bg-[#EDBA02] "
                       } ring-2 ring-white
-                    flex justify-center items-center font-sans font-bold text-3xl z-10 text-white right-5 top-5`}
+                    flex justify-center items-center font-sans font-bold text-3xl z-10 text-white right-0 top-5`}
                     >
                       {student?.score?.totalPoints}
                     </div>
@@ -342,7 +356,6 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                 </div>
               ) : (
                 <form
-                  onSubmit={handleSummitEditStudentData}
                   className="md:w-full w-full  h-full gap-10  flex items-center mt-10 md:mt-0
                  md:items-start justify-between px-5  relative"
                 >
@@ -415,11 +428,12 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                       </div>
                     </div>
                     {error && (
-                      <div className="absolute bottom-12 w-max text-red-600">
+                      <div className=" bottom-12 w-max text-red-600">
                         {error}
                       </div>
                     )}
                     <button
+                      onClick={handleSummitEditStudentData}
                       aria-label="button for setting student's data"
                       className="w-max h-max bg-red-500 md:mt-10  mt-2 text-lg cursor-pointer hover:scale-110 right-2 ring-black border-0 border-none
               text-white p-1 rounded-md flex items-center justify-center gap-2 px-6 
@@ -430,7 +444,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                         {language === "English" && "save"}
                       </span>
                       <div className="text-white flex items-center justify-center ">
-                        <FiSave />
+                        {loading ? <Loading /> : <FiSave />}
                       </div>
                     </button>
                   </div>
@@ -464,13 +478,29 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                         );
                       })}
                     </div>
+                    <div className=" flex flex-col gap-1 mt-5 w-full justify-center ">
+                      <span>อัพโหลดรูปภาพ</span>
+                      <input
+                        aria-label="upload profile picture"
+                        onChange={handleFileInputChange}
+                        type="file"
+                        accept="image/png, image/gif, image/jpeg"
+                        className="text-sm text-grey-500
+            file:mr-5 md:file:w-40 file:w-40 w-full file:py-2
+            file:rounded-full file:border-0 file:h-full
+            file:text-sm file:font-medium 
+            file:bg-blue-50 file:text-blue-700
+            hover:file:cursor-pointer hover:file:bg-amber-50
+            hover:file:text-amber-700
+          "
+                      />
+                    </div>
                   </div>
                 </form>
               )}
             </div>
           </div>
         )}
-        {/* score part */}
 
         {triggerSetting === false && (
           <div className=" flex-col  w-full md:w-max px-5   ">

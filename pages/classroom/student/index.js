@@ -225,10 +225,12 @@ function Index() {
                           "classroomCode",
                           serializedClassroomCode
                         );
-                        const serializedObject = JSON.stringify(selected);
-                        localStorage.setItem("student", serializedObject);
+
                         rounter.push({
                           pathname: `/classroom/student/${selected?.id}`,
+                          query: {
+                            studentId: selected.id,
+                          },
                         });
                       }}
                       type="button"
