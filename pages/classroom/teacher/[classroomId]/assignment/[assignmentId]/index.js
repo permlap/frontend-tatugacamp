@@ -649,38 +649,40 @@ function Index({ error, user }) {
                       <div className="w-96 h-[2px] bg-blue-700 absolute left-0 md:hidden lg:block lg:bottom-2"></div>
                     </div>
 
-                    <form
-                      onSubmit={handleReviewWork}
-                      className="lg:w-max md:w-80  flex md:justify-end lg:justify-center gap-5 "
-                    >
-                      <Box width="40%" className="relative ">
-                        <TextField
-                          fullWidth
-                          label={
-                            user.language === "Thai"
-                              ? "คะแนน"
-                              : user.language === "English" && "score"
-                          }
-                          type="text"
-                          name="score"
-                          value={teacherReview.score}
-                          onChange={handleOnChangeReviewWork}
-                        />
-                        <span className="font-Poppins absolute lg:top-4 md:top-5  md:text-sm lg:text-base md:right-2 lg:right-5">
-                          /{assignment?.data?.data?.maxScore}
-                        </span>
-                      </Box>
-                      <button
-                        className="w-20  h-9 mt-2 rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
+                    {currentStudentWork && (
+                      <form
+                        onSubmit={handleReviewWork}
+                        className="lg:w-max md:w-80  flex md:justify-end lg:justify-center gap-5 "
+                      >
+                        <Box width="40%" className="relative ">
+                          <TextField
+                            fullWidth
+                            label={
+                              user.language === "Thai"
+                                ? "คะแนน"
+                                : user.language === "English" && "score"
+                            }
+                            type="text"
+                            name="score"
+                            value={teacherReview.score}
+                            onChange={handleOnChangeReviewWork}
+                          />
+                          <span className="font-Poppins absolute lg:top-4 md:top-5  md:text-sm lg:text-base md:right-2 lg:right-5">
+                            /{assignment?.data?.data?.maxScore}
+                          </span>
+                        </Box>
+                        <button
+                          className="w-20  h-9 mt-2 rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
                        text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"
-                      >
-                        {user.language === "Thai" && "ส่ง"}
-                        {user.language === "English" && "summit"}
-                      </button>
-                    </form>
+                        >
+                          {user.language === "Thai" && "ส่ง"}
+                          {user.language === "English" && "summit"}
+                        </button>
+                      </form>
+                    )}
                   </div>
                   <div className="w-full flex justify-start items-center gap-2 mb-10">
                     <span>
@@ -738,7 +740,7 @@ function Index({ error, user }) {
                       </SlideshowLightbox>
                     ) : (
                       <div
-                        className="w-80 h-72 text-center flex items-center justify-center font-Kanit
+                        className="w-full   h-72 text-center flex items-center justify-center font-Kanit
                       font-bold text-2xl text-gray-300"
                       >
                         {currentStudentWork?.status === "no-work" &&
@@ -807,7 +809,10 @@ function Index({ error, user }) {
                             </div>
                           );
                         }
-                        if (file.fileType === "mp3") {
+                        if (
+                          file.fileType === "mp3" ||
+                          file.fileType === "aac"
+                        ) {
                           return (
                             <div
                               key={index}
@@ -965,29 +970,31 @@ function Index({ error, user }) {
                       );
                     }
                   })}
-                  <form
-                    onSubmit={handlePostComment}
-                    className="w-full flex items-center justify-center gap-5 mt-10 pb-10"
-                  >
-                    <Box width="50%">
-                      <TextField
-                        name="comment"
-                        onChange={handleOnChangeReviewWork}
-                        fullWidth
-                        value={teacherReview.comment}
-                        label="comment"
-                      />
-                    </Box>
-                    <button
-                      className="w-max px-5 py-2 h-max  rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
+                  {currentStudentWork && (
+                    <form
+                      onSubmit={handlePostComment}
+                      className="w-full flex items-center justify-center gap-5 mt-10 pb-10"
+                    >
+                      <Box width="50%">
+                        <TextField
+                          name="comment"
+                          onChange={handleOnChangeReviewWork}
+                          fullWidth
+                          value={teacherReview.comment}
+                          label="comment"
+                        />
+                      </Box>
+                      <button
+                        className="w-max px-5 py-2 h-max  rounded-full bg-[#2C7CD1] hover:bg-red-500 tranti duration-150
                        text-white font-sans font-bold
               text-md cursor-pointer hover: active:border-2  active:border-gray-300
                active:border-solid flex items-center justify-center  focus:border-2 
               focus:border-solid"
-                    >
-                      <SendIcon />
-                    </button>
-                  </form>
+                      >
+                        <SendIcon />
+                      </button>
+                    </form>
+                  )}
                 </div>
               </div>
             )}

@@ -582,7 +582,7 @@ application/pdf,
                           </div>
                         );
                       }
-                      if (file.fileType === "mp3") {
+                      if (file.fileType === "mp3" || file.fileType === "aac") {
                         return (
                           <div
                             key={index}
