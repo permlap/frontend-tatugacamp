@@ -5,7 +5,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { MdRestartAlt } from "react-icons/md";
 import { RiShuffleLine } from "react-icons/ri";
-import { useAudio, useWindowSize } from "react-use";
+import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 
 const to = (i) => ({

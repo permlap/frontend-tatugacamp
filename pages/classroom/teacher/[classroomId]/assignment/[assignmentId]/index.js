@@ -37,6 +37,7 @@ function Index({ error, user }) {
   const router = useRouter();
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
   const [comment, setComment] = useState();
+  const [files, setFiles] = useState([]);
   const assignment = useQuery(
     ["assignment"],
     () => GetAssignment({ assignmentId: router.query.assignmentId }),
@@ -159,10 +160,16 @@ function Index({ error, user }) {
     setActiveMenu(index);
   };
 
+  // check file type
+  function get_url_extension(url) {
+    return url.split(/[#?]/)[0].split(".").pop().trim();
+  }
+
   //handle select student's work
   const handleSelectWork = async (student) => {
     try {
       if (student.studentWork) {
+        setFiles(() => []);
         setImages(() => {
           let pictures = [];
           if (!student?.studentWork?.picture) {
@@ -170,7 +177,20 @@ function Index({ error, user }) {
           } else if (student.studentWork.picture) {
             const arrayPictures = student.studentWork.picture.split(", ");
             for (const arrayPicture of arrayPictures) {
-              pictures.push({ src: arrayPicture, alt: "student's work" });
+              const fileType = get_url_extension(arrayPicture);
+              if (fileType === "jpg" || fileType === "png") {
+                pictures.push({ src: arrayPicture, alt: "student's work" });
+              } else {
+                setFiles((prev) => {
+                  return [
+                    ...prev,
+                    {
+                      fileType: fileType,
+                      url: arrayPicture,
+                    },
+                  ];
+                });
+              }
             }
 
             return pictures;
@@ -684,7 +704,7 @@ function Index({ error, user }) {
                       </div>
                     )}
                   </div>
-                  <div className="">
+                  <div className=" flex flex-col w-full gap-10 ">
                     {currentStudentWork && images && images !== null ? (
                       <SlideshowLightbox
                         downloadImages={true}
@@ -706,7 +726,7 @@ function Index({ error, user }) {
                               alt="student's work"
                               width={240}
                               height={160}
-                              className="object-cover"
+                              className="object-cover hover:scale-125 transition duration-150"
                               data-lightboxjs="lightbox1"
                               quality={80}
                               placeholder="blur"
@@ -740,6 +760,68 @@ function Index({ error, user }) {
                           "Please select some student"}
                       </div>
                     )}
+                    <div className="flex flex-col gap-5 justify-start items-center">
+                      {files.map((file, index) => {
+                        if (file.fileType === "pdf") {
+                          return (
+                            <div
+                              key={index}
+                              className="w-full flex justify-center"
+                            >
+                              <embed
+                                src={file.url}
+                                type="application/pdf"
+                                frameBorder="0"
+                                scrolling="auto"
+                                height="500px"
+                                width="80%"
+                              ></embed>
+                            </div>
+                          );
+                        }
+                        if (file.fileType === "docx") {
+                          return (
+                            <div
+                              key={index}
+                              className="w-full flex  justify-center"
+                            >
+                              <iframe
+                                width="80%"
+                                height="500px"
+                                src={`https://docs.google.com/gview?url=${file.url}&embedded=true`}
+                              ></iframe>
+                            </div>
+                          );
+                        }
+                        if (file.fileType === "mp4") {
+                          return (
+                            <div
+                              key={index}
+                              className="w-full flex  justify-center"
+                            >
+                              <video controls width="80%">
+                                <source src={file.url} type="video/mp4" />
+                                Sorry, your browser doesn't support videos.
+                              </video>
+                            </div>
+                          );
+                        }
+                        if (file.fileType === "mp3") {
+                          return (
+                            <div
+                              key={index}
+                              className="w-full flex  justify-center"
+                            >
+                              <audio
+                                src={file.url}
+                                controls={true}
+                                autoPlay={false}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
                   </div>
                   {currentStudentWork?.studentWork?.body && (
                     <div className=" w-full h-max mt-5 flex items-start justify-start relative ">

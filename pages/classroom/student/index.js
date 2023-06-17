@@ -229,11 +229,10 @@ function Index() {
                           "classroomCode",
                           serializedClassroomCode
                         );
-
                         rounter.push({
                           pathname: `/classroom/student/${selected?.id}`,
                           query: {
-                            studentId: selected.id,
+                            classroomId: classroom?.data?.data?.classroom?.id,
                           },
                         });
                       }}

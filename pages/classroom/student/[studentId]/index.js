@@ -50,22 +50,22 @@ function Index() {
     ["assignments-student"],
     () =>
       GetAllAssignment({
-        studentId: student?.data?.data?.id,
-        classroomId: student?.data?.data?.classroomId,
+        studentId: router.query.studentId,
+        classroomId: router.query.classroomId,
       }),
     {
-      enabled: student.isSuccess,
+      enabled: false,
     }
   );
   const attendances = useQuery(
     ["attendances"],
     () =>
       GetAttendances({
-        studentId: student?.data?.data?.id,
-        classroomId: student?.data?.data?.classroomId,
+        studentId: router.query.studentId,
+        classroomId: router.query.classroomId,
       }),
     {
-      enabled: student.isSuccess,
+      enabled: false,
     }
   );
 
@@ -80,6 +80,8 @@ function Index() {
   useEffect(() => {
     if (router.isReady) {
       student.refetch();
+      assignments.refetch();
+      attendances.refetch();
     }
   }, [router.isReady]);
 
@@ -284,7 +286,10 @@ function Index() {
                     const serializedAssignment = JSON.stringify(assignment);
                     localStorage.setItem("assignment", serializedAssignment);
                     router.push({
-                      pathname: `/classroom/student/${student.id}/assignment/${assignment.assignment.id}`,
+                      pathname: `/classroom/student/${student?.data?.data.id}/assignment/${assignment.assignment.id}`,
+                      query: {
+                        classroomId: router.query.classroomId,
+                      },
                     });
                   }}
                   aria-label="open assignment"

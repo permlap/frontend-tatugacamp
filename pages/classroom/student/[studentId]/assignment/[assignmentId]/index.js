@@ -19,6 +19,7 @@ import {
   PostComment,
 } from "../../../../../../service/student/comment";
 import Head from "next/head";
+import { GetStudent } from "../../../../../../service/student/student";
 
 function Index() {
   const router = useRouter();
@@ -29,9 +30,7 @@ function Index() {
   ];
   const [teacher, setTeacher] = useState();
   const [loading, setLoading] = useState(false);
-
   const [activeMenu, setActiveMenu] = useState(0);
-  const [student, setStudent] = useState();
   const [studentWork, setStudnetWork] = useState();
   const [assignment, setAssignment] = useState();
   const [deadline, setDeadline] = useState();
@@ -40,34 +39,52 @@ function Index() {
   });
   const comments = useQuery(
     ["comments"],
-    () => GetComments({ assignmentId: assignment.id, studentId: student.id }),
+    () =>
+      GetComments({
+        assignmentId: assignment.id,
+        studentId: router.query.studentId,
+      }),
     {
       enabled: false,
     }
   );
+  const student = useQuery(
+    ["student"],
+    () => GetStudent({ studentId: router.query.studentId }),
+    {
+      enabled: false,
+    }
+  );
+  console.log(studentWork);
   const fetchStudentWork = useQuery(["student-work"], () =>
-    GetMyWork({ studentId: student.id, assignmentId: assignment.id }).then(
-      (res) => {
-        setStudnetWork(() => {
-          let pictures = [];
-
-          if (res.data.status === "have-work") {
-            if (res.data.picture) {
-              const arrayPictures = res.data.picture.split(", ");
-              for (const arrayPicture of arrayPictures) {
+    GetMyWork({
+      studentId: router.query.studentId,
+      assignmentId: assignment.id,
+    }).then((res) => {
+      setStudnetWork(() => {
+        let pictures = [];
+        let files = [];
+        if (res.data.status === "have-work") {
+          if (res.data.picture) {
+            const arrayPictures = res.data.picture.split(", ");
+            for (const arrayPicture of arrayPictures) {
+              const fileType = get_url_extension(arrayPicture);
+              if (fileType === "jpg" || fileType === "png") {
                 pictures.push({ src: arrayPicture, alt: "student's work" });
+              } else {
+                files.push({ fileType: fileType, url: arrayPicture });
               }
-              return { ...res.data, picture: pictures };
-            } else if (!res.data.picture) {
-              return res.data;
             }
-          } else if (res.data.status === "no-work") {
+            return { ...res.data, picture: pictures, files: files };
+          } else if (!res.data.picture) {
             return res.data;
           }
-        });
-        return res;
-      }
-    )
+        } else if (res.data.status === "no-work") {
+          return res.data;
+        }
+      });
+      return res;
+    })
   );
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -93,7 +110,7 @@ function Index() {
             formFiles.getAll("body");
             const summitWork = await SummitWork({
               formFiles,
-              studentId: student.id,
+              studentId: router.query.studentId,
               assignmentId: assignment.id,
             });
 
@@ -136,7 +153,7 @@ function Index() {
             formFiles.getAll("body");
             const summitWork = await SummitWork({
               formFiles,
-              studentId: student.id,
+              studentId: router.query.studentId,
               assignmentId: assignment.id,
             });
 
@@ -168,17 +185,15 @@ function Index() {
   };
 
   useEffect(() => {
+    if (router.isReady) {
+      student.refetch();
+    }
     setTeacher(() => {
       const teacher = localStorage.getItem("teacher");
       return JSON.parse(teacher);
     });
     initLightboxJS(process.env.NEXT_PUBLIC_LIGHTBOX_KEY, "individual");
     const studentWork = localStorage.getItem("assignment");
-    setStudent(() => {
-      const student = localStorage.getItem("student");
-      const convertStudent = JSON.parse(student);
-      return convertStudent;
-    });
     setAssignment(() => {
       const assignment = localStorage.getItem("assignment");
       const convertAssignment = JSON.parse(assignment);
@@ -196,7 +211,7 @@ function Index() {
     setTimeout(() => {
       fetchStudentWork.refetch();
     }, 500);
-  }, []);
+  }, [router.isReady]);
 
   //check wheter studet has work
   useEffect(() => {
@@ -213,7 +228,7 @@ function Index() {
 
       await PostComment({
         assignmentId: assignment.id,
-        studentId: student.id,
+        studentId: router.query.studentId,
         body: studentSummit.body,
       });
       setStudentSummit((prev) => {
@@ -227,6 +242,14 @@ function Index() {
       Swal.fire("error", err?.props?.response?.data?.message, "error");
     }
   };
+
+  // check file type
+  function get_url_extension(url) {
+    return url.split(/[#?]/)[0].split(".").pop().trim();
+  }
+
+  function handleShowStudentWork() {}
+
   return (
     <div className="  w-full h-full font-Kanit relative pb-96 bg-white  ">
       <Head>
@@ -239,7 +262,10 @@ function Index() {
           onClick={() => {
             setLoading(true);
             router.push({
-              pathname: `/classroom/student/${student.id}`,
+              pathname: `/classroom/student/${router.query.studentId}`,
+              query: {
+                classroomId: router.query.classroomId,
+              },
             });
           }}
           className="w-max h-max  mt-2 ml-2 cursor-pointer group
@@ -266,8 +292,9 @@ function Index() {
             ) : (
               <div className="col-span-2 font-semibold">
                 <span>
-                  เลขที่ {student?.number} {student?.firstName}{" "}
-                  {student?.lastName}
+                  เลขที่ {student?.data?.data?.number}{" "}
+                  {student?.data?.data?.firstName}{" "}
+                  {student?.data?.data?.lastName}
                 </span>
               </div>
             )}
@@ -400,7 +427,7 @@ function Index() {
             className="w-9/12 max-w-3xl h-full  mt-1 flex flex-col gap-2"
           >
             <span className="text-sm text-red-500">
-              เลือกไฟล์ได้เฉพาะไฟล์รูปภาพ
+              สามารส่งไฟล์ mp4, mp3, docx, pdf,jpge, png ได้แล้ว
             </span>
             {fetchStudentWork.isLoading || loading ? (
               <Skeleton variant="rounded" width="100%" height={300} />
@@ -412,7 +439,15 @@ function Index() {
                   aria-label="upload image"
                   type="file"
                   multiple="multiple"
-                  accept="image/png, image/gif, image/jpeg"
+                  accept="
+application/pdf,
+    image/jpeg,
+    image/png,
+    image/gif,
+    application/msword,
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+    video/mp4,
+    audio/mpeg"
                   className="text-sm text-grey-500 
             file:mr-5 md:file:w-40 file:w-40 w-max file:py-2
             file:rounded-full file:border-0
@@ -446,12 +481,7 @@ function Index() {
                 </div>
               </div>
             ) : (
-              <div>
-                <div>
-                  <span className="text-xl font-Kanit text-white">
-                    งานของคุณ
-                  </span>
-                </div>
+              <div className="w-full bg-slate-400 flex flex-col   gap-5 mt-5">
                 {studentWork.picture && (
                   <SlideshowLightbox
                     downloadImages={true}
@@ -479,8 +509,67 @@ function Index() {
                     })}
                   </SlideshowLightbox>
                 )}
-                <div className="w-full flex items-center justify-center mt-2">
-                  {/* {studentWork?.body && (
+                <div className="flex flex-col gap-5 justify-start items-center">
+                  {studentWork.files.map((file, index) => {
+                    if (file.fileType === "pdf") {
+                      return (
+                        <div key={index} className="w-full flex justify-center">
+                          <embed
+                            src={file.url}
+                            type="application/pdf"
+                            frameBorder="0"
+                            scrolling="auto"
+                            height="500px"
+                            width="80%"
+                          ></embed>
+                        </div>
+                      );
+                    }
+                    if (file.fileType === "docx") {
+                      return (
+                        <div
+                          key={index}
+                          className="w-full flex  justify-center"
+                        >
+                          <iframe
+                            width="80%"
+                            height="500px"
+                            src={`https://docs.google.com/gview?url=${file.url}&embedded=true`}
+                          ></iframe>
+                        </div>
+                      );
+                    }
+                    if (file.fileType === "mp4") {
+                      return (
+                        <div
+                          key={index}
+                          className="w-full flex  justify-center"
+                        >
+                          <video controls width="80%">
+                            <source src={file.url} type="video/mp4" />
+                            Sorry, your browser doesn't support videos.
+                          </video>
+                        </div>
+                      );
+                    }
+                    if (file.fileType === "mp3") {
+                      return (
+                        <div
+                          key={index}
+                          className="w-full flex  justify-center"
+                        >
+                          <audio
+                            src={file.url}
+                            controls={true}
+                            autoPlay={false}
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+                {/* <div className="w-full flex items-center justify-center mt-2">
+                  {studentWork?.body && (
                     <div className="w-11/12 flex justify-start">
                       <div className="w-full max-w-5xl pr-6 h-max p-2 rounded-lg bg-blue-50 flex">
                         <span className="font-semibold">นักเรียน:</span>
@@ -497,8 +586,8 @@ function Index() {
                         />
                       </div>
                     </div>
-                  )} */}
-                </div>
+                  )}
+                </div> */}
                 {/* <div className="w-full flex items-center justify-center mt-2">
                   {studentWork?.comment && (
                     <div className="w-11/12 flex justify-end">
