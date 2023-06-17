@@ -96,7 +96,6 @@ export async function CreateStudentApi({
 
 export async function UpdateStudent({ formData, studentId }) {
   try {
-    console.log("server", formData);
     const cookies = parseCookies();
     const access_token = cookies.access_token;
     const updateStudent = await axios.put(

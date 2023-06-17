@@ -165,12 +165,16 @@ function Index() {
           <div className="w-32 h-32 flex items-center justify-center relative">
             {student?.data?.data?.picture && (
               <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
-                <Image
-                  priority={true}
-                  src={student?.data?.data?.picture}
-                  layout="fill"
-                  className="object-cover  "
-                />
+                {student.isFetching ? (
+                  <Skeleton variant="rectangular" width="100%" height="100%" />
+                ) : (
+                  <Image
+                    priority={true}
+                    src={student?.data?.data?.picture}
+                    layout="fill"
+                    className="object-cover  "
+                  />
+                )}
               </div>
             )}
             <label
@@ -230,11 +234,21 @@ function Index() {
           )}
 
           <div className="text-white font-Kanit font-normal flex gap-2">
-            <span>เลขที่ {student?.data?.data?.number}</span>
+            {student.isFetching ? (
+              <Skeleton variant="text" width={100} />
+            ) : (
+              <span>เลขที่ {student?.data?.data?.number}</span>
+            )}
           </div>
           <div className="text-white font-Kanit font-normal flex gap-2">
-            <span>{student?.data?.data?.firstName}</span>
-            <span>{student?.data?.data?.lastName}</span>
+            {student.isFetching ? (
+              <Skeleton variant="text" width={200} />
+            ) : (
+              <div className="flex gap-4">
+                <span>{student?.data?.data?.firstName}</span>
+                <span>{student?.data?.data?.lastName}</span>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-5">

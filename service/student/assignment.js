@@ -48,7 +48,6 @@ export async function GetMyWork({ studentId, assignmentId }) {
 
 export async function SummitWork({ formFiles, assignmentId, studentId }) {
   try {
-    console.log("server", formFiles);
     const sumiit = await axios.post(
       `${process.env.Server_Url}/student/student-assignment/summit-work`,
       formFiles,
@@ -63,7 +62,6 @@ export async function SummitWork({ formFiles, assignmentId, studentId }) {
       }
     );
 
-    console.log(sumiit);
     return sumiit;
   } catch (err) {
     console.log(err);

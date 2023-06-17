@@ -20,6 +20,7 @@ import {
 } from "../../../../../../service/student/comment";
 import Head from "next/head";
 import { GetStudent } from "../../../../../../service/student/student";
+import Loading from "../../../../../../components/loading/loading";
 
 function Index() {
   const router = useRouter();
@@ -34,6 +35,7 @@ function Index() {
   const [studentWork, setStudnetWork] = useState();
   const [assignment, setAssignment] = useState();
   const [deadline, setDeadline] = useState();
+  const [fileSize, setFilesSize] = useState(0);
   const [studentSummit, setStudentSummit] = useState({
     body: "",
   });
@@ -55,7 +57,6 @@ function Index() {
       enabled: false,
     }
   );
-  console.log(studentWork);
   const fetchStudentWork = useQuery(["student-work"], () =>
     GetMyWork({
       studentId: router.query.studentId,
@@ -145,6 +146,7 @@ function Index() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
+            setLoading(() => true);
             const formFiles = new FormData();
             selectedFiles.forEach((file) => {
               formFiles.append("files", file);
@@ -156,10 +158,11 @@ function Index() {
               studentId: router.query.studentId,
               assignmentId: assignment.id,
             });
-
+            setLoading(() => false);
             fetchStudentWork.refetch();
             Swal.fire("success", "ส่งงานแล้ว", "success");
           } catch (err) {
+            setLoading(() => false);
             if (
               err?.props?.response?.data?.error.message ===
               "student's already summit their work"
@@ -181,6 +184,13 @@ function Index() {
   //set files to array
   const handleFileEvent = (e) => {
     const choosenFiles = Array.prototype.slice.call(e.target.files);
+    let totalSize = 0;
+
+    for (let i = 0; i < choosenFiles.length; i++) {
+      totalSize += choosenFiles[i].size;
+    }
+    const totalSizeInMB = (totalSize / (1024 * 1024)).toFixed(2);
+    setFilesSize(() => totalSizeInMB);
     setSelectedFiles(choosenFiles);
   };
 
@@ -213,19 +223,9 @@ function Index() {
     }, 500);
   }, [router.isReady]);
 
-  //check wheter studet has work
-  useEffect(() => {
-    if (studentWork?.status === "have-work") {
-      setTimeout(() => {
-        setActiveMenu(1);
-      }, 2000);
-    }
-  }, [studentWork]);
-
   const handleSumitComment = async (e) => {
     try {
       e.preventDefault();
-
       await PostComment({
         assignmentId: assignment.id,
         studentId: router.query.studentId,
@@ -427,19 +427,25 @@ function Index() {
             className="w-9/12 max-w-3xl h-full  mt-1 flex flex-col gap-2"
           >
             <span className="text-sm text-red-500">
-              สามารส่งไฟล์ mp4, mp3, docx, pdf,jpge, png ได้แล้ว
+              สามารส่งไฟล์ mp4, mp3, docx, pdf,jpge, png ได้แล้ว ขนาดไม่เกิน 100
+              MB
             </span>
-            {fetchStudentWork.isLoading || loading ? (
+            {fetchStudentWork.isLoading ? (
               <Skeleton variant="rounded" width="100%" height={300} />
             ) : (
               <label className="w-max">
-                <input
-                  onChange={handleFileEvent}
-                  name="files"
-                  aria-label="upload image"
-                  type="file"
-                  multiple="multiple"
-                  accept="
+                {loading ? (
+                  <div>
+                    <Loading />
+                  </div>
+                ) : (
+                  <input
+                    onChange={handleFileEvent}
+                    name="files"
+                    aria-label="upload image"
+                    type="file"
+                    multiple="multiple"
+                    accept="
 application/pdf,
     image/jpeg,
     image/png,
@@ -448,7 +454,7 @@ application/pdf,
     application/vnd.openxmlformats-officedocument.wordprocessingml.document,
     video/mp4,
     audio/mpeg"
-                  className="text-sm text-grey-500 
+                    className="text-sm text-grey-500 
             file:mr-5 md:file:w-40 file:w-40 w-max file:py-2
             file:rounded-full file:border-0
             file:text-sm file:font-Kanit file:font-normal file:text-white
@@ -457,17 +463,37 @@ application/pdf,
             hover:file:cursor-pointer hover:file:bg-amber-50
             hover:file:text-amber-700
           "
-                />
+                  />
+                )}
               </label>
             )}
-
-            <button
-              type="submit"
-              className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
+            <div className="flex gap-2">
+              <span>ไฟล์ที่คุณเลือกมีขนาด</span>
+              <span>{fileSize}MB</span>
+            </div>
+            {loading ? (
+              <div
+                className="w-40 h-10 mt-5  bg-gray-500 drop-shadow-md text-white rounded-xl
            flex items-center justify-center"
-            >
-              ส่งงาน
-            </button>
+              >
+                โปรดรอสักครู่
+              </div>
+            ) : fileSize > 100 ? (
+              <div
+                className="w-40 h-10 mt-5  bg-red-500 drop-shadow-md text-white rounded-xl
+           flex items-center justify-center"
+              >
+                ขนาดไฟล์เกิน
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
+       flex items-center justify-center"
+              >
+                ส่งงาน
+              </button>
+            )}
           </form>
         )}
 
