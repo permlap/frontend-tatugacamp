@@ -129,7 +129,7 @@ function UpdateScore({
       const formData = new FormData();
       formData.append("file", file);
       formData.append("firstName", studentData.firstName);
-      formData.append("lastName", studentData.lastName);
+      formData.append("lastName", studentData?.lastName);
       formData.append("number", studentData.number);
       formData.append("picture", studentData.picture);
       await UpdateStudent({
@@ -398,7 +398,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                         name="lastName"
                         placeholder="แก้ไขนาสกุล"
                         maxLength="30"
-                        value={studentData.lastName}
+                        value={studentData?.lastName}
                       />
                       <div
                         className="absolute bottom-1 left-2  text-[#2C7CD1] w-5 h-5 text-xl 

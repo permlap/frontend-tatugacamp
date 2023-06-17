@@ -367,7 +367,7 @@ function UpdateAssignment({
                       {student.firstName}
                     </div>
                     <div className="flex items-center justify-center">
-                      {student.lastName}
+                      {student?.lastName}
                     </div>
                     {student.status === "no-assign" ? (
                       <div className="flex items-center justify-center ">

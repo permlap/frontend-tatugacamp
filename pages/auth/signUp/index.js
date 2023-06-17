@@ -259,9 +259,9 @@ function Index() {
                   onChange={onInputChange}
                   onBlur={validateInput}
                 />
-                {error.lastName && (
+                {error?.lastName && (
                   <span className=" absolute right-0 top-1 text-red-400 font-light text-xs">
-                    {error.lastName}
+                    {error?.lastName}
                   </span>
                 )}
               </div>

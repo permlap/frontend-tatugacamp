@@ -72,7 +72,7 @@ export async function UpdateUserData(updateddata) {
       `${process.env.Server_Url}/users/update-user`,
       {
         firstName: updateddata.firstName,
-        lastName: updateddata.lastName,
+        lastName: updateddata?.lastName,
         school: updateddata.school,
         phone: updateddata.phone,
         language: updateddata.language,

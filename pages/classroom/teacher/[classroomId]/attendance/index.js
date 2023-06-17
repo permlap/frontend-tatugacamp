@@ -208,7 +208,7 @@ function Index({ error, user }) {
                         </td>
                         <td className=" w-60 text-left flex justify-start items-center sticky left-24 bg-white group-hover:bg-slate-200">
                           <span className="text-left">
-                            {item.student.firstName} {item.student.lastName}
+                            {item.student.firstName} {item.student?.lastName}
                           </span>
                         </td>
 

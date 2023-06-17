@@ -162,9 +162,10 @@ function Index({ user, error }) {
                   })
                 : students?.data?.data.map((student) => {
                     const shortName = student.firstName.replace(
-                      /^นาย|^นางสาว|^นาง|^เด็กชาย|^เด็กหญิง|^ด.ช.|^ด.ญ./,
-                      ""
+                      /^(นาย|นางสาว|นาง|เด็กชาย|เด็กหญิง|ด\.ช\.|ด\.ญ\.)(.*)$/,
+                      "$2"
                     );
+                    var firstName = shortName.split(" ")[0];
                     return (
                       <Popover key={student.id}>
                         {({ open }) => (
@@ -226,21 +227,23 @@ function Index({ user, error }) {
                                   )}
                                 </div>
 
-                                <div className="font-Kanit text-xl flex items-center w-max  justify-start gap-2">
-                                  <div className=" font-semibold text-gray-700 w-5 h-5 flex items-center justify-center  rounded-md">
+                                <div className="font-Kanit text-xl flex items-center    justify-start gap-2">
+                                  <div className=" font-semibold text-gray-700  w-5 h-5 flex items-center justify-center  rounded-md">
                                     {students.isFetching ? (
                                       <Skeleton variant="text" width={10} />
                                     ) : (
                                       student.number
                                     )}
                                   </div>
-                                  <span className="text-md">
-                                    {students.isFetching ? (
-                                      <Skeleton variant="text" width={40} />
-                                    ) : (
-                                      shortName
-                                    )}
-                                  </span>
+                                  <div className="w-full truncate">
+                                    <span className="text-md  ">
+                                      {students.isFetching ? (
+                                        <Skeleton variant="text" width={40} />
+                                      ) : (
+                                        firstName
+                                      )}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </Popover.Button>

@@ -52,7 +52,7 @@ function CreateStudent({ close, language }) {
     try {
       const createStudent = await CreateStudentApi({
         firstName: inputObject.firstName,
-        lastName: inputObject.lastName,
+        lastName: inputObject?.lastName,
         number: inputObject.number,
         classroomId: router.query.classroomId,
       });
@@ -142,7 +142,7 @@ function CreateStudent({ close, language }) {
                               {list.firstName}
                             </span>
                             <span className="flex justify-center items-center text-black">
-                              {list.lastName}
+                              {list?.lastName}
                             </span>
 
                             {list.status === 400 && (
@@ -186,7 +186,7 @@ function CreateStudent({ close, language }) {
                               {list.firstName}
                             </span>
                             <span className="flex justify-center items-center text-black">
-                              {list.lastName}
+                              {list?.lastName}
                             </span>
                           </div>
                         </li>

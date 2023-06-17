@@ -316,7 +316,7 @@ export default function CreateAssignment({
                         {student.firstName}
                       </div>
                       <div className="flex items-center justify-center">
-                        {student.lastName}
+                        {student?.lastName}
                       </div>
                       <div className="flex items-center justify-center">
                         <input

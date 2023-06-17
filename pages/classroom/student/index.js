@@ -145,7 +145,7 @@ function Index() {
                          text-gray-900 focus:ring-0 focus:border-none outline-none
                         active:border-none"
                           displayValue={(person) =>
-                            `${person.firstName}  ${person.lastName}`
+                            `${person.firstName}  ${person?.lastName}`
                           }
                           onChange={(event) => setQuery(event.target.value)}
                         />
@@ -191,7 +191,7 @@ function Index() {
                                         selected ? "font-medium" : "font-normal"
                                       }`}
                                     >
-                                      {person.firstName} {person.lastName}
+                                      {person.firstName} {person?.lastName}
                                     </span>
                                     {selected ? (
                                       <span

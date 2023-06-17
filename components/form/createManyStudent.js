@@ -25,7 +25,7 @@ function ExcelTable({ getExcelData, students, language }) {
         updatedTableData.push(updatedStudentLoading);
         const createStudent = await CreateStudentApi({
           firstName: student.firstName,
-          lastName: student.lastName,
+          lastName: student?.lastName,
           number: student.number,
           classroomId: router.query.classroomId,
         });

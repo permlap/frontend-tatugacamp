@@ -134,7 +134,7 @@ function RandomStudents({
                 ...prev,
                 {
                   firstName: shuffledArray[index].firstName,
-                  lastName: shuffledArray[index].lastName,
+                  lastName: shuffledArray[index]?.lastName,
                   number: shuffledArray[index].number,
                   picture: shuffledArray[index].picture,
                 },
@@ -306,7 +306,7 @@ function RandomStudents({
                           : "******"}
                       </span>
                       <span>
-                        {activeCard === i ? shuffledArray[i].lastName : "***"}
+                        {activeCard === i ? shuffledArray[i]?.lastName : "***"}
                       </span>
                     </animated.ul>
                   </animated.div>
@@ -359,7 +359,7 @@ function RandomStudents({
                 <li key={index} className="text-black">
                   <span>เลขที่ {card.number} </span>
                   <span>{card.firstName} </span>
-                  <span>{card.lastName}</span>
+                  <span>{card?.lastName}</span>
                 </li>
               );
             })}
