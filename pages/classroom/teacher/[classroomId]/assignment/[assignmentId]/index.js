@@ -197,6 +197,7 @@ function Index({ error, user }) {
           }
         });
       } else if (!student.studentWork) {
+        setFiles(() => []);
         setImages(null);
       }
       setCurrentStudentWork(student);

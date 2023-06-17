@@ -481,7 +481,7 @@ application/pdf,
                 </div>
               </div>
             ) : (
-              <div className="w-full bg-slate-400 flex flex-col   gap-5 mt-5">
+              <div className="w-full  flex flex-col   gap-5 mt-5">
                 {studentWork.picture && (
                   <SlideshowLightbox
                     downloadImages={true}
@@ -510,63 +510,67 @@ application/pdf,
                   </SlideshowLightbox>
                 )}
                 <div className="flex flex-col gap-5 justify-start items-center">
-                  {studentWork?.files.map((file, index) => {
-                    if (file.fileType === "pdf") {
-                      return (
-                        <div key={index} className="w-full flex justify-center">
-                          <embed
-                            src={file.url}
-                            type="application/pdf"
-                            frameBorder="0"
-                            scrolling="auto"
-                            height="500px"
-                            width="80%"
-                          ></embed>
-                        </div>
-                      );
-                    }
-                    if (file.fileType === "docx") {
-                      return (
-                        <div
-                          key={index}
-                          className="w-full flex  justify-center"
-                        >
-                          <iframe
-                            width="80%"
-                            height="500px"
-                            src={`https://docs.google.com/gview?url=${file.url}&embedded=true`}
-                          ></iframe>
-                        </div>
-                      );
-                    }
-                    if (file.fileType === "mp4") {
-                      return (
-                        <div
-                          key={index}
-                          className="w-full flex  justify-center"
-                        >
-                          <video controls width="80%">
-                            <source src={file.url} type="video/mp4" />
-                            Sorry, your browser doesn't support videos.
-                          </video>
-                        </div>
-                      );
-                    }
-                    if (file.fileType === "mp3") {
-                      return (
-                        <div
-                          key={index}
-                          className="w-full flex  justify-center"
-                        >
-                          <audio
-                            src={file.url}
-                            controls={true}
-                            autoPlay={false}
-                          />
-                        </div>
-                      );
-                    }
-                  })}
+                  {studentWork?.files?.length > 0 &&
+                    studentWork?.files.map((file, index) => {
+                      if (file.fileType === "pdf") {
+                        return (
+                          <div
+                            key={index}
+                            className="w-full flex justify-center"
+                          >
+                            <embed
+                              src={file.url}
+                              type="application/pdf"
+                              frameBorder="0"
+                              scrolling="auto"
+                              height="500px"
+                              width="80%"
+                            ></embed>
+                          </div>
+                        );
+                      }
+                      if (file.fileType === "docx") {
+                        return (
+                          <div
+                            key={index}
+                            className="w-full flex  justify-center"
+                          >
+                            <iframe
+                              width="80%"
+                              height="500px"
+                              src={`https://docs.google.com/gview?url=${file.url}&embedded=true`}
+                            ></iframe>
+                          </div>
+                        );
+                      }
+                      if (file.fileType === "mp4") {
+                        return (
+                          <div
+                            key={index}
+                            className="w-full flex  justify-center"
+                          >
+                            <video controls width="80%">
+                              <source src={file.url} type="video/mp4" />
+                              Sorry, your browser doesn't support videos.
+                            </video>
+                          </div>
+                        );
+                      }
+                      if (file.fileType === "mp3") {
+                        return (
+                          <div
+                            key={index}
+                            className="w-full flex  justify-center"
+                          >
+                            <audio
+                              src={file.url}
+                              controls={true}
+                              autoPlay={false}
+                            />
+                          </div>
+                        );
+                      }
+                    })}
                 </div>
                 {/* <div className="w-full flex items-center justify-center mt-2">
                   {studentWork?.body && (
