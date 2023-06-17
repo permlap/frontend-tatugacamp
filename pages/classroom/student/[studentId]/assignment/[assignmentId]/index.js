@@ -510,7 +510,7 @@ application/pdf,
                   </SlideshowLightbox>
                 )}
                 <div className="flex flex-col gap-5 justify-start items-center">
-                  {studentWork.files.map((file, index) => {
+                  {studentWork?.files.map((file, index) => {
                     if (file.fileType === "pdf") {
                       return (
                         <div key={index} className="w-full flex justify-center">
