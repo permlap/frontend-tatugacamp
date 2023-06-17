@@ -136,7 +136,7 @@ function Index() {
   return (
     <div
       className={`bg-[#2C7CD1] w-full  ${
-        assignments?.data?.data.length > 4 ? "h-full" : "h-screen"
+        assignments?.data?.data.length > 2 ? "h-full" : "h-screen"
       }  md:h-screen md:pb-40 lg:pb-96 lg:h-full`}
     >
       <Head>

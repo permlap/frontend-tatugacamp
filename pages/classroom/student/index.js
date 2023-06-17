@@ -54,7 +54,7 @@ function Index() {
         );
 
   return (
-    <div className="bg-[#2C7CD1] h-screen md:h-full ">
+    <div className="bg-[#2C7CD1] h-full md:h-full ">
       <Head>
         <title>{`${
           classroom.isError
