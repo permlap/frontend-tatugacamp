@@ -14,7 +14,6 @@ export async function GetStudent({ studentId }) {
         },
       }
     );
-    console.log(student);
     return student;
   } catch (err) {
     console.log(err);
