@@ -48,27 +48,35 @@ export async function GetMyWork({ studentId, assignmentId }) {
 
 export async function SummitWork({ formFiles, assignmentId, studentId }) {
   try {
-    const files = await formFiles.getAll("files");
+    const filesOld = await formFiles.getAll("files");
+    const files = await filesOld.map((file) => {
+      return {
+        fileName: file.name,
+        fileType: file.type,
+      };
+    });
+
     const sumiit = await axios.post(
       `${process.env.Server_Url}/student/student-assignment/summit-work`,
-      formFiles,
+      { files },
       {
         params: {
           assignmentId: assignmentId,
           studentId: studentId,
         },
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       }
     );
+
     for (let i = 0; i < sumiit.data.length; i++) {
       const response = await fetch(sumiit.data[i].SignedURL, {
         method: "PUT",
         headers: {
           "Content-Type": `${sumiit.data[i].contentType}`,
         },
-        body: files[i],
+        body: filesOld[i],
       }).catch((err) => console.log(err));
     }
 
