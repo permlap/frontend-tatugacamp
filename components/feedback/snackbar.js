@@ -27,7 +27,7 @@ function FeedbackSankbar({ language }) {
     setOpen(false);
   };
   return (
-    <div>
+    <div className="hidden md:block	">
       {isFeedback && (
         <CreateFeedback
           language={language}

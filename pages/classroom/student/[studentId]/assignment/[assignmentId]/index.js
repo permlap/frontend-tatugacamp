@@ -36,6 +36,7 @@ function Index() {
   const [assignment, setAssignment] = useState();
   const [deadline, setDeadline] = useState();
   const [fileSize, setFilesSize] = useState(0);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [studentSummit, setStudentSummit] = useState({
     body: "",
   });
@@ -87,8 +88,7 @@ function Index() {
       return res;
     })
   );
-  const [selectedFiles, setSelectedFiles] = useState([]);
-
+  console.log();
   const handleSummitWork = async (e) => {
     e.preventDefault();
     if (selectedFiles.length === 0) {
