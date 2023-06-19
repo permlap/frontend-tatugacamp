@@ -71,7 +71,11 @@ function Index() {
             const arrayPictures = res.data.picture.split(", ");
             for (const arrayPicture of arrayPictures) {
               const fileType = get_url_extension(arrayPicture);
-              if (fileType === "jpg" || fileType === "png") {
+              if (
+                fileType === "jpg" ||
+                fileType === "png" ||
+                fileType === "HEIC"
+              ) {
                 pictures.push({ src: arrayPicture, alt: "student's work" });
               } else {
                 files.push({ fileType: fileType, url: arrayPicture });

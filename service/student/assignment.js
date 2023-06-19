@@ -48,14 +48,31 @@ export async function GetMyWork({ studentId, assignmentId }) {
 
 export async function SummitWork({ formFiles, assignmentId, studentId }) {
   try {
+    const heic2any = (await import("heic2any")).default;
     const filesOld = await formFiles.getAll("files");
-    const files = await filesOld.map((file) => {
-      return {
-        fileName: file.name,
-        fileType: file.type,
-      };
-    });
-
+    const files = await Promise.all(
+      filesOld.map(async (file) => {
+        if (file.type === "") {
+          const blob = await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+          });
+          file = new File([blob], file.name, { type: "image/jpeg" });
+          return {
+            file: file,
+            fileName: file.name,
+            fileType: file.type,
+          };
+        } else {
+          return {
+            file: file,
+            fileName: file.name,
+            fileType: file.type,
+          };
+        }
+      })
+    );
+    console.log(files);
     const sumiit = await axios.post(
       `${process.env.Server_Url}/student/student-assignment/summit-work`,
       { files },
@@ -76,7 +93,7 @@ export async function SummitWork({ formFiles, assignmentId, studentId }) {
         headers: {
           "Content-Type": `${sumiit.data[i].contentType}`,
         },
-        body: filesOld[i],
+        body: files[i].file,
       }).catch((err) => console.log(err));
     }
 
