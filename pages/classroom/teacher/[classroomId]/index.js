@@ -207,24 +207,16 @@ function Index({ user, error }) {
                                 )}
 
                                 <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 ">
-                                  {students.isFetching ? (
-                                    <Skeleton
-                                      variant="circular"
-                                      width={96}
-                                      height={96}
-                                    />
-                                  ) : (
-                                    <Image
-                                      src={student.picture}
-                                      layout="fill"
-                                      alt="student's avatar"
-                                      className=" hover:scale-150 object-cover 
+                                  <Image
+                                    src={student.picture}
+                                    layout="fill"
+                                    alt="student's avatar"
+                                    className=" hover:scale-150 object-cover 
                                      transition duration-150 "
-                                      onLoad={() =>
-                                        handleLoadingComplete(student.id)
-                                      }
-                                    />
-                                  )}
+                                    onLoad={() =>
+                                      handleLoadingComplete(student.id)
+                                    }
+                                  />
                                 </div>
 
                                 <div className="font-Kanit text-xl flex items-center    justify-start gap-2">
