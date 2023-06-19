@@ -76,15 +76,14 @@ function Layout({ children, sideMenus, language }) {
             {!user.isError && user?.data?.status === 200 && (
               <Popover.Button className="w-max bg-transparent h-max border-none active:border-none z-30 absolute">
                 <div className="flex p-2 ml-2 flex-col font-Kanit justify-center items-center ">
-                  <button
+                  <div
                     aria-label="Show sidebar"
-                    role="button"
                     className="text-2xl  z-30 w-10 h-10 
         flex justify-center items-center   text-black drop-shadow cursor-pointer
         hover:scale-125 transition duration-100 ease-in-out "
                   >
                     <FiSidebar />
-                  </button>
+                  </div>
                   <span>menu</span>
                 </div>
               </Popover.Button>
@@ -208,7 +207,7 @@ border-none flex items-center justify-center hover:animate-spin bg-transparent a
           </div>
           <div className="absolute right-0 -top-20 hidden md:block  ">
             {/* <Lottie animationData={ClassroomAnimation} style={style} /> */}
-            <div className="w-96 h-80">
+            <div className="w-96 h-80 relative">
               <Image
                 src="/image/classroom-online.png"
                 layout="fill"

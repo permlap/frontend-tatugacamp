@@ -21,6 +21,8 @@ import {
 
 function Index({ user, error }) {
   const router = useRouter();
+  const [loadedImages, setLoadedImages] = useState([]);
+  const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
   const [sideMenus, setSideMenus] = useState(() => {
     if (user?.language === "Thai") {
       return SideMenusThai();
@@ -28,30 +30,31 @@ function Index({ user, error }) {
       return sideMenusEnglish();
     }
   });
-  const [loadedImages, setLoadedImages] = useState([]);
-  const [skeletion, setSkeletion] = useState(["1", "2", "3", "4"]);
-  const students = useQuery(
-    ["students"],
-    () => GetAllStudents({ classroomId: router.query.classroomId }),
-    { enabled: false }
-  );
+
   const classroom = useQuery(
     ["classroom"],
     () => GetOneClassroom({ params: router.query.classroomId }),
-    { enabled: false }
+    { enabled: router?.isReady }
+  );
+  const students = useQuery(
+    ["students"],
+    () => GetAllStudents({ classroomId: router.query.classroomId }),
+    { enabled: router?.isReady }
   );
   const scores = useQuery(
     ["scores"],
     () => GetAllScoresClassroom({ classroomId: router.query.classroomId }),
-    { enabled: false }
+    { enabled: router?.isReady }
   );
 
-  //check whether there is authorrized acccess or not
+  // Update sideMenus whenever the user's language changes
   useEffect(() => {
     if (router.isReady) {
-      classroom.refetch();
-      students.refetch();
-      scores.refetch();
+      if (user?.language === "Thai") {
+        setSideMenus(SideMenusThai(router));
+      } else if (user?.language === "English") {
+        setSideMenus(sideMenusEnglish(router));
+      }
     }
   }, [router.isReady]);
 
@@ -77,7 +80,7 @@ function Index({ user, error }) {
     return <Unauthorized />;
   }
   return (
-    <div className="bg-blue-50 w-full pb-96 ">
+    <div className=" w-full pb-96 bg-slate-100 ">
       <Layout language={user.language} sideMenus={sideMenus} />
       <Head>
         <title>{`classroom - ${classroom.data?.data?.title}`}</title>
@@ -89,11 +92,11 @@ function Index({ user, error }) {
 
           {/* main part */}
           <main className="w-full max-w-6xl h-full flex flex-col items-center justify-start  ">
-            {/* 
-            students' avatar are here */}
+            {/*
+              students' avatar are here */}
             <div
-              className=" md:w-11/12 lg:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start  
-            md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 place-items-center	"
+              className=" md:w-11/12 lg:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start
+              md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 place-items-center	"
             >
               <Popover>
                 {({ open }) => (
@@ -102,8 +105,8 @@ function Index({ user, error }) {
                       <div className="w-40 h-36 flex flex-col items-center justify-center rounded-xl group relative cursor-pointer ">
                         <div
                           className="w-28 h-28 flex items-center justify-center blur-none group-hover:blur-sm  bg-[#EDBA02] border-4 border-solid border-white rounded-full drop-shadow-xl
-                  group-hover:scale-110 transition duration-150 group-hover:border-2 overflow-hidden 
-                "
+                    group-hover:scale-110 transition duration-150 group-hover:border-2 overflow-hidden
+                  "
                         >
                           <div className="relative w-24 h-24 scale-150 -">
                             <Image
@@ -115,7 +118,7 @@ function Index({ user, error }) {
                         </div>
                         <span
                           className="font-Kanit font-semibold text-lg group-hover:scale-100 scale-0 bg-white px-3 rounded-lg
-                 transition duration-150 absolute"
+                   transition duration-150 absolute"
                         >
                           {user.language === "Thai" && "ให้คะแนนห้อง"}
                           {user.language === "English" && "give a class score"}
@@ -144,12 +147,12 @@ function Index({ user, error }) {
                       <Skeleton key={number} variant="rounded">
                         <button className="bg-transparent border-none active:border-none appearance-none focus:outline-none">
                           <div
-                            className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
-                       duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
+                            className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md
+                         duration-200 rounded-2xl bg-white relative hover:bg-orange-100 transition drop-shadow-md"
                           >
                             <div
                               className={`absolute w-10 h-10 rounded-full    ring-2 ring-white
-                      flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
+                        flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-5 top-5`}
                             ></div>
                             <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 bg-white"></div>
                             <div className="font-Kanit text-xl flex items-center justify-start gap-2">
@@ -168,7 +171,7 @@ function Index({ user, error }) {
                     var firstName = shortName.split(" ")[0];
                     return (
                       <Popover key={student.id}>
-                        {({ open }) => (
+                        {(open) => (
                           <div className="relative  md:block flex items-start justify-center">
                             <Popover.Button
                               onClick={() => {
@@ -177,17 +180,17 @@ function Index({ user, error }) {
                               className="bg-transparent  border-none active:border-none appearance-none focus:outline-none"
                             >
                               <div
-                                className="w-40 h-36 cursor-pointer  flex-col items-center justify-start flex hover:drop-shadow-md 
-                       duration-200 rounded-2xl bg-white border-2 border-solid  hover:bg-orange-100 transition drop-shadow-md"
+                                className="w-40 h-52 cursor-pointer  flex-col items-center justify-start flex
+  duration-200 rounded-3xl bg-white overflow-hidden  hover:bg-orange-100 transition drop-shadow-md"
                                 key={student.id}
                               >
                                 <div
-                                  className={` w-12 h-12 rounded-full absolute top-0  ${
+                                  className={`w-14 h-10 rounded-r-full absolute left-0 top-4  ${
                                     student.score.totalPoints < 0
                                       ? "bg-red-600"
                                       : "bg-[#EDBA02] "
                                   } ring-2 ring-white
-                      flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-2 top-2`}
+  flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-2 `}
                                 >
                                   {student.score.totalPoints}
                                 </div>
@@ -202,7 +205,7 @@ function Index({ user, error }) {
                                   </div>
                                 )}
 
-                                <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 ">
+                                <div className="w-28 h-28 ring-2 ring-gray-200 relative overflow-hidden rounded-full mt-2 ">
                                   {students.isFetching && !router.isReady ? (
                                     <Skeleton
                                       variant="circular"
@@ -214,8 +217,8 @@ function Index({ user, error }) {
                                       src={student.picture}
                                       layout="fill"
                                       alt="student's avatar"
-                                      className=" hover:scale-150 object-cover 
-                                     transition duration-150 "
+                                      className=" hover:scale-150 object-cover
+               transition duration-150 "
                                       onLoad={() =>
                                         handleLoadingComplete(student.id)
                                       }
@@ -223,14 +226,23 @@ function Index({ user, error }) {
                                   )}
                                 </div>
 
-                                <div className="font-Kanit text-xl flex items-center    justify-start gap-2">
-                                  <div className=" font-semibold text-gray-700  w-5 h-5 flex items-center justify-center  rounded-md">
-                                    {student.number}
-                                  </div>
-                                  <div className="w-full truncate">
-                                    <span className="text-md  ">
+                                <div className="font-Kanit text-xl flex items-center flex-col mt-2 justify-start gap-1">
+                                  <div
+                                    className="w-full truncate font-medium lg:text-xl flex-col
+        flex justify-center items-center"
+                                  >
+                                    <span className="text-xl text-blue-500   ">
                                       {firstName}
                                     </span>
+                                    <span className="text-sm text-gray-600 font-normal ">
+                                      {student?.lastName}
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="text-gray-700 font-normal  w-full h-5 flex
+         items-center justify-center text-base  rounded-md"
+                                  >
+                                    เลขที่ {student.number}
                                   </div>
                                 </div>
                               </div>

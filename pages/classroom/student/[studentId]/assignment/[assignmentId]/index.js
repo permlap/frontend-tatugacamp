@@ -73,6 +73,7 @@ function Index() {
               const fileType = get_url_extension(arrayPicture);
               if (
                 fileType === "jpg" ||
+                fileType === "jpeg" ||
                 fileType === "png" ||
                 fileType === "HEIC"
               ) {

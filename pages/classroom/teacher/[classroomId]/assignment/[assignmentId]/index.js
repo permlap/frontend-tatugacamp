@@ -180,6 +180,7 @@ function Index({ error, user }) {
               const fileType = get_url_extension(arrayPicture);
               if (
                 fileType === "jpg" ||
+                fileType === "jpeg" ||
                 fileType === "png" ||
                 fileType === "HEIC"
               ) {
