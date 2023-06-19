@@ -18,6 +18,7 @@ import {
   SideMenusThai,
   sideMenusEnglish,
 } from "../../../../data/menubarsClassroom";
+import Trophy from "../../../../components/svg/Trophy";
 
 function Index({ user, error }) {
   const router = useRouter();
@@ -80,7 +81,7 @@ function Index({ user, error }) {
     return <Unauthorized />;
   }
   return (
-    <div className=" w-full pb-96 bg-slate-100 ">
+    <div className="w-full pb-96 bg-slate-100 ">
       <Layout language={user.language} sideMenus={sideMenus} />
       <Head>
         <title>{`classroom - ${classroom.data?.data?.title}`}</title>
@@ -95,35 +96,14 @@ function Index({ user, error }) {
             {/*
               students' avatar are here */}
             <div
-              className=" md:w-11/12 lg:w-full max-w-7xl grid grid-cols-2 gap-y-4 items-center justify-center md:justify-start
-              md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-x-12 md:gap-y-9 mt-10 place-items-center	"
+              className=" md:w-11/12 lg:w-full max-w-7xl grid grid-cols-2 gap-4 items-center justify-center md:justify-start
+              md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-5 mt-10 place-items-center	"
             >
               <Popover>
                 {({ open }) => (
                   <>
                     <Popover.Button>
-                      <div className="w-40 h-36 flex flex-col items-center justify-center rounded-xl group relative cursor-pointer ">
-                        <div
-                          className="w-28 h-28 flex items-center justify-center blur-none group-hover:blur-sm  bg-[#EDBA02] border-4 border-solid border-white rounded-full drop-shadow-xl
-                    group-hover:scale-110 transition duration-150 group-hover:border-2 overflow-hidden
-                  "
-                        >
-                          <div className="relative w-24 h-24 scale-150 -">
-                            <Image
-                              src="https://storage.googleapis.com/tatugacamp.com/Avatar%20students/scoreAll-1.png"
-                              layout="fill"
-                              className="object-contain -translate-y-1"
-                            />
-                          </div>
-                        </div>
-                        <span
-                          className="font-Kanit font-semibold text-lg group-hover:scale-100 scale-0 bg-white px-3 rounded-lg
-                   transition duration-150 absolute"
-                        >
-                          {user.language === "Thai" && "ให้คะแนนห้อง"}
-                          {user.language === "English" && "give a class score"}
-                        </span>
-                      </div>
+                      <Trophy />
                     </Popover.Button>
                     <Popover.Panel>
                       {({ close }) => (
@@ -172,20 +152,15 @@ function Index({ user, error }) {
                     return (
                       <Popover key={student.id}>
                         {(open) => (
-                          <div className="relative  md:block flex items-start justify-center">
+                          <div>
                             <Popover.Button
                               onClick={() => {
                                 document.body.style.overflow = "hidden";
                               }}
-                              className="bg-transparent  border-none active:border-none appearance-none focus:outline-none"
                             >
-                              <div
-                                className="w-40 h-52 cursor-pointer  flex-col items-center justify-start flex
-  duration-200 rounded-3xl bg-white overflow-hidden  hover:bg-orange-100 transition drop-shadow-md"
-                                key={student.id}
-                              >
+                              <div className="w-40 overflow-hidden rounded-3xl  flex relative justify-center drop-shadow-md">
                                 <div
-                                  className={`w-14 h-10 rounded-r-full absolute left-0 top-4  ${
+                                  className={`w-14 h-10 rounded-r-full absolute left-0  top-4  ${
                                     student.score.totalPoints < 0
                                       ? "bg-red-600"
                                       : "bg-[#EDBA02] "
@@ -194,55 +169,62 @@ function Index({ user, error }) {
                                 >
                                   {student.score.totalPoints}
                                 </div>
-
-                                {!loadedImages.includes(student.id) && (
-                                  <div>
-                                    <Skeleton
-                                      variant="circular"
-                                      width={96}
-                                      height={96}
-                                    />
-                                  </div>
-                                )}
-
-                                <div className="w-28 h-28 ring-2 ring-gray-200 relative overflow-hidden rounded-full mt-2 ">
-                                  {students.isFetching && !router.isReady ? (
-                                    <Skeleton
-                                      variant="circular"
-                                      width={96}
-                                      height={96}
-                                    />
-                                  ) : (
-                                    <Image
-                                      src={student.picture}
-                                      layout="fill"
-                                      alt="student's avatar"
-                                      className=" hover:scale-150 object-cover
-               transition duration-150 "
-                                      onLoad={() =>
-                                        handleLoadingComplete(student.id)
-                                      }
-                                    />
+                                <div
+                                  className="w-40 h-52 cursor-pointer  flex-col items-center justify-start flex
+  duration-200  bg-white  overflow-hidden  hover:bg-orange-100 transition "
+                                >
+                                  {!loadedImages.includes(student.id) && (
+                                    <div>
+                                      <Skeleton
+                                        variant="circular"
+                                        width={96}
+                                        height={96}
+                                      />
+                                    </div>
                                   )}
-                                </div>
 
-                                <div className="font-Kanit text-xl flex items-center flex-col mt-2 justify-start gap-1">
-                                  <div
-                                    className="w-full truncate font-medium lg:text-xl flex-col
-        flex justify-center items-center"
-                                  >
-                                    <span className="text-xl text-blue-500   ">
-                                      {firstName}
-                                    </span>
-                                    <span className="text-sm text-gray-600 font-normal ">
-                                      {student?.lastName}
-                                    </span>
+                                  <div className="w-24 h-24 ring-2 ring-gray-200 relative overflow-hidden rounded-full mt-2 ">
+                                    {students.isFetching && !router.isReady ? (
+                                      <Skeleton
+                                        variant="circular"
+                                        width={96}
+                                        height={96}
+                                      />
+                                    ) : (
+                                      <Image
+                                        src={student.picture}
+                                        layout="fill"
+                                        quality={60}
+                                        placeholder="blur"
+                                        blurDataURL="/logo/TaTuga camp.png"
+                                        alt="student's avatar"
+                                        className=" hover:scale-150 object-cover
+               transition duration-150 "
+                                        onLoad={() =>
+                                          handleLoadingComplete(student.id)
+                                        }
+                                      />
+                                    )}
                                   </div>
-                                  <div
-                                    className="text-gray-700 font-normal  w-full h-5 flex
+
+                                  <div className="font-Kanit text-xl flex items-center flex-col mt-2 justify-start gap-1">
+                                    <div
+                                      className="w-full truncate font-medium lg:text-xl flex-col
+        flex justify-center items-center"
+                                    >
+                                      <span className="text-xl text-blue-500   ">
+                                        {firstName}
+                                      </span>
+                                      <span className="text-sm text-gray-600 font-normal ">
+                                        {student?.lastName}
+                                      </span>
+                                    </div>
+                                    <div
+                                      className="text-gray-700 font-normal  w-full h-5 flex
          items-center justify-center text-base  rounded-md"
-                                  >
-                                    เลขที่ {student.number}
+                                    >
+                                      เลขที่ {student.number}
+                                    </div>
                                   </div>
                                 </div>
                               </div>

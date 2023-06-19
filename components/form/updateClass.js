@@ -34,7 +34,7 @@ function UpdateClass({ close, classroom, refetch, language }) {
   };
 
   return (
-    <div className="relative z-20">
+    <div className=" z-20 w-screen h-screen fixed inset-center">
       <div
         className="flex w-max h-max font-Kanit p-5 bg-white border-2 border-solid rounded-lg drop-shadow-xl  z-20 
         top-0 right-0 left-0 bottom-0 m-auto fixed"
@@ -140,7 +140,7 @@ function UpdateClass({ close, classroom, refetch, language }) {
       </div>
       <div
         onClick={() => close()}
-        className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-20 bg-black/30 "
+        className="w-screen h-screen fixed top-20 bottom-0 right-0 left-0  -z-20 bg-black/30 "
       ></div>
     </div>
   );
