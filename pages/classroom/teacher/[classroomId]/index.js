@@ -190,7 +190,7 @@ function Index({ user, error }) {
                                       ? "bg-red-600"
                                       : "bg-[#EDBA02] "
                                   } ring-2 ring-white
-  flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-2 `}
+  flex justify-center items-center font-sans font-bold text-xl z-10 text-white`}
                                 >
                                   {student.score.totalPoints}
                                 </div>
