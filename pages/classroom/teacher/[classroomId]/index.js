@@ -189,11 +189,7 @@ function Index({ user, error }) {
                                   } ring-2 ring-white
                       flex justify-center items-center font-sans font-bold text-xl z-10 text-white right-2 top-2`}
                                 >
-                                  {students.isFetching ? (
-                                    <Skeleton variant="text" width={10} />
-                                  ) : (
-                                    student.score.totalPoints
-                                  )}
+                                  {student.score.totalPoints}
                                 </div>
 
                                 {!loadedImages.includes(student.id) && (
@@ -207,33 +203,33 @@ function Index({ user, error }) {
                                 )}
 
                                 <div className="w-24 h-24 relative overflow-hidden rounded-full mt-2 ">
-                                  <Image
-                                    src={student.picture}
-                                    layout="fill"
-                                    alt="student's avatar"
-                                    className=" hover:scale-150 object-cover 
+                                  {students.isFetching && !router.isReady ? (
+                                    <Skeleton
+                                      variant="circular"
+                                      width={96}
+                                      height={96}
+                                    />
+                                  ) : (
+                                    <Image
+                                      src={student.picture}
+                                      layout="fill"
+                                      alt="student's avatar"
+                                      className=" hover:scale-150 object-cover 
                                      transition duration-150 "
-                                    onLoad={() =>
-                                      handleLoadingComplete(student.id)
-                                    }
-                                  />
+                                      onLoad={() =>
+                                        handleLoadingComplete(student.id)
+                                      }
+                                    />
+                                  )}
                                 </div>
 
                                 <div className="font-Kanit text-xl flex items-center    justify-start gap-2">
                                   <div className=" font-semibold text-gray-700  w-5 h-5 flex items-center justify-center  rounded-md">
-                                    {students.isFetching ? (
-                                      <Skeleton variant="text" width={10} />
-                                    ) : (
-                                      student.number
-                                    )}
+                                    {student.number}
                                   </div>
                                   <div className="w-full truncate">
                                     <span className="text-md  ">
-                                      {students.isFetching ? (
-                                        <Skeleton variant="text" width={40} />
-                                      ) : (
-                                        firstName
-                                      )}
+                                      {firstName}
                                     </span>
                                   </div>
                                 </div>

@@ -246,106 +246,113 @@ function AttendanceChecker({ close, students, language }) {
               )}
             </div>
           </div>
-
-          <div className="w-full flex justify-center items-center flex-col ">
-            <ul className="list-none pl-0 grid grid-cols-8 w-full place-items-center text-black font-Kanit ">
-              <li className="">
-                {language === "Thai" && "เลขที่"}
-                {language === "English" && "number"}
-              </li>
-              <li className="col-span-2">
-                {language === "Thai" && "ชื่อจริง"}
-                {language === "English" && "first name"}
-              </li>
-              <li className="">
-                {language === "Thai" && "นามสกุล"}
-                {language === "English" && "last name"}
-              </li>
-              <div className="grid-cols-4 col-span-4  grid w-96 gap-5 place-items-center ">
-                <button
-                  onClick={handleCheckAllstudent}
-                  name="present"
-                  role="button"
-                  aria-label="check all"
-                  className="w-full bg-green-500 rounded-2xl text-white text-center 
+          <table>
+            <thead className=" ">
+              <tr className=" w-full text-black font-Kanit flex md:gap-3 lg:gap-5 ">
+                <th className="w-20">
+                  {language === "Thai" && "เลขที่"}
+                  {language === "English" && "number"}
+                </th>
+                <th className="w-60">
+                  {language === "Thai" && "รายชื่อ"}
+                  {language === "English" && "name"}
+                </th>
+                <th className="w-20">
+                  <button
+                    onClick={handleCheckAllstudent}
+                    name="present"
+                    role="button"
+                    aria-label="check all"
+                    className="w-full bg-green-500 rounded-2xl text-white text-center 
                   hover:scale-110 transition duration-150 cursor-pointer group"
-                >
-                  <span className="block group-hover:hidden">
-                    {language === "Thai" && "เข้าเรียน"}
-                    {language === "English" && "present"}
-                  </span>
-                  <span className="hidden group-hover:block text-sm">
-                    {language === "Thai" && "เลือกทั้งหมด"}
-                    {language === "English" && "pick all"}
-                  </span>
-                </button>
-                <button
-                  onClick={handleCheckAllstudent}
-                  name="holiday"
-                  role="button"
-                  aria-label="check all"
-                  className="w-max px-2  bg-yellow-500 rounded-2xl text-white text-center 
+                  >
+                    <span className="block group-hover:hidden">
+                      {language === "Thai" && "เข้าเรียน"}
+                      {language === "English" && "present"}
+                    </span>
+                    <span className="hidden group-hover:block text-sm">
+                      {language === "Thai" && "เลือกทั้งหมด"}
+                      {language === "English" && "pick all"}
+                    </span>
+                  </button>
+                </th>
+                <th className="w-20">
+                  <button
+                    onClick={handleCheckAllstudent}
+                    name="holiday"
+                    role="button"
+                    aria-label="check all"
+                    className="w-full  bg-yellow-500 rounded-2xl text-white text-center 
                   hover:scale-110 transition duration-150 cursor-pointer group"
-                >
-                  <span className="block group-hover:hidden text-md">
-                    {language === "Thai" && "ลา"}
-                    {language === "English" && "take a leave"}
-                  </span>
-                  <span className="hidden group-hover:block text-sm">
-                    {language === "Thai" && "เลือกทั้งหมด"}
-                    {language === "English" && "pick all"}
-                  </span>
-                </button>
-                <button
-                  onClick={handleCheckAllstudent}
-                  name="sick"
-                  role="button"
-                  aria-label="check all"
-                  className="w-full  bg-blue-500 rounded-2xl text-white text-center 
+                  >
+                    <span className="block group-hover:hidden text-md">
+                      {language === "Thai" && "ลา"}
+                      {language === "English" && "take a leave"}
+                    </span>
+                    <span className="hidden group-hover:block text-sm">
+                      {language === "Thai" && "เลือกทั้งหมด"}
+                      {language === "English" && "pick all"}
+                    </span>
+                  </button>
+                </th>
+                <th className="w-20">
+                  <button
+                    onClick={handleCheckAllstudent}
+                    name="sick"
+                    role="button"
+                    aria-label="check all"
+                    className="w-full  bg-blue-500 rounded-2xl text-white text-center 
                   hover:scale-110 transition duration-150 cursor-pointer group"
-                >
-                  <span className="block group-hover:hidden">
-                    {language === "Thai" && "ป่วย"}
-                    {language === "English" && "sick"}
-                  </span>
-                  <span className="hidden group-hover:block  text-sm">
-                    {language === "Thai" && "เลือกทั้งหมด"}
-                    {language === "English" && "pick all"}
-                  </span>
-                </button>
-                <button
-                  onClick={handleCheckAllstudent}
-                  name="absent"
-                  role="button"
-                  aria-label="check all"
-                  className="w-full bg-red-500 rounded-2xl text-white text-center
+                  >
+                    <span className="block group-hover:hidden">
+                      {language === "Thai" && "ป่วย"}
+                      {language === "English" && "sick"}
+                    </span>
+                    <span className="hidden group-hover:block  text-sm">
+                      {language === "Thai" && "เลือกทั้งหมด"}
+                      {language === "English" && "pick all"}
+                    </span>
+                  </button>
+                </th>
+                <th className="w-20">
+                  <button
+                    onClick={handleCheckAllstudent}
+                    name="absent"
+                    role="button"
+                    aria-label="check all"
+                    className="w-full bg-red-500 rounded-2xl text-white text-center
                   hover:scale-110 transition duration-150 cursor-pointer group"
-                >
-                  <span className="block group-hover:hidden">
-                    {language === "Thai" && "ขาด"}
-                    {language === "English" && "absent"}
-                  </span>
-                  <span className="hidden group-hover:block text-sm">
-                    {language === "Thai" && "เลือกทั้งหมด"}
-                    {language === "English" && "pick all"}
-                  </span>
-                </button>
-              </div>
-            </ul>
-            <div className="w-full scrollbar-hide  h-full items-center justify-start max-h-96 mt-2 overflow-auto lg:scrollbar-hide fade-mask-short flex flex-col gap-2">
+                  >
+                    <span className="block group-hover:hidden">
+                      {language === "Thai" && "ขาด"}
+                      {language === "English" && "absent"}
+                    </span>
+                    <span className="hidden group-hover:block text-sm">
+                      {language === "Thai" && "เลือกทั้งหมด"}
+                      {language === "English" && "pick all"}
+                    </span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="w-full scrollbar-hide  h-full items-center justify-start max-h-96 mt-2 
+            overflow-auto lg:scrollbar-hide fade-mask-short flex flex-col "
+            >
               {isCheckStudent?.map((student) => {
                 return (
-                  <ul
+                  <tr
                     key={student.id}
-                    className="list-none pl-0 grid grid-cols-8 w-full place-items-center text-black font-Kanit "
+                    className="w-full text-black font-Kanit flex  md:gap-3 lg:gap-5 "
                   >
-                    <li className="">{student.number}</li>
-                    <li className="col-span-2">{student.firstName}</li>
-                    <li className="">{student?.lastName}</li>
-                    <div className="grid-cols-4 col-span-4  grid w-96 place-items-center  ">
+                    <td className="w-20 text-center">{student.number}</td>
+                    <td className="col-span-2 w-60">
+                      {student.firstName} {student?.lastName}
+                    </td>
+                    <td className="w-20 flex justify-center">
                       <div
-                        className=" bg-green-500 rounded text-white text-center
-                       p-1  w-6 h-6 flex items-center  justify-center"
+                        className=" bg-green-500 rounded text-white w-6 text-center
+                       p-1  flex items-center  justify-center"
                       >
                         <input
                           name="present"
@@ -360,6 +367,8 @@ function AttendanceChecker({ close, students, language }) {
                           type="checkbox"
                         />
                       </div>
+                    </td>
+                    <td className="w-20 flex justify-center">
                       <div
                         className=" bg-yellow-500 rounded-md text-white text-center 
                       p-1  w-6 h-6 flex items-center justify-center"
@@ -377,6 +386,8 @@ function AttendanceChecker({ close, students, language }) {
                           type="checkbox"
                         />
                       </div>
+                    </td>
+                    <td className="w-20 flex justify-center">
                       <div
                         className=" bg-blue-500 rounded-md text-white text-center 
                       p-1  w-6 h-6 flex items-center justify-center"
@@ -394,6 +405,8 @@ function AttendanceChecker({ close, students, language }) {
                           type="checkbox"
                         />
                       </div>
+                    </td>
+                    <td className="w-20 flex justify-center">
                       <div
                         className=" bg-red-500 rounded-md text-white text-center 
                       p-1  w-6 h-6 flex items-center justify-center"
@@ -411,13 +424,12 @@ function AttendanceChecker({ close, students, language }) {
                           type="checkbox"
                         />
                       </div>
-                    </div>
-                  </ul>
+                    </td>
+                  </tr>
                 );
               })}
-              <br />
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
       </div>
 
