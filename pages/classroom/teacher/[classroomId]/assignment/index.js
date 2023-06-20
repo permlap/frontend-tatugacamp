@@ -111,7 +111,7 @@ text-black transition duration-150 cursor-pointer"
           </div>
 
           {/* assignments are here */}
-          <div className=" w-full max-w-7xl mt-5 gap-5 grid items-center justify-center ">
+          <div className=" w-full mt-5 gap-5 grid place-items-center bg-slate-100 ">
             {assignments.isLoading || assignments.isFetching ? (
               <div className="flex flex-col gap-5 w-80 md:w-[40rem]">
                 <Skeleton variant="rounded" width="100%" height={144} />
@@ -137,6 +137,20 @@ text-black transition duration-150 cursor-pointer"
                     year: "numeric",
                   }
                 );
+                const assignDate = new Date(assignment.createAt);
+
+                const formatAssigDate = assignDate.toLocaleDateString(
+                  `${
+                    user.language === "Thai"
+                      ? "th-TH"
+                      : user.language === "English" && "en-US"
+                  }`,
+                  {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }
+                );
 
                 return (
                   <div
@@ -146,59 +160,66 @@ text-black transition duration-150 cursor-pointer"
                       });
                     }}
                     key={index}
-                    className={`w-80 md:w-[35rem]  h-36 md:px-10 md:py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
+                    className={`w-11/12 md:w-[35rem] group  h-36  md:px-10 md:py-5 drop-shadow-lg 
+                     bg-white  hover:scale-105 cursor-pointer overflow-hidden
                  duration-150 transition relative
-               rounded-lg flex flex-col gap-10 border-2 border-solid`}
+               rounded-lg flex flex-col justify-center `}
                   >
-                    <div className="flex md:justify-between justify-between">
+                    <div className="flex md:justify-between justify-center gap-3 md:gap-0">
                       <div className="flex">
                         <div
-                          className={`flex flex-col  gap-2 w-40 md:w-3/4 max-w-md  font-Poppins text-center md:text-left text-black `}
+                          className={`flex flex-col  justify-center h-full
+                            gap-2 w-60 md:w-3/4 max-w-md  font-Poppins text-center
+                             md:text-left text-black `}
                         >
-                          <span className=" font text-xl font-bold w-full h-max max-h-8 overflow-auto scrollbar-hide ">
+                          <span className=" font text-xl font-bold w-full h-max max-h-8  truncate">
                             {assignment.title}
                           </span>
                           <div className="relative">
-                            <div className="w-96  h-[0.5px]  mb-2 bg-blue-800 rounded-full "></div>
-
-                            <div
-                              className="h-24 w-60 overflow-hidden fade-mask"
-                              dangerouslySetInnerHTML={{
-                                __html: assignment?.description,
-                              }}
-                            />
                             <div className="w-96 hidden md:block bg-gray-200 h-2 rounded-full overflow-hidden">
                               <div
                                 style={{ width: assignment.progress.progress }}
                                 className={` bg-blue-800 h-2 `}
                               ></div>
                             </div>
+                            <div className="font-Kanit mt-2">
+                              {user.language === "Thai" && "ผู้เรียนส่งงานแล้ว"}
+                              {user.language === "English" &&
+                                "Students has summited thier work for"}{" "}
+                              {assignment.progress.progress}
+                            </div>
+                            <div className="font-Kanit mt-2">
+                              {user.language === "Thai" && "มอบหมายเมื่อ"}
+                              {user.language === "English" && "Assign on"}{" "}
+                              <span className="w-max h-max p-1 px-2 bg-orange-300 text-black rounded-lg">
+                                {formatAssigDate}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="relative w-32  ">
+                      <div className="relative w-24 md:w-32 ring-2 py-1 md:py-2 ring-blue-400 group-hover:bg-blue-400 rounded-xl flex flex-col justify-center ">
                         <div className="flex items-center justify-center flex-col">
-                          <div
-                            className="w-10 h-10 md:w-20 md:h-20 p-2 bg-[#EDBA02] rounded-full 
-                        font-Poppins font-bold flex items-center justify-center"
-                          >
-                            <span className="text-lg md:text-2xl text-white break-words truncate ">
+                          <div>
+                            <span className="text-lg md:text-2xl font-Poppins font-semibold group-hover:text-white text-blue-500 truncate ">
                               {assignment.maxScore.toLocaleString()}
                             </span>
                           </div>
-                          <div className="font-Poppins font-semibold">
+                          <div className="font-Poppins font-semibold group-hover:text-white text-black">
                             {user.language === "Thai" && "คะแนน"}
                             {user.language === "English" && "score"}
                           </div>
                         </div>
 
                         <div className="font-Poppins gap-1 text-sm flex flex-col justify-start items-center  w-full  ">
-                          <span>
+                          <span className="group-hover:text-white text-black">
                             {user.language === "Thai" && "กำหนดส่ง"}
                             {user.language === "English" && "due by"}
                           </span>
-                          <span>{formattedDate}</span>
+                          <span className="group-hover:text-white text-black">
+                            {formattedDate}
+                          </span>
                         </div>
                       </div>
                     </div>
