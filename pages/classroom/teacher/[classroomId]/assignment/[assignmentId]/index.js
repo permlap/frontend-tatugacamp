@@ -787,7 +787,7 @@ function Index({ error, user }) {
                       </div>
                     )}
                   </div>
-                  <div className="h-96 overflow-auto">
+                  <div className="h-96  overflow-auto md:w-full scrollbar-hide">
                     <div className=" flex flex-col w-full gap-10 ">
                       {currentStudentWork && images && images !== null ? (
                         <SlideshowLightbox
