@@ -83,7 +83,7 @@ function Index({ user, error }) {
           </div>
         ) : (
           <div
-            className={`relative lg:max-w-6xl md:w-[40rem] lg:w-max  h-max max-h-[30rem]
+            className={`relative lg:max-w-6xl w-11/12 md:w-[40rem] lg:w-max  h-max max-h-[30rem]
          ${
            studentsScores?.data?.data?.assignments.length === 0
              ? "border-0 bg-transparent"
@@ -109,14 +109,14 @@ function Index({ user, error }) {
                   <tr className="border-b border-0 border-solid border-slate-700">
                     <th
                       scope="col"
-                      className="px-6 py-3 w-20 sticky left-0 bg-white"
+                      className="px-6 py-3 w-10 md:w-20 sticky left-0 bg-white"
                     >
                       {user.language === "Thai" && "เลขที่"}
                       {user.language === "English" && "number"}
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 w-60 left-20 sticky bg-white"
+                      className="px-6 py-3 w-40 md:w-60 left-16 md:left-20 sticky bg-white"
                     >
                       {user.language === "Thai" && "รายชื่อ"}
                       {user.language === "English" && "student's name"}
@@ -186,11 +186,11 @@ function Index({ user, error }) {
                       >
                         <th
                           scope="row"
-                          className="px-6 py-4 text-center bg-white group-hover:bg-slate-200 sticky left-0"
+                          className="w-10  text-center bg-white group-hover:bg-slate-200 sticky left-0"
                         >
                           {student.number}
                         </th>
-                        <td className="px-6 py-4 sticky left-20 bg-white group-hover:bg-slate-200 ">
+                        <td className="w-40 md:w-60  py-4 sticky left-16  text-sm md:text-base md:left-28 bg-white group-hover:bg-slate-200 ">
                           {student.firstName} {student?.lastName}
                         </td>
                         {student.studentWorks.map((studentWork, index) => {

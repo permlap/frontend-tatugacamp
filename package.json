@@ -46,6 +46,7 @@
     "react-intersection-observer": "^9.4.0",
     "react-messenger-chat-plugin": "^3.0.5",
     "react-player": "^2.11.0",
+    "react-qr-code": "^2.0.11",
     "react-query": "^4.0.0-beta.23",
     "react-spring": "^9.7.1",
     "react-use": "^17.4.0",

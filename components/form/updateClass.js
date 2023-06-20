@@ -15,9 +15,11 @@ function UpdateClass({ close, classroom, refetch, language }) {
       });
 
       Swal.fire("success", classroom.data.message, "success");
+      document.body.style.overflow = "auto";
       refetch();
     } catch (err) {
       console.log("err", err);
+      document.body.style.overflow = "auto";
       Swal.fire(
         "error",
         err?.props?.response?.data?.message.toString(),
@@ -34,7 +36,7 @@ function UpdateClass({ close, classroom, refetch, language }) {
   };
 
   return (
-    <div className="relative z-20">
+    <div className="relative z-40">
       <div
         className="flex w-max h-max font-Kanit p-5 bg-white border-2 border-solid rounded-lg drop-shadow-xl  z-20 
         top-0 right-0 left-0 bottom-0 m-auto fixed"
@@ -139,7 +141,11 @@ function UpdateClass({ close, classroom, refetch, language }) {
         </form>
       </div>
       <div
-        onClick={() => close()}
+        onClick={() => {
+          console.log("click");
+          close();
+          document.body.style.overflow = "auto";
+        }}
         className="w-screen h-screen fixed right-0 left-0 top-0 bottom-0 m-auto -z-20 bg-black/30 "
       ></div>
     </div>

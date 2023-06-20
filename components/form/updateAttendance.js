@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { UpdateAttendnaceAPI } from "../../service/attendance";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 function UpdateAttendance({
   close,
@@ -86,11 +87,22 @@ function UpdateAttendance({
     }
   };
   return (
-    <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-10 font-Kanit">
+    <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-40 font-Kanit">
       <div
-        className="md:w-96 md:h-72 fixed z-40 top-0 bottom-0 right-0
-       left-0 m-auto flex flex-col  items-center justify-start gap-2 bg-white p-5 rounded-lg  "
+        className="w-full h-full md:w-96 md:h-72 fixed z-40 top-0 bottom-0 right-0
+       left-0 m-auto flex flex-col  items-center justify-center md:justify-start gap-2 bg-white p-0 md:p-5 rounded-lg  "
       >
+        <div className="w-full block md:hidden">
+          <button
+            onClick={() => {
+              close();
+              document.body.style.overflow = "auto";
+            }}
+            className="ml-3 text-2xl flex justify-center items-center"
+          >
+            <AiOutlineCloseCircle />
+          </button>
+        </div>
         <div
           className={`w-20 h-20 ${checkList[activeAttendance]?.bgColor} rounded-full relative`}
         >
@@ -107,7 +119,7 @@ function UpdateAttendance({
             <span>{formattedDate}</span>
             <div className="w-80 h-[1px] bg-blue-500"></div>
           </div>
-          <div className="flex items-center w-full h-3/4 gap-5 justify-center">
+          <div className="flex items-center w-10/12 md:w-full h-3/4 gap-5 justify-center">
             {checkList.map((attendance, index) => {
               return (
                 <div

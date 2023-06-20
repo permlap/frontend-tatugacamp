@@ -1,9 +1,7 @@
-import { useRouter } from "next/router";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import React from "react";
 
-export function SideMenusThai() {
-  const router = useRouter();
+export function SideMenusThai(router) {
   const sideMenusThai = [
     {
       title: "โรงเรียน",
@@ -18,17 +16,17 @@ export function SideMenusThai() {
     {
       title: "มอบหมายงาน",
       icon: "🎒",
-      url: `/classroom/teacher/${router.query.classroomId}/assignment`,
+      url: `/classroom/teacher/${router?.query?.classroomId}/assignment`,
     },
     {
       title: "ข้อมูลการเข้าเรียน",
       icon: "🙌",
-      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
+      url: `/classroom/teacher/${router?.query?.classroomId}/attendance`,
     },
     {
       title: "คะแนนรวม",
       icon: "🥇",
-      url: `/classroom/teacher/${router.query.classroomId}/scores`,
+      url: `/classroom/teacher/${router?.query?.classroomId}/scores`,
     },
 
     {
@@ -40,8 +38,7 @@ export function SideMenusThai() {
   return sideMenusThai;
 }
 
-export function sideMenusEnglish() {
-  const router = useRouter();
+export function sideMenusEnglish({ router }) {
   const sideMenusEnglish = [
     {
       title: "school",
@@ -56,17 +53,17 @@ export function sideMenusEnglish() {
     {
       title: "assignments",
       icon: "🎒",
-      url: `/classroom/teacher/${router.query.classroomId}/assignment`,
+      url: `/classroom/teacher/${router?.query?.classroomId}/assignment`,
     },
     {
       title: "attendances",
       icon: "🙌",
-      url: `/classroom/teacher/${router.query.classroomId}/attendance`,
+      url: `/classroom/teacher/${router?.query?.classroomId}/attendance`,
     },
     {
       title: "scores",
       icon: "🥇",
-      url: `/classroom/teacher/${router.query.classroomId}/scores`,
+      url: `/classroom/teacher/${router?.query?.classroomId}/scores`,
     },
 
     {
