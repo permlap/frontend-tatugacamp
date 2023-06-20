@@ -74,11 +74,13 @@ function Assignment({ error, user }) {
           justify-start gap-2 "
           >
             <div className="w-12  h-12  bg-orange-400 relative ml-5 rounded-full bg- overflow-hidden">
-              <Image
-                src={user?.picture}
-                layout="fill"
-                className="object-contain"
-              />
+              {user?.picture && (
+                <Image
+                  src={user?.picture}
+                  layout="fill"
+                  className="object-contain"
+                />
+              )}
             </div>
             <button
               onClick={() => {
@@ -88,7 +90,7 @@ function Assignment({ error, user }) {
               className="w-8/12 md:w-80 border-none py-2 rounded-full bg-blue-100 text-center font-Poppins text-sm hover:bg-[#2C7CD1] hover:text-white
 text-black transition duration-150 cursor-pointer"
             >
-              <div>
+              <div className="font-Kanit font-medium">
                 {user.language === "Thai" && "สร้างชิ้นงาน"}
                 {user.language === "English" && "create your assignment"}
               </div>

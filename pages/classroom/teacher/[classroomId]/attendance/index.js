@@ -111,7 +111,10 @@ function Index({ error, user }) {
               <Skeleton variant="rectangular" width={800} height={40} />
             </div>
           ) : (
-            <table className=" h-full  max-h-[40rem] flex flex-col w-96 md:w-[40rem]  lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative">
+            <table
+              className=" h-full  max-h-[40rem] flex flex-col w-80 md:w-[40rem]
+              lg:w-[80rem] bg-white rounded-md font-Kanit overflow-x-auto relative"
+            >
               <thead className="w-max sticky top-0 bg-white h-max py-3 z-10">
                 <tr className="flex ">
                   <th className="flex w-10 md:w-24  items-center justify-center sticky left-0 bg-white">
