@@ -323,7 +323,7 @@ function Index({ error, user }) {
         studentId: studentId,
       });
       setComment(() => comment.data);
-      Swal.fire("success", "ลบคอมมเม้นเรียบร้อย", "success");
+      Swal.fire("success", "ลบคอมเมนต์เรียบร้อย", "success");
     } catch (err) {
       console.log(err);
       Swal.fire(
@@ -344,7 +344,7 @@ function Index({ error, user }) {
         studentId: studentId,
       });
       setComment(() => comment.data);
-      Swal.fire("success", "ลบคอมมเม้นเรียบร้อย", "success");
+      Swal.fire("success", "ลบคอมเมนต์เรียบร้อย", "success");
     } catch (err) {
       console.log(err);
       Swal.fire(
@@ -555,7 +555,7 @@ function Index({ error, user }) {
             {/* student's assignment */}
             {activeMenu === 1 && (
               <div className="flex items-start justify-start w-full h-full  gap-5   mt-5  ">
-                <div className="lg:w-[60rem] md:w-3/4  top-10 sticky flex flex-col h-full items-center justify-center ">
+                <div className="lg:w-full md:w-2/4  top-10 sticky flex flex-col h-full items-center justify-center ">
                   <div className="text-xl font-Kanit font-semibold flex justify-center items-center gap-2">
                     <span>
                       {user.language === "Thai" && "สถานะการส่งงานของผู้เรียน"}
@@ -572,29 +572,31 @@ function Index({ error, user }) {
                       <BiRefresh />
                     </button>
                   </div>
-                  <ul className="w-full list-none pl-0">
-                    <li className="grid grid-cols-4 mt-4 gap-2 text-xl ">
-                      <div className="flex justify-center">
-                        {user.language === "Thai" && "เลขที่"}
-                        {user.language === "English" && "number"}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        {user.language === "Thai" && "ชื่อ"}
-                        {user.language === "English" && "student's name"}
-                      </div>
-                      <div className="flex items-center justify-center">
-                        {user.language === "Thai" && "คะแนน"}
-                        {user.language === "English" && "score"}
-                      </div>
-                      <div className="flex items-center justify-start">
-                        {user.language === "Thai" && "สถานะ"}
-                        {user.language === "English" && "status"}
-                      </div>
-                    </li>
-                    <div className=" md:h-screen w-full overflow-auto">
+                  <table className="">
+                    <thead className="mt-4 flex text-base ">
+                      <tr className="flex lg:gap-5 md:gap-2 w-full  justify-center">
+                        <th className="flex justify-center text-center  w-10">
+                          {user.language === "Thai" && "เลขที่"}
+                          {user.language === "English" && "number"}
+                        </th>
+                        <th className="flex items-center justify-center md:w-28 xl:w-60 lg:w-40">
+                          {user.language === "Thai" && "ชื่อ"}
+                          {user.language === "English" && "student's name"}
+                        </th>
+                        <th className="flex items-center justify-center w-10">
+                          {user.language === "Thai" && "คะแนน"}
+                          {user.language === "English" && "score"}
+                        </th>
+                        <th className="flex items-center justify-center w-32 ">
+                          {user.language === "Thai" && "สถานะ"}
+                          {user.language === "English" && "status"}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
                       {studentOnAssignments.isLoading ||
                       studentOnAssignments.isFetching ? (
-                        <div className="flex flex-col  items-center justify-start mt-5 gap-5">
+                        <tr className="flex flex-col  items-center justify-start mt-5 gap-5">
                           <Skeleton
                             variant="rounded"
                             animation="wave"
@@ -630,83 +632,84 @@ function Index({ error, user }) {
                             animation="wave"
                             width="80%"
                           />
-                        </div>
+                        </tr>
                       ) : (
                         studentOnAssignments?.data?.data?.map(
                           (student, index) => {
                             return (
-                              <li
+                              <tr
                                 key={index}
-                                className="grid grid-cols-4 gap-2 py-2  "
+                                className="flex gap-5 mb-2 justify-center "
                               >
-                                <div className="flex justify-center">
+                                <th className="flex justify-center w-10 ">
                                   {student.number}
-                                </div>
-                                <div className="flex items-center justify-center">
-                                  {student.firstName}
-                                </div>
+                                </th>
+                                <td className="flex items-center justify-start gap-4 lg:w-40 md:w-28  truncate xl:w-60">
+                                  <span>{student.firstName}</span>
+                                  <span>{student?.lastName}</span>
+                                </td>
                                 {student?.studentWork?.score ? (
-                                  <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                  <td className="flex items-center justify-center font-Kanit font-bold text-gray-700 w-10">
                                     {student.studentWork.score}
-                                  </div>
+                                  </td>
                                 ) : (
-                                  <div className="flex items-center justify-center font-Kanit font-bold text-gray-700">
+                                  <td className="flex items-center justify-center font-Kanit font-bold text-gray-700 w-10">
                                     0
-                                  </div>
+                                  </td>
                                 )}
                                 {student.status === "no-work" && (
-                                  <div
+                                  <td
                                     onClick={() => handleSelectWork(student)}
-                                    className="w-max bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
-                                      hover:scale-105 transition duration-150"
+                                    className=" bg-red-500 py-1 px-2 rounded-lg text-white cursor-pointer 
+                                      hover:scale-105 transition duration-150 md:w-20 md:text-sm lg:w-32 text-center"
                                   >
                                     {user.language === "Thai" && "ไม่ส่งงาน"}
                                     {user.language === "English" && "NO WORK"}
-                                  </div>
+                                  </td>
                                 )}
                                 {student.status === "have-work" &&
                                   student.studentWork.score === 0 &&
                                   student.studentWork.isSummited === false && (
-                                    <div
+                                    <td
                                       onClick={() => handleSelectWork(student)}
-                                      className=" lg:w-max md:w-16 cursor-pointer hover:scale-105 transition duration-150
-                                         bg-yellow-500 py-1 px-2 rounded-lg text-white md:text-xs lg:text-base text-center flex items-center justify-center"
+                                      className="md:w-20 md:text-sm lg:w-32 text-center  cursor-pointer hover:scale-105 transition duration-150
+                                         bg-yellow-500 py-1 px-2 rounded-lg text-white lg:text-base flex items-center justify-center"
                                     >
                                       {user.language === "Thai" && "รอการตรวจ"}
                                       {user.language === "English" &&
                                         "WAIT CHECK"}
-                                    </div>
+                                    </td>
                                   )}
                                 {student.status === "no-assign" && (
-                                  <div className="w-max bg-gray-500 py-1 px-2 rounded-lg text-white">
+                                  <td className=" md:w-20 md:text-sm lg:w-32  bg-gray-500 py-1 px-2 rounded-lg text-white text-center">
                                     {user.language === "Thai" &&
                                       "ไม่ได้มอบหมาย"}
                                     {user.language === "English" &&
                                       "NOT ASSIGN"}
-                                  </div>
+                                  </td>
                                 )}
                                 {student.status === "have-work" &&
                                   student.studentWork.isSummited === true && (
-                                    <div
+                                    <td
                                       onClick={() => handleSelectWork(student)}
-                                      className="w-max bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
+                                      className=" md:w-20 md:text-sm lg:w-32  text-center bg-green-500 py-1 px-2 cursor-pointer hover:scale-105 transition duration-150 rounded-lg text-white"
                                     >
                                       {user.language === "Thai" && "ตรวจแล้ว"}
                                       {user.language === "English" &&
                                         "FINISH CHECK"}
-                                    </div>
+                                    </td>
                                   )}
-                              </li>
+                              </tr>
                             );
                           }
                         )
                       )}
-                    </div>
-                  </ul>
+                    </tbody>
+                  </table>
                 </div>
 
                 {/* review student work section */}
-                <div className="flex flex-col lg:w-full md:w-2/4 items-center justify-between h-full ">
+                <div className="flex flex-col lg:w-full md:w-2/4 sticky top-20 items-center justify-between h-full ">
                   <div className="flex w-full  lg:justify-between  mt-10">
                     <div className="flex items-center md:w-5/12 lg:w-max justify-center relative ">
                       <div className="lg:text-3xl md:text-xl w-max font-Kanit flex">
@@ -724,7 +727,6 @@ function Index({ error, user }) {
                           </div>
                         )}
                       </div>
-                      <div className="w-96 h-[2px] bg-blue-700 absolute left-0 md:hidden lg:block lg:bottom-2"></div>
                     </div>
 
                     {currentStudentWork && (
@@ -785,341 +787,350 @@ function Index({ error, user }) {
                       </div>
                     )}
                   </div>
-                  <div className=" flex flex-col w-full gap-10 ">
-                    {currentStudentWork && images && images !== null ? (
-                      <SlideshowLightbox
-                        downloadImages={true}
-                        lightboxIdentifier="lightbox1"
-                        showThumbnails={true}
-                        framework="next"
-                        images={images}
-                        theme="day"
-                        className={`container grid ${
-                          images.length === 1 ? "grid-cols-1" : "grid-cols-3"
-                        } lg:w-[40rem] md:w-60 mx-auto h-full items-center gap-2 place-items-center
+                  <div className="h-96 overflow-auto">
+                    <div className=" flex flex-col w-full gap-10 ">
+                      {currentStudentWork && images && images !== null ? (
+                        <SlideshowLightbox
+                          downloadImages={true}
+                          lightboxIdentifier="lightbox1"
+                          showThumbnails={true}
+                          framework="next"
+                          images={images}
+                          theme="day"
+                          className={`container grid ${
+                            images.length === 1
+                              ? "grid-cols-1"
+                              : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 "
+                          } lg:w-full md:w-60 mx-auto h-full  place-items-center
                          `}
-                      >
-                        {images.map((image, index) => {
-                          return (
-                            <Image
-                              key={index}
-                              src={image.src}
-                              alt="student's work"
-                              width={240}
-                              height={160}
-                              className="object-cover hover:scale-125 transition duration-150"
-                              data-lightboxjs="lightbox1"
-                              quality={80}
-                              placeholder="blur"
-                              blurDataURL="/logo/TaTuga camp.png"
-                            />
-                          );
-                        })}
-                      </SlideshowLightbox>
-                    ) : (
-                      <div
-                        className="w-full   h-72 text-center flex items-center justify-center font-Kanit
+                        >
+                          {images.map((image, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="lg:w-60 lg:h-60 md:w-40 md:h-40 relative bg-blue-200 "
+                              >
+                                <Image
+                                  src={image.src}
+                                  alt="student's work"
+                                  layout="fill"
+                                  className="object-cover hover:scale-125 transition duration-150"
+                                  data-lightboxjs="lightbox1"
+                                  quality={60}
+                                  placeholder="blur"
+                                  blurDataURL="/logo/TaTuga camp.png"
+                                />
+                              </div>
+                            );
+                          })}
+                        </SlideshowLightbox>
+                      ) : (
+                        <div
+                          className="w-full   h-72 text-center flex items-center justify-center font-Kanit
                       font-bold text-2xl text-gray-300"
-                      >
-                        {currentStudentWork?.status === "no-work" &&
-                          user.language === "Thai" &&
-                          "ผู้เรียนยังไม่ส่งงาน"}
-                        {currentStudentWork?.status === "have-work" &&
-                          user.language === "Thai" &&
-                          "ตรวจงานโดยผู้เรียนไม่ส่งงาน"}
-                        {!currentStudentWork &&
-                          user.language === "Thai" &&
-                          "โปรดเลือกงาน"}
-                        {currentStudentWork?.status === "no-work" &&
-                          user.language === "English" &&
-                          "NO student's work"}
-                        {currentStudentWork?.status === "have-work" &&
-                          user.language === "English" &&
-                          "Finish checking without student's work"}
-                        {!currentStudentWork &&
-                          user.language === "English" &&
-                          "Please select some student"}
+                        >
+                          {currentStudentWork?.status === "no-work" &&
+                            user.language === "Thai" &&
+                            "ผู้เรียนยังไม่ส่งงาน"}
+                          {currentStudentWork?.status === "have-work" &&
+                            user.language === "Thai" &&
+                            "ตรวจงานโดยผู้เรียนไม่ส่งงาน"}
+                          {!currentStudentWork &&
+                            user.language === "Thai" &&
+                            "โปรดเลือกงาน"}
+                          {currentStudentWork?.status === "no-work" &&
+                            user.language === "English" &&
+                            "NO student's work"}
+                          {currentStudentWork?.status === "have-work" &&
+                            user.language === "English" &&
+                            "Finish checking without student's work"}
+                          {!currentStudentWork &&
+                            user.language === "English" &&
+                            "Please select some student"}
+                        </div>
+                      )}
+                      <div className="flex flex-col gap-5 justify-start items-center">
+                        {files.map((file, index) => {
+                          if (file.fileType === "pdf") {
+                            return (
+                              <div
+                                key={index}
+                                className="w-full flex justify-center"
+                              >
+                                <embed
+                                  src={file.url}
+                                  type="application/pdf"
+                                  frameBorder="0"
+                                  scrolling="auto"
+                                  height="500px"
+                                  width="80%"
+                                ></embed>
+                              </div>
+                            );
+                          }
+                          if (file.fileType === "docx") {
+                            return (
+                              <div
+                                key={index}
+                                className="w-full flex  justify-center"
+                              >
+                                <iframe
+                                  width="80%"
+                                  height="500px"
+                                  src={`https://docs.google.com/gview?url=${file.url}&embedded=true`}
+                                ></iframe>
+                              </div>
+                            );
+                          }
+                          if (file.fileType === "mp4") {
+                            return (
+                              <div
+                                key={index}
+                                className="w-full flex  justify-center"
+                              >
+                                <video controls width="80%">
+                                  <source src={file.url} type="video/mp4" />
+                                  Sorry, your browser doesn't support videos.
+                                </video>
+                              </div>
+                            );
+                          }
+                          if (
+                            file.fileType === "mp3" ||
+                            file.fileType === "aac"
+                          ) {
+                            return (
+                              <div
+                                key={index}
+                                className="w-full flex  justify-center"
+                              >
+                                <audio
+                                  src={file.url}
+                                  controls={true}
+                                  autoPlay={false}
+                                />
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+                    {currentStudentWork?.studentWork?.body && (
+                      <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                        <div className="flex gap-2 md:ml-2 lg:ml-20">
+                          {currentStudentWork?.picture ? (
+                            <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                              <Image
+                                src={currentStudentWork?.picture}
+                                alt="profile"
+                                layout="fill"
+                                className="object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                              <span className="uppercase font-sans font-black text-3xl text-white">
+                                {currentStudentWork?.firstName.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                          <div className="w-max max-w-[10rem] lg:max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                            <div className="text-md ml-4 font-bold first-letter:uppercase">
+                              {currentStudentWork?.firstName}
+                              {currentStudentWork?.lastName}
+                            </div>
+                            <div
+                              className="pl-4 break-words "
+                              dangerouslySetInnerHTML={{
+                                __html: currentStudentWork?.studentWork?.body,
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
                     )}
-                    <div className="flex flex-col gap-5 justify-start items-center">
-                      {files.map((file, index) => {
-                        if (file.fileType === "pdf") {
-                          return (
-                            <div
-                              key={index}
-                              className="w-full flex justify-center"
-                            >
-                              <embed
-                                src={file.url}
-                                type="application/pdf"
-                                frameBorder="0"
-                                scrolling="auto"
-                                height="500px"
-                                width="80%"
-                              ></embed>
-                            </div>
-                          );
-                        }
-                        if (file.fileType === "docx") {
-                          return (
-                            <div
-                              key={index}
-                              className="w-full flex  justify-center"
-                            >
-                              <iframe
-                                width="80%"
-                                height="500px"
-                                src={`https://docs.google.com/gview?url=${file.url}&embedded=true`}
-                              ></iframe>
-                            </div>
-                          );
-                        }
-                        if (file.fileType === "mp4") {
-                          return (
-                            <div
-                              key={index}
-                              className="w-full flex  justify-center"
-                            >
-                              <video controls width="80%">
-                                <source src={file.url} type="video/mp4" />
-                                Sorry, your browser doesn't support videos.
-                              </video>
-                            </div>
-                          );
-                        }
-                        if (
-                          file.fileType === "mp3" ||
-                          file.fileType === "aac"
-                        ) {
-                          return (
-                            <div
-                              key={index}
-                              className="w-full flex  justify-center"
-                            >
-                              <audio
-                                src={file.url}
-                                controls={true}
-                                autoPlay={false}
+                    {currentStudentWork?.studentWork?.comment && (
+                      <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                        <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
+                          {user.picture ? (
+                            <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                              <Image
+                                src={user.picture}
+                                alt="profile"
+                                layout="fill"
+                                className="object-cover"
                               />
                             </div>
-                          );
-                        }
-                      })}
-                    </div>
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                              <span className="uppercase font-sans font-black text-3xl text-white">
+                                {user.firstName.charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                          <div className="w-max md:max-w-[15rem] lg:max-w-xl  pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
+                            <div className="text-md ml-4 font-bold first-letter:uppercase">
+                              {user.firstName}
+                              {user?.lastName}
+                            </div>
+                            <div
+                              className="pl-4 break-words "
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  currentStudentWork?.studentWork?.comment,
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {comment?.map((comment, index) => {
+                      if (comment.user) {
+                        return (
+                          <div
+                            key={index}
+                            className=" w-full h-max mt-5 flex items-start justify-start relative "
+                          >
+                            <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
+                              {comment.user.picture ? (
+                                <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                                  <Image
+                                    src={comment.user.picture}
+                                    alt="profile"
+                                    layout="fill"
+                                    className="object-cover"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                                  <span className="uppercase font-sans font-black text-3xl text-white">
+                                    {comment.user.firstName.charAt(0)}
+                                  </span>
+                                </div>
+                              )}
+                              <div className="w-max md:max-w-[15rem] lg:max-w-xl  pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
+                                <div className="text-md ml-4 font-bold first-letter:uppercase">
+                                  {comment.user.firstName}
+                                  {comment.user?.lastName}
+                                </div>
+                                <div
+                                  className="pl-4 break-words "
+                                  dangerouslySetInnerHTML={{
+                                    __html: comment.body,
+                                  }}
+                                />
+                                <div className="w-full min-w-[8rem] mt-2 flex justify-end text-red-400">
+                                  {!comment.selected && (
+                                    <button
+                                      onClick={() => handleConfirmDelete(index)}
+                                      className="underline"
+                                    >
+                                      ลบ
+                                    </button>
+                                  )}
+                                  {comment.selected && (
+                                    <div className="flex gap-2">
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteTeacherComment({
+                                            teacherCommentId: comment.id,
+                                            studentId: currentStudentWork.id,
+                                          })
+                                        }
+                                      >
+                                        YES
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          handleUnConfirmDelete(index)
+                                        }
+                                      >
+                                        NO
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      } else if (comment.student) {
+                        return (
+                          <div
+                            key={index}
+                            className=" w-full h-max mt-5 flex items-start justify-start relative "
+                          >
+                            <div className="flex gap-2 md:ml-2 lg:ml-20">
+                              {comment.student.picture ? (
+                                <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                                  <Image
+                                    src={comment.student.picture}
+                                    alt="profile"
+                                    layout="fill"
+                                    className="object-cover"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
+                                  <span className="uppercase font-sans font-black text-3xl text-white">
+                                    {comment.student.firstName.charAt(0)}
+                                  </span>
+                                </div>
+                              )}
+                              <div className="w-max max-w-[10rem] lg:max-w-xl px-5 pr-8  bg-blue-100 rounded-3xl h-full relative  p-2">
+                                <div className="text-md ml-4 font-bold first-letter:uppercase">
+                                  {comment.student.firstName}
+                                  {comment.student?.lastName}
+                                </div>
+                                <div
+                                  className="pl-4 break-words "
+                                  dangerouslySetInnerHTML={{
+                                    __html: comment.body,
+                                  }}
+                                />
+                                <div className="w-full min-w-[8rem] mt-2 flex justify-end text-red-400">
+                                  {!comment.selected && (
+                                    <button
+                                      onClick={() => handleConfirmDelete(index)}
+                                      className="underline"
+                                    >
+                                      ลบ
+                                    </button>
+                                  )}
+                                  {comment.selected && (
+                                    <div className="flex gap-2">
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteStudentComment({
+                                            studentCommentId: comment.id,
+                                            studentId: currentStudentWork.id,
+                                          })
+                                        }
+                                      >
+                                        YES
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          handleUnConfirmDelete(index)
+                                        }
+                                      >
+                                        NO
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
-                  {currentStudentWork?.studentWork?.body && (
-                    <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
-                      <div className="flex gap-2 md:ml-2 lg:ml-20">
-                        {currentStudentWork?.picture ? (
-                          <div className="w-12 h-12 rounded-full overflow-hidden relative">
-                            <Image
-                              src={currentStudentWork?.picture}
-                              alt="profile"
-                              layout="fill"
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
-                            <span className="uppercase font-sans font-black text-3xl text-white">
-                              {currentStudentWork?.firstName.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                        <div className="w-max max-w-[10rem] lg:max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
-                          <div className="text-md ml-4 font-bold first-letter:uppercase">
-                            {currentStudentWork?.firstName}
-                            {currentStudentWork?.lastName}
-                          </div>
-                          <div
-                            className="pl-4 break-words "
-                            dangerouslySetInnerHTML={{
-                              __html: currentStudentWork?.studentWork?.body,
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {currentStudentWork?.studentWork?.comment && (
-                    <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
-                      <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
-                        {user.picture ? (
-                          <div className="w-12 h-12 rounded-full overflow-hidden relative">
-                            <Image
-                              src={user.picture}
-                              alt="profile"
-                              layout="fill"
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
-                            <span className="uppercase font-sans font-black text-3xl text-white">
-                              {user.firstName.charAt(0)}
-                            </span>
-                          </div>
-                        )}
-                        <div className="w-max md:max-w-[15rem] lg:max-w-xl  pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
-                          <div className="text-md ml-4 font-bold first-letter:uppercase">
-                            {user.firstName}
-                            {user?.lastName}
-                          </div>
-                          <div
-                            className="pl-4 break-words "
-                            dangerouslySetInnerHTML={{
-                              __html: currentStudentWork?.studentWork?.comment,
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {comment?.map((comment, index) => {
-                    if (comment.user) {
-                      return (
-                        <div
-                          key={index}
-                          className=" w-full h-max mt-5 flex items-start justify-start relative "
-                        >
-                          <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
-                            {comment.user.picture ? (
-                              <div className="w-12 h-12 rounded-full overflow-hidden relative">
-                                <Image
-                                  src={comment.user.picture}
-                                  alt="profile"
-                                  layout="fill"
-                                  className="object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
-                                <span className="uppercase font-sans font-black text-3xl text-white">
-                                  {comment.user.firstName.charAt(0)}
-                                </span>
-                              </div>
-                            )}
-                            <div className="w-max md:max-w-[15rem] lg:max-w-xl  pr-10  bg-green-100 rounded-3xl h-full relative  p-2">
-                              <div className="text-md ml-4 font-bold first-letter:uppercase">
-                                {comment.user.firstName}
-                                {comment.user?.lastName}
-                              </div>
-                              <div
-                                className="pl-4 break-words "
-                                dangerouslySetInnerHTML={{
-                                  __html: comment.body,
-                                }}
-                              />
-                              <div className="w-full min-w-[8rem] mt-2 flex justify-end text-red-400">
-                                {!comment.selected && (
-                                  <button
-                                    onClick={() => handleConfirmDelete(index)}
-                                    className="underline"
-                                  >
-                                    ลบ
-                                  </button>
-                                )}
-                                {comment.selected && (
-                                  <div className="flex gap-2">
-                                    <button
-                                      onClick={() =>
-                                        handleDeleteTeacherComment({
-                                          teacherCommentId: comment.id,
-                                          studentId: currentStudentWork.id,
-                                        })
-                                      }
-                                    >
-                                      YES
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        handleUnConfirmDelete(index)
-                                      }
-                                    >
-                                      NO
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    } else if (comment.student) {
-                      return (
-                        <div
-                          key={index}
-                          className=" w-full h-max mt-5 flex items-start justify-start relative "
-                        >
-                          <div className="flex gap-2 md:ml-2 lg:ml-20">
-                            {comment.student.picture ? (
-                              <div className="w-12 h-12 rounded-full overflow-hidden relative">
-                                <Image
-                                  src={comment.student.picture}
-                                  alt="profile"
-                                  layout="fill"
-                                  className="object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className="w-10 h-10 rounded-full bg-blue-600 flex justify-center items-center">
-                                <span className="uppercase font-sans font-black text-3xl text-white">
-                                  {comment.student.firstName.charAt(0)}
-                                </span>
-                              </div>
-                            )}
-                            <div className="w-max max-w-[10rem] lg:max-w-xl px-5 pr-8  bg-blue-100 rounded-3xl h-full relative  p-2">
-                              <div className="text-md ml-4 font-bold first-letter:uppercase">
-                                {comment.student.firstName}
-                                {comment.student?.lastName}
-                              </div>
-                              <div
-                                className="pl-4 break-words "
-                                dangerouslySetInnerHTML={{
-                                  __html: comment.body,
-                                }}
-                              />
-                              <div className="w-full min-w-[8rem] mt-2 flex justify-end text-red-400">
-                                {!comment.selected && (
-                                  <button
-                                    onClick={() => handleConfirmDelete(index)}
-                                    className="underline"
-                                  >
-                                    ลบ
-                                  </button>
-                                )}
-                                {comment.selected && (
-                                  <div className="flex gap-2">
-                                    <button
-                                      onClick={() =>
-                                        handleDeleteStudentComment({
-                                          studentCommentId: comment.id,
-                                          studentId: currentStudentWork.id,
-                                        })
-                                      }
-                                    >
-                                      YES
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        handleUnConfirmDelete(index)
-                                      }
-                                    >
-                                      NO
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                  })}
+
                   {currentStudentWork && (
                     <form
                       onSubmit={handlePostComment}
-                      className="w-full flex items-center justify-center gap-5 mt-10 pb-10"
+                      className="w-full flex items-center justify-center mt-2 gap-5 "
                     >
                       <Box width="50%">
                         <TextField
