@@ -104,7 +104,7 @@ function Index() {
       Swal.fire({
         title: "ยืนยันการส่งงาน",
         text: "คุณยังไม่ได้แนบไฟล์งาน แน่ใจใช่ไหมว่าจะส่ง?",
-        icon: "question",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
@@ -494,13 +494,21 @@ application/pdf,
               >
                 ขนาดไฟล์เกิน
               </div>
-            ) : (
+            ) : selectedFiles.length > 0 ? (
               <button
                 type="submit"
                 className="w-40 h-10 mt-5  bg-green-500 drop-shadow-md text-white rounded-xl
        flex items-center justify-center"
               >
                 ส่งงาน
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="w-40 h-10 mt-5  bg-red-500 drop-shadow-md text-white rounded-xl
+   flex items-center justify-center"
+              >
+                ส่งงานโดยไม่แนบไฟล์
               </button>
             )}
           </form>
@@ -607,38 +615,6 @@ application/pdf,
                       }
                     })}
                 </div>
-                {/* <div className="w-full flex items-center justify-center mt-2">
-                  {studentWork?.body && (
-                    <div className="w-11/12 flex justify-start">
-                      <div className="w-full max-w-5xl pr-6 h-max p-2 rounded-lg bg-blue-50 flex">
-                        <span className="font-semibold">นักเรียน:</span>
-                        <div
-                          style={{
-                            wordWrap: "break-word",
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                          }}
-                          className="h-max w-full  overflow-hidden ml-2"
-                          dangerouslySetInnerHTML={{
-                            __html: studentWork?.body,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div> */}
-                {/* <div className="w-full flex items-center justify-center mt-2">
-                  {studentWork?.comment && (
-                    <div className="w-11/12 flex justify-end">
-                      <div className="h-max p-2 rounded-lg bg-green-200 flex flex-row-reverse w-max max-w-5xl">
-                        <div>
-                          <span className="font-semibold">: ครู</span>
-                        </div>
-                        <div>{studentWork.comment}</div>
-                      </div>
-                    </div>
-                  )}
-                </div> */}
               </div>
             )}
           </div>
@@ -727,7 +703,10 @@ application/pdf,
                           </span>
                         </div>
                       )}
-                      <div className="w-full max-w-[15rem] md:max-w-md pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                      <div
+                        className="w-full max-w-[15rem] md:max-w-md pr-10 
+                       bg-blue-100 rounded-3xl h-full relative  p-2"
+                      >
                         <div className="text-md ml-4 font-bold first-letter:uppercase">
                           {comment.student.firstName}
                           {comment.student?.lastName}
@@ -736,7 +715,6 @@ application/pdf,
                           className="pl-4 "
                           style={{
                             wordWrap: "break-word",
-                            maxHeight: "200px",
                             overflowY: "auto",
                           }}
                           dangerouslySetInnerHTML={{
@@ -752,7 +730,7 @@ application/pdf,
             {fetchStudentWork.isLoading || loading ? (
               <Skeleton variant="rounded" width="100%" height={300} />
             ) : (
-              <div className="h-60 w-full bg-slate-400 mt-5 relative overflow-hidden rounded-xl drop-shadow-md">
+              <div className="h-96 w-full bg-slate-400 mt-5 relative overflow-hidden rounded-xl drop-shadow-md">
                 <Editor
                   apiKey={process.env.NEXT_PUBLIC_TINY_TEXTEDITOR_KEY}
                   textareaName="body"
@@ -760,17 +738,30 @@ application/pdf,
                     link_context_toolbar: true,
                     height: "100%",
                     width: "100%",
-                    menubar: false,
+                    menubar: true,
                     plugins: [
-                      "advlist autolink lists link image charmap print preview anchor",
-                      "searchreplace visualblocks code fullscreen",
-                      "insertdatetime media table paste code help wordcount",
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "help",
+                      "wordcount",
                     ],
                     toolbar:
-                      "undo redo | formatselect | " +
+                      "undo redo | blocks | " +
                       "bold italic backcolor | alignleft aligncenter " +
                       "alignright alignjustify | bullist numlist outdent indent | " +
-                      "removeformat | ",
+                      "removeformat | help",
                     content_style:
                       "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
                   }}

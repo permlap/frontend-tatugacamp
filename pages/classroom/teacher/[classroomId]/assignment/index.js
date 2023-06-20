@@ -146,14 +146,14 @@ text-black transition duration-150 cursor-pointer"
                       });
                     }}
                     key={index}
-                    className={`w-80 md:w-[35rem] h-36 md:px-10 md:py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
+                    className={`w-80 md:w-[35rem]  h-36 md:px-10 md:py-5 drop-shadow-md  bg-white  hover:scale-105 cursor-pointer overflow-hidden
                  duration-150 transition relative
                rounded-lg flex flex-col gap-10 border-2 border-solid`}
                   >
                     <div className="flex md:justify-between justify-between">
                       <div className="flex">
                         <div
-                          className={`flex flex-col gap-2 w-40 md:w-3/4 max-w-md  font-Poppins text-center md:text-left text-black `}
+                          className={`flex flex-col  gap-2 w-40 md:w-3/4 max-w-md  font-Poppins text-center md:text-left text-black `}
                         >
                           <span className=" font text-xl font-bold w-full h-max max-h-8 overflow-auto scrollbar-hide ">
                             {assignment.title}

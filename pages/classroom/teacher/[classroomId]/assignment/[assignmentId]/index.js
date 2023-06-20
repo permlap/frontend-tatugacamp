@@ -22,7 +22,12 @@ import Unauthorized from "../../../../../../components/error/unauthorized.js";
 import { GetUser, GetUserCookie } from "../../../../../../service/user.js";
 import { BiRefresh } from "react-icons/bi";
 import Head from "next/head.js";
-import { GetComments, PostComment } from "../../../../../../service/comment.js";
+import {
+  DeleteStudentComment,
+  DeleteTeachertComment,
+  GetComments,
+  PostComment,
+} from "../../../../../../service/comment.js";
 import SendIcon from "@mui/icons-material/Send";
 import { parseCookies } from "nookies";
 
@@ -38,6 +43,7 @@ function Index({ error, user }) {
   const [triggerUpdateAssignment, setTriggerUpdateAssignment] = useState(false);
   const [comment, setComment] = useState();
   const [files, setFiles] = useState([]);
+  const [comfirmDeleteComment, setComfirmDeleteComment] = useState(false);
   const assignment = useQuery(
     ["assignment"],
     () => GetAssignment({ assignmentId: router.query.assignmentId }),
@@ -165,6 +171,29 @@ function Index({ error, user }) {
     return url.split(/[#?]/)[0].split(".").pop().trim();
   }
 
+  //handle open make sure to delete classroom
+  const handleConfirmDelete = (index) => {
+    const newItems = comment.map((item, i) => {
+      if (i === index) {
+        return { ...item, selected: true };
+      } else {
+        return { ...item, selected: false };
+      }
+    });
+    setComment(() => newItems);
+  };
+
+  //handle make sure to cancel deleting classroom
+  const handleUnConfirmDelete = (index) => {
+    const newItems = comment.map((item, i) => {
+      if (i === index) {
+        return { ...item, selected: false };
+      } else {
+        return { ...item, selected: false };
+      }
+    });
+    setComment(() => newItems);
+  };
   //handle select student's work
   const handleSelectWork = async (student) => {
     try {
@@ -284,6 +313,47 @@ function Index({ error, user }) {
       );
     }
   };
+  async function handleDeleteStudentComment({ studentCommentId, studentId }) {
+    try {
+      const deleteComment = await DeleteStudentComment({
+        studentCommentId,
+      });
+      const comment = await GetComments({
+        assignmentId: router.query.assignmentId,
+        studentId: studentId,
+      });
+      setComment(() => comment.data);
+      Swal.fire("success", "ลบคอมมเม้นเรียบร้อย", "success");
+    } catch (err) {
+      console.log(err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.error?.message?.toString(),
+        "error"
+      );
+    }
+  }
+
+  async function handleDeleteTeacherComment({ teacherCommentId, studentId }) {
+    try {
+      const deleteComment = await DeleteTeachertComment({
+        teacherCommentId,
+      });
+      const comment = await GetComments({
+        assignmentId: router.query.assignmentId,
+        studentId: studentId,
+      });
+      setComment(() => comment.data);
+      Swal.fire("success", "ลบคอมมเม้นเรียบร้อย", "success");
+    } catch (err) {
+      console.log(err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.error?.message?.toString(),
+        "error"
+      );
+    }
+  }
 
   //handle post comment for user
   const handlePostComment = async (e) => {
@@ -314,7 +384,6 @@ function Index({ error, user }) {
       );
     }
   };
-
   const handleOnChangeReviewWork = (e) => {
     const { name, value } = e.target;
 
@@ -906,10 +975,13 @@ function Index({ error, user }) {
                       </div>
                     </div>
                   )}
-                  {comment?.map((comment) => {
+                  {comment?.map((comment, index) => {
                     if (comment.user) {
                       return (
-                        <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                        <div
+                          key={index}
+                          className=" w-full h-max mt-5 flex items-start justify-start relative "
+                        >
                           <div className="flex gap-2 md:ml-2 lg:ml-20 w-full ">
                             {comment.user.picture ? (
                               <div className="w-12 h-12 rounded-full overflow-hidden relative">
@@ -938,13 +1010,47 @@ function Index({ error, user }) {
                                   __html: comment.body,
                                 }}
                               />
+                              <div className="w-full min-w-[8rem] mt-2 flex justify-end text-red-400">
+                                {!comment.selected && (
+                                  <button
+                                    onClick={() => handleConfirmDelete(index)}
+                                    className="underline"
+                                  >
+                                    ลบ
+                                  </button>
+                                )}
+                                {comment.selected && (
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteTeacherComment({
+                                          teacherCommentId: comment.id,
+                                          studentId: currentStudentWork.id,
+                                        })
+                                      }
+                                    >
+                                      YES
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        handleUnConfirmDelete(index)
+                                      }
+                                    >
+                                      NO
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       );
                     } else if (comment.student) {
                       return (
-                        <div className=" w-full h-max mt-5 flex items-start justify-start relative ">
+                        <div
+                          key={index}
+                          className=" w-full h-max mt-5 flex items-start justify-start relative "
+                        >
                           <div className="flex gap-2 md:ml-2 lg:ml-20">
                             {comment.student.picture ? (
                               <div className="w-12 h-12 rounded-full overflow-hidden relative">
@@ -962,7 +1068,7 @@ function Index({ error, user }) {
                                 </span>
                               </div>
                             )}
-                            <div className="w-max max-w-[10rem] lg:max-w-xl pr-10  bg-blue-100 rounded-3xl h-full relative  p-2">
+                            <div className="w-max max-w-[10rem] lg:max-w-xl px-5 pr-8  bg-blue-100 rounded-3xl h-full relative  p-2">
                               <div className="text-md ml-4 font-bold first-letter:uppercase">
                                 {comment.student.firstName}
                                 {comment.student?.lastName}
@@ -973,6 +1079,37 @@ function Index({ error, user }) {
                                   __html: comment.body,
                                 }}
                               />
+                              <div className="w-full min-w-[8rem] mt-2 flex justify-end text-red-400">
+                                {!comment.selected && (
+                                  <button
+                                    onClick={() => handleConfirmDelete(index)}
+                                    className="underline"
+                                  >
+                                    ลบ
+                                  </button>
+                                )}
+                                {comment.selected && (
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteStudentComment({
+                                          studentCommentId: comment.id,
+                                          studentId: currentStudentWork.id,
+                                        })
+                                      }
+                                    >
+                                      YES
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        handleUnConfirmDelete(index)
+                                      }
+                                    >
+                                      NO
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>

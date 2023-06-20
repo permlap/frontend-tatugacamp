@@ -314,7 +314,7 @@ border-none flex  items-center justify-center hover:animate-spin bg-transparent 
           <IoWarningOutline />
         </div>
         {language === "Thai" &&
-          "กรุณาเข้าใช้งานใน แท็บเล็ตหรือคอมพิวเตอร์ เพิ่มใช้งาน tatuga class ได้อย่างเต็มที่"}
+          "กรุณาเข้าใช้งานใน แท็บเล็ตหรือคอมพิวเตอร์ เพื่อการใช้งาน Tatuga Class ได้อย่างมีประสิทธิภาพ"}
         {language === "English" &&
           "Please access tatuga again with tablet or computer for accessing full functionalities"}
       </div>

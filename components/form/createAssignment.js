@@ -153,7 +153,7 @@ export default function CreateAssignment({
                   link_context_toolbar: true,
                   height: "100%",
                   width: "100%",
-                  menubar: false,
+                  menubar: true,
                   image_title: true,
                   automatic_uploads: true,
                   file_picker_types: "image",
@@ -188,14 +188,26 @@ export default function CreateAssignment({
                     input.click();
                   },
                   plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount",
+                    "advlist",
+                    "autolink",
+                    "lists",
                     "link",
                     "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "help",
+                    "wordcount",
                   ],
                   toolbar:
-                    "undo redo | formatselect | " +
+                    "undo redo | formatselect | blocks | " +
                     "bold italic backcolor | alignleft aligncenter " +
                     "alignright alignjustify | bullist numlist outdent indent | " +
                     "removeformat | help | link | image",
