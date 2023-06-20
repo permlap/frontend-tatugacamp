@@ -182,7 +182,11 @@ function Index({ error, user }) {
                 fileType === "jpg" ||
                 fileType === "jpeg" ||
                 fileType === "png" ||
-                fileType === "HEIC"
+                fileType === "HEIC" ||
+                fileType === "JPEG" ||
+                fileType === "PNG" ||
+                fileType === "JPG" ||
+                fileType === "heic"
               ) {
                 pictures.push({ src: arrayPicture, alt: "student's work" });
               } else {

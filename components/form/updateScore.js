@@ -24,6 +24,7 @@ import CreateScore from "./createScore";
 import { avartars } from "../../data/students";
 import { useRouter } from "next/router";
 import Loading from "../loading/loading";
+import { AiFillCloseSquare, AiOutlineCloseCircle } from "react-icons/ai";
 function UpdateScore({
   close,
   student,
@@ -253,9 +254,20 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
       key={student?.id}
     >
       <div
-        className="flex md:flex-row flex-col w-[95%] md:w-[42rem] lg:w-[45rem] h-max font-Kanit bg-white border-2 border-solid
-    rounded-lg drop-shadow-xl md:p-5 md:px-0 relative items-center justify-center"
+        className="flex md:flex-row flex-col w-full h-full md:h-max rounded-none md:w-[42rem] lg:w-[45rem]  font-Kanit bg-white border-2 border-solid
+    md:rounded-lg drop-shadow-xl md:p-5 md:px-0 relative items-center justify-center"
       >
+        <div className="w-full block md:hidden">
+          <button
+            onClick={() => {
+              close();
+              document.body.style.overflow = "auto";
+            }}
+            className="ml-3 text-2xl flex justify-center items-center"
+          >
+            <AiOutlineCloseCircle />
+          </button>
+        </div>
         {classroomScore !== true && (
           <div
             className="absolute z-20 right-5 top-5 gap-1 flex items-center 
@@ -307,7 +319,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
 
         {/* avatar here  */}
         {classroomScore !== true && (
-          <div className=" md:w-[40rem] w-full flex flex-col justify-center items-center ">
+          <div className=" md:w-[40rem] w-full flex flex-col justify-center items-center  ">
             <div className="w-full h-max flex items-center justify-center   ">
               {triggerSetting === false ? (
                 <div className="w-full  h-full  flex items-center justify-center px-5 flex-col relative">
@@ -326,7 +338,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                           ? "bg-red-600"
                           : "bg-[#EDBA02] "
                       } ring-2 ring-white
-                    flex justify-center items-center font-sans font-bold text-3xl z-10 text-white -right-5 -top-5`}
+                    flex justify-center items-center font-sans font-bold text-3xl z-10 text-white -left-5 top-2 md:-top-5`}
                     >
                       {student?.score?.totalPoints}
                     </div>
@@ -359,7 +371,7 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
               ) : (
                 <form
                   className="md:w-full w-full  h-full gap-10  flex items-center mt-10 md:mt-0
-                 md:items-start justify-between px-5  relative"
+                 md:items-start flex-col md:flex-row justify-start md:justify-between px-5  relative"
                 >
                   <div className="flex items-center justify-center flex-col">
                     <div className="flex flex-col relative">
@@ -522,8 +534,10 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
             <div className="">
               <div
                 className={`md:w-96  w-full  h-full grid ${
-                  triggerCreateNewScore ? " grid-cols-1" : " grid-cols-3"
-                } gap-5  items-center justify-center`}
+                  triggerCreateNewScore
+                    ? " grid-cols-1"
+                    : "grid-cols-2 md:grid-cols-3"
+                } gap-5 place-items-center  items-center justify-center`}
               >
                 {triggerCreateNewScore === false ? (
                   scores?.data.map((score) => {
@@ -531,13 +545,13 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                     return (
                       <div
                         key={score.id}
-                        className="w-full h-full flex items-center justify-center flex-col gap-2"
+                        className="md:w-full w-10/12 h-full flex items-center justify-center flex-col gap-2"
                       >
                         {loadingPoint ? (
                           <button
                             aria-label={`buuton ${score.title} `}
                             role="button"
-                            className="w-full h-full  px-2 bg-gray-300 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
+                            className="w-full h-full px-0  md:px-2 bg-gray-300 flex flex-col font-Kanit text-lg items-center justify-center rounded-lg cursor-pointer
                border-2 border-solid hover:scale-110
              hover:bg-yellow-200 transition duration-150 ease-in-out"
                           >
@@ -621,13 +635,15 @@ top-0 right-0 left-0 bottom-0 m-auto fixed flex items-center justify-center"
                   type="number"
                   name="points"
                 />
-                <div className="w-max h-max text-sm mt-2 text-red-600">
-                  <span>
-                    {language === "Thai" &&
-                      "**หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น -5"}
-                    {language === "English" &&
-                      "Note: you can minus student's score by putting a minus symbol like -5 "}
-                  </span>
+                <div className="w-full md:w-max flex  text-center justify-center h-max text-sm mt-2 text-red-600 text">
+                  <div className="w-80 md:w-full">
+                    <span>
+                      {language === "Thai" &&
+                        "**หมายเหตุ สามารถลบคะแนนผู้เรียนได้โดยใส่เครื่องหมาย - เช่น -5"}
+                      {language === "English" &&
+                        "Note: you can minus student's score by putting a minus symbol like -5 "}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

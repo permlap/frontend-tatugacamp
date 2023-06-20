@@ -212,7 +212,7 @@ function Index({ user, error }) {
                                       className="w-full truncate font-medium lg:text-xl flex-col
         flex justify-center items-center"
                                     >
-                                      <span className="text-xl text-blue-500   ">
+                                      <span className="text-xl text-blue-700   ">
                                         {firstName}
                                       </span>
                                       <span className="text-sm text-gray-600 font-normal ">
@@ -223,7 +223,10 @@ function Index({ user, error }) {
                                       className="text-gray-700 font-normal  w-full h-5 flex
          items-center justify-center text-base  rounded-md"
                                     >
-                                      เลขที่ {student.number}
+                                      {user.language === "Thai" && "เลขที่"}
+                                      {user.language === "English" &&
+                                        "number"}{" "}
+                                      {student.number}
                                     </div>
                                   </div>
                                 </div>
