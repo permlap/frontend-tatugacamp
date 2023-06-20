@@ -1,6 +1,5 @@
 import { FiArrowLeftCircle } from "react-icons/fi";
 import React from "react";
-
 export function SideMenusThai(router) {
   const sideMenusThai = [
     {
@@ -38,7 +37,7 @@ export function SideMenusThai(router) {
   return sideMenusThai;
 }
 
-export function sideMenusEnglish({ router }) {
+export function sideMenusEnglish(router) {
   const sideMenusEnglish = [
     {
       title: "school",
