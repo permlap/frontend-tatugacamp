@@ -10,7 +10,7 @@ import { GetAllStudents } from "../../../../service/students";
 import Image from "next/image";
 import { GetAllScoresClassroom } from "../../../../service/scores";
 import UpdateScore from "../../../../components/form/updateScore";
-import { GetUser, GetUserCookie } from "../../../../service/user";
+import { GetUserCookie } from "../../../../service/user";
 import { Skeleton } from "@mui/material";
 import Unauthorized from "../../../../components/error/unauthorized";
 import { parseCookies } from "nookies";
