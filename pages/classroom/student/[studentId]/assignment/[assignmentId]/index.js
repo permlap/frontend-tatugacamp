@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Editor } from "@tinymce/tinymce-react";
-import { IoCaretBackOutline } from "react-icons/io5";
+import { IoCaretBackOutline, IoDocumentText } from "react-icons/io5";
 import { Box, Skeleton, TextField } from "@mui/material";
 import {
   GetMyWork,
@@ -21,6 +21,9 @@ import {
 import Head from "next/head";
 import { GetStudent } from "../../../../../../service/student/student";
 import Loading from "../../../../../../components/loading/loading";
+import { BsImageFill } from "react-icons/bs";
+import { FcVideoFile } from "react-icons/fc";
+import { FaFileAudio, FaRegFilePdf } from "react-icons/fa";
 
 function Index() {
   const router = useRouter();
@@ -58,6 +61,7 @@ function Index() {
       enabled: false,
     }
   );
+  console.log(selectedFiles);
   const fetchStudentWork = useQuery(["student-work"], () =>
     GetMyWork({
       studentId: router.query.studentId,
@@ -480,6 +484,60 @@ application/pdf,
               <span>ไฟล์ที่คุณเลือกมีขนาด</span>
               <span>{fileSize}MB</span>
             </div>
+            {selectedFiles.length > 0 && (
+              <div className="grid grid-cols-2 place-items-center gap-5">
+                {selectedFiles.map((file) => {
+                  if (file.type === "image/jpeg" || file.type === "")
+                    return (
+                      <div className="w-full flex justify-center items-center gap-2 h-10 bg-white ring-2 ring-blue-500 rounded-xl">
+                        <div className="flex items-center justify-center text-green-700">
+                          <BsImageFill />
+                        </div>
+                        <span className="w-20 truncate">{file.name}</span>
+                      </div>
+                    );
+                  if (file.type === "video/mp4")
+                    return (
+                      <div className="w-full flex justify-center items-center gap-2 h-10 bg-white ring-2 ring-blue-500 rounded-xl">
+                        <div className="flex items-center justify-center text-green-700">
+                          <FcVideoFile />
+                        </div>
+                        <span className="w-20 truncate">{file.name}</span>
+                      </div>
+                    );
+                  if (file.type === "audio/mpeg" || file.type === "audio/mp3")
+                    return (
+                      <div className="w-full flex justify-center items-center gap-2 h-10 bg-white ring-2 ring-blue-500 rounded-xl">
+                        <div className="flex items-center justify-center text-red-700">
+                          <FaFileAudio />
+                        </div>
+                        <span className="w-20 truncate">{file.name}</span>
+                      </div>
+                    );
+                  if (file.type === "application/pdf")
+                    return (
+                      <div className="w-full flex justify-center items-center gap-2 h-10 bg-white ring-2 ring-blue-500 rounded-xl">
+                        <div className="flex items-center justify-center text-gray-700">
+                          <FaRegFilePdf />
+                        </div>
+                        <span className="w-20 truncate">{file.name}</span>
+                      </div>
+                    );
+                  if (
+                    file.type ===
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  )
+                    return (
+                      <div className="w-full flex justify-center items-center gap-2 h-10 bg-white ring-2 ring-blue-500 rounded-xl">
+                        <div className="flex items-center justify-center text-blue-700">
+                          <IoDocumentText />
+                        </div>
+                        <span className="w-20 truncate">{file.name}</span>
+                      </div>
+                    );
+                })}
+              </div>
+            )}
             {loading ? (
               <div
                 className="w-40 h-10 mt-5  bg-gray-500 drop-shadow-md text-white rounded-xl

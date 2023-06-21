@@ -25,6 +25,7 @@ function Index() {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [classroom, setClassroom] = useState();
   const menus = [
     {
       title: "ชิ้นงาน",
@@ -74,6 +75,11 @@ function Index() {
       const rawClassroomCode = localStorage.getItem("classroomCode");
       const classroomCode = JSON.parse(rawClassroomCode);
       return classroomCode;
+    });
+    setClassroom(() => {
+      const classroom = localStorage.getItem("classroom-student");
+      const classroomConverted = JSON.parse(classroom);
+      return classroomConverted;
     });
   }, []);
 
@@ -135,14 +141,18 @@ function Index() {
   };
   return (
     <div
-      className={`bg-[#2C7CD1] w-full  ${
+      className={` w-full bg-slate-100  ${
         assignments?.data?.data.length > 2 ? "h-full" : "h-screen"
-      }  md:h-screen md:pb-40 lg:pb-96 lg:h-full`}
+      }  md:h-full md:pb-40 lg:pb-96 lg:h-full`}
     >
       <Head>
         <title>student - homepage</title>
       </Head>
-      <main className="w-full h-full flex items-center justify-start flex-col pt-20 gap-3 relative">
+      <div
+        className=" bg-cover h-60 w-full absolute top-0  bg-center bg-no-repeat 
+         bg-[url('https://storage.googleapis.com/tatugacamp.com/backgroud/sea%20backgroud.png')] "
+      ></div>
+      <nav className="absolute top-3 flex justify-between md:top-10 items-center w-full ">
         <div
           role="button"
           aria-label="button go back to classroom"
@@ -154,17 +164,36 @@ function Index() {
               },
             })
           }
-          className="w-10 h-10 bg-transparent border-2 border-solid border-white cursor-pointer rounded-lg absolute top-2 left-2
+          className="w-10 ml-5 h-10 md:w-12 md:h-12 bg-orange-500 border-2 border-solid border-white cursor-pointer rounded-lg 
         flex items-center justify-center active:bg-orange-500 hover:scale-110 transition duration-150"
         >
           <div className="text-2xl text-white flex items-center justify-center ">
             <IoHome />
           </div>
         </div>
-        <header className="flex flex-col justify-center items-center gap-5">
-          <div className="w-32 h-32 flex items-center justify-center relative">
+        <div
+          className="w-40 md:w-60 bg-white h-14 md:h-20 border-b-2 border-t-2 border-r-0
+         border-blue-500 rounded-l-2xl flex flex-col py-2 pl-2 md:pl-10 gap-0 truncate font-Kanit  border-l-2 border-solid"
+        >
+          <span className="font-semibold text-blue-500 md:text-2xl truncate">
+            {classroom?.title}
+          </span>
+          <span className="text-xs md:text-sm truncate">
+            {classroom?.level}
+          </span>
+          <span className="text-xs md:text-sm  truncate">
+            {classroom?.description}
+          </span>
+        </div>
+      </nav>
+      <main className="w-full h-max flex md:flex-row md:items-start md:justify-around lg:justify-center  items-center justify-start flex-col  mt-40 gap-3 relative">
+        <header className="flex flex-col justify-center items-center gap-5 md:w-96">
+          <div className=" flex items-center justify-center relative">
             {student?.data?.data?.picture && (
-              <div className="w-28 h-28 relative rounded-2xl overflow-hidden ring-4 ring-white bg-[#EDBA02]">
+              <div
+                className="w-40 h-40 md:w-52 md:h-52 relative rounded-full
+               overflow-hidden ring-4 ring-white bg-[#EDBA02]"
+              >
                 {student.isFetching ? (
                   <Skeleton variant="rectangular" width="100%" height="100%" />
                 ) : (
@@ -233,25 +262,28 @@ function Index() {
             </div>
           )}
 
-          <div className="text-white font-Kanit font-normal flex gap-2">
-            {student.isFetching ? (
-              <Skeleton variant="text" width={100} />
-            ) : (
-              <span>เลขที่ {student?.data?.data?.number}</span>
-            )}
+          <div className="w-full justify-center flex flex-col items-center  text-center">
+            <div className=" font-Kanit font-normal flex gap-2">
+              {student.isFetching ? (
+                <Skeleton variant="text" width={100} />
+              ) : (
+                <span className="text-black">
+                  เลขที่ {student?.data?.data?.number}
+                </span>
+              )}
+            </div>
+            <div className="text-white font-Kanit font-normal flex gap-2">
+              {student.isFetching ? (
+                <Skeleton variant="text" width={200} />
+              ) : (
+                <div className="flex gap-4 text-2xl font-semibold text-blue-500">
+                  <span>{student?.data?.data?.firstName}</span>
+                  <span>{student?.data?.data?.lastName}</span>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="text-white font-Kanit font-normal flex gap-2">
-            {student.isFetching ? (
-              <Skeleton variant="text" width={200} />
-            ) : (
-              <div className="flex gap-4">
-                <span>{student?.data?.data?.firstName}</span>
-                <span>{student?.data?.data?.lastName}</span>
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-5">
+          <div className="flex gap-5  md:hidden">
             {menus.map((menu, index) => {
               return (
                 <button
@@ -282,7 +314,191 @@ function Index() {
             ไม่พบผู้เรียนโปรดกลับสู่หน้าหลัก
           </div>
         )}
-        <div className="grid grid-cols-1 pb-2  gap-4 place-items-center w-full mt-8 max-w-xl	">
+
+        <div className="grid grid-cols-1 pb-2 md:mt-10  gap-4 place-items-center w-full mt-8 max-w-xl md:max-w-lg	">
+          <div className="hidden gap-5  md:flex">
+            {menus.map((menu, index) => {
+              return (
+                <button
+                  key={index}
+                  onClick={() => setActiveMenu(() => index)}
+                  className={`w-max px-2 h-10 md:h-12 md:px-5 rounded-md ${
+                    menu.color
+                  } ${
+                    activeMenu === index
+                      ? "ring-2 md:ring-4  ring-white"
+                      : "ring-0"
+                  }  items-center flex justify-center hover:scale-110 md:justify-between
+                 gap-2 md:gap-10 transition duration-150 hover:ring-1 active:ring-2 `}
+                >
+                  <div
+                    className="w-8 h-8  bg-white/50 backdrop-blur-md rounded-md flex 
+                items-center justify-center t  text-black"
+                  >
+                    {menu.icon}
+                  </div>
+                  <span className="text-md text-black  md:text-lg md:font-medium font-Kanit font-normal">
+                    {menu.title}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {activeMenu === 1 && (
+            <section className="w-full h-full flex  justify-center">
+              <ul className="grid pl-0 grid-cols-1 gap-5 w-full h-full py-10 max-w-3xl md:w-10/12 rounded-t-3xl lg:rounded-3xl bg-white place-items-center">
+                <div className="w-full flex justify-start flex-col items-center font-Kanit ">
+                  <h2 className="mb-2">สถิติ</h2>
+                  <div className="grid grid-cols-2 gap-4 w-max md:w-full md:place-items-center place-items-start">
+                    <span className="col-span-2">
+                      เปอเซ็นต์การเข้าเรียน{" "}
+                      {attendances?.data?.data?.statistics?.percent?.present?.toFixed(
+                        2
+                      )}
+                      %
+                    </span>
+                    <span>
+                      จำนวนมาเรียน{" "}
+                      <span className="font-semibold text-green-500">
+                        {attendances?.data?.data?.statistics?.number?.present}{" "}
+                        ครั้ง
+                      </span>
+                    </span>
+                    <span>
+                      จำนวนลา{" "}
+                      <span className="font-semibold text-yellow-500">
+                        {attendances?.data?.data?.statistics?.number?.holiday}{" "}
+                        ครั้ง
+                      </span>
+                    </span>
+                    <span>
+                      จำนวนป่วย{" "}
+                      <span className="font-semibold text-blue-500">
+                        {attendances?.data?.data?.statistics?.number?.sick}{" "}
+                        ครั้ง
+                      </span>
+                    </span>
+                    <span>
+                      จำนวนขาดเรียน{" "}
+                      <span className="font-semibold text-red-500">
+                        {attendances?.data?.data?.statistics?.number?.absent}{" "}
+                        ครั้ง
+                      </span>
+                    </span>
+
+                    <span className="col-span-2">
+                      จำนวนคาบเรียนทั้งหมด{" "}
+                      {attendances?.data?.data?.statistics?.sum} ครั้ง
+                    </span>
+                  </div>
+                </div>
+
+                {attendances?.data?.data?.students?.map((attendance) => {
+                  const date = new Date(attendance.date);
+                  const formattedDate = date.toLocaleDateString("th-TH", {
+                    weekday: "long",
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  });
+                  if (attendance.present) {
+                    return (
+                      <li
+                        key={attendance.id}
+                        className="flex  items-center justify-between font-Kanit w-full md:w-full rounded-md"
+                      >
+                        <div className="flex justify-start items-center ml-5 gap-2">
+                          <div className="w-10 h-10  rounded-full bg-green-100 flex items-center justify-center">
+                            <div className="flex items-center justify-center text-green-800 text-3xl">
+                              <BiHappyBeaming />
+                            </div>
+                          </div>
+                          <span className=" font-semibold text-lg">
+                            {formattedDate}
+                          </span>
+                        </div>
+                        <div className="w-14 rounded-sm p-2 mr-5 bg-green-500 text-white">
+                          <span>มาเรียน</span>
+                        </div>
+                      </li>
+                    );
+                  } else if (attendance.holiday) {
+                    return (
+                      <li className="flex  items-center justify-between font-Kanit w-full md:w-full  rounded-md">
+                        <div className="flex justify-start items-center ml-5 gap-2">
+                          <div className="w-10 h-10  rounded-full bg-yellow-100 flex items-center justify-center">
+                            <div className="flex items-center justify-center text-yellow-400 text-3xl">
+                              <MdCardTravel />
+                            </div>
+                          </div>
+                          <span className=" font-semibold text-lg">
+                            {formattedDate}
+                          </span>
+                        </div>
+                        <div className="w-14 text-center rounded-sm p-2 mr-5 bg-yellow-500 text-white">
+                          <span>ลา</span>
+                        </div>
+                      </li>
+                    );
+                  } else if (attendance.sick) {
+                    return (
+                      <li className="flex  items-center justify-between font-Kanit w-full md:w-full  rounded-md">
+                        <div className="flex justify-start items-center ml-5 gap-2">
+                          <div className="w-10 h-10  rounded-full bg-blue-100 flex items-center justify-center">
+                            <div className="flex items-center justify-center text-blue-400 text-3xl">
+                              <MdOutlineSick />
+                            </div>
+                          </div>
+                          <span className=" font-semibold text-lg">
+                            {formattedDate}
+                          </span>
+                        </div>
+                        <div className="w-14 text-center rounded-sm p-2 mr-5 bg-blue-500 text-white">
+                          <span>ป่วย</span>
+                        </div>
+                      </li>
+                    );
+                  } else if (attendance.absent) {
+                    return (
+                      <li className="flex  items-center justify-between font-Kanit w-full md:w-full  rounded-md">
+                        <div className="flex justify-start items-center ml-5 gap-2">
+                          <div className="w-10 h-10  rounded-full bg-red-100 flex items-center justify-center">
+                            <div className="flex items-center justify-center text-red-400 text-3xl">
+                              <MdOutlineMoodBad />
+                            </div>
+                          </div>
+                          <span className=" font-semibold text-lg">
+                            {formattedDate}
+                          </span>
+                        </div>
+                        <div className="w-14 text-center rounded-sm p-2 mr-5 bg-red-500   text-white">
+                          <span>ขาด</span>
+                        </div>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li className="flex  items-center justify-between font-Kanit w-full md:w-full  rounded-md">
+                        <div className="flex justify-start items-center ml-5 gap-2">
+                          <div className="w-10 h-10  rounded-full bg-gray-100 flex items-center justify-center">
+                            <div className="flex items-center justify-center text-gray-400 text-3xl">
+                              <BiErrorCircle />
+                            </div>
+                          </div>
+                          <span className=" font-semibold text-lg">
+                            {formattedDate}
+                          </span>
+                        </div>
+                        <div className="w-14 text-center rounded-sm p-2 mr-5 text-sm bg-gray-500 text-white">
+                          <span>ไม่มีข้อมูล</span>
+                        </div>
+                      </li>
+                    );
+                  }
+                })}
+              </ul>
+            </section>
+          )}
           {assignments.isLoading && (
             <div className="flex flex-col justify-center items-center gap-5">
               <Skeleton variant="rectangular" width={300} height={100} />
@@ -293,6 +509,24 @@ function Index() {
           )}
           {activeMenu === 0 &&
             assignments?.data?.data?.map((assignment) => {
+              const createDate = new Date(assignment.assignment.createAt);
+              const formattedCreateDate = createDate.toLocaleDateString(
+                "th-TH",
+                {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                }
+              );
+              const deadlineDate = new Date(assignment.assignment.deadline);
+              const formatteDeadlineDate = deadlineDate.toLocaleDateString(
+                "th-TH",
+                {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                }
+              );
               return (
                 <button
                   key={assignment.assignment.id}
@@ -307,31 +541,24 @@ function Index() {
                     });
                   }}
                   aria-label="open assignment"
-                  className={`w-10/12 py-2 px-2 h-32 active:scale-105   drop-shadow-md  bg-white  hover:scale-105 cursor-pointer 
-                 duration-150 transition relative 
-               rounded-lg flex items-start justify-between  gap-2 border-2 border-solid`}
+                  className="w-10/12 flex gap-5 justify-between bg-white ring-2 ring-blue-600 rounded-2xl p-3"
                 >
-                  <div className={`flex gap-2 w-full font-Poppins text-black `}>
-                    <div className="w-full">
-                      <div className=" overflow-hidden w-3/4 h-8 truncat  text-left">
-                        <span className=" font text-xl font-bold  ">
-                          {assignment?.assignment?.title}
-                        </span>
-                      </div>
-
-                      <div className="relative w-full">
-                        <div className="w-full  h-[0.5px] mt-1 ml-2  mb-2 bg-blue-800 rounded-full "></div>
-
-                        <div
-                          className="h-20 w-40 overflow-hidden  fade-mask ml-2"
-                          dangerouslySetInnerHTML={{
-                            __html: assignment?.assignment?.description,
-                          }}
-                        />
-                      </div>
+                  <div className="w-full h-28 flex flex-col justify-center  text-left   ">
+                    <div className="w-48 md:w-72 text-left truncate scrollbar-hide">
+                      <span className="font-Kanit font-semibold md:text-xl text-blue-500">
+                        {assignment.assignment.title}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-Kanit text-xs md:text-base font-normal text-black">
+                        มอบหมายเมื่อ {formattedCreateDate}
+                      </span>
+                      <span className="font-Kanit text-xs md:text-base font-normal text-black">
+                        กำหนดส่ง {formatteDeadlineDate}
+                      </span>
                     </div>
                   </div>
-                  <div className="w-40  h-full flex items-center justify-center">
+                  <div className="w-20  h-full flex items-center justify-center">
                     <div className=" font-Kanit flex-col font-semibold flex justify-center items-center">
                       {assignment?.student.status === "no-work" && (
                         <div className="w-20 h-20 bg-red-600 rounded-2xl text-white font-Kanit font-semibold flex justify-center items-center">
@@ -357,160 +584,6 @@ function Index() {
               );
             })}
         </div>
-        {activeMenu === 1 && (
-          <section className="w-full h-full flex  justify-center">
-            <ul className="grid pl-0 grid-cols-1 gap-5 w-full h-full py-10 max-w-3xl md:w-10/12 rounded-t-3xl lg:rounded-3xl bg-white place-items-center">
-              <div className="w-full flex justify-start flex-col items-center font-Kanit ">
-                <h2 className="mb-2">สถิติ</h2>
-                <div className="grid grid-cols-2 gap-4 w-max md:w-full md:place-items-center place-items-start">
-                  <span className="col-span-2">
-                    เปอเซ็นต์การเข้าเรียน{" "}
-                    {attendances?.data?.data?.statistics?.percent?.present?.toFixed(
-                      2
-                    )}
-                    %
-                  </span>
-                  <span>
-                    จำนวนมาเรียน{" "}
-                    <span className="font-semibold text-green-500">
-                      {attendances?.data?.data?.statistics?.number?.present}{" "}
-                      ครั้ง
-                    </span>
-                  </span>
-                  <span>
-                    จำนวนลา{" "}
-                    <span className="font-semibold text-yellow-500">
-                      {attendances?.data?.data?.statistics?.number?.holiday}{" "}
-                      ครั้ง
-                    </span>
-                  </span>
-                  <span>
-                    จำนวนป่วย{" "}
-                    <span className="font-semibold text-blue-500">
-                      {attendances?.data?.data?.statistics?.number?.sick} ครั้ง
-                    </span>
-                  </span>
-                  <span>
-                    จำนวนขาดเรียน{" "}
-                    <span className="font-semibold text-red-500">
-                      {attendances?.data?.data?.statistics?.number?.absent}{" "}
-                      ครั้ง
-                    </span>
-                  </span>
-
-                  <span className="col-span-2">
-                    จำนวนคาบเรียนทั้งหมด{" "}
-                    {attendances?.data?.data?.statistics?.sum} ครั้ง
-                  </span>
-                </div>
-              </div>
-
-              {attendances?.data?.data?.students?.map((attendance) => {
-                const date = new Date(attendance.date);
-                const formattedDate = date.toLocaleDateString("th-TH", {
-                  weekday: "long",
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                });
-                if (attendance.present) {
-                  return (
-                    <li
-                      key={attendance.id}
-                      className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md"
-                    >
-                      <div className="flex justify-start items-center ml-5 gap-2">
-                        <div className="w-10 h-10  rounded-full bg-green-100 flex items-center justify-center">
-                          <div className="flex items-center justify-center text-green-800 text-3xl">
-                            <BiHappyBeaming />
-                          </div>
-                        </div>
-                        <span className=" font-semibold text-lg">
-                          {formattedDate}
-                        </span>
-                      </div>
-                      <div className="w-14 rounded-sm p-2 mr-5 bg-green-500 text-white">
-                        <span>มาเรียน</span>
-                      </div>
-                    </li>
-                  );
-                } else if (attendance.holiday) {
-                  return (
-                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
-                      <div className="flex justify-start items-center ml-5 gap-2">
-                        <div className="w-10 h-10  rounded-full bg-yellow-100 flex items-center justify-center">
-                          <div className="flex items-center justify-center text-yellow-400 text-3xl">
-                            <MdCardTravel />
-                          </div>
-                        </div>
-                        <span className=" font-semibold text-lg">
-                          {formattedDate}
-                        </span>
-                      </div>
-                      <div className="w-14 text-center rounded-sm p-2 mr-5 bg-yellow-500 text-white">
-                        <span>ลา</span>
-                      </div>
-                    </li>
-                  );
-                } else if (attendance.sick) {
-                  return (
-                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
-                      <div className="flex justify-start items-center ml-5 gap-2">
-                        <div className="w-10 h-10  rounded-full bg-blue-100 flex items-center justify-center">
-                          <div className="flex items-center justify-center text-blue-400 text-3xl">
-                            <MdOutlineSick />
-                          </div>
-                        </div>
-                        <span className=" font-semibold text-lg">
-                          {formattedDate}
-                        </span>
-                      </div>
-                      <div className="w-14 text-center rounded-sm p-2 mr-5 bg-blue-500 text-white">
-                        <span>ป่วย</span>
-                      </div>
-                    </li>
-                  );
-                } else if (attendance.absent) {
-                  return (
-                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
-                      <div className="flex justify-start items-center ml-5 gap-2">
-                        <div className="w-10 h-10  rounded-full bg-red-100 flex items-center justify-center">
-                          <div className="flex items-center justify-center text-red-400 text-3xl">
-                            <MdOutlineMoodBad />
-                          </div>
-                        </div>
-                        <span className=" font-semibold text-lg">
-                          {formattedDate}
-                        </span>
-                      </div>
-                      <div className="w-14 text-center rounded-sm p-2 mr-5 bg-red-500   text-white">
-                        <span>ขาด</span>
-                      </div>
-                    </li>
-                  );
-                } else {
-                  return (
-                    <li className="flex  items-center justify-between font-Kanit w-full md:w-3/4 rounded-md">
-                      <div className="flex justify-start items-center ml-5 gap-2">
-                        <div className="w-10 h-10  rounded-full bg-gray-100 flex items-center justify-center">
-                          <div className="flex items-center justify-center text-gray-400 text-3xl">
-                            <BiErrorCircle />
-                          </div>
-                        </div>
-                        <span className=" font-semibold text-lg">
-                          {formattedDate}
-                        </span>
-                      </div>
-                      <div className="w-14 text-center rounded-sm p-2 mr-5 text-sm bg-gray-500 text-white">
-                        <span>ไม่มีข้อมูล</span>
-                      </div>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </section>
-        )}
       </main>
     </div>
   );

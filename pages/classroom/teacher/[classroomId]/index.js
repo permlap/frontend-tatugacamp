@@ -35,22 +35,25 @@ function Index({ user, error }) {
   const classroom = useQuery(
     ["classroom"],
     () => GetOneClassroom({ params: router.query.classroomId }),
-    { enabled: router?.isReady }
+    { enabled: false }
   );
   const students = useQuery(
     ["students"],
     () => GetAllStudents({ classroomId: router.query.classroomId }),
-    { enabled: router?.isReady }
+    { enabled: false }
   );
   const scores = useQuery(
     ["scores"],
     () => GetAllScoresClassroom({ classroomId: router.query.classroomId }),
-    { enabled: router?.isReady }
+    { enabled: false }
   );
 
   // Update sideMenus whenever the user's language changes
   useEffect(() => {
     if (router.isReady) {
+      classroom.refetch();
+      students.refetch();
+      scores.refetch();
       if (user?.language === "Thai") {
         setSideMenus(SideMenusThai(router));
       } else if (user?.language === "English") {
