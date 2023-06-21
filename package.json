@@ -21,7 +21,6 @@
     "@lottiefiles/react-lottie-player": "^3.5.2",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
-    "@netlify/plugin-nextjs": "^4.37.4",
     "@next/font": "^13.0.0",
     "@portabletext/react": "^2.0.0",
     "@prisma/client": "^4.8.1",
@@ -62,6 +61,7 @@
     "yup": "^1.0.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.38.0",
     "autoprefixer": "^10.4.14",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.1",
