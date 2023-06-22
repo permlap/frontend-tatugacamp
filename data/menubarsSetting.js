@@ -5,7 +5,11 @@ export const sideMenusThai = [
     icon: "🏫",
     url: "/classroom/teacher",
   },
-
+  {
+    title: "สมัครสมาชิก",
+    icon: "🥰",
+    url: "/classroom/subscriptions",
+  },
   {
     title: "ตั้งค่า",
     icon: <FiSettings />,
@@ -24,7 +28,11 @@ export const sideMenusEng = [
     icon: "🏫",
     url: "/classroom/teacher",
   },
-
+  {
+    title: "subscriptions",
+    icon: "🥰",
+    url: "/classroom/subscriptions",
+  },
   {
     title: "setting",
     icon: <FiSettings />,

@@ -11,6 +11,8 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
   const [isClick, setIsClick] = useState();
   useEffect(() => {
     if (lastRoute === "setting") {
+      setIsClick(2);
+    } else if (lastRoute === "subscriptions") {
       setIsClick(1);
     } else if (lastRoute === "classroom") {
       setIsClick(0);
@@ -54,6 +56,39 @@ function SidebarClassroom({ user, sideMenus, triggersidebar, close }) {
                   </span>
                 )}
               </div>
+              {user.plan === "FREE" && (
+                <div
+                  className="w-max h-8 px-2 mt-3 rounded-xl text-white
+                 bg-slate-500 font-Kanit font-normal  justify-start items-center flex"
+                >
+                  {user.language === "Thai" && <span>สมาชิกฟรี</span>}
+                  {user.language === "English" && <span>Free plan</span>}
+                </div>
+              )}
+              {user.plan === "TATUGA-STARTER" &&
+                user.subscriptions === "active" && (
+                  <div
+                    className="w-max h-8 px-2 mt-3 rounded-xl text-white
+                 bg-blue-500 font-Kanit font-normal  justify-start items-center flex"
+                  >
+                    {user.language === "Thai" && <span>สมาชิกเริ่มต้น</span>}
+                    {user.language === "English" && (
+                      <span className="uppercase">Tatuga starter</span>
+                    )}
+                  </div>
+                )}
+              {user.plan === "TATUGA-PREMIUM" &&
+                user.subscriptions === "active" && (
+                  <div
+                    className="w-max h-8 px-2 mt-3 rounded-xl text-black bg-[#ffd700]
+                    font-Kanit font-normal justify-start items-center flex"
+                  >
+                    {user.language === "Thai" && <span>สมาชิกพรีเมี่ยม</span>}
+                    {user.language === "English" && (
+                      <span className="uppercase">Tatuga PREMIUM</span>
+                    )}
+                  </div>
+                )}
               <div className="mt-2 flex flex-col items-center justify-center font-Kanit font-semibold text-2xl text-blue-500">
                 <span>
                   {user?.firstName} {user?.lastName}

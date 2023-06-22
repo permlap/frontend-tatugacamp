@@ -21,6 +21,8 @@ import { BiNews } from "react-icons/bi";
 import { sanityClient } from "../../../sanity";
 import { myPortableTextComponents } from "../../../data/portableContent";
 import { PortableText } from "@portabletext/react";
+import { BsInfoSquareFill } from "react-icons/bs";
+import Link from "next/link";
 
 function Index({ error, user, whatsNews }) {
   const [sideMenus, setSideMenus] = useState(() => {
@@ -31,18 +33,21 @@ function Index({ error, user, whatsNews }) {
     }
   });
   const router = useRouter();
-  const [classroomState, setClassroomState] = useState();
+  const [classroomState, setClassroomState] = useState([]);
   const [isViewNews, setIsViewNews] = useState(false);
+  const [acceessFeature, setAccessFeature] = useState(false);
+  const [creditClassroom, setCreditClassroom] = useState(5);
   const classrooms = useQuery(["classrooms"], () =>
     GetAllClassrooms().then((res) => {
       setClassroomState((prev) => (prev = res?.data));
     })
   );
-
+  console.log();
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
     classrooms.refetch();
   });
+  console.log(classroomState);
 
   useEffect(() => {
     if (user) {
@@ -70,6 +75,71 @@ function Index({ error, user, whatsNews }) {
       }
     }
   }, []);
+  const handleCheckPlan = () => {
+    const classroomNumber = classroomState.length;
+
+    if (user.plan === "FREE" || user?.subscriptions !== "active") {
+      setCreditClassroom(() => {
+        const credit = 5 - classroomState.length;
+        if (credit > 0) {
+          setAccessFeature(() => true);
+          return credit;
+        } else if (credit <= 0) {
+          if (classroomState.length === 0) {
+            setAccessFeature(() => true);
+          } else {
+            setAccessFeature(() => false);
+          }
+
+          return 0;
+        }
+      });
+    } else if (
+      user.plan === "TATUGA-STARTER" &&
+      user?.subscriptions === "active"
+    ) {
+      setCreditClassroom(() => {
+        const credit = 20 - classroomNumber;
+        if (credit > 0) {
+          setAccessFeature(() => true);
+          return credit;
+        } else if (credit <= 0) {
+          setAccessFeature(() => false);
+          return 0;
+        }
+      });
+    } else if (
+      user.plan === "TATUGA-PREMIUM" &&
+      user?.subscriptions === "active"
+    ) {
+      setCreditClassroom(() => {
+        setAccessFeature(() => true);
+        return "unlimited";
+      });
+    }
+  };
+  useEffect(() => {
+    if (classroomState?.length > 0) {
+      handleCheckPlan();
+    } else if (classroomState?.length === 0) {
+      if (user.plan === "FREE" || user.subscriptions !== "active") {
+        setCreditClassroom(() => 5);
+        setAccessFeature(() => true);
+      } else if (
+        user.plan === "TATUGA-STARTER" &&
+        user.subscriptions === "active"
+      ) {
+        setCreditClassroom(() => 20);
+        setAccessFeature(() => true);
+      } else if (
+        user.plan === "TATUGA-PREMIUM" &&
+        user.subscriptions === "active"
+      ) {
+        setCreditClassroom(() => "unlimited");
+        setAccessFeature(() => true);
+      }
+    }
+  }, [classrooms.isFetching, classroomState]);
   //handle open make sure to delete classroom
   const handleOpenClasssDeleted = (index) => {
     const newItems = classroomState.map((item, i) => {
@@ -220,7 +290,7 @@ function Index({ error, user, whatsNews }) {
           className={`flex justify-center items-center md:items-start    lg:items-center  w-full h-full`}
         >
           <div className="xl:w-full  h-max m-5  flex flex-col  justify-center items-center pb-14 ">
-            <header className="mt-28 md:mt-2  rounded-lg   p-5 md:px-10 xl:px-20 w-max  relative     ">
+            <header className="mt-28 md:mt-2  rounded-lg  p-0  md:p-5 md:px-10 xl:px-20 w-max  relative     ">
               <div className=" w-full md:block flex items-center justify-center    bg-transparent">
                 <div
                   className="xl:w-[35rem] w-40   md:w-96 p-20 flex flex-col items-center justify-center
@@ -228,7 +298,7 @@ function Index({ error, user, whatsNews }) {
                   h-10 md:h-max z-10 relative "
                 >
                   <div
-                    className="xl:text-6xl text-xl w-60 md:w-96 lg:w-[30rem] mt-20 md:mt-0   md:text-left md:text-2xl font-semibold  
+                    className="xl:text-6xl text-xl w-40 md:w-96 lg:w-[30rem] mt-20 md:mt-0   md:text-left md:text-2xl font-semibold  
                   font-Kanit tracking-wider  "
                   >
                     <span className="md:text-8xl text-5xl hover:text-[#2C7CD1] text-black duration-150 transition">
@@ -245,34 +315,36 @@ function Index({ error, user, whatsNews }) {
                   <Lottie animationData={teacherAnimation} style={style} />
                 </div>
               </div>
-              <div>
+              <div className="w-full flex flex-col justify-center items-center">
                 <Popover className="relative">
                   {({ open }) => (
                     <>
-                      <div className="lg:mt-20 md:mt-5 mt-20 w-full flex justify-center items-center  font-Kanit ">
-                        <div className="flex gap-x-2 justify-center items-center ">
-                          <span className="text-xl md:text-2xl font-bold text-[#2C7CD1] ">
-                            {user.language === "Thai" && "กดเพื่อ"}
-                            {user.language === "English" && "click to"}
-                          </span>
-                          <Popover.Button
-                            className={`
+                      {acceessFeature && (
+                        <div className="lg:mt-20 md:mt-5 mt-20 w-full flex justify-center items-center  font-Kanit ">
+                          <div className="flex gap-x-2 justify-center items-center ">
+                            <span className="text-xl md:text-2xl font-bold text-[#2C7CD1] ">
+                              {user.language === "Thai" && "กดเพื่อ"}
+                              {user.language === "English" && "click to"}
+                            </span>
+                            <Popover.Button
+                              className={`
                 ${open ? "" : "text-opacity-90"}
             bg-[#EDBA02] border-2 border-transparent border-solid text-md px-5 py-2 rounded-lg 
                 font-bold font-Kanit text-white cursor-pointer
               active:border-black hover:scale-110 transition md:text-2xl duration-150 ease-in-out"`}
-                          >
-                            <span>
-                              {user.language === "Thai" && "สร้าง"}
-                              {user.language === "English" && "CREATE"}
+                            >
+                              <span>
+                                {user.language === "Thai" && "สร้าง"}
+                                {user.language === "English" && "CREATE"}
+                              </span>
+                            </Popover.Button>
+                            <span className="text-xl  md:text-2xl  font-bold text-[#2C7CD1]">
+                              {user.language === "Thai" && "ห้องเรียน"}
+                              {user.language === "English" && "classroom"}
                             </span>
-                          </Popover.Button>
-                          <span className="text-xl  md:text-2xl  font-bold text-[#2C7CD1]">
-                            {user.language === "Thai" && "ห้องเรียน"}
-                            {user.language === "English" && "classroom"}
-                          </span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                       <Popover.Panel>
                         {({ close }) => (
                           <div className=" fixed top-0 right-0 left-0 bottom-0 m-auto righ z-20">
@@ -287,14 +359,75 @@ function Index({ error, user, whatsNews }) {
                     </>
                   )}
                 </Popover>
+                <div
+                  className="flex gap-3 mt-20 bg-white ring-2 w-10/12 md:w-max  rounded-lg p-5 items-center 
+                flex-col md:mt-10 justify-center "
+                >
+                  {(user.plan === "FREE" ||
+                    user.subscriptions !== "active") && (
+                    <div className="w-max p-3 bg-slate-500 text-white rounded-xl">
+                      <span>
+                        {user.language === "Thai"
+                          ? `สมาชิกฟรี  5 ห้อง`
+                          : user.language === "English" &&
+                            `For free plan 5 classrooms`}
+                      </span>
+                    </div>
+                  )}
+                  {user.plan === "TATUGA-STARTER" &&
+                    user.subscriptions === "active" && (
+                      <div className="w-max p-3 bg-blue-500 text-white rounded-xl">
+                        <span>
+                          {user.language === "Thai"
+                            ? `สมาชิกเริ่มต้น  20 ห้อง`
+                            : user.language === "English" &&
+                              `Tatuga starter plan 20 classrooms`}
+                        </span>
+                      </div>
+                    )}
+                  {user.plan === "TATUGA-PREMIUM" &&
+                    user.subscriptions === "active" && (
+                      <div className="w-max p-3 bg-[#ffd700] text-black rounded-xl">
+                        <span>
+                          {user.language === "Thai"
+                            ? `สมาชิกพรีเมี่ยมสร้างห้องไม่จำกัด`
+                            : user.language === "English" &&
+                              `Tatuga Premium plan create unlimitedly`}
+                        </span>
+                      </div>
+                    )}
+                  {user.plan === "TATUGA-PREMIUM" &&
+                  user.subscriptions === "active" ? (
+                    <div></div>
+                  ) : (
+                    <div className="w-80 text-center h-max py-2 rounded-xl text-black ">
+                      <span
+                        className={`${
+                          acceessFeature
+                            ? "text-black"
+                            : "text-red-500 font-semibold"
+                        }`}
+                      >
+                        {user.language === "Thai"
+                          ? `คุณเหลือเครดิตในการสร้างห้องเรียนอยู่ ${creditClassroom} ห้อง`
+                          : user.language === "English" &&
+                            `You have ${creditClassroom} credits left to create classroom`}
+                      </span>
+                      <span>
+                        สมัครเป็นสมาชิก Tatuga class{" "}
+                        <Link href="/classroom/subscriptions">คลิก</Link>
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             </header>
 
             {/* classrooms are here  */}
             <main
               className={`w-full h-max lg:pb-40 flex-col  
-              md:flex-row md:flex-wrap items-start justify-center 
-            lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-5 gap-5 mt-14 
+              md:flex-row md:flex-wrap items-center md:items-start justify-center 
+       xl:gap-x-5 gap-5 mt-14 
             ${classroomState?.[0] ? "flex" : "hidden"} `}
             >
               {classrooms.isLoading ||
@@ -310,16 +443,16 @@ function Index({ error, user, whatsNews }) {
                 return (
                   <div
                     key={index}
-                    className=" h-48  w-full  md:w-60 md:h-max lg:w-60 xl:w-80 md:pb-3  border-2 border-solid 
-                    rounded-3xl overflow-hidden relative bg-white flex flex-col md:block items-start justify-center "
+                    className=" h-max  p-5 w-60 md:w-max md:h-max lg:w-max md:px-5 xl:w-max md:pb-3  border-2 border-solid 
+                    rounded-3xl overflow-hidden relative bg-white "
                   >
-                    <div className="text-right mt-2 ">
+                    <div className="text-right w-full">
                       <div className="text-3xl absolute right-4 top-3">
                         {!classroom.selected && (
                           <div
                             onClick={() => handleOpenClasssDeleted(index)}
                             role="button"
-                            className="text-gray-700   hover:text-red-500 
+                            className="text-gray-700 text-base   hover:text-red-500 
                         cursor-pointer flex"
                           >
                             <MdDelete />
@@ -367,14 +500,21 @@ function Index({ error, user, whatsNews }) {
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-col mt-0 pl-10 md:pl-5 md:mt-2 lg:mt-5 mb-10 ">
-                      <span className="text-lg text-gray-600 font-light">
-                        {classroom.level}
-                      </span>
-                      <span className="font-bold text-3xl  text-[#EDBA02]">
-                        {classroom.title}
-                      </span>
-                      <span>{classroom.description}</span>
+                    <div className="flex w-full justify-center gap-2 md:gap-10  items-center">
+                      <div className="flex flex-col w-3/4 md:w-40 ">
+                        <span className="text-sm md:text-lg text-gray-600 font-light truncate">
+                          {classroom.level}
+                        </span>
+                        <span className="font-bold truncate text-lg md:text-xl  text-[#EDBA02]">
+                          {classroom.title}
+                        </span>
+                        <span className="text-sm md:text-base truncate">
+                          {classroom.description}
+                        </span>
+                      </div>
+                      <div className="w-12 h-12 bg-orange-400 flex justify-center items-center text-white rounded-xl text-center">
+                        {classroom.studentNumber} คน
+                      </div>
                     </div>
                     <div className="flex justify-center items-center  w-full lg:mt-5 ">
                       <button
@@ -384,7 +524,7 @@ function Index({ error, user, whatsNews }) {
                             pathname: `/classroom/teacher/${classroom.id}`,
                           });
                         }}
-                        className="w-3/4 absolute md:relative bottom-2  h-9 mt-2 rounded-lg bg-[#2C7CD1] text-white font-sans font-bold
+                        className="w-3/4 mb-3 md:mb-0 md:relative bottom-2  h-9 mt-2 rounded-lg bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover:bg-[#FFC800] active:border-2 active:text-black active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"

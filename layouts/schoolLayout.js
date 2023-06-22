@@ -5,11 +5,8 @@ import AuthButton from "../components/auth/button";
 
 import SidebarClassroom from "../components/sidebar/sidebarClassroom";
 
-function Layout({ children, user, sideMenus, trigger, classroom, students }) {
+function Layout({ children, user, sideMenus }) {
   const [triggersidebar, setTriggerSidebar] = useState(true);
-  const [studentsRearrange, setStudentRearrange] = useState(
-    students?.data?.data
-  );
 
   return (
     <main className="">
@@ -22,7 +19,7 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
             {user && (
               <Popover.Button className="w-max  h-max border-none active:border-none z-30 absolute">
                 <div className="flex p-2 ml-2 flex-col justify-center items-center ">
-                  <button
+                  <div
                     aria-label="Show sidebar"
                     role="button"
                     className="text-2xl  z-30 w-10 h-10 
@@ -30,7 +27,7 @@ function Layout({ children, user, sideMenus, trigger, classroom, students }) {
         hover:scale-125 transition duration-100 ease-in-out "
                   >
                     <FiSidebar />
-                  </button>
+                  </div>
                   <span>menu</span>
                 </div>
               </Popover.Button>

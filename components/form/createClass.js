@@ -7,12 +7,12 @@ function CreateClass({ close, refetch, language }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-
       const formData = new FormData(e.target);
       const inputObject = Object.fromEntries(formData);
       const classroom = await CreateClassroom(inputObject);
       refetch();
       close();
+      Swal.fire("success", "create classroom success", "success");
     } catch (err) {
       console.log("err", err);
       Swal.fire(

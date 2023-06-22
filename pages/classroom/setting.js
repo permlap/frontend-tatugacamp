@@ -19,6 +19,8 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { sideMenusEng, sideMenusThai } from "../../data/menubarsSetting";
 import Head from "next/head";
+import { MdSubscriptions } from "react-icons/md";
+import { ProtalSession } from "../../service/stripe/portal-session";
 
 const options = ["Thai", "English"];
 
@@ -114,7 +116,14 @@ function Setting({ userServerSide, error }) {
       [name]: value,
     }));
   };
-
+  const handlePortalSession = async () => {
+    try {
+      const url = await ProtalSession();
+      window.location.href = url.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   //handle summit user's data
   const handleSubmitData = async (e) => {
     try {
@@ -342,6 +351,38 @@ function Setting({ userServerSide, error }) {
                   )}
                 />
               </div>
+            </div>
+            <div className="w-full h-[1px] bg-black mt-5"></div>
+            <div className="mt flex flex-col items-start mb-10 mt-5">
+              <div className="flex gap-2 items-center">
+                <span className="font-Kanit text-xl">
+                  {user?.data?.data?.language === "Thai"
+                    ? "จัดการระบบสมาชิก"
+                    : user?.data?.data?.language && "manage your subscription"}
+                </span>
+                <MdSubscriptions />
+              </div>
+
+              {user?.data?.data?.plan === "FREE" ? (
+                <div
+                  type="button"
+                  className="w-max h-max p-2 bg-gray-200 px-5 text-black rounded-3xl font-Kanit font-medium mt-2 "
+                >
+                  {user?.data?.data?.language === "Thai"
+                    ? "คุณยังไม่เป็นสมาชิก"
+                    : user?.data?.data?.language && "you are not member yet"}
+                </div>
+              ) : (
+                <button
+                  onClick={handlePortalSession}
+                  type="button"
+                  className="w-20 h-max p-2 bg-orange-400 text-black rounded-3xl font-Kanit font-medium mt-2 hover:scale-125 transition duration-100 drop-shadow-md"
+                >
+                  {user?.data?.data?.language === "Thai"
+                    ? "จัดการ"
+                    : user?.data?.data?.language && "manage"}
+                </button>
+              )}
             </div>
             <button
               aria-label="update user button"

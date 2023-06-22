@@ -647,7 +647,11 @@ application/pdf,
                           </div>
                         );
                       }
-                      if (file.fileType === "mp4" || file.fileType === "mov") {
+                      if (
+                        file.fileType === "mp4" ||
+                        file.fileType === "mov" ||
+                        file.fileType === "MOV"
+                      ) {
                         return (
                           <div
                             key={index}
