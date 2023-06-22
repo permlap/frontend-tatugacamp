@@ -62,7 +62,6 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.38.0",
-    "@sveltejs/adapter-netlify": "^1.0.0-next.65",
     "autoprefixer": "^10.4.14",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.1",

@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import { useRouter } from "next/router";
 import Loading from "../../components/loading/loading";
-import { CheckPayment } from "../../service/stripe/checkpayment";
+import { CheckPayment } from "../../../frontend-tatugacamp/service/stripe/checkPayment";
 
 function Success() {
   const router = useRouter();
