@@ -15,7 +15,7 @@ import { FcCheckmark } from "react-icons/fc";
 import {
   CreateCheckout,
   CreateCheckoutOld,
-} from "../../service/stripe/checkout";
+} from "../../service/stripe-api/checkout";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();

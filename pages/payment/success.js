@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import { useRouter } from "next/router";
 import Loading from "../../components/loading/loading";
-import { CheckPayment } from "../../../frontend-tatugacamp/service/stripe/checkPayment";
+import { CheckPayment } from "../../service/stripe-api/checkpayment";
 
 function Success() {
   const router = useRouter();
@@ -13,7 +13,7 @@ function Success() {
   const style = {
     height: 300,
   };
-  const checkPayment = async (session_id) => {
+  const handlecheckPayment = async (session_id) => {
     try {
       const url = await CheckPayment({ sessionId: session_id });
       setUrl(() => url.data);
@@ -25,7 +25,7 @@ function Success() {
   };
   useEffect(() => {
     if (session_id) {
-      checkPayment(session_id);
+      handlecheckPayment(session_id);
     }
   }, [session_id]);
 

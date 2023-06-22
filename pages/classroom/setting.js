@@ -20,7 +20,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { sideMenusEng, sideMenusThai } from "../../data/menubarsSetting";
 import Head from "next/head";
 import { MdSubscriptions } from "react-icons/md";
-import { ProtalSession } from "../../service/stripe/portal-session";
+import { ProtalSession } from "../../service/stripe-api/portal-session";
 
 const options = ["Thai", "English"];
 
