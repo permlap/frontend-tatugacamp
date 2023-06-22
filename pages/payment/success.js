@@ -4,6 +4,7 @@ import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import { useRouter } from "next/router";
 import Loading from "../../components/loading/loading";
 import { CheckPayment } from "../../service/stripe/checkpayment";
+
 function Success() {
   const router = useRouter();
   const { session_id } = router.query;
