@@ -496,7 +496,10 @@ application/pdf,
                         <span className="w-20 truncate">{file.name}</span>
                       </div>
                     );
-                  if (file.type === "video/mp4")
+                  if (
+                    file.type === "video/mp4" ||
+                    file.type === "video/quicktime"
+                  )
                     return (
                       <div className="w-full flex justify-center items-center gap-2 h-10 bg-white ring-2 ring-blue-500 rounded-xl">
                         <div className="flex items-center justify-center text-green-700">
@@ -644,7 +647,7 @@ application/pdf,
                           </div>
                         );
                       }
-                      if (file.fileType === "mp4") {
+                      if (file.fileType === "mp4" || file.fileType === "mov") {
                         return (
                           <div
                             key={index}

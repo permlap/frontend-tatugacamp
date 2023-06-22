@@ -882,7 +882,10 @@ function Index({ error, user }) {
                               </div>
                             );
                           }
-                          if (file.fileType === "mp4") {
+                          if (
+                            file.fileType === "mp4" ||
+                            file.fileType === "mov"
+                          ) {
                             return (
                               <div
                                 key={index}
