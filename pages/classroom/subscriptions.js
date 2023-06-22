@@ -167,10 +167,12 @@ function Subscriptions({ user }) {
         });
         window.location.href = url.data;
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
-    <div className="bg-gradient-to-t from-blue-300 to-orange-100">
+    <div className="bg-gradient-to-t h-full md:h-screen from-blue-300 to-orange-100">
       <Layout user={user} sideMenus={sideMenus}>
         <GlobalStyles
           styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
@@ -199,19 +201,22 @@ function Subscriptions({ user }) {
             variant="h5"
             align="center"
             color="text.secondary"
-            component="p"
+            component=""
+            className="flex justify-center"
           >
-            {user.language === "Thai"
-              ? "มาจัดการชั้นเรียนกับ tatuga class สะดวก สบาย และมีประสิทธิภาพ"
-              : "Let's create you classroom with tatuga class!"}
+            <div className="w-3/4 md:w-full">
+              {user.language === "Thai"
+                ? "มาจัดการชั้นเรียนกับ tatuga class สะดวก สบาย และมีประสิทธิภาพ"
+                : "Let's create you classroom with tatuga class!"}
+            </div>
           </Typography>
         </Container>
-        <section className="w-full flex flex-col items-center pb-10 md:flex-row  justify-center gap-10 font-Kanit">
+        <section className="w-full flex flex-col items-center pb-10 md:flex-row md:gap-5  justify-center gap-10 font-Kanit">
           {tiers.map((tire, index) => {
             return (
               <div
                 key={index}
-                className={`w-max bg-white ring-2 ring-blue-500 rounded-xl p-5 drop-shadow-md 
+                className={`w-max bg-white md:w-60 ring-2 ring-blue-500 rounded-xl md:p-2 p-5 drop-shadow-md 
                 ${
                   index === 1 || index === 2
                     ? "hover:scale-110 transition duration-100"
@@ -220,27 +225,32 @@ function Subscriptions({ user }) {
               >
                 <div className="w-full flex flex-col justify-center items-center">
                   <span
-                    className={`text-3xl font-bold ${
+                    className={`lg:text-3xl md:text-xl font-bold ${
                       index === 0 ? "text-gray-500" : "text-blue-500"
                     } `}
                   >
                     {tire.title}
                   </span>
                   {tire.subheader && (
-                    <span className="w-max text-sm h-max p-1 rounded-md text-white bg-orange-400">
+                    <span className="w-max text-sm md:text-xs h-max p-1 rounded-md text-white bg-orange-400">
                       {tire.subheader}
                     </span>
                   )}
                 </div>
                 <div className="flex justify-center mt-3 items-end">
-                  <span className="font-bold text-8xl">{tire.price}</span>
+                  <span className="font-bold lg:text-8xl md:text-3xl">
+                    {tire.price}
+                  </span>
                   บาท/เดือน
                 </div>
                 <ul className="pl-0 flex flex-col gap-2 mt-5">
                   {tire.description.map((description, index) => {
                     return (
-                      <li key={index} className="flex gap-2">
-                        <div className="w-5 h-5 bg-green-200 rounded-full flex justify-center items-center ">
+                      <li key={index} className="flex gap-2 text-sm">
+                        <div
+                          className="lg:w-5 lg:h-5 md:w-3 md:h-3 bg-green-200 rounded-full 
+                        flex justify-center items-center md:text-base  "
+                        >
                           <FcCheckmark />
                         </div>
                         {description}
@@ -275,7 +285,7 @@ function Subscriptions({ user }) {
                     {user.plan === "TATUGA-PREMIUM" &&
                       user.subscriptions === "active" &&
                       index === 2 && (
-                        <div className="mt-5 bg-gray-400 text-black px-10 py-3  transition duration-150 rounded-3xl">
+                        <div className="mt-5 bg-gray-400 text-black md:px-3 md:text-sm px-10 py-3  transition duration-150 rounded-3xl">
                           {user.language === "Thai"
                             ? "คุณได้สมัครสมาชิกแล้ว"
                             : user.language === "English" &&
