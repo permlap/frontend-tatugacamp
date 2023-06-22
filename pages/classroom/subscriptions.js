@@ -172,7 +172,7 @@ function Subscriptions({ user }) {
     }
   };
   return (
-    <div className="bg-gradient-to-t h-full md:h-screen from-blue-300 to-orange-100">
+    <div className="bg-gradient-to-t h-full lg:h-full md:h-screen from-blue-300 to-orange-100">
       <Layout user={user} sideMenus={sideMenus}>
         <GlobalStyles
           styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
@@ -216,7 +216,7 @@ function Subscriptions({ user }) {
             return (
               <div
                 key={index}
-                className={`w-max bg-white md:w-60 ring-2 ring-blue-500 rounded-xl md:p-2 p-5 drop-shadow-md 
+                className={`w-max bg-white md:w-60 lg:w-max ring-2 ring-blue-500 rounded-xl md:p-2 lg:p-5 p-5 drop-shadow-md 
                 ${
                   index === 1 || index === 2
                     ? "hover:scale-110 transition duration-100"
