@@ -4,7 +4,11 @@ import { FcCheckmark, FcCancel } from "react-icons/fc";
 import CreateClass from "../../../components/form/createClass";
 import { Popover } from "@headlessui/react";
 import { useMutation, useQuery } from "react-query";
-import { DeleteClassroom, GetAllClassrooms } from "../../../service/classroom";
+import {
+  DeleteClassroom,
+  DuplicateClassroom,
+  GetAllClassrooms,
+} from "../../../service/classroom";
 import Lottie from "lottie-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -17,12 +21,13 @@ import { parseCookies } from "nookies";
 import Swal from "sweetalert2";
 import FeedbackSankbar from "../../../components/feedback/snackbar";
 import { sideMenusEnglish, sideMenusThai } from "../../../data/menubarsSchool";
-import { BiNews } from "react-icons/bi";
+import { BiDuplicate, BiNews } from "react-icons/bi";
 import { sanityClient } from "../../../sanity";
 import { myPortableTextComponents } from "../../../data/portableContent";
 import { PortableText } from "@portabletext/react";
-import { BsInfoSquareFill } from "react-icons/bs";
+
 import Link from "next/link";
+import Loading from "../../../components/loading/loading";
 
 function Index({ error, user, whatsNews }) {
   const [sideMenus, setSideMenus] = useState(() => {
@@ -37,10 +42,11 @@ function Index({ error, user, whatsNews }) {
   const [isViewNews, setIsViewNews] = useState(false);
   const [acceessFeature, setAccessFeature] = useState(false);
   const [creditClassroom, setCreditClassroom] = useState(5);
-  const classrooms = useQuery(["classrooms"], () => {
-    GetAllClassrooms().then((res) => {
-      setClassroomState(() => res.data);
-    });
+  const [loading, setLoading] = useState(false);
+  const classrooms = useQuery(["classrooms"], async () => {
+    const classrooms = await GetAllClassrooms();
+    setClassroomState(() => classrooms.data);
+    return classrooms;
   });
 
   const deleteClassroom = useMutation(async (classroomid) => {
@@ -74,6 +80,7 @@ function Index({ error, user, whatsNews }) {
         setIsViewNews(() => false);
       }
     }
+    classrooms.refetch();
   }, []);
   const handleCheckPlan = () => {
     const classroomNumber = classroomState.length;
@@ -162,6 +169,25 @@ function Index({ error, user, whatsNews }) {
       }
     });
     setClassroomState(newItems);
+  };
+
+  //handle duplcate classroom
+  const handleDuplicateClassroom = async ({ classroomId }) => {
+    try {
+      setLoading(() => true);
+      await DuplicateClassroom({ classroomId });
+      Swal.fire("success", "duplicate classroom successfully", "success");
+      classrooms.refetch();
+      setLoading(() => false);
+    } catch (err) {
+      setLoading(() => false);
+      console.log("err", err);
+      Swal.fire(
+        "error",
+        err?.props?.response?.data?.message.toString(),
+        "error"
+      );
+    }
   };
 
   const style = {
@@ -516,7 +542,7 @@ function Index({ error, user, whatsNews }) {
                         {classroom.studentNumber} คน
                       </div>
                     </div>
-                    <div className="flex justify-center items-center  w-full lg:mt-5 ">
+                    <div className="flex justify-center items-center gap-2 pt-4 pb-3  w-full lg:mt-5 ">
                       <button
                         onClick={() => {
                           localStorage.setItem("classroomId", classroom.id);
@@ -524,7 +550,7 @@ function Index({ error, user, whatsNews }) {
                             pathname: `/classroom/teacher/${classroom.id}`,
                           });
                         }}
-                        className="w-3/4 mb-3 md:mb-0 md:relative bottom-2  h-9 mt-2 rounded-lg bg-[#2C7CD1] text-white font-sans font-bold
+                        className="w-3/4 mb-3 md:mb-0 md:relative   h-9  rounded-lg bg-[#2C7CD1] text-white font-sans font-bold
               text-md cursor-pointer hover:bg-[#FFC800] active:border-2 active:text-black active:border-gray-300
                active:border-solid  focus:border-2 
               focus:border-solid"
@@ -534,6 +560,24 @@ function Index({ error, user, whatsNews }) {
                           {user.language === "English" && "Join"}
                         </span>
                       </button>
+                      {loading ? (
+                        <div className="w-10 h-10 p-2">
+                          <Loading />
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleDuplicateClassroom({
+                              classroomId: classroom.id,
+                            })
+                          }
+                          aria-label="button to duplicate classroom"
+                          className="text-lg w-10 h-10 p-2 rounded-md text-white
+                       bg-blue-400 flex items-center justify-center transition hover:bg-blue-600 duration-150"
+                        >
+                          <BiDuplicate />
+                        </button>
+                      )}
                     </div>
                   </div>
                 );

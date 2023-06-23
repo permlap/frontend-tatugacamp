@@ -25,7 +25,32 @@ export async function CreateClassroom(inputObject) {
     throw new Error(err);
   }
 }
-
+export async function DuplicateClassroom({ classroomId }) {
+  try {
+    if (!classroomId) {
+      return null;
+    }
+    const cookies = parseCookies();
+    const access_token = cookies.access_token;
+    const classroom = await axios.post(
+      `${process.env.Server_Url}/user/classroom/create-duplicate`,
+      {},
+      {
+        params: {
+          classroomId: classroomId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return classroom;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
 export async function DeleteClassroom(classroomId) {
   const cookies = parseCookies();
   const access_token = cookies.access_token;

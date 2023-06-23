@@ -16,6 +16,7 @@ import {
   CreateCheckout,
   CreateCheckoutOld,
 } from "../../service/stripe-api/checkout";
+import Head from "next/head";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -173,6 +174,9 @@ function Subscriptions({ user }) {
   };
   return (
     <div className="bg-gradient-to-t h-full lg:h-full md:h-screen from-blue-300 to-orange-100">
+      <Head>
+        <title>subscription</title>
+      </Head>
       <Layout user={user} sideMenus={sideMenus}>
         <GlobalStyles
           styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}

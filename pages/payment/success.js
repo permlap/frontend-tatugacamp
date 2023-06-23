@@ -4,6 +4,7 @@ import * as SuccesfulAnimation from "../../components/79952-successful.json";
 import { useRouter } from "next/router";
 import Loading from "../../components/loading/loading";
 import { CheckPayment } from "../../service/stripe-api/checkpayment";
+import Head from "next/head";
 
 function Success() {
   const router = useRouter();
@@ -31,6 +32,9 @@ function Success() {
 
   return (
     <div className="w-screen flex justify-center items-center h-screen bg-green-500">
+      <Head>
+        <title>check payment</title>
+      </Head>
       <div className="w-10/12 h-max md:w-6/12 lg:w-5/12 bg-white rounded-2xl p-5 flex flex-col items-center justify-center  text-center drop-shadow-xl font-Poppins ">
         {loadingPayment ? (
           <div className="flex flex-col justify-center items-center">
