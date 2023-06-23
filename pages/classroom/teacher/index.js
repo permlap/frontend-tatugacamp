@@ -37,17 +37,17 @@ function Index({ error, user, whatsNews }) {
   const [isViewNews, setIsViewNews] = useState(false);
   const [acceessFeature, setAccessFeature] = useState(false);
   const [creditClassroom, setCreditClassroom] = useState(5);
-  const classrooms = useQuery(["classrooms"], () =>
+  const classrooms = useQuery(["classrooms"], () => {
     GetAllClassrooms().then((res) => {
-      setClassroomState((prev) => (prev = res?.data));
-    })
-  );
-  console.log();
+      setClassroomState(() => res.data);
+    });
+  });
+
   const deleteClassroom = useMutation(async (classroomid) => {
     const deleting = await DeleteClassroom(classroomid);
     classrooms.refetch();
+    return deleting;
   });
-  console.log(classroomState);
 
   useEffect(() => {
     if (user) {

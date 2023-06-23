@@ -79,7 +79,7 @@ function Subscriptions({ user }) {
         }`,
         `${
           user.language === "Thai"
-            ? "ใช้ premium feature ต่างในอนาคต"
+            ? "ใช้ premium feature ต่าง ๆ ในอนาคต"
             : user.language === "English" && "Access furture premium features"
         }`,
       ],
@@ -116,7 +116,7 @@ function Subscriptions({ user }) {
         }`,
         `${
           user.language === "Thai"
-            ? "ใช้ premium feature ต่างในอนาคต"
+            ? "ใช้ premium feature ต่าง ๆ ในอนาคต"
             : user.language === "English" && "Access furture premium features"
         }`,
       ],
