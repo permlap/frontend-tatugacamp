@@ -20,111 +20,112 @@ import Head from "next/head";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
-function Subscriptions({ user }) {
+function Subscriptions({ user, error }) {
   const [sideMenus, setSideMenus] = useState();
   const tiers = [
     {
       title: `${
-        user.language === "Thai"
+        user?.language === "Thai" || error
           ? "สมาชิกฟรี"
-          : user.language === "English" && "Free plan"
+          : user?.language === "English" && "Free plan"
       }`,
       price: "0",
       description: [
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "สร้างห้องเรียนได้ไม่เกิน 5 ห้อง"
-            : user.language === "English" && "Only 5 classrooms can be created"
+            : user?.language === "English" && "Only 5 classrooms can be created"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "ใช้ระบบพื้นฐานได้เต็มที่"
-            : user.language === "English" && "Can use all basic features"
+            : user?.language === "English" && "Can use all basic features"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "สามารถเก็บงานได้อย่างไม่จำกัด"
-            : user.language === "English" && "Unlimited storage"
+            : user?.language === "English" && "Unlimited storage"
         }`,
       ],
       buttonText: `${
-        user.language === "Thai"
+        user?.language === "Thai" || error
           ? "สมัครเลย"
-          : user.language === "English" && "sign up"
+          : user?.language === "English" && "sign up"
       }`,
       buttonVariant: "outlined",
     },
     {
       title: `${
-        user.language === "Thai"
+        user?.language === "Thai" || error
           ? "สมาชิกเริ่มต้น"
-          : user.language === "English" && "Tatuga starter"
+          : user?.language === "English" && "Tatuga starter"
       }`,
       subheader: "Most popular",
       price: "70",
       description: [
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "สร้างห้องเรียนได้ไม่เกิน 20 ห้อง"
-            : user.language === "English" && "Only 20 classrooms can be created"
+            : user?.language === "English" &&
+              "Only 20 classrooms can be created"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "ใช้ระบบพื้นฐานได้เต็มที่"
-            : user.language === "English" && "Can use all basic features"
+            : user?.language === "English" && "Can use all basic features"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "สามารถเก็บงานได้อย่างไม่จำกัด"
-            : user.language === "English" && "Unlimited storage"
+            : user?.language === "English" && "Unlimited storage"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "ใช้ premium feature ต่าง ๆ ในอนาคต"
-            : user.language === "English" && "Access furture premium features"
+            : user?.language === "English" && "Access furture premium features"
         }`,
       ],
       buttonText: `${
-        user.language === "Thai"
+        user?.language === "Thai" || error
           ? "สมัครเลย"
-          : user.language === "English" && "sign up"
+          : user?.language === "English" && "sign up"
       }`,
       buttonVariant: "contained",
     },
     {
       title: `${
-        user.language === "Thai"
+        user?.language === "Thai" || error
           ? "สมาชิกพรีเมี่ยม"
-          : user.language === "English" && "Tatuga starter"
+          : user?.language === "English" && "Tatuga starter"
       }`,
       subheader: "Unlimited",
       price: "120",
       description: [
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "สร้างห้องเรียนไม่จำกัด"
-            : user.language === "English" && "create classroom unlimitedly"
+            : user?.language === "English" && "create classroom unlimitedly"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "ใช้ระบบพื้นฐานได้เต็มที่"
-            : user.language === "English" && "Can use all basic features"
+            : user?.language === "English" && "Can use all basic features"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "สามารถเก็บงานได้อย่างไม่จำกัด"
-            : user.language === "English" && "Unlimited storage"
+            : user?.language === "English" && "Unlimited storage"
         }`,
         `${
-          user.language === "Thai"
+          user?.language === "Thai" || error
             ? "ใช้ premium feature ต่าง ๆ ในอนาคต"
-            : user.language === "English" && "Access furture premium features"
+            : user?.language === "English" && "Access furture premium features"
         }`,
       ],
       buttonText: `${
-        user.language === "Thai"
+        user?.language === "Thai" || error
           ? "สมัครเลย"
-          : user.language === "English" && "sign up"
+          : user?.language === "English" && "sign up"
       }`,
       buttonVariant: "contained",
     },
@@ -141,12 +142,12 @@ function Subscriptions({ user }) {
 
   const handleCreateCheckOutStarter = async () => {
     try {
-      if (user.plan === "TATUGA-PREMIUM") {
+      if (user?.plan === "TATUGA-PREMIUM") {
         const url = await CreateCheckout({
           priceId: process.env.NEXT_PUBLIC_TATUGA_STARTER_PRICEID,
         });
         window.location.href = url.data;
-      } else if (user.plan === "FREE") {
+      } else if (user?.plan === "FREE") {
         const url = await CreateCheckout({
           priceId: process.env.NEXT_PUBLIC_TATUGA_STARTER_PRICEID,
         });
@@ -157,12 +158,12 @@ function Subscriptions({ user }) {
 
   const handleCreateCheckOutPremium = async () => {
     try {
-      if (user.plan === "TATUGA-STARTER") {
+      if (user?.plan === "TATUGA-STARTER") {
         const url = await CreateCheckoutOld({
           priceId: process.env.NEXT_PUBLIC_TATUGA_PREMIUM_PRICEID,
         });
         window.location.href = url.data;
-      } else if (user.plan === "FREE") {
+      } else if (user?.plan === "FREE") {
         const url = await CreateCheckout({
           priceId: process.env.NEXT_PUBLIC_TATUGA_PREMIUM_PRICEID,
         });
@@ -173,8 +174,37 @@ function Subscriptions({ user }) {
     }
   };
   return (
-    <div className="bg-gradient-to-t h-full lg:h-full md:h-screen from-blue-300 to-orange-100">
+    <div className="bg-gradient-to-t h-full lg:h-screen md:h-screen from-blue-300 to-orange-100">
       <Head>
+        <meta property="og:title" content={`TaTuga class subscription`} />
+        <meta
+          property="og:description"
+          content="ห้องเรีัยน tatuga จาก tatuga camp - subscription"
+        />
+        <meta
+          property="og:image"
+          content="https://storage.googleapis.com/tatugacamp.com/thumnail/354944872_237734125682158_5700489566341228938_n.jpg"
+        />
+        <meta
+          property="og:image:secure_url"
+          content="https://storage.googleapis.com/tatugacamp.com/thumnail/354944872_237734125682158_5700489566341228938_n.jpg"
+        />
+        <meta
+          name="twitter:image:src"
+          content="https://storage.googleapis.com/tatugacamp.com/thumnail/354944872_237734125682158_5700489566341228938_n.jpg"
+        />
+        <meta
+          name="keywords"
+          content={`TaTuga camp, tatugacamp, tatuga camp, English, English camp, camp for 
+            learning English, card game, activities in classroom, กิจกรรมค่ายภาษาอังกฤษ,
+             การ์ดเกมเพื่อการเรียนรู้, การ์ดเกม, `}
+        />
+        <meta charSet="UTF-8" />
+        <meta
+          name="description"
+          content="ห้องเรียนจาก Tatuga camp ที่จะพาคุณครูไปสู่การบริหารห้องเรียนอย่างสะดวกและสนุก กับ tatuga class"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>subscription</title>
       </Head>
       <Layout user={user} sideMenus={sideMenus}>
@@ -209,7 +239,7 @@ function Subscriptions({ user }) {
             className="flex justify-center"
           >
             <div className="w-3/4 md:w-full">
-              {user.language === "Thai"
+              {user?.language === "Thai"
                 ? "มาจัดการชั้นเรียนกับ tatuga class สะดวก สบาย และมีประสิทธิภาพ"
                 : "Let's create you classroom with tatuga class!"}
             </div>
@@ -264,52 +294,52 @@ function Subscriptions({ user }) {
                 </ul>
                 {(index === 1 || index === 2) && (
                   <div className="w-full flex justify-center ">
-                    {user.plan === "TATUGA-STARTER" &&
-                      user.subscriptions === "active" &&
+                    {user?.plan === "TATUGA-STARTER" &&
+                      user?.subscriptions === "active" &&
                       index === 1 && (
                         <div className="mt-5 bg-gray-400 text-white px-10 py-3  transition duration-150 rounded-3xl">
-                          {user.language === "Thai"
+                          {user?.language === "Thai"
                             ? "คุณได้สมัครสมาชิกแล้ว"
-                            : user.language === "English" &&
+                            : user?.language === "English" &&
                               "You are already a memeber"}
                         </div>
                       )}
-                    {user.plan === "TATUGA-STARTER" &&
-                      user.subscriptions === "active" &&
+                    {user?.plan === "TATUGA-STARTER" &&
+                      user?.subscriptions === "active" &&
                       index === 2 && (
                         <button
                           onClick={handleCreateCheckOutPremium}
                           className="mt-5 bg-blue-400 text-white px-10 py-3 hover:bg-orange-500 transition duration-150 rounded-3xl"
                         >
-                          {user.language === "Thai"
+                          {user?.language === "Thai"
                             ? "ย้ายมาพรีเมี่ยม"
-                            : user.language === "English" && "MOVE TO PREMIUM"}
+                            : user?.language === "English" && "MOVE TO PREMIUM"}
                         </button>
                       )}
-                    {user.plan === "TATUGA-PREMIUM" &&
-                      user.subscriptions === "active" &&
+                    {user?.plan === "TATUGA-PREMIUM" &&
+                      user?.subscriptions === "active" &&
                       index === 2 && (
                         <div className="mt-5 bg-gray-400 text-black md:px-3 md:text-sm px-10 py-3  transition duration-150 rounded-3xl">
-                          {user.language === "Thai"
+                          {user?.language === "Thai"
                             ? "คุณได้สมัครสมาชิกแล้ว"
-                            : user.language === "English" &&
+                            : user?.language === "English" &&
                               "You are already a memeber"}
                         </div>
                       )}
-                    {user.plan === "TATUGA-PREMIUM" &&
-                      user.subscriptions === "active" &&
+                    {user?.plan === "TATUGA-PREMIUM" &&
+                      user?.subscriptions === "active" &&
                       index === 1 && (
                         <button
                           onClick={handleCreateCheckOutStarter}
                           className="mt-5 bg-blue-400 text-white px-10 py-3 hover:bg-orange-500 transition duration-150 rounded-3xl"
                         >
-                          {user.language === "Thai"
+                          {user?.language === "Thai"
                             ? "ย้ายไปแผนเริ่มต้น"
-                            : user.language === "English" && "MOVE TO STARTER"}
+                            : user?.language === "English" && "MOVE TO STARTER"}
                         </button>
                       )}
-                    {(user.plan === "FREE" ||
-                      user.subscriptions !== "active") && (
+                    {(user?.plan === "FREE" ||
+                      user?.subscriptions !== "active") && (
                       <button
                         onClick={
                           index === 1
@@ -318,9 +348,10 @@ function Subscriptions({ user }) {
                         }
                         className="mt-5 bg-blue-400 text-white px-10 py-3 hover:bg-orange-500 transition duration-150 rounded-3xl"
                       >
-                        {user.language === "Thai"
+                        {error && "กรุณาล็อคอินก่อน"}
+                        {user?.language === "Thai"
                           ? "สมัครเลย"
-                          : user.language === "English" && "register now"}
+                          : user?.language === "English" && "register now"}
                       </button>
                     )}
                   </div>
