@@ -128,7 +128,7 @@ function Index({ error, user, whatsNews }) {
   useEffect(() => {
     if (classroomState?.length > 0) {
       handleCheckPlan();
-    } else if (classroomState?.length === 0) {
+    } else if (classroomState?.length === 0 && user) {
       if (user.plan === "FREE" || user.subscriptions !== "active") {
         setCreditClassroom(() => 5);
         setAccessFeature(() => true);
