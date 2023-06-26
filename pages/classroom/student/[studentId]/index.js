@@ -152,7 +152,7 @@ function Index() {
         className=" bg-cover h-60 w-full absolute top-0  bg-center bg-no-repeat 
          bg-[url('https://storage.googleapis.com/tatugacamp.com/backgroud/sea%20backgroud.png')] "
       ></div>
-      <nav className="absolute top-3 flex justify-between md:top-10 items-center w-full ">
+      <nav className="fixed z-20 top-3 flex justify-between md:top-10 items-center w-full ">
         <div
           role="button"
           aria-label="button go back to classroom"
@@ -541,7 +541,7 @@ function Index() {
                     });
                   }}
                   aria-label="open assignment"
-                  className="w-10/12 flex gap-5 justify-between bg-white ring-2 ring-blue-600 rounded-2xl p-3"
+                  className="w-11/12 md:w-10/12 flex gap-5 justify-between bg-white ring-2 overflow-auto ring-blue-600 rounded-2xl p-3"
                 >
                   <div className="w-full h-28 flex flex-col justify-center  text-left   ">
                     <div className="w-48 md:w-72 text-left truncate scrollbar-hide">

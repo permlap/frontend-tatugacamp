@@ -58,7 +58,7 @@ function Index() {
         );
 
   return (
-    <div className="h-full md:h-screen bg-slate-100 relative ">
+    <div className="h-screen md:h-screen bg-slate-100 relative ">
       <Head>
         <title>{`${
           classroom.isError

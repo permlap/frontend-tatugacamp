@@ -142,7 +142,6 @@ function UpdateClass({ close, classroom, refetch, language }) {
       </div>
       <div
         onClick={() => {
-          console.log("click");
           close();
           document.body.style.overflow = "auto";
         }}
