@@ -593,7 +593,10 @@ application/pdf,
               {selectedFiles.length > 0 && (
                 <div className="relative">
                   <div
-                    onClick={() => setSelectedFiles(() => [])}
+                    onClick={() => {
+                      setFilesSize(() => 0);
+                      setSelectedFiles(() => []);
+                    }}
                     className=" absolute -top-2 z-20 -right-2 "
                   >
                     <div className="flex justify-center items-center w-5 h-5 text-white bg-blue-500 rounded-full p-2">
