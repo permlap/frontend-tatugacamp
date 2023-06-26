@@ -18,8 +18,8 @@ function CreateFeedback({ handleCloseFeedback, language }) {
   });
   const [activeTag, setActiveTag] = useState();
   const [checkAuth, setCheckAuth] = useState({
-    unAuth: true,
-    auth: false,
+    unAuth: false,
+    auth: true,
   });
   const handleChangeCheckAuth = (e) => {
     const { name, checked } = e.target;
