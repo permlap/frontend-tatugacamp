@@ -66,6 +66,16 @@ export async function CreateStudentApi({
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3060.PNG",
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3062.PNG",
     "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3064.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3677.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3678.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3679.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3680.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3681.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3682.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3683.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3684.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3685.PNG",
+    "https://storage.googleapis.com/tatugacamp.com/Avatar%20students/IMG_3686.PNG",
   ];
   try {
     const converNumber = Number(number);
